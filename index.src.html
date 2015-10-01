@@ -1,0 +1,158 @@
+<h1>Error Reporting</h1>
+<pre class="metadata">
+Status: DREAM
+ED: https://mikewest.github.com/error-reporting/
+Shortname: erf
+Editor: Mike West 56384, Google Inc., mkwst@google.com
+Abstract:
+  This document defines an error reporting framework which allows web developers
+  to specify what kinds of error reports they're interested in receiving, and
+  the endpoints to which those reports ought to be delivered.
+Indent: 2
+Level: 1
+</pre>
+<pre class="anchors">
+spec: URL; urlPrefix: https://url.spec.whatwg.org/
+  type: dfn
+    text: URL; url: concept-url
+spec: HTML; urlPrefix: https://html.spec.whatwg.org/
+  urlPrefix: webappapis.html
+    type: dfn
+      text: global object
+      text: environment settings object
+spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
+  type: grammar
+    text: absolute-uri; url: section-4.3
+spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
+  type: grammar
+    text: OWS; url: section-3.2.3
+    text: BWS; url: section-3.2.3
+    text: token; url: section-3.2.6
+    text: quoted-string; url: section-3.2.6
+    text: #rule; url: section-7
+</pre>
+<div boilerplate="copyright">&copy;2015 Google, Inc.</div>
+<section>
+  <h2 id="intro">Introduction</h2>
+
+  [INTRODUCTION GOES HERE]
+
+  <h3 id="examples">Examples</h3>
+
+  <div class="example">
+    MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    violation reports. It can do so by delivering the following header:
+
+    <pre>
+      <a>Report-Errors</a>: https://example.com/reporting-endpoint; types="csp hpkp"
+    </pre>
+  </div>
+</section>
+<section>
+  <h2 id="reporting">Reporting Errors</h2>
+
+  <h3 id="reports">Error Reports</h3>
+
+  An <dfn export>error report</dfn> is a collection of data about a particular
+  error which the user agent is expected to deliver to an endpoint.
+
+  Each <a>error report</a> has a <dfn for="error report" export>body</dfn>,
+  which is either `null` or a JSON object.
+
+  Each <a>error report</a> has an <dfn for="error report" export>origin</dfn>,
+  which is an <a>origin</a>.
+
+  Each <a>error report</a> has an <dfn for="error report" expore>endpoint</dfn>,
+  which is either `null` or a <a>URL</a>.
+
+  Each <a>error report</a> has a <dfn for="error report" export>kind</dfn>,
+  which is a non-empty string specifying the kind of error the report concerns.
+
+  Each <a>error report</a> has a <dfn for="error report" expore>timestamp</dfn>,
+  which records the time at which the report was generated, in milliseconds
+  since the unix epoch.
+
+  <h3 id="header">The `Report-Errors` HTTP Response Header Field</h3>
+
+  The <dfn export>Report-Errors</dfn> HTTP response header field sends a signal
+  to the user agent that error reports of various types ought to be batched up
+  and delivered to a particular endpoint. The header is represented by the
+  following ABNF grammar [[!RFC5234]]:
+
+  <pre class="abnf" link-type="grammar" dfn-type="grammar">
+    Report-Errors = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
+    <dfn>parameter</dfn>     = <a>key</a> [ <a>BWS</a> "=" <a>BWS</a> <a>value</a> ]
+    <dfn>key</dfn>           = <a>token</a>
+    <dfn>value</dfn>         = <a>token</a> / <a>quoted-string</a>
+
+    ; The <a>#rule</a>, <a>OWS</a>, <a>BWS</a>, <a>token</a>, and <a>quoted-string</a>
+    ; productions are all part of RFC 7230. <a>absolute-uri</a> is defined in RFC 3986.
+  </pre>
+
+  ISSUE: Process this header, set some things on the global object. A
+  <dfn>reporting endpoint</dfn> and <dfn>reporting types</dfn> for instance.
+
+  Periodically, the user agent SHOULD call [[#deliver-reports]] to walk through
+  the <a>error report store</a> and deliver reports to the specified endpoint.
+
+  <h3 id="queueing">Queueing</h3>
+
+  A user agent which implements this specification will contain a
+  <dfn export local-lt="store">error report store</dfn>, which is an opaque
+  storage mechanism that can be used to collect and persist <a>error reports</a>
+  for eventual delivery. The <a>store</a> MUST implement the following methods,
+  but the implementation is not exposed to the web, and is vendor-specific:
+
+  1.  Store an <a>error report</a> for an <a>origin</a>.
+
+  2.  Retrieve all stored <a>error reports</a> for an <a>origin</a>.
+
+  3.  Remove a set of <a>error reports</a> for an <a>origin</a>.
+</section>
+
+<section>
+  <h2 id="algorithms">Algorithms</h2>
+
+  <h3 id="queue-report">
+    Queue <var>error report</var> for <var>settings object</var>
+  </h3>
+
+  Given an <a>error report</a> (<var>report</var>) and an <a>environment
+  settings object</a> (<var>settings</var>), this algorithm stores the report
+  in the user agent's <a>error report store</a> for future delivery:
+
+  1.  Let <var>origin</var> be the <a>origin</a> of <var>settings</var>.
+
+  2.  Set <var>report</var>'s <a for="error report">origin</a> to
+      <var>origin</var>.
+
+  3.  Set <var>report</var>'s <var>endpoint</var> to the <a>reporting
+      endpoint</a> of <var>settings</var>'s <a>global object</a>.
+
+  4.  Store <var>report</var> in the <a>error report store</a> for
+      <var>origin</var>.
+
+  <h3 id="deliver-reports">
+    Deliver reports
+  </h3>
+
+  ISSUE: TODO
+
+  <h3 id="deliver-report-list">
+    Deliver <var>report list</var> to <var>endpoint</var>
+  </h3>
+
+  ISSUE: TODO
+</section>
+
+<section>
+  <h2 id="privacy-concerns">Privacy Concerns</h2>
+
+  <h3 id="clear-the-store">Clearing the error report store</h3>
+
+  A user agent's <a>error report store</a> contains data about a user's activity
+  on the web, and user agents ought to handle this data carefully. In
+  particular, if a user agent gives users the ability to clear their site data
+  or browsing history, the user agent MUST also clear the <a>error report
+  store</a>.
+</section>
