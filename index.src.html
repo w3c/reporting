@@ -2,27 +2,62 @@
 <pre class="metadata">
 Status: DREAM
 ED: https://mikewest.github.com/error-reporting/
-Shortname: erf
+Shortname: njer
 Editor: Mike West 56384, Google Inc., mkwst@google.com
 Abstract:
-  This document defines an error reporting framework which allows web developers
-  to specify what kinds of error reports they're interested in receiving, and
-  the endpoints to which those reports ought to be delivered.
+  This document defines a generic reporting framework which allows web
+  developers to associate a set of named reporting endpoints with an origin.
+  Various platform features (like Content Security Policy, Network Error
+  Reporting, and others) will use these endpoints to deliver feature-specific
+  reports in a consistent manner.
 Indent: 2
 Level: 1
 </pre>
 <pre class="anchors">
+spec: CSP; urlPrefix: https://w3c.github.io/webappsec-csp/
+  type: dfn
+    text: Content-Security-Policy
+    text: reports directive; url: reports
+spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
+  type: dfn
+    text: navigation request
+    text: response; url: concept-response
+    text: request; url: concept-request
+    text: header; url: concept-header
+    text: main fetch
+  type: attribute
+    for: response
+      text: url; url: concept-response-url
+      text: HTTPS state; url: concept-response-https-state
+      text: header list; url: concept-response-header-list
+    for: request
+      text: target browsing context; url: concept-request-target-browsing-context
+    for: header
+      text: name; url: concept-header-name
+      text: value; url: concept-header-value
+spec: SECURE-CONTEXTS; urlPrefix: https://w3c.github.io/webappsec-secure-contexts/
+  type: dfn
+    text: potentially trustworthy; url: is-origin-trustworthy
 spec: URL; urlPrefix: https://url.spec.whatwg.org/
   type: dfn
+    text: origin of a url; url: concept-url-origin
+  type: interface
     text: URL; url: concept-url
 spec: HTML; urlPrefix: https://html.spec.whatwg.org/
   urlPrefix: webappapis.html
     type: dfn
       text: global object
       text: environment settings object
+  urlPrefix: browsers.html
+    type: dfn
+      text: origin
+      text: top-level browsing context
 spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
   type: grammar
     text: absolute-uri; url: section-4.3
+spec: RFC7159; urlPrefix: https://tools.ietf.org/html/rfc7159
+  type: dfn
+    text: JSON text; url: section-2
 spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
   type: grammar
     text: OWS; url: section-3.2.3
@@ -30,6 +65,23 @@ spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
     text: token; url: section-3.2.6
     text: quoted-string; url: section-3.2.6
     text: #rule; url: section-7
+spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234
+  type: grammar
+    text: delta-seconds; url: section-1.2.1
+spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
+  type: dfn
+    text: Public-Key-Pins; url: section-2.1
+</pre>
+<pre class="biblio">
+{
+  "SECURE-CONTEXTS": {
+    "authors": [ "Mike West", "Yan Zhu" ],
+    "href": "https://w3c.github.io/webappsec-secure-contexts/",
+    "title": "Secure Contexts",
+    "publisher": "W3C"
+  }
+}
+
 </pre>
 <div boilerplate="copyright">&copy;2015 Google, Inc.</div>
 <section>
@@ -41,46 +93,125 @@ spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
 
   <div class="example">
     MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
-    violation reports. It can do so by delivering the following header:
+    violation reports. It can do so by delivering the following header to define
+    a reporting endpoint named "endpoint-1":
 
     <pre>
-      <a>Report-Errors</a>: https://example.com/reporting-endpoint; types="csp hpkp"
+      <a>Report-Endpoints</a>: https://example.com/reports; <a>id</a>="endpoint-1"; <a>max-age</a>=10886400
+    </pre>
+
+    And the following headers, which direct CSP and HPKP reports to that named
+    endpoint:
+
+    <pre>
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a> endpoint-1
+      <a>Public-Key-Pins</a>: ...; reports="endpoint-1"
+    </pre>
+  </div>
+
+  <div class="example">
+    After processing reports for a little while, MegaCorp Inc. decides to split
+    the processing of these two types of reports out into two distinct endpoints
+    in order to make the processing scripts simpler. It can do so by delivering
+    the following header to define two reporting endpoints:
+
+    <pre>
+      <a>Report-Endpoints</a>: https://example.com/csp-violations; <a>id</a>="csp-endpoint"; <a>max-age</a>=10886400,
+                               https://example.com/hpkp-reports; <a>id</a>="hpkp-endpoint"; <a>max-age</a>=10886400
+    </pre>
+
+    And the following headers, which direct CSP and HPKP reports to those named
+    endpoint:
+
+    <pre>
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a> csp-endpoint
+      <a>Public-Key-Pins</a>: ...; reports="hpkp-endpoint"
     </pre>
   </div>
 </section>
+
 <section>
-  <h2 id="reporting">Reporting Errors</h2>
+  <h2 id="concept">Concepts</h2>
 
-  <h3 id="reports">Error Reports</h3>
+  <h3 id="concept-endpoints">Endpoints</h3>
 
-  An <dfn export>error report</dfn> is a collection of data about a particular
-  error which the user agent is expected to deliver to an endpoint.
+  An <dfn export>endpoint</dfn> is location to which <a>reports</a> may be sent.
 
-  Each <a>error report</a> has a <dfn for="error report" export>body</dfn>,
-  which is either `null` or a JSON object.
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>name</dfn>,
+  which is a string.
 
-  Each <a>error report</a> has an <dfn for="error report" export>origin</dfn>,
-  which is an <a>origin</a>.
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
+  which is a {{URL}}.
 
-  Each <a>error report</a> has an <dfn for="error report" expore>endpoint</dfn>,
-  which is either `null` or a <a>URL</a>.
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>origin</dfn>,
+  which is an <a>origin</a> to which the <a>endpoint</a> is bound.
 
-  Each <a>error report</a> has a <dfn for="error report" export>kind</dfn>,
-  which is a non-empty string specifying the kind of error the report concerns.
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>max-age</dfn>,
+  which is a non-negative integer representing the number of seconds this
+  endpoint remains valid for an origin.
+  
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>creation
+  date</dfn>, which is the date on which the endpoint was added to the user
+  agent's <a>reporting cache</a>.
 
-  Each <a>error report</a> has a <dfn for="error report" expore>timestamp</dfn>,
+  <h3 id="concept-reports">Reports</h3>
+
+  A <dfn export>report</dfn> is a collection of arbitrary data which the user
+  agent is expected to deliver to a specified endpoint.
+
+  Each <a>report</a> has a <dfn for="report" export attribute>body</dfn>,
+  which is either `null` or an object which can be serialized into a <a>JSON
+  text</a>.
+
+  Each <a>report</a> has an <dfn for="report" export attribute>origin</dfn>,
+  which is an <a>origin</a> representing the report's initiator.
+
+  Each <a>report</a> has an <dfn for="report" expore attribute>endpoint</dfn>,
+  which is either `null` or an alias to an <a>endpoint</a>.
+
+  Each <a>report</a> has a <dfn for="report" export attribute>kind</dfn>,
+  which is a non-empty string specifying the kind of data the report contains.
+
+  Each <a>report</a> has a <dfn for="report" expore attribute>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
-  <h3 id="header">The `Report-Errors` HTTP Response Header Field</h3>
+  <h3 id="concept-storage">Storage</h3>
 
-  The <dfn export>Report-Errors</dfn> HTTP response header field sends a signal
-  to the user agent that error reports of various types ought to be batched up
-  and delivered to a particular endpoint. The header is represented by the
-  following ABNF grammar [[!RFC5234]]:
+  A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which 
+  is a storage mechanism that maintains a set of <a>endpoints</a> that websites
+  have instructed the user agent to associate with their <a>origins</a>, and a
+  set of <a>reports</a> which are queued for delivery.
+  
+  This storage mechanism is opaque, vendor-specific, and not exposed to the
+  web, but it MUST provide the following methods which will be used in the
+  algorithms this document defines:
+ 
+  1.  Insert new <a>endpoint</a> objects for an <a>origin</a>.
+  2.  Remove existing <a>endpoint</a> objects for an <a>origin</a>.
+  3.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a>.
+  4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/url}}.
+  4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/name}}.
+  5.  Queue a <a>report</a> for delivery.
+  6.  Retrieve a list of queued <a>report</a> objects.
+  7.  Clear the delivery queue.
+</section>
+
+<section>
+  <h2 id="endpoint-delivery">Endpoint Delivery</h2>
+
+  A server MAY define a set of reporting endpoints for an origin it controls
+  via the <a>`Report-Endpoints`</a> HTTP response header field. This mechanism
+  is defined in [[#header]], and its processing in [[#process-header]]. 
+
+  <h3 id="header">The `Report-Endpoints` HTTP Response Header Field</h3>
+
+  The <dfn export>`Report-Endpoints`</dfn> HTTP response header field sends a
+  signal to the user agent that defines a set of reporting endpoints for an
+  origin. The header is represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
-    Report-Errors = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
+    Report-Endpoints = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
     <dfn>parameter</dfn>     = <a>key</a> [ <a>BWS</a> "=" <a>BWS</a> <a>value</a> ]
     <dfn>key</dfn>           = <a>token</a>
     <dfn>value</dfn>         = <a>token</a> / <a>quoted-string</a>
@@ -89,48 +220,257 @@ spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
     ; productions are all part of RFC 7230. <a>absolute-uri</a> is defined in RFC 3986.
   </pre>
 
-  ISSUE: Process this header, set some things on the global object. A
-  <dfn>reporting endpoint</dfn> and <dfn>reporting types</dfn> for instance.
+  The header's value is essentially an absolute URL, followed by a
+  semicolon-delimited list of "`[key]=[value]`" pairs which define interesting
+  properties which govern the endpoint's behavior.
 
-  Periodically, the user agent SHOULD call [[#deliver-reports]] to walk through
-  the <a>error report store</a> and deliver reports to the specified endpoint.
+  The URL MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
+  Non-secure endpoints will be ignored.
 
-  <h3 id="queueing">Queueing</h3>
+  The following subsections define the initial of known <a grammar>parameter</a>
+  component values. Future versions of this document may defined additional such
+  values. The ABNF is intentionally generic and extensible to make room for
+  these future values, and user agents MUST ignore unknown values when parsing
+  the header.
 
-  A user agent which implements this specification will contain a
-  <dfn export local-lt="store">error report store</dfn>, which is an opaque
-  storage mechanism that can be used to collect and persist <a>error reports</a>
-  for eventual delivery. The <a>store</a> MUST implement the following methods,
-  but the implementation is not exposed to the web, and is vendor-specific:
+  <h4 id="id-parameter">The `id` parameter</h4>
 
-  1.  Store an <a>error report</a> for an <a>origin</a>.
+  The <dfn>`id`</dfn> parameter names the reporting endpoint so that it can be
+  referred to unambigiously when features wish to send reports. This parameter's
+  value is an arbitrary ASCII string.
 
-  2.  Retrieve all stored <a>error reports</a> for an <a>origin</a>.
+  <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
-  3.  Remove a set of <a>error reports</a> for an <a>origin</a>.
+  The <dfn>`max-age`</dfn> parameter defines the reporting endpoint's lifetime,
+  as a non-negative integeral number of seconds. The ABNF grammar for the 
+  directive is:
+
+  <pre>
+    directive-name  = "max-age"
+    directive-value = <a grammar>delta-seconds</a>
+
+    ; <a grammar>delta-seconds</a> is defined in Section 1.2.1 of RFC 7234.
+  </pre>
+
+  A value of "`0`" will cause the <a>endpoint</a> to be removed from the
+  <a>reporting cache</a>.
+
+  <h3 id="process-header" algorithm>
+    Process reporting endpoints for |response| to |request|
+  </h3>
+
+  Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
+  algorithm extracts a list <a>endpoints</a>, and updates the <a>reporting
+  cache</a> accordingly.
+  
+  Note: This algorithm is called from around step 13 of <a>main fetch</a>
+  [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
+  has been delivered securely, and is responding to a <a>navigation
+  request</a> that targets a <a>top-level browsing context</a>.
+
+  ISSUE: Fetch monkey patching.
+
+  Note: Existing <a>endpoints</a> whose {{endpoint/name}} or {{endpoint/url}}
+  matches a newly-set endpoint will be removed from the <a>reporting cache</a>,
+  and replaced with the new endpoint.
+
+  1.  Abort these steps if any of the following conditions are true:
+
+      1.  If |request| is not a <a>navigation request</a>.
+
+      2.  |response|'s <a for="response" attribute>HTTPS state</a> is not
+          "`modern`", and the <a lt="origin of a url">origin</a> of |response|'s
+          <a for="response" attribute>url</a> is not <a>potentially
+          trustworthy</a>.
+
+      3.  If |request|'s <a for="request" attribute>target browsing context</a>
+          is not a <a>top-level browsing context</a>.
+
+      4.  |response|'s <a for="response" attribute>header list</a> does not
+          contain a <a>header</a> whose <a for="header" attribute>name</a> is
+          "<a>`Report-Endpoints`</a>".
+
+  2.  Let |header| be the <a for="header" attribute>value</a> of the
+      <a>header</a> in |response|'s <a for="response" attribute>header list</a>
+      whose name is "<a>`Report-Endpoints`</a>".
+
+  3.  Let |origin| be the <a lt="origin of a url">origin</a> of |response|'s
+      <a for="response" attribute>url</a>.
+
+  4.  Let |endpoints| be the result of executing [[#parse-endpoints]] on
+      |header| and |origin|.
+
+  5.  For each |endpoint| in |endpoints|:
+
+      1.  Let |existing| be the result of retrieving an <a>endpoint</a> from the
+          <a>reporting cache</a> whose {{endpoint/origin}} is |origin| and
+          {{endpoint/url}} is |endpoint|'s {{endpoint/url}}.
+
+      2.  If |existing| is `null`, let |existing| be the result of retrieving an
+          <a>endpoint</a> from the <a>reporting cache</a> whose
+          {{endpoint/origin}} is |origin| and {{endpoint/name}} is |endpoint|'s
+          {{endpoint/name}}.
+
+      3.  If |existing| is not `null`, remove |existing| from the <a>reporting
+          cache</a>.
+
+      4.  Insert |endpoint| into the <a>reporting cache</a> for |origin|.
+
+  <h3 id="parse-endpoints" algorithm>
+    Parse reporting endpoints from |value| for |origin|
+  </h3>
+
+  Given a string (|value|), and an <a>origin</a> (|origin|), this algorithm will
+  return a list of <a>endpoints</a>. This list will be empty if no valid
+  endpoints could be parsed.
+
+  ISSUE: Do the parsing here.
+</section>
+
+<!-- Big Text: Reporting -->
+<section>
+  <h2 id="report-delivery">Report Delivery</h2>
+
+  Over time, various features will queue up a list of <a>reports</a> in the
+  user agent's <a>reporting cache</a>. The user agent will periodicially grab
+  the list of currently pending reports, and deliver them to the associated
+  endpoints. This document does not define a schedule for the user agent to
+  follow, and assumes that the user agent will have enough contextual
+  information to deliver reports in a timely manner, balanced against impacting
+  a user's experience.
+
+  That said, a user agent SHOULD make a effort to deliver reports as soon as
+  possible after queuing, as a report's data might be signficantly more useful
+  in the period directly after its generation than it would be a day or a week
+  later.
+
+  <h3 id="queue-report" algorithm>
+    Queue |data| as |kind| for |endpoint name| on |origin|
+  </h3>
+
+  Given a serializable object (|data|), a string (|kind|), another string
+  (|endpoint name|), and an <a>origin</a> (|origin|), the following algorithm
+  will create a <a>report</a>, and add it to <a>reporting cache</a>'s queue for
+  future delivery.
+
+  1.  Let |endpoint| be the <a>endpoint</a> in the <a>reporting cache</a> with
+      an {{endpoint/origin}} of |origin|, and a {{endpoint/name}} of |endpoint
+      name|.
+
+  2.  If |endpoint| is `null`, abort these steps.
+
+  3.  Let |report| be a new <a>report</a> object with its values initialized as
+      follows:
+
+      : {{report/body}}
+      :: |data|
+      : {{report/origin}}
+      :: |origin|
+      : {{report/endpoint}}
+      :: An alias to |endpoint|
+      : {{report/kind}}
+      :: |kind|
+      : {{report/timestamp}}
+      :: The current time, in milliseconds since the unix epoch.
+
+  4.  Add |report| to the <a>reporting cache</a>.
+
+  <h3 id="send-reports" algorithm>
+    Send reports
+  </h3>
+
+  When the user agent determines it to be a good time to send reports, the
+  following algorithm MUST be executed:
+
+  1.  Let |reports| be the list of queued <a>report</a> objects in the 
+
+  ISSUE: Do some work here.
+
+  <h3 id="try-delivery" algorithm>
+    Attempt to deliver a |list| of reports to |endpoint|
+  </h3>
+
+  Given a list of <a>reports</a> (|reports|) which are all associated with an
+  <a>endpoint</a> (|endpoint|), this algorithm will construct a <a>request</a>,
+  and attempt to deliver it to |endpoint|.
+
+  If delivery is successful, the items in |reports| are removed from the
+  <a>reporting cache</a>'s queue. If delivery fails, error handling kicks in to
+  ensure that the cache is updated correctly.
+
+  1.  Let |body| be a JSON object.
+
+  ISSUE: Do some work here.
 </section>
 
 <section>
-  <h2 id="algorithms">Algorithms</h2>
+  <h2 id="sample-reports">Sample Reports</h2>
 
-  <h3 id="queue-report">
-    Queue <var>error report</var> for <var>settings object</var>
-  </h3>
+  <div class="example">
+    <pre>
+      POST / HTTP/1.1
+      Host: example.com
+      ...
+      Content-Type: application/report
 
-  Given an <a>error report</a> (<var>report</var>) and an <a>environment
-  settings object</a> (<var>settings</var>), this algorithm stores the report
-  in the user agent's <a>error report store</a> for future delivery:
-
-  1.  Let <var>origin</var> be the <a>origin</a> of <var>settings</var>.
-
-  2.  Set <var>report</var>'s <a for="error report">origin</a> to
-      <var>origin</var>.
-
-  3.  Set <var>report</var>'s <var>endpoint</var> to the <a>reporting
-      endpoint</a> of <var>settings</var>'s <a>global object</a>.
-
-  4.  Store <var>report</var> in the <a>error report store</a> for
-      <var>origin</var>.
+      {
+        "csp": [
+          {
+            "age": 10,
+            "document": "https://example.com/vulnerable-page/",
+            "blocked": "https://evil.com/evil.js",
+            "directive": "script-src",
+            "policy": "script-src 'self'; object-src 'none'",
+            "status": 200,
+            "referrer": "https://evil.com/"
+          },
+          {
+            "age": 213,
+            "document": "https://example.com/a-more-vulnerable-page/",
+            "blocked": "https://evil.com/evil.js",
+            "directive": "script-src",
+            "policy": "script-src 'self'; object-src 'none'",
+            "status": 200,
+            "referrer": "https://evil.com/"
+          }
+        ],
+        "hpkp": [
+          {
+            "age": 0,
+            "date-time": "2014-04-06T13:00:50Z",
+            "hostname": "www.example.com",
+            "port": 443,
+            "effective-expiration-date": "2014-05-01T12:40:50Z"
+            "include-subdomains": false,
+            "served-certificate-chain": [
+              "-----BEGIN CERTIFICATE-----\n
+              MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
+              ...
+              HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
+              WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
+              yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
+              -----END CERTIFICATE-----",
+              ...
+            ],
+            "validated-certificate-chain": [
+              "-----BEGIN CERTIFICATE-----\n
+              MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
+              ...
+              HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
+              WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
+              yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
+              -----END CERTIFICATE-----",
+              ...
+            ],
+            "known-pins": [
+              'pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="',
+              "pin-sha256=\"E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g=\""
+            ]
+          }
+        ]
+      }
+    </pre>
+  </div>
 
   <h3 id="deliver-reports">
     Deliver reports
@@ -138,21 +478,16 @@ spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
 
   ISSUE: TODO
 
-  <h3 id="deliver-report-list">
-    Deliver <var>report list</var> to <var>endpoint</var>
-  </h3>
-
-  ISSUE: TODO
 </section>
 
 <section>
   <h2 id="privacy-concerns">Privacy Concerns</h2>
 
-  <h3 id="clear-the-store">Clearing the error report store</h3>
+  <h3 id="clear-cache">Clearing the reporting cache</h3>
 
-  A user agent's <a>error report store</a> contains data about a user's activity
+  A user agent's <a>reporting cache</a> contains data about a user's activity
   on the web, and user agents ought to handle this data carefully. In
-  particular, if a user agent gives users the ability to clear their site data
-  or browsing history, the user agent MUST also clear the <a>error report
-  store</a>.
+  particular, if a user agent gives users the ability to clear their site data,
+  browsing history, browsing cache, or similar, the user agent MUST also clear
+  the <a>reporting cache</a>.
 </section>
