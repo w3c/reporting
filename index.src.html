@@ -193,8 +193,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   1.  Insert new <a>endpoint</a> objects for an <a>origin</a>.
   2.  Remove existing <a>endpoint</a> objects for an <a>origin</a>.
   3.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a>.
+  4.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a> by {{name}}.
   4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/url}}.
-  4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/name}}.
   5.  Queue a <a>report</a> for delivery.
   6.  Retrieve a list of queued <a>report</a> objects.
   7.  Clear the delivery queue.
@@ -284,6 +284,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
       3.  If |request|'s <a for="request" attribute>target browsing context</a>
           is not a <a>top-level browsing context</a>.
 
+          ISSUE: why this restriction? We should allow iframes to receive reports as well.
+
       4.  |response|'s <a for="response" attribute>header list</a> does not
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
           "<a>`Report-To`</a>".
@@ -304,13 +306,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
           <a>reporting cache</a> whose {{endpoint/origin}} is |origin| and
           {{endpoint/url}} is |endpoint|'s {{endpoint/url}}.
 
-      2.  If |existing| is `null`, let |existing| be the result of retrieving an
-          <a>endpoint</a> from the <a>reporting cache</a> whose
-          {{endpoint/origin}} is |origin| and {{endpoint/name}} is |endpoint|'s
-          {{endpoint/name}}.
-
-      3.  If |existing| is not `null`, remove |existing| from the <a>reporting
+      2.  If |existing| is not `null`, remove |existing| from the <a>reporting
           cache</a>.
+
+      3.  If |endpoint| <a>max-age</a> is zero, continue to next |endpoint|.
 
       4.  Insert |endpoint| into the <a>reporting cache</a> for |origin|.
 
