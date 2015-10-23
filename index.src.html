@@ -1,9 +1,10 @@
-<h1>Not Just Error Reporting</h1>
+<h1>Out-of-band Reporting</h1>
 <pre class="metadata">
 Status: DREAM
 ED: https://mikewest.github.com/error-reporting/
-Shortname: njer
+Shortname: reporting
 Editor: Mike West 56384, Google Inc., mkwst@google.com
+Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.comm
 Abstract:
   This document defines a generic reporting framework which allows web
   developers to associate a set of named reporting endpoints with an origin.
@@ -176,8 +177,6 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
-  ISSUE:
-
   <h3 id="concept-storage">Storage</h3>
 
   A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
@@ -234,13 +233,13 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <h4 id="id-parameter">The `group` parameter</h4>
 
-  The OPTIONAL <dfn>`group`</dfn> parameter is an ASCII string that associates a name with the reporting endpoint.
+  The OPTIONAL `<dfn>group</dfn>` parameter is an ASCII string that associates a name with the reporting endpoint.
 
   The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint MUST be associated with the "default" group name.
 
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
-  The REQUIRED <dfn>`max-age`</dfn> parameter defines the reporting endpoint's lifetime, as a non-negative integeral number of seconds. The ABNF grammar for the directive is:
+  The REQUIRED `<dfn>max-age</dfn>` parameter defines the reporting endpoint's lifetime, as a non-negative integeral number of seconds. The ABNF grammar for the directive is:
 
   <pre>
     directive-name  = "max-age"
@@ -349,8 +348,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   will create a <a>report</a>, and add it to <a>reporting cache</a>'s queue for
   future delivery.
 
-  1.  Let |endpoints| be the list of <a>endpoint</a> objects in the <a>
-      reporting cache</a> with an {{endpoint/origin}} of |origin|, and a
+  1.  Let |endpoints| be the list of <a>endpoint</a> objects in the <a>reporting cache</a> with an {{endpoint/origin}} of |origin|, and a
       {{endpoint/group}} of |endpoint group|.
 
   2.  If |endpoints| is an empty list, abort these steps.

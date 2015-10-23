@@ -1,7 +1,7 @@
 <!doctype html><html lang="en">
  <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  <title>Not Just Error Reporting</title>
+  <title>Out-of-band Reporting</title>
 <style data-fill-with="stylesheet">/* This section copied from the W3C's ED styles. */
 
 	body {
@@ -992,16 +992,17 @@
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"></p>
-   <h1 class="p-name no-ref" id="title">Not Just Error Reporting</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2015-10-20">20 October 2015</time></span></h2>
+   <h1 class="p-name no-ref" id="title">Out-of-band Reporting</h1>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2015-10-23">23 October 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://mikewest.github.com/error-reporting/">https://mikewest.github.com/error-reporting/</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/mikewest/error-reporting/issues/">GitHub</a>
-     <dt class="editor">Editor:
+     <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="56384"><a class="p-name fn u-email email" href="mailto:mkwst@google.com">Mike West</a> (<span class="p-org org">Google Inc.</span>)
+     <dd class="editor p-author h-card vcard" data-editor-id="56102"><a class="p-name fn u-email email" href="mailto:igrigorik@google.comm">Ilya Grigorik</a> (<span class="p-org org">Google Inc.</span>)
     </dl>
    </div>
    <div data-fill-with="warning"></div>
@@ -1037,9 +1038,9 @@ reports in a consistent manner.</p>
      <a href="#endpoint-delivery"><span class="secno">3</span> <span class="content">Endpoint Delivery</span></a>
      <ul class="toc">
       <li>
-       <a href="#header"><span class="secno">3.1</span> <span class="content">The `Report-Endpoints` HTTP Response Header Field</span></a>
+       <a href="#header"><span class="secno">3.1</span> <span class="content">The `Report-To` HTTP Response Header Field</span></a>
        <ul class="toc">
-        <li><a href="#id-parameter"><span class="secno">3.1.1</span> <span class="content">The `id` parameter</span></a>
+        <li><a href="#id-parameter"><span class="secno">3.1.1</span> <span class="content">The `group` parameter</span></a>
         <li><a href="#max-age-parameter"><span class="secno">3.1.2</span> <span class="content">The `max-age` parameter</span></a>
        </ul>
       <li><a href="#process-header"><span class="secno">3.2</span> <span class="content"> Process reporting endpoints for <var>response</var> to <var>request</var> </span></a>
@@ -1048,7 +1049,7 @@ reports in a consistent manner.</p>
     <li>
      <a href="#report-delivery"><span class="secno">4</span> <span class="content">Report Delivery</span></a>
      <ul class="toc">
-      <li><a href="#queue-report"><span class="secno">4.1</span> <span class="content"> Queue <var>data</var> as <var>kind</var> for <var>endpoint name</var> on <var>origin</var> </span></a>
+      <li><a href="#queue-report"><span class="secno">4.1</span> <span class="content"> Queue <var>data</var> as <var>kind</var> for <var>endpoint group</var> on <var>origin</var> </span></a>
       <li><a href="#send-reports"><span class="secno">4.2</span> <span class="content"> Send reports </span></a>
       <li><a href="#try-delivery"><span class="secno">4.3</span> <span class="content"> Attempt to deliver a <var>list</var> of reports to <var>endpoint</var> </span></a>
      </ul>
@@ -1082,30 +1083,28 @@ reports in a consistent manner.</p>
     <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
     <p>[INTRODUCTION GOES HERE]</p>
     <h3 class="heading settled" data-level="1.1" id="examples"><span class="secno">1.1. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-2dd637c1">
-     <a class="self-link" href="#example-2dd637c1"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
-    violation reports. It can do so by delivering the following header to define
-    a reporting endpoint named "endpoint-1": 
-<pre><a data-link-type="dfn">Report-Endpoints</a>: https://example.com/reports; <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-id">id</a>="endpoint-1"; <a data-link-type="dfn">max-age</a>=10886400
+    <div class="example" id="example-3ac53b5c">
+     <a class="self-link" href="#example-3ac53b5c"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    violation reports. It can do so by delivering the following header to define a set of reporting endpoints named "endpoint-1": 
+<pre><a data-link-type="dfn">Report-To</a>: https://example.com/reports; <a data-link-type="dfn" href="#group">group</a>=endpoint-1; <a data-link-type="dfn" href="#max-age">max-age</a>=10886400, https://backup.com/reports;<a data-link-type="dfn" href="#group">group</a>=endpoint-1; <a data-link-type="dfn" href="#max-age">max-age</a>=10886400
 </pre>
-     <p>And the following headers, which direct CSP and HPKP reports to that named
-    endpoint:</p>
-<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#reports">reports</a> endpoint-1
-<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1">Public-Key-Pins</a>: ...; reports="endpoint-1"
+     <p>And the following headers, which direct CSP and HPKP reports to that group:</p>
+<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#reports">report-to</a>=endpoint-1
+<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-d8037b9e">
-     <a class="self-link" href="#example-d8037b9e"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-40ce0b1a">
+     <a class="self-link" href="#example-40ce0b1a"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
-<pre><a data-link-type="dfn">Report-Endpoints</a>: https://example.com/csp-violations; <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-id">id</a>="csp-endpoint"; <a data-link-type="dfn">max-age</a>=10886400,
-                         https://example.com/hpkp-reports; <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-id">id</a>="hpkp-endpoint"; <a data-link-type="dfn">max-age</a>=10886400
+<pre><a data-link-type="dfn">Report-To</a>: https://example.com/csp-violations; <a data-link-type="dfn" href="#group">group</a>=csp-endpoint; <a data-link-type="dfn" href="#max-age">max-age</a>=10886400,
+                         https://example.com/hpkp-reports; <a data-link-type="dfn" href="#group">group</a>=hpkp-endpoint; <a data-link-type="dfn" href="#max-age">max-age</a>=10886400
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to those named
     endpoint:</p>
-<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#reports">reports</a> csp-endpoint
-<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1">Public-Key-Pins</a>: ...; reports="hpkp-endpoint"
+<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#reports">report-to</a>=csp-endpoint
+<a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1">Public-Key-Pins</a>: ...; report-to=hpkp-endpoint
 </pre>
     </div>
    </section>
@@ -1113,7 +1112,7 @@ reports in a consistent manner.</p>
     <h2 class="heading settled" data-level="2" id="concept"><span class="secno">2. </span><span class="content">Concepts</span><a class="self-link" href="#concept"></a></h2>
     <h3 class="heading settled" data-level="2.1" id="concept-endpoints"><span class="secno">2.1. </span><span class="content">Endpoints</span><a class="self-link" href="#concept-endpoints"></a></h3>
     <p>An <dfn data-dfn-type="dfn" data-export="" id="endpoint">endpoint<a class="self-link" href="#endpoint"></a></dfn> is location to which <a data-link-type="dfn" href="#report">reports</a> may be sent.</p>
-    <p>Each <a data-link-type="dfn" href="#endpoint">endpoint</a> has a <dfn class="idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-name">name<a class="self-link" href="#dom-endpoint-name"></a></dfn>,
+    <p>Each <a data-link-type="dfn" href="#endpoint">endpoint</a> has a <dfn class="idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-group">group<a class="self-link" href="#dom-endpoint-group"></a></dfn>,
   which is a string.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint">endpoint</a> has a <dfn class="idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-url">url<a class="self-link" href="#dom-endpoint-url"></a></dfn>,
   which is a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url">URL</a></code>.</p>
@@ -1125,6 +1124,7 @@ reports in a consistent manner.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint">endpoint</a> has a <dfn class="idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-creation-date">creation
   date<a class="self-link" href="#dom-endpoint-creation-date"></a></dfn>, which is the date on which the endpoint was added to the user
   agent’s <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
+    <p class="issue" id="issue-085178d7"><a class="self-link" href="#issue-085178d7"></a> should we allow allowSubdomains?</p>
     <h3 class="heading settled" data-level="2.2" id="concept-reports"><span class="secno">2.2. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn data-dfn-type="dfn" data-export="" id="report">report<a class="self-link" href="#report"></a></dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
@@ -1140,6 +1140,7 @@ reports in a consistent manner.</p>
     <p>Each <a data-link-type="dfn" href="#report">report</a> has a <dfn class="idl-code" data-dfn-for="report" data-dfn-type="attribute" data-export="" expore="" id="dom-report-timestamp">timestamp<a class="self-link" href="#dom-report-timestamp"></a></dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.</p>
+    <p class="issue" id="issue-d41d8cd9"><a class="self-link" href="#issue-d41d8cd9"></a></p>
     <h3 class="heading settled" data-level="2.3" id="concept-storage"><span class="secno">2.3. </span><span class="content">Storage</span><a class="self-link" href="#concept-storage"></a></h3>
     <p>A conformant user agent MUST provide a <dfn data-dfn-type="dfn" data-noexport="" id="reporting-cache">reporting cache<a class="self-link" href="#reporting-cache"></a></dfn>, which
   is a storage mechanism that maintains a set of <a data-link-type="dfn" href="#endpoint">endpoints</a> that websites
@@ -1156,9 +1157,9 @@ reports in a consistent manner.</p>
      <li data-md="">
       <p>Retrieve a list of <a data-link-type="dfn" href="#endpoint">endpoint</a> objects for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a>.</p>
      <li data-md="">
-      <p>Retrieve an <a data-link-type="dfn" href="#endpoint">endpoint</a> for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a> by its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code>.</p>
+      <p>Retrieve a list of <a data-link-type="dfn" href="#endpoint">endpoint</a> objects for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a> by <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group">group</a></code>.</p>
      <li data-md="">
-      <p>Retrieve an <a data-link-type="dfn" href="#endpoint">endpoint</a> for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a> by its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name">name</a></code>.</p>
+      <p>Retrieve an <a data-link-type="dfn" href="#endpoint">endpoint</a> for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a> by its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code>.</p>
      <li data-md="">
       <p>Queue a <a data-link-type="dfn" href="#report">report</a> for delivery.</p>
      <li data-md="">
@@ -1170,13 +1171,11 @@ reports in a consistent manner.</p>
    <section>
     <h2 class="heading settled" data-level="3" id="endpoint-delivery"><span class="secno">3. </span><span class="content">Endpoint Delivery</span><a class="self-link" href="#endpoint-delivery"></a></h2>
     <p>A server MAY define a set of reporting endpoints for an origin it controls
-  via the <a data-link-type="dfn" href="#report-endpoints">`Report-Endpoints`</a> HTTP response header field. This mechanism
-  is defined in <a href="#header">§3.1 The `Report-Endpoints` HTTP Response Header Field</a>, and its processing in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a>.</p>
-    <h3 class="heading settled" data-level="3.1" id="header"><span class="secno">3.1. </span><span class="content">The `Report-Endpoints` HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
-    <p>The <dfn data-dfn-type="dfn" data-export="" id="report-endpoints">`Report-Endpoints`<a class="self-link" href="#report-endpoints"></a></dfn> HTTP response header field sends a
-  signal to the user agent that defines a set of reporting endpoints for an
-  origin. The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
-<pre class="abnf">Report-Endpoints = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc3986#section-4.3">absolute-URI</a> *( <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> ";" [ <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> <a data-link-type="grammar" href="#grammardef-parameter">parameter</a> ] )
+  via the <a data-link-type="dfn" href="#report-to">`Report-To`</a> HTTP response header field. This mechanism
+  is defined in <a href="#header">§3.1 The `Report-To` HTTP Response Header Field</a>, and its processing in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a>.</p>
+    <h3 class="heading settled" data-level="3.1" id="header"><span class="secno">3.1. </span><span class="content">The `Report-To` HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
+    <p>The <dfn data-dfn-type="dfn" data-export="" id="report-to">`Report-To`<a class="self-link" href="#report-to"></a></dfn> HTTP response header field instructs the user agent to store a reporting endpoints for an origin. The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
+<pre class="abnf">Report-To = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc3986#section-4.3">absolute-URI</a> *( <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> ";" [ <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a> <a data-link-type="grammar" href="#grammardef-parameter">parameter</a> ] )
 <dfn data-dfn-type="grammar" data-export="" id="grammardef-parameter">parameter<a class="self-link" href="#grammardef-parameter"></a></dfn>     = <a data-link-type="grammar" href="#grammardef-key">key</a> [ <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">BWS</a> "=" <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">BWS</a> <a data-link-type="grammar" href="#grammardef-value">value</a> ]
 <dfn data-dfn-type="grammar" data-export="" id="grammardef-key">key<a class="self-link" href="#grammardef-key"></a></dfn>           = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.6">token</a>
 <dfn data-dfn-type="grammar" data-export="" id="grammardef-value">value<a class="self-link" href="#grammardef-value"></a></dfn>         = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.6">token</a> / <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.6">quoted-string</a>
@@ -1184,23 +1183,19 @@ reports in a consistent manner.</p>
 ; The <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-7">#rule</a>, <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">OWS</a>, <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.3">BWS</a>, <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.6">token</a>, and <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7230#section-3.2.6">quoted-string</a>
 ; productions are all part of RFC 7230. <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc3986#section-4.3">absolute-uri</a> is defined in RFC 3986.
 </pre>
-    <p>The header’s value is essentially an absolute URL, followed by a
-  semicolon-delimited list of "`[key]=[value]`" pairs which define interesting
-  properties which govern the endpoint’s behavior.</p>
+    <p>The header’s value is an absolute URL, followed by a
+  semicolon-delimited list of "`[key]=[value]`" pairs that govern specified endpoint’s behavior.</p>
     <p>The URL MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy">potentially trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>.
   Non-secure endpoints will be ignored.</p>
     <p>The following subsections define the initial of known <a data-link-type="grammar" href="#grammardef-parameter">parameter</a> component values. Future versions of this document may defined additional such
   values. The ABNF is intentionally generic and extensible to make room for
   these future values, and user agents MUST ignore unknown values when parsing
   the header.</p>
-    <h4 class="heading settled" data-level="3.1.1" id="id-parameter"><span class="secno">3.1.1. </span><span class="content">The `id` parameter</span><a class="self-link" href="#id-parameter"></a></h4>
-    <p>The <dfn data-dfn-type="dfn" data-noexport="" id="id">`id`<a class="self-link" href="#id"></a></dfn> parameter names the reporting endpoint so that it can be
-  referred to unambigiously when features wish to send reports. This parameter’s
-  value is an arbitrary ASCII string.</p>
+    <h4 class="heading settled" data-level="3.1.1" id="id-parameter"><span class="secno">3.1.1. </span><span class="content">The `group` parameter</span><a class="self-link" href="#id-parameter"></a></h4>
+    <p>The OPTIONAL `<dfn data-dfn-type="dfn" data-noexport="" id="group">group<a class="self-link" href="#group"></a></dfn>` parameter is an ASCII string that associates a name with the reporting endpoint.</p>
+    <p>The name is not unique and multiple endpoint’s may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint MUST be associated with the "default" group name.</p>
     <h4 class="heading settled" data-level="3.1.2" id="max-age-parameter"><span class="secno">3.1.2. </span><span class="content">The `max-age` parameter</span><a class="self-link" href="#max-age-parameter"></a></h4>
-    <p>The <dfn data-dfn-type="dfn" data-noexport="" id="max-age">`max-age`<a class="self-link" href="#max-age"></a></dfn> parameter defines the reporting endpoint’s lifetime,
-  as a non-negative integeral number of seconds. The ABNF grammar for the 
-  directive is:</p>
+    <p>The REQUIRED `<dfn data-dfn-type="dfn" data-noexport="" id="max-age">max-age<a class="self-link" href="#max-age"></a></dfn>` parameter defines the reporting endpoint’s lifetime, as a non-negative integeral number of seconds. The ABNF grammar for the directive is:</p>
 <pre>directive-name  = "max-age"
 directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7234#section-1.2.1">delta-seconds</a>
 
@@ -1214,8 +1209,9 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     <p class="note" role="note">Note: This algorithm is called from around step 13 of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch">main fetch</a> <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a>, and only updates the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> if the <var>response</var> has been delivered securely, and is responding to a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#navigation-request">navigation
   request</a> that targets a <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#top-level-browsing-context">top-level browsing context</a>.</p>
     <p class="issue" id="issue-53f79795"><a class="self-link" href="#issue-53f79795"></a> Fetch monkey patching.</p>
-    <p class="note" role="note">Note: Existing <a data-link-type="dfn" href="#endpoint">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name">name</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code> matches a newly-set endpoint will be removed from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>,
-  and replaced with the new endpoint.</p>
+    <p class="note" role="note">Note: Existing <a data-link-type="dfn" href="#endpoint">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code> matches a newly-set endpoint will be removed from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>,
+  and replaced with the new endpoints.</p>
+    <p class="issue" id="issue-acb8e689"><a class="self-link" href="#issue-acb8e689"></a> why do we restrict to navigation only and top-level? We should allow iframes to receive reports as well.</p>
     <ol>
      <li data-md="">
       <p>Abort these steps if any of the following conditions are true:</p>
@@ -1231,10 +1227,10 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <li data-md="">
         <p><var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> does not
   contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header">header</a> whose <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-name">name</a> is
-  "<a data-link-type="dfn" href="#report-endpoints">`Report-Endpoints`</a>".</p>
+  "<a data-link-type="dfn" href="#report-to">`Report-To`</a>".</p>
       </ol>
      <li data-md="">
-      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header">header</a> in <var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> whose name is "<a data-link-type="dfn" href="#report-endpoints">`Report-Endpoints`</a>".</p>
+      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header">header</a> in <var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> whose name is "<a data-link-type="dfn" href="#report-to">`Report-To`</a>".</p>
      <li data-md="">
       <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> of <var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>.</p>
      <li data-md="">
@@ -1245,10 +1241,10 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <li data-md="">
         <p>Let <var>existing</var> be the result of retrieving an <a data-link-type="dfn" href="#endpoint">endpoint</a> from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-origin">origin</a></code> is <var>origin</var> and <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code> is <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code>.</p>
        <li data-md="">
-        <p>If <var>existing</var> is `null`, let <var>existing</var> be the result of retrieving an <a data-link-type="dfn" href="#endpoint">endpoint</a> from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-origin">origin</a></code> is <var>origin</var> and <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name">name</a></code> is <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name">name</a></code>.</p>
-       <li data-md="">
         <p>If <var>existing</var> is not `null`, remove <var>existing</var> from the <a data-link-type="dfn" href="#reporting-cache">reporting
   cache</a>.</p>
+       <li data-md="">
+        <p>If <var>endpoint</var> <a data-link-type="dfn" href="#max-age">max-age</a> is zero, continue to next <var>endpoint</var>.</p>
        <li data-md="">
         <p>Insert <var>endpoint</var> into the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> for <var>origin</var>.</p>
       </ol>
@@ -1272,18 +1268,16 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   possible after queuing, as a report’s data might be signficantly more useful
   in the period directly after its generation than it would be a day or a week
   later.</p>
-    <h3 class="heading settled" data-algorithm="Queue data as kind for endpoint name on origin" data-level="4.1" id="queue-report"><span class="secno">4.1. </span><span class="content"> Queue <var>data</var> as <var>kind</var> for <var>endpoint name</var> on <var>origin</var> </span><a class="self-link" href="#queue-report"></a></h3>
+    <h3 class="heading settled" data-algorithm="Queue data as kind for endpoint group on origin" data-level="4.1" id="queue-report"><span class="secno">4.1. </span><span class="content"> Queue <var>data</var> as <var>kind</var> for <var>endpoint group</var> on <var>origin</var> </span><a class="self-link" href="#queue-report"></a></h3>
     <p>Given a serializable object (<var>data</var>), a string (<var>kind</var>), another string
-  (<var>endpoint name</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a> (<var>origin</var>), the following algorithm
+  (<var>endpoint group</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a> (<var>origin</var>), the following algorithm
   will create a <a data-link-type="dfn" href="#report">report</a>, and add it to <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>’s queue for
   future delivery.</p>
     <ol>
      <li data-md="">
-      <p>Let <var>endpoint</var> be the <a data-link-type="dfn" href="#endpoint">endpoint</a> in the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> with
-  an <code class="idl"><a data-link-type="idl" href="#dom-endpoint-origin">origin</a></code> of <var>origin</var>, and a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name">name</a></code> of <var>endpoint
-  name</var>.</p>
+      <p>Let <var>endpoints</var> be the list of <a data-link-type="dfn" href="#endpoint">endpoint</a> objects in the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> with an <code class="idl"><a data-link-type="idl" href="#dom-endpoint-origin">origin</a></code> of <var>origin</var>, and a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group">group</a></code> of <var>endpoint group</var>.</p>
      <li data-md="">
-      <p>If <var>endpoint</var> is `null`, abort these steps.</p>
+      <p>If <var>endpoints</var> is an empty list, abort these steps.</p>
      <li data-md="">
       <p>Let <var>report</var> be a new <a data-link-type="dfn" href="#report">report</a> object with its values initialized as
   follows:</p>
@@ -1297,9 +1291,9 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <dd data-md="">
         <p><var>origin</var></p>
        <dt data-md="">
-        <p><code class="idl"><a data-link-type="idl" href="#dom-report-endpoint">endpoint</a></code></p>
+        <p><code class="idl"><a data-link-type="idl">endpoints</a></code></p>
        <dd data-md="">
-        <p>An alias to <var>endpoint</var></p>
+        <p>The list of endpoint object.</p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-report-kind">kind</a></code></p>
        <dd data-md="">
@@ -1317,9 +1311,28 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   following algorithm MUST be executed:</p>
     <ol>
      <li data-md="">
-      <p>Let <var>reports</var> be the list of queued <a data-link-type="dfn" href="#report">report</a> objects in the</p>
+      <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="#report">report</a> objects in <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
+     <li data-md="">
+      <p>Let <var>report groups</var> be the result of grouping <var>reports</var> by common <var>endpoint</var> in each report’s list of <var>endpoints</var>. For each <var>endpoint</var> and <var>list</var> of reports associated with it in <var>report groups</var>:</p>
+      <ol>
+       <li data-md="">
+        <p>Attempt to deliver <var>list</var> of reports to <var>endpoint</var>.</p>
+       <li data-md="">
+        <p>If delivery was successful, abort these steps.</p>
+       <li data-md="">
+        <p>Otherwise, for each <var>report</var> in <var>reports</var>:</p>
+        <ol>
+         <li data-md="">
+          <p>Remove <var>endpoint</var> from <var>endpoints</var>.</p>
+         <li data-md="">
+          <p>If <var>endpoints</var> is empty remove <var>report</var> from <var>reports</var>. The user agent MAY keep the report in <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> to allow delivery retries and remove it once several unsuccessful attempts have been made.</p>
+         <li data-md="">
+          <p>Optionally, the user agent MAY remove <var>endpoint</var> from <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> after multiple unsuccessful delivery attempts have been made, such that it does not attempt to deliver reports to an endpoint that is down or non-functional.</p>
+        </ol>
+       <li data-md="">
+        <p>If <var>reports</var> is not empty, return to step 2.</p>
+      </ol>
     </ol>
-    <p class="issue" id="issue-52d1ccbb"><a class="self-link" href="#issue-52d1ccbb"></a> Do some work here.</p>
     <h3 class="heading settled" data-algorithm="Attempt to deliver a list of reports to endpoint" data-level="4.3" id="try-delivery"><span class="secno">4.3. </span><span class="content"> Attempt to deliver a <var>list</var> of reports to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h3>
     <p>Given a list of <a data-link-type="dfn" href="#report">reports</a> (<var>reports</var>) which are all associated with an <a data-link-type="dfn" href="#endpoint">endpoint</a> (<var>endpoint</var>), this algorithm will construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a>,
   and attempt to deliver it to <var>endpoint</var>.</p>
@@ -1328,87 +1341,152 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     <ol>
      <li data-md="">
       <p>Let <var>body</var> be a JSON object.</p>
+     <li data-md="">
+      <p>...</p>
+     <li data-md="">
+      <p>Set age to be the difference between current time and reports timestamp.</p>
+     <li data-md="">
+      <p>...</p>
+     <li data-md="">
+      <p>... If response code is 410 GONE, remove <var>endpoint</var> from <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
+     <li data-md="">
+      <p>Otherwise, if delivery is successfull (2XX response) remove <var>reports</var> from <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
     </ol>
-    <p class="issue" id="issue-52d1ccbb0"><a class="self-link" href="#issue-52d1ccbb0"></a> Do some work here.</p>
+    <p class="issue" id="issue-52d1ccbb"><a class="self-link" href="#issue-52d1ccbb"></a> Do some work here.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="5" id="sample-reports"><span class="secno">5. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-    <div class="example" id="example-4ad5faff">
-     <a class="self-link" href="#example-4ad5faff"></a> 
-<pre>POST / HTTP/1.1
-Host: example.com
-...
-Content-Type: application/report
+    <div class="example" id="example-b415aa88">
+     <a class="self-link" href="#example-b415aa88"></a> 
+<pre>    POST / HTTP/1.1
+    Host: example.com
+    ...
+    Content-Type: application/report
 
-{
-  "csp": [
+    [{
+      type: "csp",
+      age: 10,
+      url: "https://example.com/vulnerable-page/",
+      report: {
+        "blocked": "https://evil.com/evil.js",
+        "directive": "script-src",
+        "policy": "script-src 'self'; object-src 'none'",
+        "status": 200,
+        "referrer": "https://evil.com/"
+      }
+    }, {
+      type: "hpkp",
+      age: 32,
+      url: "https://www.example.com/",
+      report: {
+        "date-time": "2014-04-06T13:00:50Z",
+        "hostname": "www.example.com",
+        "port": 443,
+        "effective-expiration-date": "2014-05-01T12:40:50Z"
+        "include-subdomains": false,
+        "served-certificate-chain": [
+          "-----BEGIN CERTIFICATE-----\n
+          MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
+          ...
+          HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
+          WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
+          yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
+          -----END CERTIFICATE-----",
+          ...
+        ]
+      }
+    }, {
+      type: "nel",
+      age: 29,
+      url: "https://example.com/thing.js",
+      report: {
+        "referrer": "https://www.example.com/",
+        "server-ip": "234.233.232.231",
+        "protocol": "",
+        "status-code": 0,
+        "elapsed-time": 143,
+        "age": 0,
+        "type": "http.dns.name_not_resolved"
+      }
+    }]
+</pre>
+    </div>
+    <div class="example" id="example-b06efb66">
+     <a class="self-link" href="#example-b06efb66"></a> 
+<pre>    POST / HTTP/1.1
+    Host: example.com
+    ...
+    Content-Type: application/report
+
     {
-      "age": 10,
-      "document": "https://example.com/vulnerable-page/",
-      "blocked": "https://evil.com/evil.js",
-      "directive": "script-src",
-      "policy": "script-src 'self'; object-src 'none'",
-      "status": 200,
-      "referrer": "https://evil.com/"
-    },
-    {
-      "age": 213,
-      "document": "https://example.com/a-more-vulnerable-page/",
-      "blocked": "https://evil.com/evil.js",
-      "directive": "script-src",
-      "policy": "script-src 'self'; object-src 'none'",
-      "status": 200,
-      "referrer": "https://evil.com/"
-    }
-  ],
-  "hpkp": [
-    {
-      "age": 0,
-      "date-time": "2014-04-06T13:00:50Z",
-      "hostname": "www.example.com",
-      "port": 443,
-      "effective-expiration-date": "2014-05-01T12:40:50Z"
-      "include-subdomains": false,
-      "served-certificate-chain": [
-        "-----BEGIN CERTIFICATE-----\n
-        MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
-        ...
-        HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
-        WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
-        yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
-        -----END CERTIFICATE-----",
-        ...
+      "csp": [
+        {
+          "age": 10,
+          "document": "https://example.com/vulnerable-page/",
+          "blocked": "https://evil.com/evil.js",
+          "directive": "script-src",
+          "policy": "script-src 'self'; object-src 'none'",
+          "status": 200,
+          "referrer": "https://evil.com/"
+        },
+        {
+          "age": 213,
+          "document": "https://example.com/a-more-vulnerable-page/",
+          "blocked": "https://evil.com/evil.js",
+          "directive": "script-src",
+          "policy": "script-src 'self'; object-src 'none'",
+          "status": 200,
+          "referrer": "https://evil.com/"
+        }
       ],
-      "validated-certificate-chain": [
-        "-----BEGIN CERTIFICATE-----\n
-        MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
-        ...
-        HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
-        WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
-        yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
-        -----END CERTIFICATE-----",
-        ...
-      ],
-      "known-pins": [
-        'pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="',
-        "pin-sha256=\"E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g=\""
+      "hpkp": [
+        {
+          "age": 0,
+          "date-time": "2014-04-06T13:00:50Z",
+          "hostname": "www.example.com",
+          "port": 443,
+          "effective-expiration-date": "2014-05-01T12:40:50Z"
+          "include-subdomains": false,
+          "served-certificate-chain": [
+            "-----BEGIN CERTIFICATE-----\n
+            MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
+            ...
+            HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
+            WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
+            yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
+            -----END CERTIFICATE-----",
+            ...
+          ],
+          "validated-certificate-chain": [
+            "-----BEGIN CERTIFICATE-----\n
+            MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
+            ...
+            HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
+            WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
+            yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
+            -----END CERTIFICATE-----",
+            ...
+          ],
+          "known-pins": [
+            'pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="',
+            "pin-sha256=\"E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g=\""
+          ]
+        }
       ]
     }
-  ]
-}
 </pre>
     </div>
     <h3 class="heading settled" data-level="5.1" id="deliver-reports"><span class="secno">5.1. </span><span class="content"> Deliver reports </span><a class="self-link" href="#deliver-reports"></a></h3>
-    <p class="issue" id="issue-b7b1e314"><a class="self-link" href="#issue-b7b1e314"></a> TODO</p>
+     ISSUE: TODO 
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="privacy-concerns"><span class="secno">6. </span><span class="content">Privacy Concerns</span><a class="self-link" href="#privacy-concerns"></a></h2>
     <h3 class="heading settled" data-level="6.1" id="clear-cache"><span class="secno">6.1. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
-    <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> contains data about a user’s activity
+     A user agent’s <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> contains data about a user’s activity
   on the web, and user agents ought to handle this data carefully. In
   particular, if a user agent gives users the ability to clear their site data,
   browsing history, browsing cache, or similar, the user agent MUST also clear
-  the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
+  the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>. 
    </section>
   </main>
   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -1438,12 +1516,20 @@ Content-Type: application/report
      <li><a href="#endpoint">definition of</a><span>, in §2.1</span>
      <li><a href="#dom-report-endpoint">attribute for report</a><span>, in §2.2</span>
     </ul>
-   <li><a href="#id">`id`</a><span>, in §3.1.1</span>
+   <li>
+    group
+    <ul>
+     <li><a href="#dom-endpoint-group">attribute for endpoint</a><span>, in §2.1</span>
+     <li><a href="#group">definition of</a><span>, in §3.1.1</span>
+    </ul>
    <li><a href="#grammardef-key">key</a><span>, in §3.1</span>
    <li><a href="#dom-report-kind">kind</a><span>, in §2.2</span>
-   <li><a href="#max-age">`max-age`</a><span>, in §3.1.2</span>
-   <li><a href="#dom-endpoint-max-age">max-age</a><span>, in §2.1</span>
-   <li><a href="#dom-endpoint-name">name</a><span>, in §2.1</span>
+   <li>
+    max-age
+    <ul>
+     <li><a href="#dom-endpoint-max-age">attribute for endpoint</a><span>, in §2.1</span>
+     <li><a href="#max-age">definition of</a><span>, in §3.1.2</span>
+    </ul>
    <li>
     origin
     <ul>
@@ -1452,8 +1538,8 @@ Content-Type: application/report
     </ul>
    <li><a href="#grammardef-parameter">parameter</a><span>, in §3.1</span>
    <li><a href="#report">report</a><span>, in §2.2</span>
-   <li><a href="#report-endpoints">`Report-Endpoints`</a><span>, in §3.1</span>
    <li><a href="#reporting-cache">reporting cache</a><span>, in §2.3</span>
+   <li><a href="#report-to">`Report-To`</a><span>, in §3.1</span>
    <li><a href="#dom-report-timestamp">timestamp</a><span>, in §2.2</span>
    <li><a href="#dom-endpoint-url">url</a><span>, in §2.1</span>
    <li><a href="#grammardef-value">value</a><span>, in §3.1</span>
@@ -1527,11 +1613,6 @@ Content-Type: application/report
      <li><a href="https://url.spec.whatwg.org/#concept-url">URL</a>
      <li><a href="https://url.spec.whatwg.org/#concept-url-origin">origin of a url</a>
     </ul>
-   <li>
-    <a data-link-type="biblio" href="#biblio-dom-ls">[dom-ls]</a> defines the following terms:
-    <ul>
-     <li><a href="https://dom.spec.whatwg.org/#concept-id">id</a>
-    </ul>
   </ul>
   <h2 class="no-num heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
@@ -1544,8 +1625,6 @@ Content-Type: application/report
    <dd>Ian Hickson. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-secure-contexts"><a class="self-link" href="#biblio-secure-contexts"></a>[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
-   <dt id="biblio-dom-ls"><a class="self-link" href="#biblio-dom-ls"></a>[DOM-LS]
-   <dd>Document Object Model URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-rfc2119"><a class="self-link" href="#biblio-rfc2119"></a>[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc3986"><a class="self-link" href="#biblio-rfc3986"></a>[RFC3986]
@@ -1565,11 +1644,12 @@ Content-Type: application/report
   </dl>
   <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
+   <div class="issue"> should we allow allowSubdomains?<a href="#issue-085178d7"> ↵ </a></div>
+   <div class="issue"><a href="#issue-d41d8cd9"> ↵ </a></div>
    <div class="issue"> Fetch monkey patching.<a href="#issue-53f79795"> ↵ </a></div>
+   <div class="issue"> why do we restrict to navigation only and top-level? We should allow iframes to receive reports as well.<a href="#issue-acb8e689"> ↵ </a></div>
    <div class="issue"> Do the parsing here.<a href="#issue-bbfdc5e6"> ↵ </a></div>
    <div class="issue"> Do some work here.<a href="#issue-52d1ccbb"> ↵ </a></div>
-   <div class="issue"> Do some work here.<a href="#issue-52d1ccbb0"> ↵ </a></div>
-   <div class="issue"> TODO<a href="#issue-b7b1e314"> ↵ </a></div>
   </div>
  </body>
 </html>
