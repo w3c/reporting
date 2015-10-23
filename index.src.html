@@ -1,9 +1,10 @@
-<h1>Not Just Error Reporting</h1>
+<h1>Out-of-band Reporting</h1>
 <pre class="metadata">
 Status: DREAM
 ED: https://mikewest.github.com/error-reporting/
-Shortname: njer
+Shortname: reporting
 Editor: Mike West 56384, Google Inc., mkwst@google.com
+Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.comm
 Abstract:
   This document defines a generic reporting framework which allows web
   developers to associate a set of named reporting endpoints with an origin.
@@ -93,19 +94,17 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <div class="example">
     MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
-    violation reports. It can do so by delivering the following header to define
-    a reporting endpoint named "endpoint-1":
+    violation reports. It can do so by delivering the following header to define a set of reporting endpoints named "endpoint-1":
 
     <pre>
-      <a>Report-Endpoints</a>: https://example.com/reports; <a>id</a>="endpoint-1"; <a>max-age</a>=10886400
+      <a>Report-To</a>: https://example.com/reports; <a>group</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>group</a>=endpoint-1; <a>max-age</a>=10886400
     </pre>
 
-    And the following headers, which direct CSP and HPKP reports to that named
-    endpoint:
+    And the following headers, which direct CSP and HPKP reports to that group:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a> endpoint-1
-      <a>Public-Key-Pins</a>: ...; reports="endpoint-1"
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=endpoint-1
+      <a>Public-Key-Pins</a>: ...; report-to=endpoint-1
     </pre>
   </div>
 
@@ -116,16 +115,16 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-Endpoints</a>: https://example.com/csp-violations; <a>id</a>="csp-endpoint"; <a>max-age</a>=10886400,
-                               https://example.com/hpkp-reports; <a>id</a>="hpkp-endpoint"; <a>max-age</a>=10886400
+      <a>Report-To</a>: https://example.com/csp-violations; <a>group</a>=csp-endpoint; <a>max-age</a>=10886400,
+                               https://example.com/hpkp-reports; <a>group</a>=hpkp-endpoint; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
     endpoint:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a> csp-endpoint
-      <a>Public-Key-Pins</a>: ...; reports="hpkp-endpoint"
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=csp-endpoint
+      <a>Public-Key-Pins</a>: ...; report-to=hpkp-endpoint
     </pre>
   </div>
 </section>
@@ -137,7 +136,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   An <dfn export>endpoint</dfn> is location to which <a>reports</a> may be sent.
 
-  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>name</dfn>,
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>group</dfn>,
   which is a string.
 
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
@@ -149,10 +148,12 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>max-age</dfn>,
   which is a non-negative integer representing the number of seconds this
   endpoint remains valid for an origin.
-  
+
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>creation
   date</dfn>, which is the date on which the endpoint was added to the user
   agent's <a>reporting cache</a>.
+
+  ISSUE: should we allow allowSubdomains?
 
   <h3 id="concept-reports">Reports</h3>
 
@@ -178,20 +179,20 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <h3 id="concept-storage">Storage</h3>
 
-  A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which 
+  A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
   is a storage mechanism that maintains a set of <a>endpoints</a> that websites
   have instructed the user agent to associate with their <a>origins</a>, and a
   set of <a>reports</a> which are queued for delivery.
-  
+
   This storage mechanism is opaque, vendor-specific, and not exposed to the
   web, but it MUST provide the following methods which will be used in the
   algorithms this document defines:
- 
+
   1.  Insert new <a>endpoint</a> objects for an <a>origin</a>.
   2.  Remove existing <a>endpoint</a> objects for an <a>origin</a>.
   3.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a>.
+  4.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a> by {{group}}.
   4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/url}}.
-  4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/name}}.
   5.  Queue a <a>report</a> for delivery.
   6.  Retrieve a list of queued <a>report</a> objects.
   7.  Clear the delivery queue.
@@ -201,17 +202,15 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   <h2 id="endpoint-delivery">Endpoint Delivery</h2>
 
   A server MAY define a set of reporting endpoints for an origin it controls
-  via the <a>`Report-Endpoints`</a> HTTP response header field. This mechanism
-  is defined in [[#header]], and its processing in [[#process-header]]. 
+  via the <a>`Report-To`</a> HTTP response header field. This mechanism
+  is defined in [[#header]], and its processing in [[#process-header]].
 
-  <h3 id="header">The `Report-Endpoints` HTTP Response Header Field</h3>
+  <h3 id="header">The `Report-To` HTTP Response Header Field</h3>
 
-  The <dfn export>`Report-Endpoints`</dfn> HTTP response header field sends a
-  signal to the user agent that defines a set of reporting endpoints for an
-  origin. The header is represented by the following ABNF grammar [[!RFC5234]]:
+  The <dfn export>`Report-To`</dfn> HTTP response header field instructs the user agent to store a reporting endpoints for an origin. The header is represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
-    Report-Endpoints = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
+    Report-To = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
     <dfn>parameter</dfn>     = <a>key</a> [ <a>BWS</a> "=" <a>BWS</a> <a>value</a> ]
     <dfn>key</dfn>           = <a>token</a>
     <dfn>value</dfn>         = <a>token</a> / <a>quoted-string</a>
@@ -220,9 +219,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     ; productions are all part of RFC 7230. <a>absolute-uri</a> is defined in RFC 3986.
   </pre>
 
-  The header's value is essentially an absolute URL, followed by a
-  semicolon-delimited list of "`[key]=[value]`" pairs which define interesting
-  properties which govern the endpoint's behavior.
+  The header's value is an absolute URL, followed by a
+  semicolon-delimited list of "`[key]=[value]`" pairs that govern specified endpoint's behavior.
 
   The URL MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
   Non-secure endpoints will be ignored.
@@ -233,17 +231,15 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   these future values, and user agents MUST ignore unknown values when parsing
   the header.
 
-  <h4 id="id-parameter">The `id` parameter</h4>
+  <h4 id="id-parameter">The `group` parameter</h4>
 
-  The <dfn>`id`</dfn> parameter names the reporting endpoint so that it can be
-  referred to unambigiously when features wish to send reports. This parameter's
-  value is an arbitrary ASCII string.
+  The OPTIONAL `<dfn>group</dfn>` parameter is an ASCII string that associates a name with the reporting endpoint.
+
+  The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint MUST be associated with the "default" group name.
 
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
-  The <dfn>`max-age`</dfn> parameter defines the reporting endpoint's lifetime,
-  as a non-negative integeral number of seconds. The ABNF grammar for the 
-  directive is:
+  The REQUIRED `<dfn>max-age</dfn>` parameter defines the reporting endpoint's lifetime, as a non-negative integeral number of seconds. The ABNF grammar for the directive is:
 
   <pre>
     directive-name  = "max-age"
@@ -262,7 +258,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
   algorithm extracts a list <a>endpoints</a>, and updates the <a>reporting
   cache</a> accordingly.
-  
+
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
   has been delivered securely, and is responding to a <a>navigation
@@ -270,9 +266,11 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   ISSUE: Fetch monkey patching.
 
-  Note: Existing <a>endpoints</a> whose {{endpoint/name}} or {{endpoint/url}}
+  Note: Existing <a>endpoints</a> whose {{endpoint/url}}
   matches a newly-set endpoint will be removed from the <a>reporting cache</a>,
-  and replaced with the new endpoint.
+  and replaced with the new endpoints.
+
+  ISSUE: why do we restrict to navigation only and top-level? We should allow iframes to receive reports as well.
 
   1.  Abort these steps if any of the following conditions are true:
 
@@ -288,11 +286,11 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
       4.  |response|'s <a for="response" attribute>header list</a> does not
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
-          "<a>`Report-Endpoints`</a>".
+          "<a>`Report-To`</a>".
 
   2.  Let |header| be the <a for="header" attribute>value</a> of the
       <a>header</a> in |response|'s <a for="response" attribute>header list</a>
-      whose name is "<a>`Report-Endpoints`</a>".
+      whose name is "<a>`Report-To`</a>".
 
   3.  Let |origin| be the <a lt="origin of a url">origin</a> of |response|'s
       <a for="response" attribute>url</a>.
@@ -306,13 +304,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
           <a>reporting cache</a> whose {{endpoint/origin}} is |origin| and
           {{endpoint/url}} is |endpoint|'s {{endpoint/url}}.
 
-      2.  If |existing| is `null`, let |existing| be the result of retrieving an
-          <a>endpoint</a> from the <a>reporting cache</a> whose
-          {{endpoint/origin}} is |origin| and {{endpoint/name}} is |endpoint|'s
-          {{endpoint/name}}.
-
-      3.  If |existing| is not `null`, remove |existing| from the <a>reporting
+      2.  If |existing| is not `null`, remove |existing| from the <a>reporting
           cache</a>.
+
+      3.  If |endpoint| <a>max-age</a> is zero, continue to next |endpoint|.
 
       4.  Insert |endpoint| into the <a>reporting cache</a> for |origin|.
 
@@ -345,19 +340,18 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   later.
 
   <h3 id="queue-report" algorithm>
-    Queue |data| as |kind| for |endpoint name| on |origin|
+    Queue |data| as |kind| for |endpoint group| on |origin|
   </h3>
 
   Given a serializable object (|data|), a string (|kind|), another string
-  (|endpoint name|), and an <a>origin</a> (|origin|), the following algorithm
+  (|endpoint group|), and an <a>origin</a> (|origin|), the following algorithm
   will create a <a>report</a>, and add it to <a>reporting cache</a>'s queue for
   future delivery.
 
-  1.  Let |endpoint| be the <a>endpoint</a> in the <a>reporting cache</a> with
-      an {{endpoint/origin}} of |origin|, and a {{endpoint/name}} of |endpoint
-      name|.
+  1.  Let |endpoints| be the list of <a>endpoint</a> objects in the <a>reporting cache</a> with an {{endpoint/origin}} of |origin|, and a
+      {{endpoint/group}} of |endpoint group|.
 
-  2.  If |endpoint| is `null`, abort these steps.
+  2.  If |endpoints| is an empty list, abort these steps.
 
   3.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -366,8 +360,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
       :: |data|
       : {{report/origin}}
       :: |origin|
-      : {{report/endpoint}}
-      :: An alias to |endpoint|
+      : {{report/endpoints}}
+      :: The list of endpoint object.
       : {{report/kind}}
       :: |kind|
       : {{report/timestamp}}
@@ -382,9 +376,24 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   When the user agent determines it to be a good time to send reports, the
   following algorithm MUST be executed:
 
-  1.  Let |reports| be the list of queued <a>report</a> objects in the 
+  1.  Let |reports| be a copy of the list of queued <a>report</a> objects in <a>reporting cache</a>.
 
-  ISSUE: Do some work here.
+  2. Let |report groups| be the result of grouping |reports| by common |endpoint| in each report's list of |endpoints|. For each |endpoint| and |list| of reports associated with it in |report groups|:
+
+    1. Attempt to deliver |list| of reports to |endpoint|.
+
+    2. If delivery was successful, abort these steps.
+
+    3. Otherwise, for each |report| in |reports|:
+
+      1.  Remove |endpoint| from |endpoints|.
+
+      2.  If |endpoints| is empty remove |report| from |reports|. The user agent MAY keep the report in <a>reporting cache</a> to allow delivery retries and remove it once several unsuccessful attempts have been made.
+
+      3.  Optionally, the user agent MAY remove |endpoint| from <a>reporting cache</a> after multiple unsuccessful delivery attempts have been made, such that it does not attempt to deliver reports to an endpoint that is down or non-functional.
+
+    4.  If |reports| is not empty, return to step 2.
+
 
   <h3 id="try-delivery" algorithm>
     Attempt to deliver a |list| of reports to |endpoint|
@@ -400,11 +409,76 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   1.  Let |body| be a JSON object.
 
+  2.  ...
+
+  3. Set age to be the difference between current time and reports timestamp.
+
+  4. ...
+
+  5. ... If response code is 410 GONE, remove |endpoint| from <a>reporting cache</a>.
+
+  6. Otherwise, if delivery is successfull (2XX response) remove |reports| from <a>reporting cache</a>.
+
   ISSUE: Do some work here.
 </section>
 
 <section>
   <h2 id="sample-reports">Sample Reports</h2>
+
+  <div class="example">
+    <pre>
+      POST / HTTP/1.1
+      Host: example.com
+      ...
+      Content-Type: application/report
+
+      [{
+        type: "csp",
+        age: 10,
+        url: "https://example.com/vulnerable-page/",
+        report: {
+          "blocked": "https://evil.com/evil.js",
+          "directive": "script-src",
+          "policy": "script-src 'self'; object-src 'none'",
+          "status": 200,
+          "referrer": "https://evil.com/"
+        }
+      }, {
+        type: "hpkp",
+        age: 32,
+        url: "https://www.example.com/",
+        report: {
+          "date-time": "2014-04-06T13:00:50Z",
+          "hostname": "www.example.com",
+          "port": 443,
+          "effective-expiration-date": "2014-05-01T12:40:50Z"
+          "include-subdomains": false,
+          "served-certificate-chain": [
+            "-----BEGIN CERTIFICATE-----\n
+            MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
+            ...
+            HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
+            WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
+            yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
+            -----END CERTIFICATE-----",
+            ...
+          ]
+        }
+      }, {
+        type: "nel",
+        age: 29,
+        url: "https://example.com/thing.js",
+        report: {
+          "referrer": "https://www.example.com/",
+          "server-ip": "234.233.232.231",
+          "protocol": "",
+          "status-code": 0,
+          "elapsed-time": 143,
+          "age": 0,
+          "type": "http.dns.name_not_resolved"
+        }
+      }]
+  </div>
 
   <div class="example">
     <pre>
