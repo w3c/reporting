@@ -353,7 +353,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
       reporting cache</a> with an {{endpoint/origin}} of |origin|, and a
       {{endpoint/group}} of |endpoint group|.
 
-  2.  If |endpoint| is an empty list, abort these steps.
+  2.  If |endpoints| is an empty list, abort these steps.
 
   3.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -378,9 +378,24 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   When the user agent determines it to be a good time to send reports, the
   following algorithm MUST be executed:
 
-  1.  Let |reports| be the list of queued <a>report</a> objects in the
+  1.  Let |reports| be a copy of the list of queued <a>report</a> objects in <a>reporting cache</a>.
 
-  ISSUE: Do some work here.
+  2. Let |report groups| be the result of grouping |reports| by common |endpoint| in each report's list of |endpoints|. For each |endpoint| and |list| of reports associated with it in |report groups|:
+
+    1. Attempt to deliver |list| of reports to |endpoint|.
+
+    2. If delivery was successful, abort these steps.
+
+    3. Otherwise, for each |report| in |reports|:
+
+      1.  Remove |endpoint| from |endpoints|.
+
+      2.  If |endpoints| is empty remove |report| from |reports|. The user agent MAY keep the report in <a>reporting cache</a> to allow delivery retries and remove it once several unsuccessful attempts have been made.
+
+      3.  Optionally, the user agent MAY remove |endpoint| from <a>reporting cache</a> after multiple unsuccessful delivery attempts have been made, such that it does not attempt to deliver reports to an endpoint that is down or non-functional.
+
+    4.  If |reports| is not empty, return to step 2.
+
 
   <h3 id="try-delivery" algorithm>
     Attempt to deliver a |list| of reports to |endpoint|
@@ -395,6 +410,16 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   ensure that the cache is updated correctly.
 
   1.  Let |body| be a JSON object.
+
+  2.  ...
+
+  3. Set age to be the difference between current time and reports timestamp.
+
+  4. ...
+
+  5. ... If response code is 410 GONE, remove |endpoint| from <a>reporting cache</a>.
+
+  6. Otherwise, if delivery is successfull (2XX response) remove |reports| from <a>reporting cache</a>.
 
   ISSUE: Do some work here.
 </section>
