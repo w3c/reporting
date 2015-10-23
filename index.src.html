@@ -93,19 +93,18 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <div class="example">
     MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
-    violation reports. It can do so by delivering the following header to define
-    a reporting endpoint named "endpoint-1":
+    violation reports. It can do so by delivering the following header to define a set of reporting endpoints named "endpoint-1":
 
     <pre>
-      <a>Report-Endpoints</a>: https://example.com/reports; <a>id</a>="endpoint-1"; <a>max-age</a>=10886400
+      <a>Report-Endpoints</a>: https://example.com/reports; <a>id</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>id</a>=endpoint-1; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to that named
     endpoint:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a> endpoint-1
-      <a>Public-Key-Pins</a>: ...; reports="endpoint-1"
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a>=endpoint-1
+      <a>Public-Key-Pins</a>: ...; reports=endpoint-1
     </pre>
   </div>
 
@@ -116,16 +115,16 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-Endpoints</a>: https://example.com/csp-violations; <a>id</a>="csp-endpoint"; <a>max-age</a>=10886400,
-                               https://example.com/hpkp-reports; <a>id</a>="hpkp-endpoint"; <a>max-age</a>=10886400
+      <a>Report-Endpoints</a>: https://example.com/csp-violations; <a>id</a>=csp-endpoint; <a>max-age</a>=10886400,
+                               https://example.com/hpkp-reports; <a>id</a>=hpkp-endpoint; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
     endpoint:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a> csp-endpoint
-      <a>Public-Key-Pins</a>: ...; reports="hpkp-endpoint"
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a>=csp-endpoint
+      <a>Public-Key-Pins</a>: ...; reports=hpkp-endpoint
     </pre>
   </div>
 </section>
@@ -149,7 +148,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>max-age</dfn>,
   which is a non-negative integer representing the number of seconds this
   endpoint remains valid for an origin.
-  
+
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>creation
   date</dfn>, which is the date on which the endpoint was added to the user
   agent's <a>reporting cache</a>.
@@ -178,15 +177,15 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <h3 id="concept-storage">Storage</h3>
 
-  A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which 
+  A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
   is a storage mechanism that maintains a set of <a>endpoints</a> that websites
   have instructed the user agent to associate with their <a>origins</a>, and a
   set of <a>reports</a> which are queued for delivery.
-  
+
   This storage mechanism is opaque, vendor-specific, and not exposed to the
   web, but it MUST provide the following methods which will be used in the
   algorithms this document defines:
- 
+
   1.  Insert new <a>endpoint</a> objects for an <a>origin</a>.
   2.  Remove existing <a>endpoint</a> objects for an <a>origin</a>.
   3.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a>.
@@ -202,7 +201,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   A server MAY define a set of reporting endpoints for an origin it controls
   via the <a>`Report-Endpoints`</a> HTTP response header field. This mechanism
-  is defined in [[#header]], and its processing in [[#process-header]]. 
+  is defined in [[#header]], and its processing in [[#process-header]].
 
   <h3 id="header">The `Report-Endpoints` HTTP Response Header Field</h3>
 
@@ -242,7 +241,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
   The <dfn>`max-age`</dfn> parameter defines the reporting endpoint's lifetime,
-  as a non-negative integeral number of seconds. The ABNF grammar for the 
+  as a non-negative integeral number of seconds. The ABNF grammar for the
   directive is:
 
   <pre>
@@ -262,7 +261,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
   algorithm extracts a list <a>endpoints</a>, and updates the <a>reporting
   cache</a> accordingly.
-  
+
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
   has been delivered securely, and is responding to a <a>navigation
@@ -382,7 +381,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   When the user agent determines it to be a good time to send reports, the
   following algorithm MUST be executed:
 
-  1.  Let |reports| be the list of queued <a>report</a> objects in the 
+  1.  Let |reports| be the list of queued <a>report</a> objects in the
 
   ISSUE: Do some work here.
 
