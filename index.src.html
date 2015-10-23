@@ -96,15 +96,14 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     violation reports. It can do so by delivering the following header to define a set of reporting endpoints named "endpoint-1":
 
     <pre>
-      <a>Report-To</a>: https://example.com/reports; <a>id</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>id</a>=endpoint-1; <a>max-age</a>=10886400
+      <a>Report-To</a>: https://example.com/reports; <a>group</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>group</a>=endpoint-1; <a>max-age</a>=10886400
     </pre>
 
-    And the following headers, which direct CSP and HPKP reports to that named
-    endpoint:
+    And the following headers, which direct CSP and HPKP reports to that group:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a>=endpoint-1
-      <a>Public-Key-Pins</a>: ...; reports=endpoint-1
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=endpoint-1
+      <a>Public-Key-Pins</a>: ...; report-to=endpoint-1
     </pre>
   </div>
 
@@ -115,16 +114,16 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: https://example.com/csp-violations; <a>id</a>=csp-endpoint; <a>max-age</a>=10886400,
-                               https://example.com/hpkp-reports; <a>id</a>=hpkp-endpoint; <a>max-age</a>=10886400
+      <a>Report-To</a>: https://example.com/csp-violations; <a>group</a>=csp-endpoint; <a>max-age</a>=10886400,
+                               https://example.com/hpkp-reports; <a>group</a>=hpkp-endpoint; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
     endpoint:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">reports</a>=csp-endpoint
-      <a>Public-Key-Pins</a>: ...; reports=hpkp-endpoint
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=csp-endpoint
+      <a>Public-Key-Pins</a>: ...; report-to=hpkp-endpoint
     </pre>
   </div>
 </section>
@@ -136,7 +135,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   An <dfn export>endpoint</dfn> is location to which <a>reports</a> may be sent.
 
-  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>name</dfn>,
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>group</dfn>,
   which is a string.
 
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
@@ -193,7 +192,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   1.  Insert new <a>endpoint</a> objects for an <a>origin</a>.
   2.  Remove existing <a>endpoint</a> objects for an <a>origin</a>.
   3.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a>.
-  4.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a> by {{name}}.
+  4.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a> by {{group}}.
   4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/url}}.
   5.  Queue a <a>report</a> for delivery.
   6.  Retrieve a list of queued <a>report</a> objects.
@@ -233,11 +232,11 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   these future values, and user agents MUST ignore unknown values when parsing
   the header.
 
-  <h4 id="id-parameter">The `id` parameter</h4>
+  <h4 id="id-parameter">The `group` parameter</h4>
 
-  The OPTIONAL <dfn>`id`</dfn> parameter is an ASCII string that associates a name with the reporting endpoint.
+  The OPTIONAL <dfn>`group`</dfn> parameter is an ASCII string that associates a name with the reporting endpoint.
 
-  The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint is automatically associated with the "default" group name.
+  The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint MUST be associated with the "default" group name.
 
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
@@ -268,9 +267,11 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   ISSUE: Fetch monkey patching.
 
-  Note: Existing <a>endpoints</a> whose {{endpoint/name}} or {{endpoint/url}}
+  Note: Existing <a>endpoints</a> whose {{endpoint/url}}
   matches a newly-set endpoint will be removed from the <a>reporting cache</a>,
-  and replaced with the new endpoint.
+  and replaced with the new endpoints.
+
+  ISSUE: why do we restrict to navigation only and top-level? We should allow iframes to receive reports as well.
 
   1.  Abort these steps if any of the following conditions are true:
 
@@ -283,8 +284,6 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
       3.  If |request|'s <a for="request" attribute>target browsing context</a>
           is not a <a>top-level browsing context</a>.
-
-          ISSUE: why this restriction? We should allow iframes to receive reports as well.
 
       4.  |response|'s <a for="response" attribute>header list</a> does not
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
