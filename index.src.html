@@ -96,7 +96,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     violation reports. It can do so by delivering the following header to define a set of reporting endpoints named "endpoint-1":
 
     <pre>
-      <a>Report-Endpoints</a>: https://example.com/reports; <a>id</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>id</a>=endpoint-1; <a>max-age</a>=10886400
+      <a>Report-To</a>: https://example.com/reports; <a>id</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>id</a>=endpoint-1; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to that named
@@ -115,7 +115,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-Endpoints</a>: https://example.com/csp-violations; <a>id</a>=csp-endpoint; <a>max-age</a>=10886400,
+      <a>Report-To</a>: https://example.com/csp-violations; <a>id</a>=csp-endpoint; <a>max-age</a>=10886400,
                                https://example.com/hpkp-reports; <a>id</a>=hpkp-endpoint; <a>max-age</a>=10886400
     </pre>
 
@@ -153,6 +153,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   date</dfn>, which is the date on which the endpoint was added to the user
   agent's <a>reporting cache</a>.
 
+  ISSUE: should we allow allowSubdomains?
+
   <h3 id="concept-reports">Reports</h3>
 
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
@@ -174,6 +176,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Each <a>report</a> has a <dfn for="report" expore attribute>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
+
+  ISSUE:
 
   <h3 id="concept-storage">Storage</h3>
 
@@ -200,17 +204,15 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   <h2 id="endpoint-delivery">Endpoint Delivery</h2>
 
   A server MAY define a set of reporting endpoints for an origin it controls
-  via the <a>`Report-Endpoints`</a> HTTP response header field. This mechanism
+  via the <a>`Report-To`</a> HTTP response header field. This mechanism
   is defined in [[#header]], and its processing in [[#process-header]].
 
-  <h3 id="header">The `Report-Endpoints` HTTP Response Header Field</h3>
+  <h3 id="header">The `Report-To` HTTP Response Header Field</h3>
 
-  The <dfn export>`Report-Endpoints`</dfn> HTTP response header field sends a
-  signal to the user agent that defines a set of reporting endpoints for an
-  origin. The header is represented by the following ABNF grammar [[!RFC5234]]:
+  The <dfn export>`Report-To`</dfn> HTTP response header field instructs the user agent to store a reporting endpoints for an origin. The header is represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
-    Report-Endpoints = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
+    Report-To = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
     <dfn>parameter</dfn>     = <a>key</a> [ <a>BWS</a> "=" <a>BWS</a> <a>value</a> ]
     <dfn>key</dfn>           = <a>token</a>
     <dfn>value</dfn>         = <a>token</a> / <a>quoted-string</a>
@@ -219,9 +221,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     ; productions are all part of RFC 7230. <a>absolute-uri</a> is defined in RFC 3986.
   </pre>
 
-  The header's value is essentially an absolute URL, followed by a
-  semicolon-delimited list of "`[key]=[value]`" pairs which define interesting
-  properties which govern the endpoint's behavior.
+  The header's value is an absolute URL, followed by a
+  semicolon-delimited list of "`[key]=[value]`" pairs that govern specified endpoint's behavior.
 
   The URL MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
   Non-secure endpoints will be ignored.
@@ -234,15 +235,13 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <h4 id="id-parameter">The `id` parameter</h4>
 
-  The <dfn>`id`</dfn> parameter names the reporting endpoint so that it can be
-  referred to unambigiously when features wish to send reports. This parameter's
-  value is an arbitrary ASCII string.
+  The OPTIONAL <dfn>`id`</dfn> parameter is an ASCII string that associates a name with the reporting endpoint.
+
+  The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint is automatically associated with the "default" group name.
 
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
-  The <dfn>`max-age`</dfn> parameter defines the reporting endpoint's lifetime,
-  as a non-negative integeral number of seconds. The ABNF grammar for the
-  directive is:
+  The REQUIRED <dfn>`max-age`</dfn> parameter defines the reporting endpoint's lifetime, as a non-negative integeral number of seconds. The ABNF grammar for the directive is:
 
   <pre>
     directive-name  = "max-age"
@@ -287,11 +286,11 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
       4.  |response|'s <a for="response" attribute>header list</a> does not
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
-          "<a>`Report-Endpoints`</a>".
+          "<a>`Report-To`</a>".
 
   2.  Let |header| be the <a for="header" attribute>value</a> of the
       <a>header</a> in |response|'s <a for="response" attribute>header list</a>
-      whose name is "<a>`Report-Endpoints`</a>".
+      whose name is "<a>`Report-To`</a>".
 
   3.  Let |origin| be the <a lt="origin of a url">origin</a> of |response|'s
       <a for="response" attribute>url</a>.
