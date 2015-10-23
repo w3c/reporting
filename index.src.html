@@ -341,19 +341,19 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   later.
 
   <h3 id="queue-report" algorithm>
-    Queue |data| as |kind| for |endpoint name| on |origin|
+    Queue |data| as |kind| for |endpoint group| on |origin|
   </h3>
 
   Given a serializable object (|data|), a string (|kind|), another string
-  (|endpoint name|), and an <a>origin</a> (|origin|), the following algorithm
+  (|endpoint group|), and an <a>origin</a> (|origin|), the following algorithm
   will create a <a>report</a>, and add it to <a>reporting cache</a>'s queue for
   future delivery.
 
-  1.  Let |endpoint| be the <a>endpoint</a> in the <a>reporting cache</a> with
-      an {{endpoint/origin}} of |origin|, and a {{endpoint/name}} of |endpoint
-      name|.
+  1.  Let |endpoints| be the list of <a>endpoint</a> objects in the <a>
+      reporting cache</a> with an {{endpoint/origin}} of |origin|, and a
+      {{endpoint/group}} of |endpoint group|.
 
-  2.  If |endpoint| is `null`, abort these steps.
+  2.  If |endpoint| is an empty list, abort these steps.
 
   3.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -362,8 +362,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
       :: |data|
       : {{report/origin}}
       :: |origin|
-      : {{report/endpoint}}
-      :: An alias to |endpoint|
+      : {{report/endpoints}}
+      :: The list of endpoint object.
       : {{report/kind}}
       :: |kind|
       : {{report/timestamp}}
