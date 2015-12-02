@@ -153,7 +153,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   date</dfn>, which is the date on which the endpoint was added to the user
   agent's <a>reporting cache</a>.
 
-  ISSUE: should we allow allowSubdomains?
+  ISSUE: add allowSubdomains logic.
 
   <h3 id="concept-reports">Reports</h3>
 
@@ -420,6 +420,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   6. Otherwise, if delivery is successfull (2XX response) remove |reports| from <a>reporting cache</a>.
 
   ISSUE: Do some work here.
+
+  ISSUE: clarify that timestamp is for internal accounting only. Age is the communicated value. E.g. Each <a>report</a> has a <dfn for="report" export attribute>age</dfn>, which records the elapsed number of milliseconds between the time when the user agent queued the report and when report is delivered.
+
+  NOTE: Client clocks are unreliable and subject to skew. To address this, each report provides an `age` attribute, which allows the server to accurately compute when the report was triggered.
 </section>
 
 <section>

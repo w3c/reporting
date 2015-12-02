@@ -993,7 +993,7 @@
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Out-of-band Reporting</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2015-11-08">8 November 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2015-12-02">2 December 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1124,7 +1124,7 @@ reports in a consistent manner.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint">endpoint</a> has a <dfn class="idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-creation-date">creation
   date<a class="self-link" href="#dom-endpoint-creation-date"></a></dfn>, which is the date on which the endpoint was added to the user
   agent’s <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
-    <p class="issue" id="issue-085178d7"><a class="self-link" href="#issue-085178d7"></a> should we allow allowSubdomains?</p>
+    <p class="issue" id="issue-6b44ed70"><a class="self-link" href="#issue-6b44ed70"></a> add allowSubdomains logic.</p>
     <h3 class="heading settled" data-level="2.2" id="concept-reports"><span class="secno">2.2. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn data-dfn-type="dfn" data-export="" id="report">report<a class="self-link" href="#report"></a></dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
@@ -1352,6 +1352,8 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
       <p>Otherwise, if delivery is successfull (2XX response) remove <var>reports</var> from <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
     </ol>
     <p class="issue" id="issue-52d1ccbb"><a class="self-link" href="#issue-52d1ccbb"></a> Do some work here.</p>
+    <p class="issue" id="issue-9932998c"><a class="self-link" href="#issue-9932998c"></a> clarify that timestamp is for internal accounting only. Age is the communicated value. E.g. Each <a data-link-type="dfn" href="#report">report</a> has a <dfn class="idl-code" data-dfn-for="report" data-dfn-type="attribute" data-export="" id="dom-report-age">age<a class="self-link" href="#dom-report-age"></a></dfn>, which records the elapsed number of milliseconds between the time when the user agent queued the report and when report is delivered.</p>
+    <p class="note" role="note">NOTE: Client clocks are unreliable and subject to skew. To address this, each report provides an `age` attribute, which allows the server to accurately compute when the report was triggered.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="5" id="sample-reports"><span class="secno">5. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
@@ -1506,6 +1508,7 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   <h2 class="no-num heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="indexlist">
+   <li><a href="#dom-report-age">age</a><span>, in §4.3</span>
    <li><a href="#dom-report-body">body</a><span>, in §2.2</span>
    <li><a href="#dom-endpoint-creation-date">creation
   date</a><span>, in §2.1</span>
@@ -1643,11 +1646,12 @@ directive-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   </dl>
   <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> should we allow allowSubdomains?<a href="#issue-085178d7"> ↵ </a></div>
+   <div class="issue"> add allowSubdomains logic.<a href="#issue-6b44ed70"> ↵ </a></div>
    <div class="issue"> Fetch monkey patching.<a href="#issue-53f79795"> ↵ </a></div>
    <div class="issue"> why do we restrict to navigation only and top-level? We should allow iframes to receive reports as well.<a href="#issue-acb8e689"> ↵ </a></div>
    <div class="issue"> Do the parsing here.<a href="#issue-bbfdc5e6"> ↵ </a></div>
    <div class="issue"> Do some work here.<a href="#issue-52d1ccbb"> ↵ </a></div>
+   <div class="issue"> clarify that timestamp is for internal accounting only. Age is the communicated value. E.g. Each <a data-link-type="dfn" href="#report">report</a> has a <span>age</span>, which records the elapsed number of milliseconds between the time when the user agent queued the report and when report is delivered.<a href="#issue-9932998c"> ↵ </a></div>
   </div>
  </body>
 </html>
