@@ -235,7 +235,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   The OPTIONAL `<dfn>group</dfn>` parameter is an ASCII string that associates a name with the reporting endpoint.
 
+  ISSUE: add ABNF.
+
   The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint MUST be associated with the "default" group name.
+
 
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
@@ -261,8 +264,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
-  has been delivered securely, and is responding to a <a>navigation
-  request</a> that targets a <a>top-level browsing context</a>.
+  has been delivered securely.
 
   ISSUE: Fetch monkey patching.
 
@@ -270,21 +272,14 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   matches a newly-set endpoint will be removed from the <a>reporting cache</a>,
   and replaced with the new endpoints.
 
-  ISSUE: why do we restrict to navigation only and top-level? We should allow iframes to receive reports as well.
-
   1.  Abort these steps if any of the following conditions are true:
 
-      1.  If |request| is not a <a>navigation request</a>.
-
-      2.  |response|'s <a for="response" attribute>HTTPS state</a> is not
+      1.  |response|'s <a for="response" attribute>HTTPS state</a> is not
           "`modern`", and the <a lt="origin of a url">origin</a> of |response|'s
           <a for="response" attribute>url</a> is not <a>potentially
           trustworthy</a>.
 
-      3.  If |request|'s <a for="request" attribute>target browsing context</a>
-          is not a <a>top-level browsing context</a>.
-
-      4.  |response|'s <a for="response" attribute>header list</a> does not
+      2.  |response|'s <a for="response" attribute>header list</a> does not
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
           "<a>`Report-To`</a>".
 
