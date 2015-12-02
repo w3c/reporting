@@ -381,13 +381,21 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
     3. Otherwise, for each |report| in |reports|:
 
-      1.  Remove |endpoint| from |endpoints|.
+      1.  Remove |endpoint| from |endpoints|. (TODO: Clarify that removing here is from the candidate set for this run.. not from the cache - e.g. if delivery to first endpoint fails then we remove it from the set and try next one. Also, we should probably add some attempt counter both for the endpoint and the report... e.g. drop report after n attempts; remove endpoint after n attmpts)
 
-      2.  If |endpoints| is empty remove |report| from |reports|. The user agent MAY keep the report in <a>reporting cache</a> to allow delivery retries and remove it once several unsuccessful attempts have been made.
+      2.  If |endpoints| is empty remove |report| from |reports|. The user agent MAY keep the report in <a>reporting cache</a> to allow delivery retries and remove it once several unsuccessful attempts have been made. (TODO: should probably check if new set of endpoints (post 4xx) is non-empty; drop if we no longer have any endpoints to report to.)
 
       3.  Optionally, the user agent MAY remove |endpoint| from <a>reporting cache</a> after multiple unsuccessful delivery attempts have been made, such that it does not attempt to deliver reports to an endpoint that is down or non-functional.
 
     4.  If |reports| is not empty, return to step 2.
+
+    This section needs to be reworked. High level flow: attempt delivery and remove reports if successfull. If deliver failed:
+      - increment counter on the failed endpoint
+      - increment counter on the failed report
+      - if either counter exceeds TBD threshold, drop endpoint, report, or both.
+      - try-delivery with next candidate in the endpoints list:
+        -  if there are no candidates left, and if endpoints list for next delivery is not-empty, schedule delivery with exponential backoff.
+        - otherwise, drop the reports.
 
 
   <h3 id="try-delivery" algorithm>
@@ -402,19 +410,20 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   <a>reporting cache</a>'s queue. If delivery fails, error handling kicks in to
   ensure that the cache is updated correctly.
 
-  1.  Let |body| be a JSON object.
 
-  2.  ...
+  1. For each report, compute and set its age (milliseconds elapsed between when it was created and current time).
 
-  3. Set age to be the difference between current time and reports timestamp.
+  2.  Let |body| be the JSON stringification of the |reports|. Q: do we need to be more explicit here about the formatting?
 
-  4. ...
+  3. Queue a task to fetch |endpoint| using HTTP method POST, with a Content-Type header field of application/report, and an entity body consisting of |body|. TODO: all the fetch plumbing + settings here.
 
-  5. ... If response code is 410 GONE, remove |endpoint| from <a>reporting cache</a>.
+  4. If the fetch is successful (2xx HTTP response code):
+    1. Remove |reports| from reporting cache.
 
-  6. Otherwise, if delivery is successfull (2XX response) remove |reports| from <a>reporting cache</a>.
+  5. If the response code is 4XX, remove |endpoint| from <a>reporting cache</a>. (This allows the server to permanently unregister itself)
 
-  ISSUE: Do some work here.
+  ... from here we jump back to send-reports, where we handle successful / unsuccesful delivery case. Should we move 2xx/4xx to send-reports?
+
 
   ISSUE: clarify that timestamp is for internal accounting only. Age is the communicated value. E.g. Each <a>report</a> has a <dfn for="report" export attribute>age</dfn>, which records the elapsed number of milliseconds between the time when the user agent queued the report and when report is delivered.
 
