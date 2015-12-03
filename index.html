@@ -1067,7 +1067,12 @@ reports in a consistent manner.</p>
       <li><a href="#send-reports"><span class="secno">4.3</span> <span class="content"> Send reports </span></a>
       <li><a href="#try-delivery"><span class="secno">4.4</span> <span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span></a>
      </ul>
-    <li><a href="#gc"><span class="secno">5</span> <span class="content">Garbage Collection</span></a>
+    <li>
+     <a href="#implementation"><span class="secno">5</span> <span class="content">Implementation Considerations</span></a>
+     <ul class="toc">
+      <li><a href="#delivery"><span class="secno">5.1</span> <span class="content">Delivery</span></a>
+      <li><a href="#gc"><span class="secno">5.2</span> <span class="content">Garbage Collection</span></a>
+     </ul>
     <li><a href="#sample-reports"><span class="secno">6</span> <span class="content">Sample Reports</span></a>
     <li>
      <a href="#security"><span class="secno">7</span> <span class="content">Security Considerations</span></a>
@@ -1433,6 +1438,8 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     </ol>
     <p class="note" role="note">Note: We strip the username, password, and fragment from the serialized URL
   in the report. See <a href="#capability-urls">§7.1 Capability URLs</a>.</p>
+    <p class="note" role="note">Note: The user agent MAY reject reports for any reason. This API does not
+  guarantee delivery of arbitrary amounts of data, for instance.</p>
     <h3 class="heading settled" data-level="4.2" id="does-endpoint-match-report"><span class="secno">4.2. </span><span class="content"> Does <var>endpoint</var> match <var>report</var>? </span><a class="self-link" href="#does-endpoint-match-report"></a></h3>
     <p>Given an <a data-link-type="dfn" href="#endpoint">endpoint</a> (<var>endpoint</var>) and a <a data-link-type="dfn" href="#report">report</a> (<var>report</var>), this
   algorithm returns "<code>Match</code>" if <var>report</var> should be sent to <var>endpoint</var>, and
@@ -1444,7 +1451,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <li data-md="">
         <p>If <var>client</var> is <a data-link-type="dfn" href="#client-expired">expired</a>, skip to the next <var>client</var>.</p>
         <p class="note" role="note">Note: In this case, the user agent MAY remove <var>client</var> from <var>endpoint</var>, or it may wait and collect garbage <i lang="fr">en
-  masse</i> at some point in the future as described in <a href="#gc">§5 Garbage Collection</a>.</p>
+  masse</i> at some point in the future as described in <a href="#gc">§5.2 Garbage Collection</a>.</p>
        <li data-md="">
         <p>Return "<code>Match</code>" if each of the following criteria is met:</p>
         <ol>
@@ -1474,7 +1481,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
          <li data-md="">
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#endpoint-expired">expired</a>, skip to the next <var>endpoint</var>.</p>
           <p class="note" role="note">Note: In this case, the user agent MAY remove <var>endpoint</var> from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>, or it may wait and collect garbage <i lang="fr">en masse</i> at some point in the future as described
-  in <a href="#gc">§5 Garbage Collection</a>.</p>
+  in <a href="#gc">§5.2 Garbage Collection</a>.</p>
          <li data-md="">
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#pending">pending</a>, skip to the next <var>endpoint</var>.</p>
          <li data-md="">
@@ -1519,14 +1526,15 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
       </ol>
     </ol>
     <p class="note" role="note">Note: User agents MAY decide to attempt delivery for only a subset of the
-  collected reports or endpoints. As reports are only removed from the cache
-  when they’re successfully delivered, skipped reports will simply be
-  delivered later.</p>
+  collected reports or endpoints (because, for example, sending all the reports
+  at once would consume an unreasonable amount of bandwidth, etc). As reports
+  are only removed from the cache when they’re successfully delivered, skipped
+  reports will simply be delivered later.</p>
     <h3 class="heading settled" data-algorithm="Attempt to deliver reports to endpoint" data-level="4.4" id="try-delivery"><span class="secno">4.4. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h3>
     <p>Given a list of <a data-link-type="dfn" href="#report">reports</a> (<var>reports</var>) and an <a data-link-type="dfn" href="#endpoint">endpoint</a> (<var>endpoint</var>), this algorithm will construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request">request</a>, and attempt to
   deliver it to <var>endpoint</var>. It returns "<code>Success</code>" if that delivery succeeds,
   "<code>Remove Endpoint</code>" if the endpoint explicitly removes itself as a reporting
-  endpoint by sending a 4XX response, and "<code>Failure</code>" otherwise.</p>
+  endpoint by sending a 410 response, and "<code>Failure</code>" otherwise.</p>
     <ol>
      <li data-md="">
       <p>Let <var>collection</var> be a new ECMAScript <code>Array</code> object <a data-link-type="biblio" href="#biblio-ecma-262">[ECMA-262]</a>.</p>
@@ -1618,14 +1626,27 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
       <p>If <var>response</var>’s <code>status</code> is an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#ok-status">OK status</a> (200-299), return
   "<code>Success</code>".</p>
      <li data-md="">
-      <p>If <var>response</var>’s <code>status</code> is between 400 and 499, inclusive, return
-  "<code>Remove Endpoint</code>".</p>
+      <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc7231">[RFC7231]</a>, return "<code>Remove Endpoint</code>".</p>
      <li data-md="">
       <p>Return "<code>Failure</code>".</p>
     </ol>
    </section>
    <section>
-    <h2 class="heading settled" data-level="5" id="gc"><span class="secno">5. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h2>
+    <h2 class="heading settled" data-level="5" id="implementation"><span class="secno">5. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation"></a></h2>
+    <h3 class="heading settled" data-level="5.1" id="delivery"><span class="secno">5.1. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h3>
+    <p>The user agent SHOULD attempt to deliver reports as soon as possible to
+  provide feedback to developers as quickly as possible. However, when this
+  desire is balanced against the impact on the user, the user wins. With that
+  in mind, the user agent MAY delay delivery of reports based on its knowledge
+  of the user’s activities and context.</p>
+    <p>For instance, the user agent SHOULD prioritize the transmission of reporting
+  data lower than other network traffic. The user’s explicit activities on a
+  website should preempt reporting traffic.</p>
+    <p>The user agent MAY choose to withhold report delivery entirely until the user
+  is on a fast, cheap network in order to prevent unnecessary data cost.</p>
+    <p>The user agent MAY choose to prioritize reports from particular origins over
+  others (perhaps those that the user visits most often?)</p>
+    <h3 class="heading settled" data-level="5.2" id="gc"><span class="secno">5.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report">reports</a> and <a data-link-type="dfn" href="#endpoint">endpoints</a>, and discard those that are no longer relevant. These
   include:</p>
     <ul>
@@ -1639,7 +1660,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   (perhaps a ~week?)</p>
      <li data-md="">
       <p><a data-link-type="dfn" href="#report">reports</a> which have not been delivered in some arbitrary period of
-  time (perhaps ~3 days?)</p>
+  time (perhaps ~2 days?)</p>
     </ul>
    </section>
    <section>
@@ -1962,6 +1983,8 @@ Content-Type: application/report
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc7159">The JavaScript Object Notation (JSON) Data Interchange Format</a>. March 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7159">https://tools.ietf.org/html/rfc7159</a>
    <dt id="biblio-rfc7230"><a class="self-link" href="#biblio-rfc7230"></a>[RFC7230]
    <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7230">Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7230">https://tools.ietf.org/html/rfc7230</a>
+   <dt id="biblio-rfc7231"><a class="self-link" href="#biblio-rfc7231"></a>[RFC7231]
+   <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
    <dt id="biblio-rfc7234"><a class="self-link" href="#biblio-rfc7234"></a>[RFC7234]
    <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7234">Hypertext Transfer Protocol (HTTP/1.1): Caching</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7234">https://tools.ietf.org/html/rfc7234</a>
    <dt id="biblio-rfc7469"><a class="self-link" href="#biblio-rfc7469"></a>[RFC7469]

@@ -520,6 +520,9 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Note: We strip the username, password, and fragment from the serialized URL
   in the report. See [[#capability-urls]].
 
+  Note: The user agent MAY reject reports for any reason. This API does not
+  guarantee delivery of arbitrary amounts of data, for instance.
+
   <h3 id="does-endpoint-match-report">
     Does |endpoint| match |report|?
   </h3>
@@ -617,9 +620,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
               Wikipedia, if nothing else.
 
   Note: User agents MAY decide to attempt delivery for only a subset of the
-  collected reports or endpoints. As reports are only removed from the cache
-  when they're successfully delivered, skipped reports will simply be
-  delivered later.
+  collected reports or endpoints (because, for example, sending all the reports
+  at once would consume an unreasonable amount of bandwidth, etc). As reports
+  are only removed from the cache when they're successfully delivered, skipped
+  reports will simply be delivered later.
 
   <h3 id="try-delivery" algorithm>
     Attempt to deliver |reports| to |endpoint|
@@ -629,7 +633,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   (|endpoint|), this algorithm will construct a <a>request</a>, and attempt to
   deliver it to |endpoint|. It returns "`Success`" if that delivery succeeds,
   "`Remove Endpoint`" if the endpoint explicitly removes itself as a reporting
-  endpoint by sending a 4XX response, and "`Failure`" otherwise.
+  endpoint by sending a 410 response, and "`Failure`" otherwise.
 
   1.  Let |collection| be a new ECMAScript `Array` object [[!ECMA-262]].
 
@@ -691,14 +695,34 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   6.  If |response|'s `status` is an <a>OK status</a> (200-299), return
       "`Success`".
 
-  7.  If |response|'s `status` is between 400 and 499, inclusive, return
-      "`Remove Endpoint`".
+  7.  If |response|'s `status` is `410 Gone` [[!RFC7231]], return "`Remove
+      Endpoint`".
 
   8.  Return "`Failure`".
 </section>
 
 <section>
-  <h2 id="gc">Garbage Collection</h2>
+  <h2 id="implementation">Implementation Considerations</h2>
+   
+  <h3 id="delivery">Delivery</h3>
+
+  The user agent SHOULD attempt to deliver reports as soon as possible to
+  provide feedback to developers as quickly as possible. However, when this
+  desire is balanced against the impact on the user, the user wins. With that
+  in mind, the user agent MAY delay delivery of reports based on its knowledge
+  of the user's activities and context.
+
+  For instance, the user agent SHOULD prioritize the transmission of reporting
+  data lower than other network traffic. The user's explicit activities on a
+  website should preempt reporting traffic.
+
+  The user agent MAY choose to withhold report delivery entirely until the user
+  is on a fast, cheap network in order to prevent unnecessary data cost.
+
+  The user agent MAY choose to prioritize reports from particular origins over
+  others (perhaps those that the user visits most often?)
+
+  <h3 id="gc">Garbage Collection</h3>
 
   Periodically, the user agent SHOULD walk through the cached <a>reports</a>
   and <a>endpoints</a>, and discard those that are no longer relevant. These
@@ -710,7 +734,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   *   <a>endpoints</a> which have not been used in some arbitrary period of time
       (perhaps a ~week?)
   *   <a>reports</a> which have not been delivered in some arbitrary period of
-      time (perhaps ~3 days?)
+      time (perhaps ~2 days?)
 </section>
 
 <section>
