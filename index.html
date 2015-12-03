@@ -1067,12 +1067,8 @@ reports in a consistent manner.</p>
       <li><a href="#send-reports"><span class="secno">4.3</span> <span class="content"> Send reports </span></a>
       <li><a href="#try-delivery"><span class="secno">4.4</span> <span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span></a>
      </ul>
-    <li><a href="#sample-reports"><span class="secno">5</span> <span class="content">Sample Reports</span></a>
-    <li>
-     <a href="#implementation-considerations"><span class="secno">6</span> <span class="content">Implementation Considerations</span></a>
-     <ul class="toc">
-      <li><a href="#gc"><span class="secno">6.1</span> <span class="content">Garbage Collection</span></a>
-     </ul>
+    <li><a href="#gc"><span class="secno">5</span> <span class="content">Garbage Collection</span></a>
+    <li><a href="#sample-reports"><span class="secno">6</span> <span class="content">Sample Reports</span></a>
     <li>
      <a href="#security"><span class="secno">7</span> <span class="content">Security Considerations</span></a>
      <ul class="toc">
@@ -1103,6 +1099,7 @@ reports in a consistent manner.</p>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ul class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ul>
     <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ul>
@@ -1378,7 +1375,8 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     <p>Given a string (<var>value</var>) this algorithm will return a list of tuples
   containing a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url">URL</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code> flag, <code class="idl"><a data-link-type="idl" href="#dom-client-ttl">ttl</a></code>, and a <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code>. This list will be empty if no valid endpoints could be
   parsed.</p>
-    <p class="issue" id="issue-871a25a8"><a class="self-link" href="#issue-871a25a8"></a> Do the parsing here once we decide whether we’re going to run with</p>
+    <p class="issue" id="issue-23825d2c"><a class="self-link" href="#issue-23825d2c"></a> Do the parsing here once we decide whether
+  we’re going to run with a JSON format, a la <a data-link-type="biblio" href="#biblio-reschke">[RESCHKE]</a>. <a href="https://github.com/mikewest/error-reporting/issues/4">&lt;https://github.com/mikewest/error-reporting/issues/4></a></p>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="report-delivery"><span class="secno">4. </span><span class="content">Report Delivery</span><a class="self-link" href="#report-delivery"></a></h2>
@@ -1446,7 +1444,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <li data-md="">
         <p>If <var>client</var> is <a data-link-type="dfn" href="#client-expired">expired</a>, skip to the next <var>client</var>.</p>
         <p class="note" role="note">Note: In this case, the user agent MAY remove <var>client</var> from <var>endpoint</var>, or it may wait and collect garbage <i lang="fr">en
-  masse</i> at some point in the future as described in <a href="#gc">§6.1 Garbage Collection</a>.</p>
+  masse</i> at some point in the future as described in <a href="#gc">§5 Garbage Collection</a>.</p>
        <li data-md="">
         <p>Return "<code>Match</code>" if each of the following criteria is met:</p>
         <ol>
@@ -1476,7 +1474,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
          <li data-md="">
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#endpoint-expired">expired</a>, skip to the next <var>endpoint</var>.</p>
           <p class="note" role="note">Note: In this case, the user agent MAY remove <var>endpoint</var> from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>, or it may wait and collect garbage <i lang="fr">en masse</i> at some point in the future as described
-  in <a href="#gc">§6.1 Garbage Collection</a>.</p>
+  in <a href="#gc">§5 Garbage Collection</a>.</p>
          <li data-md="">
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#pending">pending</a>, skip to the next <var>endpoint</var>.</p>
          <li data-md="">
@@ -1627,7 +1625,25 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     </ol>
    </section>
    <section>
-    <h2 class="heading settled" data-level="5" id="sample-reports"><span class="secno">5. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
+    <h2 class="heading settled" data-level="5" id="gc"><span class="secno">5. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h2>
+    <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report">reports</a> and <a data-link-type="dfn" href="#endpoint">endpoints</a>, and discard those that are no longer relevant. These
+  include:</p>
+    <ul>
+     <li data-md="">
+      <p><a data-link-type="dfn" href="#endpoint">endpoints</a> which are <a data-link-type="dfn" href="#endpoint-expired">expired</a></p>
+     <li data-md="">
+      <p><a data-link-type="dfn" href="#endpoint">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code> exceed some
+  user-agent-defined threshold (~5 seems reasonable)</p>
+     <li data-md="">
+      <p><a data-link-type="dfn" href="#endpoint">endpoints</a> which have not been used in some arbitrary period of time
+  (perhaps a ~week?)</p>
+     <li data-md="">
+      <p><a data-link-type="dfn" href="#report">reports</a> which have not been delivered in some arbitrary period of
+  time (perhaps ~3 days?)</p>
+    </ul>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="6" id="sample-reports"><span class="secno">6. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
     <div class="example" id="example-145d0eb9">
      <a class="self-link" href="#example-145d0eb9"></a> 
 <pre>POST / HTTP/1.1
@@ -1683,12 +1699,6 @@ Content-Type: application/report
 }]
 </pre>
     </div>
-   </section>
-   <section>
-    <h2 class="heading settled" data-level="6" id="implementation-considerations"><span class="secno">6. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation-considerations"></a></h2>
-    <h3 class="heading settled" data-level="6.1" id="gc"><span class="secno">6.1. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
-    <p class="issue" id="issue-3b25193d"><a class="self-link" href="#issue-3b25193d"></a> Say something intelligent about garbage collection during idle periods
-  here.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="7" id="security"><span class="secno">7. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
@@ -1959,15 +1969,19 @@ Content-Type: application/report
    <dt id="biblio-url"><a class="self-link" href="#biblio-url"></a>[URL]
    <dd>Anne van Kesteren; Sam Ruby. <a href="http://www.w3.org/TR/url-1/">URL</a>. 9 December 2014. WD. URL: <a href="http://www.w3.org/TR/url-1/">http://www.w3.org/TR/url-1/</a>
   </dl>
+  <h3 class="no-num heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-reschke"><a class="self-link" href="#biblio-reschke"></a>[RESCHKE]
+   <dd>Julian Reschke. <a href="https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-00.html">A JSON Encoding for HTTP Header Field Values</a>. URL: <a href="https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-00.html">https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-00.html</a>
+  </dl>
   <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> Fetch monkey patching. Talk to Anne.<a href="#issue-59ca7a64"> ↵ </a></div>
-   <div class="issue"> Do the parsing here once we decide whether we’re going to run with<a href="#issue-871a25a8"> ↵ </a></div>
+   <div class="issue"> Do the parsing here once we decide whether
+  we’re going to run with a JSON format, a la <a data-link-type="biblio" href="#biblio-reschke">[RESCHKE]</a>. <a href="https://github.com/mikewest/error-reporting/issues/4">&lt;https://github.com/mikewest/error-reporting/issues/4></a><a href="#issue-23825d2c"> ↵ </a></div>
    <div class="issue"> Add in a reasonable reference describing a good algorithm.
   Wikipedia, if nothing else.<a href="#issue-665ce7ee"> ↵ </a></div>
    <div class="issue"> The "<code>report</code>" type does not exist in Fetch. Talk to Anne.<a href="#issue-39dd1980"> ↵ </a></div>
-   <div class="issue"> Say something intelligent about garbage collection during idle periods
-  here.<a href="#issue-3b25193d"> ↵ </a></div>
    <div class="issue"> Consider mitigations. For example, we could
   drop reports if we change from one network to another. <a href="https://github.com/WICG/BackgroundSync/issues/107">&lt;https://github.com/WICG/BackgroundSync/issues/107></a><a href="#issue-d777247f"> ↵ </a></div>
   </div>
