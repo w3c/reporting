@@ -11,21 +11,32 @@ Abstract:
   Various platform features (like Content Security Policy, Network Error
   Reporting, and others) will use these endpoints to deliver feature-specific
   reports in a consistent manner.
-Indent: 2
 Level: 1
+Indent: 2
+Version History: https://github.com/mikewest/error-reporting/commits/master/index.src.html
+Boilerplate: omit conformance, omit feedback-header
+!Participate: <a href="https://github.com/mikewest/error-reporting/issues/new">File an issue</a> (<a href="https://github.com/mikewest/error-reporting/issues">open issues</a>)
+Markup Shorthands: css off, markdown on
 </pre>
 <pre class="anchors">
 spec: CSP; urlPrefix: https://w3c.github.io/webappsec-csp/
   type: dfn
     text: Content-Security-Policy
     text: reports directive; url: reports
+spec: ECMA-262; urlPrefix: http://www.ecma-international.org/ecma-262/6.0/
+  type: method
+    text: JSON.stringify(); url: sec-json.stringify
 spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
   type: dfn
     text: navigation request
     text: response; url: concept-response
     text: request; url: concept-request
     text: header; url: concept-header
+    text: header list; url: concept-header-list
     text: main fetch
+    text: fetch; url: concept-fetch
+    text: wait for a response
+    text: ok status
   type: attribute
     for: response
       text: url; url: concept-response-url
@@ -42,13 +53,23 @@ spec: SECURE-CONTEXTS; urlPrefix: https://w3c.github.io/webappsec-secure-context
 spec: URL; urlPrefix: https://url.spec.whatwg.org/
   type: dfn
     text: origin of a url; url: concept-url-origin
+    text: URL serializer; url: concept-url-serializer
   type: interface
     text: URL; url: concept-url
+  type: attribute
+    for: URL
+      text: username; url: concept-url-username
+      text: password; url: concept-url-password
 spec: HTML; urlPrefix: https://html.spec.whatwg.org/
+  urlPrefix: infrastructure.html
+    type: dfn
+      text: ASCII case-insensitive
   urlPrefix: webappapis.html
     type: dfn
       text: global object
       text: environment settings object
+      text: creation URL
+      text: queue a task
   urlPrefix: browsers.html
     type: dfn
       text: origin
@@ -56,6 +77,11 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/
 spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
   type: grammar
     text: absolute-uri; url: section-4.3
+spec: RFC6797; urlPrefix: https://tools.ietf.org/html/rfc6797
+  type: dfn
+    url: section-8.2
+      text: superdomain match
+      text: congruent match
 spec: RFC7159; urlPrefix: https://tools.ietf.org/html/rfc7159
   type: dfn
     text: JSON text; url: section-2
@@ -90,14 +116,38 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   [INTRODUCTION GOES HERE]
 
+  <h3 id="guarantees">Guarantees</h3>
+
+  This specification aims to provide a best-effort report delivery system that
+  executes out-of-band with website activity. The user agent will be able to do
+  a better job prioritizing and scheduling delivery of reports, as it has an
+  overview of cross-origin activity that individual websites do not, and can
+  deliver reports based on error conditions that would prevent a website from
+  loading in the first place.
+
+  The delivery is not, however, guaranteed in a strict sense. We spell out a
+  reasonable set of retry rules in the algorithms below, but it's quite possible
+  for a report to be dropped on the floor if things go badly.
+
+  Reporting can generate a good deal of traffic, so we allow developers to set
+  up groups of <a>endpoints</a> in order to distribute load. Each of these
+  endpoints will receive a subset of the generated reports which target that
+  group. The user agent will do its best to deliver a particular report to
+  <strong>at least one</strong> endpoint in a group. There is no guarantee that
+  each report will be delivered to every endpoint in a group, nor is there
+  a guarantee that a report will be delivered to <strong>only</strong> one
+  endpoint.
+
   <h3 id="examples">Examples</h3>
 
   <div class="example">
     MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
-    violation reports. It can do so by delivering the following header to define a set of reporting endpoints named "endpoint-1":
+    violation reports. It can do so by delivering the following header to
+    define a set of reporting endpoints named "`endpoint-1`":
 
     <pre>
-      <a>Report-To</a>: https://example.com/reports; <a>group</a>=endpoint-1; <a>max-age</a>=10886400, https://backup.com/reports;<a>group</a>=endpoint-1; <a>max-age</a>=10886400
+      <a>Report-To</a>: https://example.com/reports; <a>group</a>=endpoint-1; <a>max-age</a>=10886400,
+                 https://backup.com/reports;<a>group</a>=endpoint-1; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to that group:
@@ -116,7 +166,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
     <pre>
       <a>Report-To</a>: https://example.com/csp-violations; <a>group</a>=csp-endpoint; <a>max-age</a>=10886400,
-                               https://example.com/hpkp-reports; <a>group</a>=hpkp-endpoint; <a>max-age</a>=10886400
+                 https://example.com/hpkp-reports; <a>group</a>=hpkp-endpoint; <a>max-age</a>=10886400
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
@@ -136,24 +186,51 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   An <dfn export>endpoint</dfn> is location to which <a>reports</a> may be sent.
 
-  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>group</dfn>,
-  which is a string.
-
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
   which is a {{URL}}.
 
-  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>origin</dfn>,
-  which is an <a>origin</a> to which the <a>endpoint</a> is bound.
+  Each <a>endpoint</a> has a
+  <dfn for="endpoint" export attribute>failures</dfn>, which is a non-negative
+  integer representing the number of consecutive times this endpoint has failed
+  to respond to a request.
 
-  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>max-age</dfn>,
-  which is a non-negative integer representing the number of seconds this
-  endpoint remains valid for an origin.
+  Each <a>endpoint</a> has a
+  <dfn for="endpoint" export attribute>retry-after</dfn>, which is either
+  `null`, or a timestamp after which delivery should be retried. 
 
-  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>creation
-  date</dfn>, which is the date on which the endpoint was added to the user
-  agent's <a>reporting cache</a>.
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>clients</dfn>
+  list, which is a list of <a>clients</a>.
 
-  ISSUE: add allowSubdomains logic.
+  An <a>endpoint</a> is <dfn for="endpoint" id="endpoint-expired">expired</dfn>
+  if every <a>client</a> in its list of {{endpoint/clients}} is
+  <a for="client">expired</a>.
+
+  An <a>endpoint</a> is <dfn for="endpoint">pending</dfn> if its
+  {{endpoint/retry-after}} is not `null`, and represents a time in the future.
+
+  <h3 id="concept-client">Clients</h3>
+
+  A <dfn export>client</dfn> represents a particular origin's relationship to
+  an <a>endpoint</a>.
+
+  Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
+  which is an <a>origin</a>.
+
+  Each <a>client</a> has a <dfn for="client" export attribute>subdomains</dfn>
+  flag (which is either "`include`" or "`exclude`".
+
+  Each <a>client</a> has a <dfn for="client" export attribute>group</dfn> which
+  is an ASCII string.
+
+  Each <a>client</a> has a <dfn for="client" export attribute>ttl</dfn>
+  representing the the number of seconds the client remains valid for an
+  <a>endpoint</a>.
+
+  Each <a>client</a> has a <dfn for="client" export attribute>creation</dfn>
+  which is the timestamp at which the client was added to an <a>endpoint</a>.
+
+  A <a>client</a> is <dfn for="client" id="client-expired">expired</dfn> if its
+  {{client/creation}} plus its {{client/ttl}} represents a time in the past.
 
   <h3 id="concept-reports">Reports</h3>
 
@@ -164,16 +241,24 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   which is either `null` or an object which can be serialized into a <a>JSON
   text</a>.
 
+  Each <a>report</a> has an <dfn for="report" export attribute>url</dfn>,
+  which is the address of the `Document` or `Worker` from which the report was
+  generated.
+  
+  Note: We strip the username, password, and fragment from this serialized URL.
+  See [[#capability-urls]].
+
   Each <a>report</a> has an <dfn for="report" export attribute>origin</dfn>,
   which is an <a>origin</a> representing the report's initiator.
 
-  Each <a>report</a> has an <dfn for="report" expore attribute>endpoint</dfn>,
-  which is either `null` or an alias to an <a>endpoint</a>.
+  Each <a>report</a> has an <dfn for="report" export attribute>group</dfn>,
+  which is a string representing the {{client/group}} to which this report
+  will be sent.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>kind</dfn>,
-  which is a non-empty string specifying the kind of data the report contains.
+  Each <a>report</a> has a <dfn for="report" export attribute>type</dfn>,
+  which is a non-empty string specifying the type of data the report contains.
 
-  Each <a>report</a> has a <dfn for="report" expore attribute>timestamp</dfn>,
+  Each <a>report</a> has a <dfn for="report" export attribute>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
@@ -188,14 +273,11 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   web, but it MUST provide the following methods which will be used in the
   algorithms this document defines:
 
-  1.  Insert new <a>endpoint</a> objects for an <a>origin</a>.
-  2.  Remove existing <a>endpoint</a> objects for an <a>origin</a>.
-  3.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a>.
-  4.  Retrieve a list of <a>endpoint</a> objects for an <a>origin</a> by {{group}}.
-  4.  Retrieve an <a>endpoint</a> for an <a>origin</a> by its {{endpoint/url}}.
-  5.  Queue a <a>report</a> for delivery.
-  6.  Retrieve a list of queued <a>report</a> objects.
-  7.  Clear the delivery queue.
+  1.  Insert, update, and remove <a>endpoints</a>.
+  2.  Enqueue and dequeue <a>reports</a> for delivery.
+  3.  Retrieve a list of <a>endpoint</a> objects.
+  4.  Retrieve a list of queued <a>report</a> objects.
+  5.  Clear the cache.
 </section>
 
 <section>
@@ -207,7 +289,9 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <h3 id="header">The `Report-To` HTTP Response Header Field</h3>
 
-  The <dfn export>`Report-To`</dfn> HTTP response header field instructs the user agent to store a reporting endpoints for an origin. The header is represented by the following ABNF grammar [[!RFC5234]]:
+  The <dfn export>`Report-To`</dfn> HTTP response header field instructs the
+  user agent to store a reporting endpoints for an origin. The header is
+  represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
     Report-To = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
@@ -215,12 +299,13 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     <dfn>key</dfn>           = <a>token</a>
     <dfn>value</dfn>         = <a>token</a> / <a>quoted-string</a>
 
-    ; The <a>#rule</a>, <a>OWS</a>, <a>BWS</a>, <a>token</a>, and <a>quoted-string</a>
-    ; productions are all part of RFC 7230. <a>absolute-uri</a> is defined in RFC 3986.
+    ; The <a>#rule</a>, <a>OWS</a>, <a>BWS</a>, <a>token</a>, and
+    ; <a>quoted-string</a> productions are all part of RFC 7230.
+    ; <a>absolute-uri</a> is defined in RFC 3986.
   </pre>
 
-  The header's value is an absolute URL, followed by a
-  semicolon-delimited list of "`[key]=[value]`" pairs that govern specified endpoint's behavior.
+  The header's value is an absolute URL, followed by a semicolon-delimited list
+  of "`[key]=[value]`" pairs that govern specified endpoint's behavior.
 
   The URL MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
   Non-secure endpoints will be ignored.
@@ -233,44 +318,66 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   <h4 id="id-parameter">The `group` parameter</h4>
 
-  The OPTIONAL `<dfn>group</dfn>` parameter is an ASCII string that associates a name with the reporting endpoint.
+  The OPTIONAL <dfn>`group`</dfn> parameter is an ASCII string that associates a
+  name with the reporting endpoint.
 
-  ISSUE: add ABNF.
+  <pre>
+    parameter-name  = "group"
+    parameter-value = <a grammar>token</a>
+  </pre>
 
-  The name is not unique and multiple endpoint's may use the same name to create a group of reporting endpoints that can be used for backup and failover purposes. If the parameter is omitted, the endpoint MUST be associated with the "default" group name.
+  The name is not unique and multiple endpoints may use the same name to create
+  a group of reporting endpoints that can be used for backup and failover
+  purposes. If the parameter is omitted, the endpoint MUST be associated with
+  the "default" group name.
 
+  Note: If a group resolves to multiple <a>endpoints</a>, the user agent will
+  deliver a particular <a>report</a> to <strong>at least one</strong>
+  <a>endpoint</a> in that group on a best-effort basis. There is no guarantee
+  that each report will be delivered to all endpoints in a group, nor is there
+  a guarantee that a report will be delivered to <strong>only</strong> one
+  endpoint.
+
+  <h4 id="includesubdomains-parameter">The `includeSubdomains` parameter</h4>
+
+  The OPTIONAL <dfn>`includeSubdomains`</dfn> parameter, if present, enables an
+  endpoint for all subdomains of the current <a>origin</a>'s {{URL/host}}.
+
+  <pre>
+    parameter-name  = "group"
+  </pre>
+
+  The parameter's value will be ignored, if present.
 
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
-  The REQUIRED `<dfn>max-age</dfn>` parameter defines the reporting endpoint's lifetime, as a non-negative integeral number of seconds. The ABNF grammar for the directive is:
+  The REQUIRED <dfn export>`max-age`</dfn> parameter defines the reporting endpoint's
+  lifetime, as a non-negative integeral number of seconds. The ABNF grammar for
+  the directive is:
 
   <pre>
-    directive-name  = "max-age"
-    directive-value = <a grammar>delta-seconds</a>
+    parameter-name  = "max-age"
+    parameter-value = <a grammar>delta-seconds</a>
 
     ; <a grammar>delta-seconds</a> is defined in Section 1.2.1 of RFC 7234.
   </pre>
 
-  A value of "`0`" will cause the <a>endpoint</a> to be removed from the
-  <a>reporting cache</a>.
+  A value of "`0`" will cause the <a>endpoint</a> to be removed from the user
+  agent's <a>reporting cache</a>.
 
   <h3 id="process-header" algorithm>
     Process reporting endpoints for |response| to |request|
   </h3>
 
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
-  algorithm extracts a list <a>endpoints</a>, and updates the <a>reporting
-  cache</a> accordingly.
+  algorithm extracts a list of <a>endpoint</a> objects, and updates the
+  <a>reporting cache</a> accordingly.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
   has been delivered securely.
 
-  ISSUE: Fetch monkey patching.
-
-  Note: Existing <a>endpoints</a> whose {{endpoint/url}}
-  matches a newly-set endpoint will be removed from the <a>reporting cache</a>,
-  and replaced with the new endpoints.
+  ISSUE: Fetch monkey patching. Talk to Anne.
 
   1.  Abort these steps if any of the following conditions are true:
 
@@ -290,31 +397,68 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   3.  Let |origin| be the <a lt="origin of a url">origin</a> of |response|'s
       <a for="response" attribute>url</a>.
 
-  4.  Let |endpoints| be the result of executing [[#parse-endpoints]] on
-      |header| and |origin|.
+  4.  Let |tuples| be the result of executing [[#parse-header]] on |header|.
 
-  5.  For each |endpoint| in |endpoints|:
+  5.  For each |tuple| in |tuples|:
 
-      1.  Let |existing| be the result of retrieving an <a>endpoint</a> from the
-          <a>reporting cache</a> whose {{endpoint/origin}} is |origin| and
-          {{endpoint/url}} is |endpoint|'s {{endpoint/url}}.
+      1.  Let |new| be a new <a>client</a> whose properties are set as follows:
 
-      2.  If |existing| is not `null`, remove |existing| from the <a>reporting
-          cache</a>.
+          :   {{client/origin}}
+          ::  |origin|
+          :   {{client/subdomains}}
+          ::  |tuple|'s {{client/subdomains}}
+          :   {{client/group}}
+          ::  |tuple|'s {{client/group}}
+          :   {{client/ttl}}
+          ::  |tuple|'s {{client/ttl}}
+          :   {{client/creation}}
+          ::  The current timestamp
 
-      3.  If |endpoint| <a>max-age</a> is zero, continue to next |endpoint|.
+      2.  If there exists an <a>endpoint</a> (|endpoint|) in the <a>reporting
+          cache</a> whose {{endpoint/url}} is |tuple|'s {{URL}}:
+
+          1.  For each |client| in |endpoint|'s {{endpoint/clients}}, delete
+              |client| if each of the following criterion is met:
+
+              1.  |new|'s {{client/group}} is an <a>ASCII case-insensitive</a>
+                  match for |client|'s {{client/group}}
+
+              2.  |new|'s {{client/subdomains}} matches |client|'s
+                  {{client/subdomains}}
+
+              3.  |new|'s {{client/origin}} is the same as |client|'s
+                  {{client/origin}}
+
+          2.  If |new|'s {{client/ttl}} is greater than 0, append |new| to
+              |endpoint|'s {{endpoint/clients}} list.
+
+          3.  Skip to the next |tuple|.
+      
+      3.  Otherwise, there is no existing <a>endpoint</a>, so let |endpoint|
+          be a new <a>endpoint</a> whose properties are set as follows:
+
+          :   {{endpoint/url}}
+          ::  |tuple|'s {{URL}}
+          :   {{endpoint/failures}}
+          ::  0
+          :   {{endpoint/retry-after}}
+          ::  `null`
+          :   {{endpoint/clients}}
+          ::  A new list, containing |tuple|
 
       4.  Insert |endpoint| into the <a>reporting cache</a> for |origin|.
 
-  <h3 id="parse-endpoints" algorithm>
-    Parse reporting endpoints from |value| for |origin|
+  <h3 id="parse-header" algorithm>
+    Parse reporting endpoint tuples from |value|
   </h3>
 
-  Given a string (|value|), and an <a>origin</a> (|origin|), this algorithm will
-  return a list of <a>endpoints</a>. This list will be empty if no valid
-  endpoints could be parsed.
+  Given a string (|value|) this algorithm will return a list of tuples
+  containing a {{URL}}, {{client/subdomains}} flag, {{client/ttl}}, and a
+  {{client/group}}. This list will be empty if no valid endpoints could be
+  parsed.
 
-  ISSUE: Do the parsing here.
+  ISSUE: Do the parsing here once we decide whether we're going to run with
+  
 </section>
 
 <!-- Big Text: Reporting -->
@@ -335,99 +479,232 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   later.
 
   <h3 id="queue-report" algorithm>
-    Queue |data| as |kind| for |endpoint group| on |origin|
+    Queue |data| as |type| for |endpoint group| on |settings|
   </h3>
 
-  Given a serializable object (|data|), a string (|kind|), another string
-  (|endpoint group|), and an <a>origin</a> (|origin|), the following algorithm
-  will create a <a>report</a>, and add it to <a>reporting cache</a>'s queue for
-  future delivery.
+  Given a serializable object (|data|), a string (|type|), another string
+  (|endpoint group|), and an <a>environment settings object</a> (|settings|),
+  the following algorithm will create a <a>report</a>, and add it to
+  <a>reporting cache</a>'s queue for future delivery.
 
-  1.  Let |endpoints| be the list of <a>endpoint</a> objects in the <a>reporting cache</a> with an {{endpoint/origin}} of |origin|, and a
-      {{endpoint/group}} of |endpoint group|.
-
-  2.  If |endpoints| is an empty list, abort these steps.
-
-  3.  Let |report| be a new <a>report</a> object with its values initialized as
+  1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
 
-      : {{report/body}}
-      :: |data|
-      : {{report/origin}}
-      :: |origin|
-      : {{report/endpoints}}
-      :: The list of endpoint object.
-      : {{report/kind}}
-      :: |kind|
-      : {{report/timestamp}}
-      :: The current time, in milliseconds since the unix epoch.
+      :   {{report/body}}
+      ::  |data|
+      :   {{report/origin}}
+      ::  |settings|'s <a>origin</a>
+      :   {{report/group}}
+      ::  |endpoint group|
+      :   {{report/type}}
+      ::  |type|
+      :   {{report/timestamp}}
+      ::  The current timestamp.
 
-  4.  Add |report| to the <a>reporting cache</a>.
+  2.  Let |url| be |settings|'s <a>creation URL</a>.
+
+  3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
+      to `null`.
+
+  4.  Set |report|'s {{report/url}} to the result of executing the <a>URL
+      serializer</a> on |url| with the <em>exclude fragment flag</em> set.
+
+  5.  Add |report| to the <a>reporting cache</a>.
+
+  Note: We strip the username, password, and fragment from the serialized URL
+  in the report. See [[#capability-urls]].
+
+  <h3 id="does-endpoint-match-report">
+    Does |endpoint| match |report|?
+  </h3>
+
+  Given an <a>endpoint</a> (|endpoint|) and a <a>report</a> (|report|), this
+  algorithm returns "`Match`" if |report| should be sent to |endpoint|, and
+  "`Does Not Match`" otherwise:
+
+  1.  For each |client| in |endpoint|'s {{endpoint/clients}}:
+
+      1.  If |client| is <a for="client">expired</a>, skip to the next |client|.
+
+          Note: In this case, the user agent MAY remove |client| from
+          |endpoint|, or it may wait and collect garbage <i lang="fr">en
+          masse</i> at some point in the future as described in [[#gc]].
+
+      2.  Return "`Match`" if each of the following criteria is met:
+
+          1.  |report|'s {{report/group}} is an <a>ASCII case-insensitive</a>
+              match for |client|'s {{client/group}}
+
+          2.  If |client|'s {{client/subdomains}} is "`exclude`", |report|'s
+              {{report/origin}} is the same as |client|'s {{client/origin}}
+
+              Otherwise, |report|'s {{report/origin}}'s {{URL/host}} is either a
+              <a>superdomain match</a> or <a>congruent match</a> for |client|'s
+              {{client/origin}}'s {{URL/host}} [[!RFC6797]]
+
+  2.  Return "`Does Not Match`".
 
   <h3 id="send-reports" algorithm>
     Send reports
   </h3>
+  
+  A user agent sends reports by executing the following steps:
 
-  When the user agent determines it to be a good time to send reports, the
-  following algorithm MUST be executed:
+  1.  Let |reports| be a copy of the list of queued <a>report</a> objects in
+      <a>reporting cache</a>.
 
-  1.  Let |reports| be a copy of the list of queued <a>report</a> objects in <a>reporting cache</a>.
+  2.  Let |endpoint map| be an empty map of <a>endpoint</a> objects to lists of
+      <a>report</a> objects.
 
-  2. Let |report groups| be the result of grouping |reports| by common |endpoint| in each report's list of |endpoints|. For each |endpoint| and |list| of reports associated with it in |report groups|:
+  3.  For each |report| in |reports|:
+      
+      1.  For |endpoint| in the <a>reporting cache</a>:
 
-    1. Attempt to deliver |list| of reports to |endpoint|.
+          1.  If |endpoint| is <a for="endpoint">expired</a>, skip to the next
+              |endpoint|.
+              
+              Note: In this case, the user agent MAY remove |endpoint| from the
+              <a>reporting cache</a>, or it may wait and collect garbage
+              <i lang="fr">en masse</i> at some point in the future as described
+              in [[#gc]].
 
-    2. If delivery was successful, abort these steps.
+          2.  If |endpoint| is <a for="endpoint">pending</a>, skip to the next
+              |endpoint|.
+          
+          3.  If [[#does-endpoint-match-report]] returns "`Match`" when executed
+              upon |endpoint| and |report|, append |report| to |endpoint map|'s
+              list of reports for |endpoint|.
 
-    3. Otherwise, for each |report| in |reports|:
+  4.  For each (|endpoint|, |reports|) pair in |endpoint map|, execute the
+      following steps asynchronously:
 
-      1.  Remove |endpoint| from |endpoints|. (TODO: Clarify that removing here is from the candidate set for this run.. not from the cache - e.g. if delivery to first endpoint fails then we remove it from the set and try next one. Also, we should probably add some attempt counter both for the endpoint and the report... e.g. drop report after n attempts; remove endpoint after n attmpts)
+      1.  Let |result| be the result of executing [[#try-delivery]] on
+          |endpoint| and |reports|.
 
-      2.  If |endpoints| is empty remove |report| from |reports|. The user agent MAY keep the report in <a>reporting cache</a> to allow delivery retries and remove it once several unsuccessful attempts have been made. (TODO: should probably check if new set of endpoints (post 4xx) is non-empty; drop if we no longer have any endpoints to report to.)
+      2.  If |result| is "`Success`":
 
-      3.  Optionally, the user agent MAY remove |endpoint| from <a>reporting cache</a> after multiple unsuccessful delivery attempts have been made, such that it does not attempt to deliver reports to an endpoint that is down or non-functional.
+          1.  Set |endpoint|'s {{endpoint/failures}} to 0, and its
+              {{endpoint/retry-after}} to `null`.
 
-    4.  If |reports| is not empty, return to step 2.
+          2.  Remove each <a>report</a> in |reports| from the <a>reporting
+              cache</a>.
 
-    This section needs to be reworked. High level flow: attempt delivery and remove reports if successfull. If deliver failed:
-      - increment counter on the failed endpoint
-      - increment counter on the failed report
-      - if either counter exceeds TBD threshold, drop endpoint, report, or both.
-      - try-delivery with next candidate in the endpoints list:
-        -  if there are no candidates left, and if endpoints list for next delivery is not-empty, schedule delivery with exponential backoff.
-        - otherwise, drop the reports.
+              Note: The <a>report</a> may be in another <a>endpoint</a>'s queue
+              at this point. If so, it will be delivered to that <a>endpoint</a>
+              but will not be retried if that attempty fails.
 
+          Otherwise:
+
+          1.  Increment |endpoint|'s {{endpoint/failures}}.
+
+          2.  Set |endpoint|'s {{endpoint/retry-after}} to a point in the future
+              which the user agent chooses.
+
+              Note: We don't specify a particular algorithm here, but user
+              agents are encouraged to employ some sort of exponential backoff
+              algorithm which increases the retry period with the number of
+              failures, with the addition of some random jitter to ensure that
+              temporary failures don't lead to a crush of reports all being
+              retried on the same schedule.
+
+              ISSUE: Add in a reasonable reference describing a good algorithm.
+              Wikipedia, if nothing else.
+
+  Note: User agents MAY decide to attempt delivery for only a subset of the
+  collected reports or endpoints. As reports are only removed from the cache
+  when they're successfully delivered, skipped reports will simply be
+  delivered later.
 
   <h3 id="try-delivery" algorithm>
-    Attempt to deliver a |list| of reports to |endpoint|
+    Attempt to deliver |reports| to |endpoint|
   </h3>
 
-  Given a list of <a>reports</a> (|reports|) which are all associated with an
-  <a>endpoint</a> (|endpoint|), this algorithm will construct a <a>request</a>,
-  and attempt to deliver it to |endpoint|.
+  Given a list of <a>reports</a> (|reports|) and an <a>endpoint</a>
+  (|endpoint|), this algorithm will construct a <a>request</a>, and attempt to
+  deliver it to |endpoint|. It returns "`Success`" if that delivery succeeds,
+  "`Remove Endpoint`" if the endpoint explicitly removes itself as a reporting
+  endpoint by sending a 4XX response, and "`Failure`" otherwise.
 
-  If delivery is successful, the items in |reports| are removed from the
-  <a>reporting cache</a>'s queue. If delivery fails, error handling kicks in to
-  ensure that the cache is updated correctly.
+  1.  Let |collection| be a new ECMAScript `Array` object [[!ECMA-262]].
 
+  2.  For each |report| in |reports|:
 
-  1. For each report, compute and set its age (milliseconds elapsed between when it was created and current time).
+      1.  Let |data| be a new ECMAScript `Object` with the following properties
+          [[!ECMA-262]]:
 
-  2.  Let |body| be the JSON stringification of the |reports|. Q: do we need to be more explicit here about the formatting?
+          :   `age`
+          ::  The number of milliseconds between |report|'s {{report/timestamp}}
+              and the current time.
+          :   `type`
+          ::  |report|'s {{report/type}}
+          :   `url`
+          ::  |report|'s {{report/url}}
+          :   `report`
+          ::  |report|'s {{report/body}}
 
-  3. Queue a task to fetch |endpoint| using HTTP method POST, with a Content-Type header field of application/report, and an entity body consisting of |body|. TODO: all the fetch plumbing + settings here.
+          Note: Client clocks are unreliable and subject to skew. We therefore
+          deliver an `age` attribute rather than an absolute timestamp. See
+          also [[#fingerprinting-clock-skew]]
 
-  4. If the fetch is successful (2xx HTTP response code):
-    1. Remove |reports| from reporting cache.
+      2.  Append |data| to |collection|.
 
-  5. If the response code is 4XX, remove |endpoint| from <a>reporting cache</a>. (This allows the server to permanently unregister itself)
+  3.  Let |request| be a new <a>request</a> with the following properties
+      [[FETCH]]:
 
-  ... from here we jump back to send-reports, where we handle successful / unsuccesful delivery case. Should we move 2xx/4xx to send-reports?
+      :   `url`
+      ::  |endpoint|'s {{endpoint/url}}
+      :   `header list`
+      ::  A new <a>header list</a> containing a <a>header</a> named
+          "`Content-Type`" whose value is "`application/report`"
+      :   `client`
+      ::  `null`
+      :   `window`
+      ::  "`no-window`"
+      :   `skip-service-worker` flag
+      ::  Set.
+      :   `initiator`
+      ::  ""
+      :   `type`
+      ::  "`report`"
+      :   `destination`
+      ::  ""
+      :   `mode`
+      ::  "`cors`"
+      :   `credentials`
+      ::  "`include`"
+      :   `body`
+      ::  The string resulting from executing the {{JSON.stringify()}} algorithm
+          on |collection| [[!ECMA-262]]
 
+      ISSUE: The "`report`" type does not exist in Fetch. Talk to Anne.
 
-  ISSUE: clarify that timestamp is for internal accounting only. Age is the communicated value. E.g. Each <a>report</a> has a <dfn for="report" export attribute>age</dfn>, which records the elapsed number of milliseconds between the time when the user agent queued the report and when report is delivered.
+  4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
-  NOTE: Client clocks are unreliable and subject to skew. To address this, each report provides an `age` attribute, which allows the server to accurately compute when the report was triggered.
+  5.  <a>Wait for a response</a> (|response|).
+
+  6.  If |response|'s `status` is an <a>OK status</a> (200-299), return
+      "`Success`".
+
+  7.  If |response|'s `status` is between 400 and 499, inclusive, return
+      "`Remove Endpoint`".
+
+  8.  Return "`Failure`".
+</section>
+
+<section>
+  <h2 id="gc">Garbage Collection</h2>
+
+  Periodically, the user agent SHOULD walk through the cached <a>reports</a>
+  and <a>endpoints</a>, and discard those that are no longer relevant. These
+  include:
+
+  *   <a>endpoints</a> which are <a for="endpoint">expired</a>
+  *   <a>endpoints</a> whose {{endpoint/failures}} exceed some
+      user-agent-defined threshold (~5 seems reasonable)
+  *   <a>endpoints</a> which have not been used in some arbitrary period of time
+      (perhaps a ~week?)
+  *   <a>reports</a> which have not been delivered in some arbitrary period of
+      time (perhaps ~3 days?)
 </section>
 
 <section>
@@ -486,84 +763,63 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
           "type": "http.dns.name_not_resolved"
         }
       }]
-  </div>
-
-  <div class="example">
-    <pre>
-      POST / HTTP/1.1
-      Host: example.com
-      ...
-      Content-Type: application/report
-
-      {
-        "csp": [
-          {
-            "age": 10,
-            "document": "https://example.com/vulnerable-page/",
-            "blocked": "https://evil.com/evil.js",
-            "directive": "script-src",
-            "policy": "script-src 'self'; object-src 'none'",
-            "status": 200,
-            "referrer": "https://evil.com/"
-          },
-          {
-            "age": 213,
-            "document": "https://example.com/a-more-vulnerable-page/",
-            "blocked": "https://evil.com/evil.js",
-            "directive": "script-src",
-            "policy": "script-src 'self'; object-src 'none'",
-            "status": 200,
-            "referrer": "https://evil.com/"
-          }
-        ],
-        "hpkp": [
-          {
-            "age": 0,
-            "date-time": "2014-04-06T13:00:50Z",
-            "hostname": "www.example.com",
-            "port": 443,
-            "effective-expiration-date": "2014-05-01T12:40:50Z"
-            "include-subdomains": false,
-            "served-certificate-chain": [
-              "-----BEGIN CERTIFICATE-----\n
-              MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
-              ...
-              HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
-              WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
-              yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
-              -----END CERTIFICATE-----",
-              ...
-            ],
-            "validated-certificate-chain": [
-              "-----BEGIN CERTIFICATE-----\n
-              MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
-              ...
-              HFa9llF7b1cq26KqltyMdMKVvvBulRP/F/A8rLIQjcxz++iPAsbw+zOzlTvjwsto\n
-              WHPbqCRiOwY1nQ2pM714A5AuTHhdUDqB1O6gyHA43LL5Z/qHQF1hwFGPa4NrzQU6\n
-              yuGnBXj8ytqU0CwIPX4WecigUCAkVDNx\n
-              -----END CERTIFICATE-----",
-              ...
-            ],
-            "known-pins": [
-              'pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="',
-              "pin-sha256=\"E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g=\""
-            ]
-          }
-        ]
-      }
     </pre>
   </div>
-
-  <h3 id="deliver-reports">
-    Deliver reports
-  </h3>
-
-  ISSUE: TODO
-
 </section>
 
 <section>
-  <h2 id="privacy-concerns">Privacy Concerns</h2>
+  <h2 id="security">Security Considerations</h2>
+
+  <h3 id="capability-urls">Capability URLs</h3>
+
+  Some URLs are valuable in and of themselves. To mitigate the possibility
+  that such URLs will be leaked via this reporting mechanism, we strip out
+  credential information and fragment data from the URL we store as a
+  <a>report</a>'s originator. It is still possible, however, for a feature
+  to unintentionally leak such data via a report's {{report/body}}. Implementers
+  SHOULD ensure that URLs contained in a report's body are similarly stripped.
+</section>
+
+<section>
+  <h2 id="privacy">Privacy Considerations</h2>
+
+  <h3 id="network-leakage">Network Leakage</h3>
+
+  Because this reporting mechanism is out-of-band, and doesn't rely on a page
+  being open, it's entirely possible for a report generated while a user is on
+  one network to be sent while the user is on another network, even if they
+  don't explicitly open the page from which the report was sent.
+
+  ISSUE(WICG/BackgroundSync#107): Consider mitigations. For example, we could
+  drop reports if we change from one network to another.
+
+  <h3 id="fingerprinting-clock-skew">Clock Skew</h3>
+
+  Each report is delivered along with an `age` property, rather than the
+  timestamp at which it was generated. We do this because each user's local
+  clock will be skewed from the clock on the server by an arbitrary amount.
+  The difference between the time the report was generated and the time it
+  was sent will be stable, regardless of clock skew, and we can avoid the
+  fingerprinting risk of exposing the clock skew via this API.
+
+  <h3 id="correlation">Cross-origin correlation</h3>
+
+  If multiple origins all use the same reporting endpoint, that endpoint may
+  learn that a particular user has interacted with a certain set of websites,
+  as it will receive origin-tagged reports from each. This doesn't seem worse
+  than the status quo ability to track the same information from cooperative
+  origins, and doesn't grant any new tracking ability above and beyond what's
+  possible with `<img>` today.
+
+  <h3 id="subdomains">Subdomains</h3>
+
+  This specification allows any resource on a host to declare a set of reporting
+  endpoints for that host and each of its subdomains. This doesn't have privacy
+  implications in and of itself (beyond those noted in [[#clear-cache]]), as the
+  reporting endpoints themselves don't take any real action, as features will
+  need to opt-into using these reporting endpoints explicitly. Those features
+  certainly will have privacy implications, and should carefully consider
+  whether they should be enabled across origin boundries.
 
   <h3 id="clear-cache">Clearing the reporting cache</h3>
 
@@ -571,5 +827,30 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   on the web, and user agents ought to handle this data carefully. In
   particular, if a user agent gives users the ability to clear their site data,
   browsing history, browsing cache, or similar, the user agent MUST also clear
-  the <a>reporting cache</a>.
+  the <a>reporting cache</a>. Note that this includes both the pending reports
+  themselves, as well as the endpoints to which they would be sent. Both MUST 
+  be cleared.
+</section>
+
+<!-- Big Text: IANA -->
+<section>
+  <h2 id="iana-considerations">IANA Considerations</h2>
+
+  The permanent message header field registry should be updated
+  with the following registration: [[!RFC3864]]
+
+  <h3 id="iana-report-to">
+    Report-To
+  </h3>
+
+  :   Header field name
+  ::  `Report-To`
+  :   Applicable protocol
+  ::  http
+  :   Status
+  ::  standard
+  :   Author/Change controller
+  ::  W3C
+  :   Specification document
+  ::  This specification (see [[#header]])
 </section>
