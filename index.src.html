@@ -201,7 +201,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
   Each <a>endpoint</a> has a
   <dfn for="endpoint" export attribute>retry-after</dfn>, which is either
-  `null`, or a timestamp after which delivery should be retried. 
+  `null`, or a timestamp after which delivery should be retried.
 
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>clients</dfn>
   list, which is a list of <a>clients</a>.
@@ -222,7 +222,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   which is an <a>origin</a>.
 
   Each <a>client</a> has a <dfn for="client" export attribute>subdomains</dfn>
-  flag (which is either "`include`" or "`exclude`".
+  flag (which is either "`include`" or "`exclude`").
 
   Each <a>client</a> has a <dfn for="client" export attribute>group</dfn> which
   is an ASCII string.
@@ -249,7 +249,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   Each <a>report</a> has an <dfn for="report" export attribute>url</dfn>,
   which is the address of the `Document` or `Worker` from which the report was
   generated.
-  
+
   Note: We strip the username, password, and fragment from this serialized URL.
   See [[#capability-urls]].
 
@@ -349,7 +349,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   endpoint for all subdomains of the current <a>origin</a>'s {{URL/host}}.
 
   <pre>
-    parameter-name  = "group"
+    parameter-name  = "includeSubdomains"
   </pre>
 
   The parameter's value will be ignored, if present.
@@ -357,7 +357,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   <h4 id="max-age-parameter">The `max-age` parameter</h4>
 
   The REQUIRED <dfn export>`max-age`</dfn> parameter defines the reporting endpoint's
-  lifetime, as a non-negative integeral number of seconds. The ABNF grammar for
+  lifetime, as a non-negative integer number of seconds. The ABNF grammar for
   the directive is:
 
   <pre>
@@ -438,7 +438,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
               |endpoint|'s {{endpoint/clients}} list.
 
           3.  Skip to the next |tuple|.
-      
+
       3.  Otherwise, there is no existing <a>endpoint</a>, so let |endpoint|
           be a new <a>endpoint</a> whose properties are set as follows:
 
@@ -463,8 +463,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   parsed.
 
   ISSUE(mikewest/error-reporting#4): Do the parsing here once we decide whether
-  we're going to run with a JSON format, a la [[RESCHKE]]. 
-  
+  we're going to run with a JSON format, a la [[RESCHKE]].
+
 </section>
 
 <!-- Big Text: Reporting -->
@@ -556,7 +556,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   <h3 id="send-reports" algorithm>
     Send reports
   </h3>
-  
+
   A user agent sends reports by executing the following steps:
 
   1.  Let |reports| be a copy of the list of queued <a>report</a> objects in
@@ -566,12 +566,12 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
       <a>report</a> objects.
 
   3.  For each |report| in |reports|:
-      
+
       1.  For |endpoint| in the <a>reporting cache</a>:
 
           1.  If |endpoint| is <a for="endpoint">expired</a>, skip to the next
               |endpoint|.
-              
+
               Note: In this case, the user agent MAY remove |endpoint| from the
               <a>reporting cache</a>, or it may wait and collect garbage
               <i lang="fr">en masse</i> at some point in the future as described
@@ -579,7 +579,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
           2.  If |endpoint| is <a for="endpoint">pending</a>, skip to the next
               |endpoint|.
-          
+
           3.  If [[#does-endpoint-match-report]] returns "`Match`" when executed
               upon |endpoint| and |report|, append |report| to |endpoint map|'s
               list of reports for |endpoint|.
@@ -703,7 +703,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
 <section>
   <h2 id="implementation">Implementation Considerations</h2>
-   
+
   <h3 id="delivery">Delivery</h3>
 
   The user agent SHOULD attempt to deliver reports as soon as possible to
@@ -858,7 +858,7 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   particular, if a user agent gives users the ability to clear their site data,
   browsing history, browsing cache, or similar, the user agent MUST also clear
   the <a>reporting cache</a>. Note that this includes both the pending reports
-  themselves, as well as the endpoints to which they would be sent. Both MUST 
+  themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.
 </section>
 

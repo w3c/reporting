@@ -2,7 +2,6 @@
  <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <title>Out-of-band Reporting</title>
-  <meta content="width=device-width, initial-scale=1" name="viewport">
 <style data-fill-with="stylesheet">/* This section copied from the W3C's ED styles. */
 
 	body {
@@ -963,13 +962,6 @@
 		font-weight: bold;
 	}
 
-/** Extra-large Elements ******************************************************/
-
-	.big-element-wrapper {
-		max-width: 50em;
-		overflow-x: auto;
-	}
-
 /******************************************************************************/
 /*                                    Print                                   */
 /******************************************************************************/
@@ -1176,7 +1168,7 @@ reports in a consistent manner.</p>
   an <a data-link-type="dfn" href="#endpoint">endpoint</a>.</p>
     <p>Each <a data-link-type="dfn" href="#client">client</a> has an <dfn class="idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export="" id="dom-client-origin">origin<a class="self-link" href="#dom-client-origin"></a></dfn>,
   which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a>.</p>
-    <p>Each <a data-link-type="dfn" href="#client">client</a> has a <dfn class="idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export="" id="dom-client-subdomains">subdomains<a class="self-link" href="#dom-client-subdomains"></a></dfn> flag (which is either "<code>include</code>" or "<code>exclude</code>".</p>
+    <p>Each <a data-link-type="dfn" href="#client">client</a> has a <dfn class="idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export="" id="dom-client-subdomains">subdomains<a class="self-link" href="#dom-client-subdomains"></a></dfn> flag (which is either "<code>include</code>" or "<code>exclude</code>").</p>
     <p>Each <a data-link-type="dfn" href="#client">client</a> has a <dfn class="idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export="" id="dom-client-group">group<a class="self-link" href="#dom-client-group"></a></dfn> which
   is an ASCII string.</p>
     <p>Each <a data-link-type="dfn" href="#client">client</a> has a <dfn class="idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export="" id="dom-client-ttl">ttl<a class="self-link" href="#dom-client-ttl"></a></dfn> representing the the number of seconds the client remains valid for an <a data-link-type="dfn" href="#endpoint">endpoint</a>.</p>
@@ -1268,12 +1260,12 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
     <h4 class="heading settled" data-level="3.1.2" id="includesubdomains-parameter"><span class="secno">3.1.2. </span><span class="content">The <code>includeSubdomains</code> parameter</span><a class="self-link" href="#includesubdomains-parameter"></a></h4>
     <p>The OPTIONAL <dfn data-dfn-type="dfn" data-noexport="" id="includesubdomains"><code>includeSubdomains</code><a class="self-link" href="#includesubdomains"></a></dfn> parameter, if present, enables an
   endpoint for all subdomains of the current <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host">host</a></code>.</p>
-<pre>parameter-name  = "group"
+<pre>parameter-name  = "includeSubdomains"
 </pre>
     <p>The parameter’s value will be ignored, if present.</p>
     <h4 class="heading settled" data-level="3.1.3" id="max-age-parameter"><span class="secno">3.1.3. </span><span class="content">The <code>max-age</code> parameter</span><a class="self-link" href="#max-age-parameter"></a></h4>
     <p>The REQUIRED <dfn data-dfn-type="dfn" data-export="" id="max-age"><code>max-age</code><a class="self-link" href="#max-age"></a></dfn> parameter defines the reporting endpoint’s
-  lifetime, as a non-negative integeral number of seconds. The ABNF grammar for
+  lifetime, as a non-negative integer number of seconds. The ABNF grammar for
   the directive is:</p>
 <pre>parameter-name  = "max-age"
 parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/rfc7234#section-1.2.1">delta-seconds</a>
@@ -1292,18 +1284,18 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
       <p>Abort these steps if any of the following conditions are true:</p>
       <ol>
        <li data-md="">
-        <p><var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> is not
-  "<code>modern</code>", and the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> of <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy">potentially
+        <p><var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-https-state">HTTPS state</a> is not
+  "<code>modern</code>", and the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> of <var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy">potentially
   trustworthy</a>.</p>
        <li data-md="">
-        <p><var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> does not
+        <p><var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> does not
   contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header">header</a> whose <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-name">name</a> is
   "<a data-link-type="dfn" href="#report-to"><code>Report-To</code></a>".</p>
       </ol>
      <li data-md="">
-      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> whose name is "<a data-link-type="dfn" href="#report-to"><code>Report-To</code></a>".</p>
+      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header">header</a> in <var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list">header list</a> whose name is "<a data-link-type="dfn" href="#report-to"><code>Report-To</code></a>".</p>
      <li data-md="">
-      <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> of <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>.</p>
+      <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin">origin</a> of <var>response</var>'s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url">url</a>.</p>
      <li data-md="">
       <p>Let <var>tuples</var> be the result of executing <a href="#parse-header">§3.3 Parse reporting endpoint tuples from value</a> on <var>header</var>.</p>
      <li data-md="">
@@ -1319,15 +1311,15 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
          <dt data-md="">
           <p><code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code></p>
          <dd data-md="">
-          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code></p>
+          <p><var>tuple</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code></p>
          <dt data-md="">
           <p><code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
          <dd data-md="">
-          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
+          <p><var>tuple</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
          <dt data-md="">
           <p><code class="idl"><a data-link-type="idl" href="#dom-client-ttl">ttl</a></code></p>
          <dd data-md="">
-          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl">ttl</a></code></p>
+          <p><var>tuple</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl">ttl</a></code></p>
          <dt data-md="">
           <p><code class="idl"><a data-link-type="idl" href="#dom-client-creation">creation</a></code></p>
          <dd data-md="">
@@ -1335,20 +1327,20 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
         </dl>
        <li data-md="">
         <p>If there exists an <a data-link-type="dfn" href="#endpoint">endpoint</a> (<var>endpoint</var>) in the <a data-link-type="dfn" href="#reporting-cache">reporting
-  cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code> is <var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url">URL</a></code>:</p>
+  cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code> is <var>tuple</var>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url">URL</a></code>:</p>
         <ol>
          <li data-md="">
-          <p>For each <var>client</var> in <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients">clients</a></code>, delete <var>client</var> if each of the following criterion is met:</p>
+          <p>For each <var>client</var> in <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients">clients</a></code>, delete <var>client</var> if each of the following criterion is met:</p>
           <ol>
            <li data-md="">
-            <p><var>new</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive</a> match for <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
+            <p><var>new</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive</a> match for <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
            <li data-md="">
-            <p><var>new</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code> matches <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code></p>
+            <p><var>new</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code> matches <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code></p>
            <li data-md="">
-            <p><var>new</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code> is the same as <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code></p>
+            <p><var>new</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code> is the same as <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code></p>
           </ol>
          <li data-md="">
-          <p>If <var>new</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl">ttl</a></code> is greater than 0, append <var>new</var> to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients">clients</a></code> list.</p>
+          <p>If <var>new</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl">ttl</a></code> is greater than 0, append <var>new</var> to <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients">clients</a></code> list.</p>
          <li data-md="">
           <p>Skip to the next <var>tuple</var>.</p>
         </ol>
@@ -1358,7 +1350,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
          <dt data-md="">
           <p><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code></p>
          <dd data-md="">
-          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url">URL</a></code></p>
+          <p><var>tuple</var>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url">URL</a></code></p>
          <dt data-md="">
           <p><code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code></p>
          <dd data-md="">
@@ -1412,7 +1404,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-report-origin">origin</a></code></p>
        <dd data-md="">
-        <p><var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a></p>
+        <p><var>settings</var>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a></p>
        <dt data-md="">
         <p><code class="idl"><a data-link-type="idl" href="#dom-report-group">group</a></code></p>
        <dd data-md="">
@@ -1427,11 +1419,11 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
         <p>The current timestamp.</p>
       </dl>
      <li data-md="">
-      <p>Let <var>url</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/webappapis.html#creation-url">creation URL</a>.</p>
+      <p>Let <var>url</var> be <var>settings</var>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/webappapis.html#creation-url">creation URL</a>.</p>
      <li data-md="">
-      <p>Set <var>url</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-username">username</a></code> to the empty string, and its <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-password">password</a></code> to <code>null</code>.</p>
+      <p>Set <var>url</var>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-username">username</a></code> to the empty string, and its <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-password">password</a></code> to <code>null</code>.</p>
      <li data-md="">
-      <p>Set <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-url">url</a></code> to the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL
+      <p>Set <var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-url">url</a></code> to the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer">URL
   serializer</a> on <var>url</var> with the <em>exclude fragment flag</em> set.</p>
      <li data-md="">
       <p>Add <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>.</p>
@@ -1446,7 +1438,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   "<code>Does Not Match</code>" otherwise:</p>
     <ol>
      <li data-md="">
-      <p>For each <var>client</var> in <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients">clients</a></code>:</p>
+      <p>For each <var>client</var> in <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients">clients</a></code>:</p>
       <ol>
        <li data-md="">
         <p>If <var>client</var> is <a data-link-type="dfn" href="#client-expired">expired</a>, skip to the next <var>client</var>.</p>
@@ -1456,10 +1448,10 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
         <p>Return "<code>Match</code>" if each of the following criteria is met:</p>
         <ol>
          <li data-md="">
-          <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-group">group</a></code> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive</a> match for <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
+          <p><var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-group">group</a></code> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/infrastructure.html#ascii-case-insensitive">ASCII case-insensitive</a> match for <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-group">group</a></code></p>
          <li data-md="">
-          <p>If <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code> is "<code>exclude</code>", <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-origin">origin</a></code> is the same as <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code></p>
-          <p>Otherwise, <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-origin">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host">host</a></code> is either a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2">superdomain match</a> or <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2">congruent match</a> for <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host">host</a></code> <a data-link-type="biblio" href="#biblio-rfc6797">[RFC6797]</a></p>
+          <p>If <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains">subdomains</a></code> is "<code>exclude</code>", <var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-origin">origin</a></code> is the same as <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code></p>
+          <p>Otherwise, <var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-origin">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host">host</a></code> is either a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2">superdomain match</a> or <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2">congruent match</a> for <var>client</var>'s <code class="idl"><a data-link-type="idl" href="#dom-client-origin">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host">host</a></code> <a data-link-type="biblio" href="#biblio-rfc6797">[RFC6797]</a></p>
         </ol>
       </ol>
      <li data-md="">
@@ -1486,7 +1478,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#pending">pending</a>, skip to the next <var>endpoint</var>.</p>
          <li data-md="">
           <p>If <a href="#does-endpoint-match-report">§4.2 Does endpoint match report?</a> returns "<code>Match</code>" when executed
-  upon <var>endpoint</var> and <var>report</var>, append <var>report</var> to <var>endpoint map</var>’s
+  upon <var>endpoint</var> and <var>report</var>, append <var>report</var> to <var>endpoint map</var>'s
   list of reports for <var>endpoint</var>.</p>
         </ol>
       </ol>
@@ -1500,7 +1492,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
         <p>If <var>result</var> is "<code>Success</code>":</p>
         <ol>
          <li data-md="">
-          <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code> to 0, and its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after">retry-after</a></code> to <code>null</code>.</p>
+          <p>Set <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code> to 0, and its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after">retry-after</a></code> to <code>null</code>.</p>
          <li data-md="">
           <p>Remove each <a data-link-type="dfn" href="#report">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache">reporting
   cache</a>.</p>
@@ -1510,9 +1502,9 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
         <p>Otherwise:</p>
         <ol>
          <li data-md="">
-          <p>Increment <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code>.</p>
+          <p>Increment <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code>.</p>
          <li data-md="">
-          <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after">retry-after</a></code> to a point in the future
+          <p>Set <var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after">retry-after</a></code> to a point in the future
   which the user agent chooses.</p>
           <p class="note" role="note">Note: We don’t specify a particular algorithm here, but user
   agents are encouraged to employ some sort of exponential backoff
@@ -1547,19 +1539,19 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
          <dt data-md="">
           <p><code>age</code></p>
          <dd data-md="">
-          <p>The number of milliseconds between <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-timestamp">timestamp</a></code> and the current time.</p>
+          <p>The number of milliseconds between <var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-timestamp">timestamp</a></code> and the current time.</p>
          <dt data-md="">
           <p><code>type</code></p>
          <dd data-md="">
-          <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-type">type</a></code></p>
+          <p><var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-type">type</a></code></p>
          <dt data-md="">
           <p><code>url</code></p>
          <dd data-md="">
-          <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-url">url</a></code></p>
+          <p><var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-url">url</a></code></p>
          <dt data-md="">
           <p><code>report</code></p>
          <dd data-md="">
-          <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-body">body</a></code></p>
+          <p><var>report</var>'s <code class="idl"><a data-link-type="idl" href="#dom-report-body">body</a></code></p>
         </dl>
         <p class="note" role="note">Note: Client clocks are unreliable and subject to skew. We therefore
   deliver an <code>age</code> attribute rather than an absolute timestamp. See
@@ -1573,7 +1565,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
        <dt data-md="">
         <p><code>url</code></p>
        <dd data-md="">
-        <p><var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code></p>
+        <p><var>endpoint</var>'s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url">url</a></code></p>
        <dt data-md="">
         <p><code>header list</code></p>
        <dd data-md="">
@@ -1623,10 +1615,10 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
      <li data-md="">
       <p><a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#wait-for-a-response">Wait for a response</a> (<var>response</var>).</p>
      <li data-md="">
-      <p>If <var>response</var>’s <code>status</code> is an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#ok-status">OK status</a> (200-299), return
+      <p>If <var>response</var>'s <code>status</code> is an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#ok-status">OK status</a> (200-299), return
   "<code>Success</code>".</p>
      <li data-md="">
-      <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc7231">[RFC7231]</a>, return "<code>Remove Endpoint</code>".</p>
+      <p>If <var>response</var>'s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc7231">[RFC7231]</a>, return "<code>Remove Endpoint</code>".</p>
      <li data-md="">
       <p>Return "<code>Failure</code>".</p>
     </ol>
@@ -1767,7 +1759,7 @@ Content-Type: application/report
   particular, if a user agent gives users the ability to clear their site data,
   browsing history, browsing cache, or similar, the user agent MUST also clear
   the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>. Note that this includes both the pending reports
-  themselves, as well as the endpoints to which they would be sent. Both MUST 
+  themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.</p>
    </section>
    <section>
