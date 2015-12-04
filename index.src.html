@@ -423,16 +423,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
           cache</a> whose {{endpoint/url}} is |tuple|'s {{URL}}:
 
           1.  For each |client| in |endpoint|'s {{endpoint/clients}}, delete
-              |client| if each of the following criterion is met:
-
-              1.  |new|'s {{client/group}} is an <a>ASCII case-insensitive</a>
-                  match for |client|'s {{client/group}}
-
-              2.  |new|'s {{client/subdomains}} matches |client|'s
-                  {{client/subdomains}}
-
-              3.  |new|'s {{client/origin}} is the same as |client|'s
-                  {{client/origin}}
+              |client| if |new|'s {{client/origin}} is the same as |client|'s
+              {{client/origin}}.
 
           2.  If |new|'s {{client/ttl}} is greater than 0, append |new| to
               |endpoint|'s {{endpoint/clients}} list.
