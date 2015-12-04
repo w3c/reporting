@@ -1126,10 +1126,9 @@ reports in a consistent manner.</p>
     <p>Reporting can generate a good deal of traffic, so we allow developers to set
   up groups of <a data-link-type="dfn" href="#endpoint">endpoints</a> in order to distribute load. Each of these
   endpoints will receive a subset of the generated reports which target that
-  group. The user agent will do its best to deliver a particular report to <strong>at least one</strong> endpoint in a group. There is no guarantee that
-  each report will be delivered to every endpoint in a group, nor is there
-  a guarantee that a report will be delivered to <strong>only</strong> one
-  endpoint.</p>
+  group. The user agent will do its best to deliver a particular report to <strong>at most one</strong> endpoint in a group. That is, reports will not
+  fan-out to all the endpoints in a group, but the user agent will attempt
+  delivery to one endpoint, and fallback to another upon failure.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
     <div class="example" id="example-34bc3769">
      <a class="self-link" href="#example-34bc3769"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
@@ -1261,10 +1260,7 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   purposes. If the parameter is omitted, the endpoint MUST be associated with
   the "default" group name.</p>
     <p class="note" role="note">Note: If a group resolves to multiple <a data-link-type="dfn" href="#endpoint">endpoints</a>, the user agent will
-  deliver a particular <a data-link-type="dfn" href="#report">report</a> to <strong>at least one</strong> <a data-link-type="dfn" href="#endpoint">endpoint</a> in that group on a best-effort basis. There is no guarantee
-  that each report will be delivered to all endpoints in a group, nor is there
-  a guarantee that a report will be delivered to <strong>only</strong> one
-  endpoint.</p>
+  deliver a particular <a data-link-type="dfn" href="#report">report</a> to <strong>at most one</strong> <a data-link-type="dfn" href="#endpoint">endpoint</a> in that group on a best-effort basis.</p>
     <h4 class="heading settled" data-level="3.1.2" id="includesubdomains-parameter"><span class="secno">3.1.2. </span><span class="content">The <code>includeSubdomains</code> parameter</span><a class="self-link" href="#includesubdomains-parameter"></a></h4>
     <p>The OPTIONAL <dfn data-dfn-type="dfn" data-noexport="" id="includesubdomains"><code>includeSubdomains</code><a class="self-link" href="#includesubdomains"></a></dfn> parameter, if present, enables an
   endpoint for all subdomains of the current <a data-link-type="dfn" href="https://html.spec.whatwg.org/browsers.html#origin">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host">host</a></code>.</p>
@@ -1478,9 +1474,20 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#pending">pending</a>, skip to the next <var>endpoint</var>.</p>
          <li data-md="">
           <p>If <a href="#does-endpoint-match-report">§4.2 Does endpoint match report?</a> returns "<code>Match</code>" when executed
-  upon <var>endpoint</var> and <var>report</var>, append <var>report</var> to <var>endpoint map</var>’s
-  list of reports for <var>endpoint</var>.</p>
+  upon <var>endpoint</var> and <var>report</var>:</p>
+          <ol>
+           <li data-md="">
+            <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+           <li data-md="">
+            <p>Skip to the next <var>report</var>.</p>
+            <p class="note" role="note">Note: This ensures that each report is assigned to a single
+  endpoint, even if it matches multiple. In order to ensure
+  an even distribution across endpoints, the user agent SHOULD 
+  randomize the order in which it walks through endpoints.</p>
+          </ol>
         </ol>
+       <li data-md="">
+        <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§5.2 Garbage Collection</a> at some point in the future.</p>
       </ol>
      <li data-md="">
       <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>, execute the
@@ -1496,8 +1503,6 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
          <li data-md="">
           <p>Remove each <a data-link-type="dfn" href="#report">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache">reporting
   cache</a>.</p>
-          <p class="note" role="note">Note: The <a data-link-type="dfn" href="#report">report</a> may be in another <a data-link-type="dfn" href="#endpoint">endpoint</a>’s queue
-  at this point. If so, it will be delivered to that <a data-link-type="dfn" href="#endpoint">endpoint</a> but will not be retried if that attempty fails.</p>
         </ol>
         <p>Otherwise:</p>
         <ol>

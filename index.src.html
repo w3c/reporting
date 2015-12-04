@@ -138,10 +138,9 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   up groups of <a>endpoints</a> in order to distribute load. Each of these
   endpoints will receive a subset of the generated reports which target that
   group. The user agent will do its best to deliver a particular report to
-  <strong>at least one</strong> endpoint in a group. There is no guarantee that
-  each report will be delivered to every endpoint in a group, nor is there
-  a guarantee that a report will be delivered to <strong>only</strong> one
-  endpoint.
+  <strong>at most one</strong> endpoint in a group. That is, reports will not
+  fan-out to all the endpoints in a group, but the user agent will attempt
+  delivery to one endpoint, and fallback to another upon failure.
 
   <h3 id="examples">Examples</h3>
 
@@ -337,11 +336,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   the "default" group name.
 
   Note: If a group resolves to multiple <a>endpoints</a>, the user agent will
-  deliver a particular <a>report</a> to <strong>at least one</strong>
-  <a>endpoint</a> in that group on a best-effort basis. There is no guarantee
-  that each report will be delivered to all endpoints in a group, nor is there
-  a guarantee that a report will be delivered to <strong>only</strong> one
-  endpoint.
+  deliver a particular <a>report</a> to <strong>at most one</strong>
+  <a>endpoint</a> in that group on a best-effort basis.
 
   <h4 id="includesubdomains-parameter">The `includeSubdomains` parameter</h4>
 
@@ -573,8 +569,22 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
               |endpoint|.
 
           3.  If [[#does-endpoint-match-report]] returns "`Match`" when executed
-              upon |endpoint| and |report|, append |report| to |endpoint map|'s
-              list of reports for |endpoint|.
+              upon |endpoint| and |report|:
+
+              1.  Append |report| to |endpoint map|'s list of reports for
+                  |endpoint|.
+
+              2.  Skip to the next |report|.
+
+                  Note: This ensures that each report is assigned to a single
+                  endpoint, even if it matches multiple. In order to ensure
+                  an even distribution across endpoints, the user agent SHOULD 
+                  randomize the order in which it walks through endpoints.
+
+      2.  If we reach this step, the |report| did not match any <a>endpoint</a>
+          and the user agent MAY remove |report| from the <a>reporting cache</a>
+          directly. Depending on load, the user agent MAY instead wait for
+          [[#gc]] at some point in the future.
 
   4.  For each (|endpoint|, |reports|) pair in |endpoint map|, execute the
       following steps asynchronously:
@@ -589,10 +599,6 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 
           2.  Remove each <a>report</a> in |reports| from the <a>reporting
               cache</a>.
-
-              Note: The <a>report</a> may be in another <a>endpoint</a>'s queue
-              at this point. If so, it will be delivered to that <a>endpoint</a>
-              but will not be retried if that attempty fails.
 
           Otherwise:
 
