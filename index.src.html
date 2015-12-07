@@ -266,6 +266,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
+  Each <a>report</a> has a <dfn for="report" export attribute>attempts</dfn>,
+  which is a non-negative integer representing the number of times the user
+  agent attempted to deliver the report.
+
   <h3 id="concept-storage">Storage</h3>
 
   A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
@@ -494,6 +498,8 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
       ::  |type|
       :   {{report/timestamp}}
       ::  The current timestamp.
+      :   {{report/attempts}}
+      ::  0
 
   2.  Let |url| be |settings|'s <a>creation URL</a>.
 
@@ -654,7 +660,9 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
           deliver an `age` attribute rather than an absolute timestamp. See
           also [[#fingerprinting-clock-skew]]
 
-      2.  Append |data| to |collection|.
+      2.  Increment |report|'s {{report/attempts}}.
+
+      3.  Append |data| to |collection|.
 
   3.  Let |request| be a new <a>request</a> with the following properties
       [[FETCH]]:
@@ -727,10 +735,12 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   include:
 
   *   <a>endpoints</a> which are <a for="endpoint">expired</a>
-  *   <a>endpoints</a> whose {{endpoint/failures}} exceed some
-      user-agent-defined threshold (~5 seems reasonable)
   *   <a>endpoints</a> which have not been used in some arbitrary period of time
       (perhaps a ~week?)
+  *   <a>endpoints</a> whose {{endpoint/failures}} exceed
+      some user-agent-defined threshold (~5 seems reasonable)
+  *   <a>reports</a> whose {{report/attempts}} exceed
+      some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> which have not been delivered in some arbitrary period of
       time (perhaps ~2 days?)
 </section>

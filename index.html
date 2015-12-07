@@ -1001,7 +1001,7 @@
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Out-of-band Reporting</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2015-12-04">4 December 2015</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2015-12-07">7 December 2015</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1202,6 +1202,9 @@ reports in a consistent manner.</p>
     <p>Each <a data-link-type="dfn" href="#report">report</a> has a <dfn class="idl-code" data-dfn-for="report" data-dfn-type="attribute" data-export="" id="dom-report-timestamp">timestamp<a class="self-link" href="#dom-report-timestamp"></a></dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.</p>
+    <p>Each <a data-link-type="dfn" href="#report">report</a> has a <dfn class="idl-code" data-dfn-for="report" data-dfn-type="attribute" data-export="" id="dom-report-attempts">attempts<a class="self-link" href="#dom-report-attempts"></a></dfn>,
+  which is a non-negative integer representing the number of times the user
+  agent attempted to deliver the report.</p>
     <h3 class="heading settled" data-level="2.4" id="concept-storage"><span class="secno">2.4. </span><span class="content">Storage</span><a class="self-link" href="#concept-storage"></a></h3>
     <p>A conformant user agent MUST provide a <dfn data-dfn-type="dfn" data-noexport="" id="reporting-cache">reporting cache<a class="self-link" href="#reporting-cache"></a></dfn>, which
   is a storage mechanism that maintains a set of <a data-link-type="dfn" href="#endpoint">endpoints</a> that websites
@@ -1413,6 +1416,10 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
         <p><code class="idl"><a data-link-type="idl" href="#dom-report-timestamp">timestamp</a></code></p>
        <dd data-md="">
         <p>The current timestamp.</p>
+       <dt data-md="">
+        <p><code class="idl"><a data-link-type="idl" href="#dom-report-attempts">attempts</a></code></p>
+       <dd data-md="">
+        <p>0</p>
       </dl>
      <li data-md="">
       <p>Let <var>url</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/webappapis.html#creation-url">creation URL</a>.</p>
@@ -1562,6 +1569,8 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
   deliver an <code>age</code> attribute rather than an absolute timestamp. See
   also <a href="#fingerprinting-clock-skew">§8.2 Clock Skew</a></p>
        <li data-md="">
+        <p>Increment <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-attempts">attempts</a></code>.</p>
+       <li data-md="">
         <p>Append <var>data</var> to <var>collection</var>.</p>
       </ol>
      <li data-md="">
@@ -1650,11 +1659,14 @@ parameter-value = <a data-link-type="grammar" href="https://tools.ietf.org/html/
      <li data-md="">
       <p><a data-link-type="dfn" href="#endpoint">endpoints</a> which are <a data-link-type="dfn" href="#endpoint-expired">expired</a></p>
      <li data-md="">
-      <p><a data-link-type="dfn" href="#endpoint">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code> exceed some
-  user-agent-defined threshold (~5 seems reasonable)</p>
-     <li data-md="">
       <p><a data-link-type="dfn" href="#endpoint">endpoints</a> which have not been used in some arbitrary period of time
   (perhaps a ~week?)</p>
+     <li data-md="">
+      <p><a data-link-type="dfn" href="#endpoint">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures">failures</a></code> exceed
+  some user-agent-defined threshold (~5 seems reasonable)</p>
+     <li data-md="">
+      <p><a data-link-type="dfn" href="#report">reports</a> whose <code class="idl"><a data-link-type="idl" href="#dom-report-attempts">attempts</a></code> exceed
+  some user-agent-defined threshold (~5 seems reasonable)</p>
      <li data-md="">
       <p><a data-link-type="dfn" href="#report">reports</a> which have not been delivered in some arbitrary period of
   time (perhaps ~2 days?)</p>
@@ -1814,6 +1826,7 @@ Content-Type: application/report
   <h2 class="no-num heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="indexlist">
+   <li><a href="#dom-report-attempts">attempts</a><span>, in §2.3</span>
    <li><a href="#dom-report-body">body</a><span>, in §2.3</span>
    <li><a href="#client">client</a><span>, in §2.2</span>
    <li><a href="#dom-endpoint-clients">clients</a><span>, in §2.1</span>
