@@ -903,6 +903,30 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   the <a>reporting cache</a>. Note that this includes both the pending reports
   themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.
+
+  <h3 id="disable">Disabling Reporting</h3>
+
+  Reporting is, to some extent, a question of commons. In the aggregate, it
+  seems useful for everyone for reports to be delivered. There is direct benefit
+  to developers, as they can fix bugs, which means there's indirect benefit to
+  users, as the sites they enjoy will be more stable and enjoyable. As a
+  concrete example, Content Security Policy grants something like herd immunity
+  to cross-site scripting attacks by alerting developers about potential holes
+  in their sites' defenses. Fixing those bugs helps every user, even those whose
+  user agents don't support Content Security Policy.
+  
+  The calculus, of course, depends on the nature of data that's being delivered,
+  and the relative maliciousness of the reporting endpoints, but that's the
+  value proposition in broad strokes.
+
+  That said, it can't be the case that this general benefit be allowed to take
+  priority over the ability of a user to individually opt-out of such a system.
+  Sending reports costs bandwidth, and potentially could reveal some small
+  amount of additional information above and beyond what a website can obtain
+  in-band ([[NETWORK-ERROR-LOGGING]], for instance). User agents MUST allow
+  users to disable reporting with some reasonable amount of granularity in order
+  to maintain the priority of constituencies espoused in
+  [[HTML-DESIGN-PRINCIPLES]].
 </section>
 
 <!-- Big Text: IANA -->

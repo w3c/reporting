@@ -1088,6 +1088,7 @@ reports in a consistent manner.</p>
       <li><a href="#correlation"><span class="secno">8.3</span> <span class="content">Cross-origin correlation</span></a>
       <li><a href="#subdomains"><span class="secno">8.4</span> <span class="content">Subdomains</span></a>
       <li><a href="#clear-cache"><span class="secno">8.5</span> <span class="content">Clearing the reporting cache</span></a>
+      <li><a href="#disable"><span class="secno">8.6</span> <span class="content">Disabling Reporting</span></a>
      </ul>
     <li>
      <a href="#iana-considerations"><span class="secno">9</span> <span class="content">IANA Considerations</span></a>
@@ -1105,6 +1106,7 @@ reports in a consistent manner.</p>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ul class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ul>
     <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ul>
@@ -1826,6 +1828,25 @@ Content-Type: application/report
   the <a data-link-type="dfn" href="#reporting-cache">reporting cache</a>. Note that this includes both the pending reports
   themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.</p>
+    <h3 class="heading settled" data-level="8.6" id="disable"><span class="secno">8.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
+    <p>Reporting is, to some extent, a question of commons. In the aggregate, it
+  seems useful for everyone for reports to be delivered. There is direct benefit
+  to developers, as they can fix bugs, which means there’s indirect benefit to
+  users, as the sites they enjoy will be more stable and enjoyable. As a
+  concrete example, Content Security Policy grants something like herd immunity
+  to cross-site scripting attacks by alerting developers about potential holes
+  in their sites' defenses. Fixing those bugs helps every user, even those whose
+  user agents don’t support Content Security Policy.</p>
+    <p>The calculus, of course, depends on the nature of data that’s being delivered,
+  and the relative maliciousness of the reporting endpoints, but that’s the
+  value proposition in broad strokes.</p>
+    <p>That said, it can’t be the case that this general benefit be allowed to take
+  priority over the ability of a user to individually opt-out of such a system.
+  Sending reports costs bandwidth, and potentially could reveal some small
+  amount of additional information above and beyond what a website can obtain
+  in-band (<a data-link-type="biblio" href="#biblio-network-error-logging">[NETWORK-ERROR-LOGGING]</a>, for instance). User agents MUST allow
+  users to disable reporting with some reasonable amount of granularity in order
+  to maintain the priority of constituencies espoused in <a data-link-type="biblio" href="#biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="9" id="iana-considerations"><span class="secno">9. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
@@ -2030,6 +2051,13 @@ Content-Type: application/report
    <dd>C. Evans; C. Palmer; R. Sleevi. <a href="https://tools.ietf.org/html/rfc7469">Public Key Pinning Extension for HTTP</a>. April 2015. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7469">https://tools.ietf.org/html/rfc7469</a>
    <dt id="biblio-url"><a class="self-link" href="#biblio-url"></a>[URL]
    <dd>Anne van Kesteren; Sam Ruby. <a href="http://www.w3.org/TR/url-1/">URL</a>. 9 December 2014. WD. URL: <a href="http://www.w3.org/TR/url-1/">http://www.w3.org/TR/url-1/</a>
+  </dl>
+  <h3 class="no-num heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-html-design-principles"><a class="self-link" href="#biblio-html-design-principles"></a>[HTML-DESIGN-PRINCIPLES]
+   <dd>Anne van Kesteren; Maciej Stachowiak. <a href="http://www.w3.org/TR/html-design-principles/">HTML Design Principles</a>. 26 November 2007. WD. URL: <a href="http://www.w3.org/TR/html-design-principles/">http://www.w3.org/TR/html-design-principles/</a>
+   <dt id="biblio-network-error-logging"><a class="self-link" href="#biblio-network-error-logging"></a>[NETWORK-ERROR-LOGGING]
+   <dd>Ilya Grigorik; et al. <a href="http://www.w3.org/TR/network-error-logging/">Network Error Logging</a>. 29 September 2015. WD. URL: <a href="http://www.w3.org/TR/network-error-logging/">http://www.w3.org/TR/network-error-logging/</a>
   </dl>
   <h2 class="no-num heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
