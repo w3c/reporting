@@ -1130,33 +1130,33 @@ reports in a consistent manner.</p>
   fan-out to all the endpoints in a group, but the user agent will attempt
   delivery to one endpoint, and fallback to another upon failure.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-4b248c15">
-     <a class="self-link" href="#example-4b248c15"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    <div class="example" id="example-9599837c">
+     <a class="self-link" href="#example-9599837c"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
     define a set of reporting endpoints named "<code>endpoint-1</code>": 
 <pre><a data-link-type="dfn" href="#report-to">Report-To</a>: { "<a data-link-type="dfn" href="#url">url</a>": "https://example.com/reports",
                     "<a data-link-type="dfn" href="#group">group</a>": "endpoint-1",
                     "<a data-link-type="dfn" href="#max-age">max-age</a>": 10886400 },
-                  { "<a data-link-type="dfn" href="#url">url</a>": "https://backup.com/reports",
-                    "<a data-link-type="dfn" href="#group">group</a>": "endpoint-1",
-                    "<a data-link-type="dfn" href="#max-age">max-age</a>": 10886400 }
+           { "<a data-link-type="dfn" href="#url">url</a>": "https://backup.com/reports",
+             "<a data-link-type="dfn" href="#group">group</a>": "endpoint-1",
+             "<a data-link-type="dfn" href="#max-age">max-age</a>": 10886400 }
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to that group:</p>
 <pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#reports">report-to</a>=endpoint-1
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-7081b92b">
-     <a class="self-link" href="#example-7081b92b"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-136ae12d">
+     <a class="self-link" href="#example-136ae12d"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
 <pre><a data-link-type="dfn" href="#report-to">Report-To</a>: { "<a data-link-type="dfn" href="#url">url</a>": "https://example.com/csp-reports",
                     "<a data-link-type="dfn" href="#group">group</a>": "csp-endpoint",
                     "<a data-link-type="dfn" href="#max-age">max-age</a>": 10886400 },
-                  { "<a data-link-type="dfn" href="#url">url</a>": "https://example.com/hpkp-reports",
-                    "<a data-link-type="dfn" href="#group">group</a>": "hpkp-endpoint",
-                    "<a data-link-type="dfn" href="#max-age">max-age</a>": 10886400 } 
+           { "<a data-link-type="dfn" href="#url">url</a>": "https://example.com/hpkp-reports",
+             "<a data-link-type="dfn" href="#group">group</a>": "hpkp-endpoint",
+             "<a data-link-type="dfn" href="#max-age">max-age</a>": 10886400 } 
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to those named
     endpoint:</p>
