@@ -54,6 +54,7 @@ spec: URL; urlPrefix: https://url.spec.whatwg.org/
   type: dfn
     text: origin of a url; url: concept-url-origin
     text: URL serializer; url: concept-url-serializer
+    text: URL parser; url: concept-url-parser
   type: interface
     text: URL; url: concept-url
   type: attribute
@@ -98,6 +99,10 @@ spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234
 spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   type: dfn
     text: Public-Key-Pins; url: section-2.1
+
+spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html
+  type: grammar
+    text: json-field-value; url: rfc.section.2
 </pre>
 <pre class="biblio">
 {
@@ -107,9 +112,9 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     "title": "Secure Contexts",
     "publisher": "W3C"
   },
-  "RESCHKE": {
+  "HTTP-JFV": {
     "authors": [ "Julian Reschke" ],
-    "href": "https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-00.html",
+    "href": "https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html",
     "title": "A JSON Encoding for HTTP Header Field Values"
   }
 }
@@ -150,8 +155,12 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     define a set of reporting endpoints named "`endpoint-1`":
 
     <pre>
-      <a>Report-To</a>: https://example.com/reports; <a>group</a>=endpoint-1; <a>max-age</a>=10886400,
-                 https://backup.com/reports;<a>group</a>=endpoint-1; <a>max-age</a>=10886400
+      <a>Report-To</a>: { "<a>url</a>": "https://example.com/reports",
+                          "<a>group</a>": "endpoint-1",
+                          "<a>max-age</a>": 10886400 },
+                        { "<a>url</a>": "https://backup.com/reports",
+                          "<a>group</a>": "endpoint-1",
+                          "<a>max-age</a>": 10886400 }
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to that group:
@@ -169,8 +178,12 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: https://example.com/csp-violations; <a>group</a>=csp-endpoint; <a>max-age</a>=10886400,
-                 https://example.com/hpkp-reports; <a>group</a>=hpkp-endpoint; <a>max-age</a>=10886400
+      <a>Report-To</a>: { "<a>url</a>": "https://example.com/csp-reports",
+                          "<a>group</a>": "csp-endpoint",
+                          "<a>max-age</a>": 10886400 },
+                        { "<a>url</a>": "https://example.com/hpkp-reports",
+                          "<a>group</a>": "hpkp-endpoint",
+                          "<a>max-age</a>": 10886400 } 
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
@@ -302,70 +315,58 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
-    Report-To = <a>absolute-URI</a> *( <a>OWS</a> ";" [ <a>OWS</a> <a>parameter</a> ] )
-    <dfn>parameter</dfn>     = <a>key</a> [ <a>BWS</a> "=" <a>BWS</a> <a>value</a> ]
-    <dfn>key</dfn>           = <a>token</a>
-    <dfn>value</dfn>         = <a>token</a> / <a>quoted-string</a>
-
-    ; The <a>#rule</a>, <a>OWS</a>, <a>BWS</a>, <a>token</a>, and
-    ; <a>quoted-string</a> productions are all part of RFC 7230.
-    ; <a>absolute-uri</a> is defined in RFC 3986.
+    Report-To = <a>json-field-value</a>
+                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
   </pre>
 
-  The header's value is an absolute URL, followed by a semicolon-delimited list
-  of "`[key]=[value]`" pairs that govern specified endpoint's behavior.
+  The header's value is interpreted as an array of JSON objects, as described in
+  Section 4 of [[HTTP-JFV]].
+  
+  Each object in the array defines an <a>endpoint</a> to which reports may be
+  delivered, and will be parsed as defined in [[#parse-header]].
 
-  The URL MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
-  Non-secure endpoints will be ignored.
+  The following subsections defined the initial set of known members in each
+  JSON object the header's value defines. Future versions of this document may
+  define additional such members, and user agents MUST ignore unknown members
+  when parsing the header.
 
-  The following subsections define the initial of known <a grammar>parameter</a>
-  component values. Future versions of this document may defined additional such
-  values. The ABNF is intentionally generic and extensible to make room for
-  these future values, and user agents MUST ignore unknown values when parsing
-  the header.
+  <h4 id="url-member">The `url` member</h4>
 
-  <h4 id="id-parameter">The `group` parameter</h4>
+  The REQUIRED <dfn>`url`</dfn> member is a string that defines the location
+  of a reporting endpoint. The member's value MUST be a string; any other type
+  will result in a parse error.
 
-  The OPTIONAL <dfn>`group`</dfn> parameter is an ASCII string that associates a
-  name with the reporting endpoint.
+  Moreover, the URL that the member's value represents MUST be <a>potentially
+  trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
 
-  <pre>
-    parameter-name  = "group"
-    parameter-value = <a grammar>token</a>
-  </pre>
+  <h4 id="id-member">The `group` member</h4>
 
-  The name is not unique and multiple endpoints may use the same name to create
-  a group of reporting endpoints that can be used for backup and failover
-  purposes. If the parameter is omitted, the endpoint MUST be associated with
+  The OPTIONAL <dfn>`group`</dfn> member is a string that associates a name with
+  the reporting endpoint. The member's value MUST be a string; any other type
+  will result in a parse error. If no member named "`group`" is present in the
+  object, the <a>endpoint</a> will be associated with a group named "`default`".
+
+  The group name is not unique and multiple endpoints may use the same name to
+  create a set of reporting endpoints that can be used for backup and failover
+  purposes. If the member is omitted, the endpoint MUST be associated with
   the "default" group name.
 
   Note: If a group resolves to multiple <a>endpoints</a>, the user agent will
   deliver a particular <a>report</a> to <strong>at most one</strong>
   <a>endpoint</a> in that group on a best-effort basis.
 
-  <h4 id="includesubdomains-parameter">The `includeSubdomains` parameter</h4>
+  <h4 id="includesubdomains-member">The `includeSubdomains` member</h4>
 
-  The OPTIONAL <dfn>`includeSubdomains`</dfn> parameter, if present, enables an
-  endpoint for all subdomains of the current <a>origin</a>'s {{URL/host}}.
+  The OPTIONAL <dfn>`includeSubdomains`</dfn> member is a boolean that enables
+  an endpoint for all subdomains of the current <a>origin</a>'s {{URL/host}}.
+  If no member named "`includeSubdomains`" is present in the object, or its
+  value is not "`true`", the endpoint will not be enabled for subdomains.
 
-  <pre>
-    parameter-name  = "includeSubdomains"
-  </pre>
+  <h4 id="max-age-member">The `max-age` member</h4>
 
-  The parameter's value will be ignored, if present.
-
-  <h4 id="max-age-parameter">The `max-age` parameter</h4>
-
-  The REQUIRED <dfn export>`max-age`</dfn> parameter defines the reporting endpoint's
-  lifetime, as a non-negative integer number of seconds. The ABNF grammar for
-  the directive is:
-
-  <pre>
-    parameter-name  = "max-age"
-    parameter-value = <a grammar>delta-seconds</a>
-
-    ; <a grammar>delta-seconds</a> is defined in Section 1.2.1 of RFC 7234.
-  </pre>
+  The REQUIRED <dfn export>`max-age`</dfn> member defines the reporting endpoint's
+  lifetime, as a non-negative integer number of seconds. The member's value MUST
+  be a number; any other type will result in a parse error.
 
   A value of "`0`" will cause the <a>endpoint</a> to be removed from the user
   agent's <a>reporting cache</a>.
@@ -454,9 +455,43 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   {{client/group}}. This list will be empty if no valid endpoints could be
   parsed.
 
-  ISSUE(mikewest/error-reporting#4): Do the parsing here once we decide whether
-  we're going to run with a JSON format, a la [[RESCHKE]].
+  1.  Let |list| be the result of executing the algorithm defined in Section 4
+      of [[HTTP-JFV]]. If that algorithm results in an error, abort these steps.
 
+  2.  Let |tuples| be an empty list.
+
+  3.  For each |item| in |list|:
+
+      1.  If |item| has no member named "<a>`url`</a>", or that member's value
+          is not a string, skip to the next |item|.
+
+      2.  If |item| has no member named "<a>`max-age`</a>", or that member's
+          value is not a number, skip to the next |item|.
+
+      3.  Let |tuple| be a new tuple containing the following:
+
+          :   "`url`"
+          ::  The result of executing the <a>URL parser</a> on |item|'s
+              "<a>`url`</a>" member's value.
+          :   "`subdomains`"
+          ::  "`Include`" if |item| has a member named
+              "<a>`includeSubdomains`</a>" whose value is `true`, "`Exclude`"
+              otherwise.
+          :   "`ttl`"
+          ::  |item|'s "<a>`max-age`</a>" member's value.
+          :   "`group`"
+          ::  |item|'s "<a>`group`</a>" member's value if present, and
+              "`default`" otherwise.
+
+      4.  If |tuple|'s "`url`" is not <a>potentially trustworthy</a>, or
+          |tuple|'s "`ttl`" is a negative number, skip to the next |item|.
+
+          Note: User agents SHOULD raise some sort of developer-visible parse
+          error in this case.
+
+      5.  Append |tuple| to |tuples|.
+
+  4.  Return |tuples|.
 </section>
 
 <!-- Big Text: Reporting -->
