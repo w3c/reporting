@@ -1,8 +1,9 @@
 <h1>Reporting API</h1>
 <pre class="metadata">
-Status: DREAM
+Status: ED
 ED: https://w3c.github.io/reporting/
 Shortname: reporting
+Group: webperf
 Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.comm
 Editor: Mike West 56384, Google Inc., mkwst@google.com
 Abstract:
@@ -120,7 +121,6 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 }
 
 </pre>
-<div boilerplate="copyright">&copy;2015 Google, Inc.</div>
 <section>
   <h2 id="intro">Introduction</h2>
 
@@ -183,7 +183,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
                           "<a>max-age</a>": 10886400 },
                  { "<a>url</a>": "https://example.com/hpkp-reports",
                    "<a>group</a>": "hpkp-endpoint",
-                   "<a>max-age</a>": 10886400 } 
+                   "<a>max-age</a>": 10886400 }
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
@@ -321,7 +321,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   The header's value is interpreted as an array of JSON objects, as described in
   Section 4 of [[HTTP-JFV]].
-  
+
   Each object in the array defines an <a>endpoint</a> to which reports may be
   delivered, and will be parsed as defined in [[#parse-header]].
 
@@ -619,7 +619,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
                   Note: This ensures that each report is assigned to a single
                   endpoint, even if it matches multiple. In order to ensure
-                  an even distribution across endpoints, the user agent SHOULD 
+                  an even distribution across endpoints, the user agent SHOULD
                   randomize the order in which it walks through endpoints.
 
       2.  If we reach this step, the |report| did not match any <a>endpoint</a>
@@ -914,7 +914,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   to cross-site scripting attacks by alerting developers about potential holes
   in their sites' defenses. Fixing those bugs helps every user, even those whose
   user agents don't support Content Security Policy.
-  
+
   The calculus, of course, depends on the nature of data that's being delivered,
   and the relative maliciousness of the reporting endpoints, but that's the
   value proposition in broad strokes.
