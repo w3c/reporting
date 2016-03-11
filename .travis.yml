@@ -17,7 +17,7 @@ install:
 - popd
 - pip install --editable ./bikeshed
 - bikeshed update
-script: bikeshed spec
+script: bikeshed -f spec ./index.src.html
 after_success:
 - ! '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./.deploy-output.sh'
 env:

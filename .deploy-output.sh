@@ -2,7 +2,8 @@
 set -ev
 STATUS=`git log -1 --pretty=oneline`
 
-cp single-page.html ./out/
+mkdir out
+cp index.html ./out/
 
 cd out
 git init
