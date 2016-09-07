@@ -576,9 +576,9 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           2.  If |client|'s {{client/subdomains}} is "`exclude`", |report|'s
               {{report/origin}} is the same as |client|'s {{client/origin}}
 
-              Otherwise, |report|'s {{report/origin}}'s {{URL/host}} is either a
-              <a>superdomain match</a> or <a>congruent match</a> for |client|'s
-              {{client/origin}}'s {{URL/host}} [[!RFC6797]]
+              Otherwise, |client|'s {{client/origin}}'s {{URL/host}} is either
+              a <a>superdomain match</a> or a <a>congruent match</a> for
+              |report|'s {{report/origin}}'s {{URL/host}} [[!RFC6797]]
 
   2.  Return "`Does Not Match`".
 
