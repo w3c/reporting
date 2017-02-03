@@ -61,7 +61,32 @@ The report has the following properties:
 - `lineNumber`: if known, the line number in `sourceFile` where the indicated API was first used.
 
 ### Interventions ###
-TODO
+An [intervention](https://github.com/WICG/interventions/blob/master/README.md) occurs when a browser decides not to honor a request made by the application (eg. for security, performance or user annoyance reasons).  The report properties are similar to those for deprecations.
+
+```json
+{
+  "type": "intervention",
+  "age": 10,
+  "url": "https://example.com/",
+  "report": { 
+    "id": "audio-no-gesture", 
+    "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
+    "sourceFile": "https://foo.com/index.js",
+    "lineNumber": 1234
+  }
+}
+```
 
 ### Crashes ###
-TODO
+A crash report indicates that the user was unable to continue using the page because the browser (or one of it's processes necessary for the page) crashed.  For security reasons, no details of the crash are communicated except (optionally) a unique identifier which can be supplied to the browser vendor. 
+
+```json
+{
+  "type": "crash",
+  "age": 10,
+  "url": "https://example.com/",
+  "report": { 
+    "crashId": "c2dd3217-24f5-4bee-b74d-99bd055e7edb"
+  }
+}
+```
