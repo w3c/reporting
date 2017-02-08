@@ -11,10 +11,6 @@ before_install:
 install:
 - pip install pygments cssselect html5lib lxml
 - git clone --depth=100 --branch=master https://github.com/tabatkins/bikeshed.git
-  ./bikeshed
-- pushd ./bikeshed
-- git checkout fa5c039ccdbc3d055eded9b14f698414b7d73491
-- popd
 - pip install --editable ./bikeshed
 - bikeshed update
 script: bikeshed -f spec ./index.src.html
