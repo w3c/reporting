@@ -791,10 +791,10 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
       Content-Type: application/report
 
       [{
-        type: "csp",
-        age: 10,
-        url: "https://example.com/vulnerable-page/",
-        report: {
+        "type": "csp",
+        "age": 10,
+        "url": "https://example.com/vulnerable-page/",
+        "report": {
           "blocked": "https://evil.com/evil.js",
           "directive": "script-src",
           "policy": "script-src 'self'; object-src 'none'",
@@ -802,10 +802,10 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           "referrer": "https://evil.com/"
         }
       }, {
-        type: "hpkp",
-        age: 32,
-        url: "https://www.example.com/",
-        report: {
+        "type": "hpkp",
+        "age": 32,
+        "url": "https://www.example.com/",
+        "report": {
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
           "port": 443,
@@ -823,10 +823,10 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           ]
         }
       }, {
-        type: "nel",
-        age: 29,
-        url: "https://example.com/thing.js",
-        report: {
+        "type": "nel",
+        "age": 29,
+        "url": "https://example.com/thing.js",
+        "report": {
           "referrer": "https://www.example.com/",
           "server-ip": "234.233.232.231",
           "protocol": "",
