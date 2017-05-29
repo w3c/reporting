@@ -1918,7 +1918,14 @@ reports in a consistent manner.</p>
           <p>Remove each <a data-link-type="dfn" href="#report" id="ref-for-report-19">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache-13">reporting
   cache</a>.</p>
         </ol>
-        <p>Otherwise:</p>
+        <p>Otherwise, if <var>result</var> is "<code>Remove Endpoint</code>":</p>
+        <ol>
+         <li data-md="">
+          <p>Remove <var>endpoint</var> from the reporting cache.</p>
+          <p class="note" role="note"><span>Note:</span> <var>reports</var> remain in the reporting cache for potential
+  delivery to other endpoints.</p>
+        </ol>
+        <p>Otherwise (if <var>result</var> is "<code>Failure</code>"):</p>
         <ol>
          <li data-md="">
           <p>Increment <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures-3">failures</a></code>.</p>
