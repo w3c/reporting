@@ -90,3 +90,21 @@ A crash report indicates that the user was unable to continue using the page bec
   }
 }
 ```
+
+## ReportingObserver - Observing reports from JavaScript
+In addition to (or even instead of) having reports delivered to an endpoint, it can be convenient to be informed of reports from within the page's JavaScript.  This doesn't make sense or isn't possible for all reports (eg. crashes), but is most useful for reports generated as a direct result of something the page's script has done (such as a deprecation warning).
+
+```javascript
+function onReport(reports, observer) {
+  for(let report of reports) {
+    if (report.type == "deprecation") {
+      sendDeprecationAnalytics(JSON.stringify(report.report));
+    }
+  }
+}
+
+let observer = new ReportingObserver(onReport);
+observer.observe();
+```
+
+Shortly after a report corresponding to a given JavaScript context is queued, all callback functions registered with a  `ReportingObserver` in that context are invoked with a copy of the report as a JavaScript object.  Since the exact details of reports can vary from one browser to another, applications generally should not change their behavior based on the presence or contents of a report, but use this API only for analytics purposes.
