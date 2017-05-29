@@ -107,4 +107,4 @@ let observer = new ReportingObserver(onReport);
 observer.observe();
 ```
 
-Shortly after a report corresponding to a given JavaScript context is queued, all callback functions registered with a  `ReportingObserver` in that context are invoked with a copy of the report as a JavaScript object.  Since the exact details of reports can vary from one browser to another, applications generally should not change their behavior based on the presence or contents of a report, but use this API only for analytics purposes.
+Shortly after a report corresponding to a given JavaScript context is generated (even if there are no endpoints registered), all `ReportingObserver` callback functions in that context are invoked with a copy of the report as a JavaScript object.  Since the exact details of reports can vary from one browser to another, applications generally should not change their behavior based on the presence or contents of a report, but use this API only for analytics purposes.
