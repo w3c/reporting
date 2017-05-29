@@ -9,7 +9,7 @@ Reporting is enabled by specifying a `Report-To` header in the HTTP request, eg:
 ```http
 Report-To: { "url": "https://example.com/reports", "max-age": 10886400 }
 ```
-`max-age` (required) specifies the maximum time (in seconds) to attempt to deliver a report.  The `url` specifies an endpoint which will receive an HTTP `POST` request with JSON-formatted body containing an array of reports, eg:
+`max-age` (required) specifies the maximum time (in seconds) the browser should cache the endpoint url.  The `url` specifies an endpoint which will receive an HTTP `POST` request with JSON-formatted body containing an array of reports, eg:
 ```http
 POST /reports HTTP/1.1
 Host: example.com
