@@ -641,7 +641,14 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           2.  Remove each <a>report</a> in |reports| from the <a>reporting
               cache</a>.
 
-          Otherwise:
+          Otherwise, if |result| is "`Remove Endpoint`":
+
+          1.  Remove |endpoint| from the reporting cache.
+
+              Note: |reports| remain in the reporting cache for potential
+              delivery to other endpoints.
+
+          Otherwise (if |result| is "`Failure`"):
 
           1.  Increment |endpoint|'s {{endpoint/failures}}.
 
