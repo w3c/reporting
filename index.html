@@ -1366,7 +1366,7 @@ Possible extra rowspan handling
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-05-29">29 May 2017</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2017-05-31">31 May 2017</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1971,7 +1971,7 @@ reports in a consistent manner.</p>
          <dt data-md=""><code>url</code>
          <dd data-md="">
           <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url-2">url</a></code></p>
-         <dt data-md=""><code>report</code>
+         <dt data-md=""><code>body</code>
          <dd data-md="">
           <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-body" id="ref-for-dom-report-body-2">body</a></code></p>
         </dl>
@@ -2073,8 +2073,8 @@ reports in a consistent manner.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="sample-reports"><span class="secno">6. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-    <div class="example" id="example-a0a40e6f">
-     <a class="self-link" href="#example-a0a40e6f"></a> 
+    <div class="example" id="example-0af31647">
+     <a class="self-link" href="#example-0af31647"></a> 
 <pre>POST / HTTP/1.1
 Host: example.com
 ...
@@ -2084,7 +2084,7 @@ Content-Type: application/report
   "type": "csp",
   "age": 10,
   "url": "https://example.com/vulnerable-page/",
-  "report": {
+  "body": {
     "blocked": "https://evil.com/evil.js",
     "directive": "script-src",
     "policy": "script-src 'self'; object-src 'none'",
@@ -2095,7 +2095,7 @@ Content-Type: application/report
   "type": "hpkp",
   "age": 32,
   "url": "https://www.example.com/",
-  "report": {
+  "body": {
     "date-time": "2014-04-06T13:00:50Z",
     "hostname": "www.example.com",
     "port": 443,
@@ -2116,7 +2116,7 @@ Content-Type: application/report
   "type": "nel",
   "age": 29,
   "url": "https://example.com/thing.js",
-  "report": {
+  "body": {
     "referrer": "https://www.example.com/",
     "server-ip": "234.233.232.231",
     "protocol": "",
