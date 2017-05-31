@@ -695,7 +695,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           ::  |report|'s {{report/type}}
           :   `url`
           ::  |report|'s {{report/url}}
-          :   `report`
+          :   `body`
           ::  |report|'s {{report/body}}
 
           Note: Client clocks are unreliable and subject to skew. We therefore
@@ -801,7 +801,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
         "type": "csp",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
-        "report": {
+        "body": {
           "blocked": "https://evil.com/evil.js",
           "directive": "script-src",
           "policy": "script-src 'self'; object-src 'none'",
@@ -812,7 +812,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
         "type": "hpkp",
         "age": 32,
         "url": "https://www.example.com/",
-        "report": {
+        "body": {
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
           "port": 443,
@@ -833,7 +833,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
         "type": "nel",
         "age": 29,
         "url": "https://example.com/thing.js",
-        "report": {
+        "body": {
           "referrer": "https://www.example.com/",
           "server-ip": "234.233.232.231",
           "protocol": "",
