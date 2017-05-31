@@ -20,7 +20,7 @@ Content-Type: application/report
   "type": "myreport",
   "age": 10,
   "url": "https://example.com/originatingpage/",
-  "report": {
+  "body": {
 ...
   }
 }]
@@ -30,7 +30,7 @@ Each report has:
  - `type`: a string that indicates the category of report.
  - `age`: the number of seconds between when the report was triggered and when it was sent.
  - `url`: the URL of the page which triggered the report.
- - `report`: the contents of the report as defined by the `type`.
+ - `body`: the contents of the report as defined by the `type`.
 
 ## Basic report formats ##
 A number of basic report types are defined which are always enabled (and sent to the default reporting [group](http://wicg.github.io/reporting/#id-member)).
@@ -43,7 +43,7 @@ Deprecations are reports indicating that a browser API or feature has been used 
   "type": "deprecation",
   "age": 10,
   "url": "https://example.com/",
-  "report": { 
+  "body": {
     "id": "websql", 
     "anticipatedRemoval": "1/1/2020", 
     "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
@@ -68,7 +68,7 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
   "type": "intervention",
   "age": 10,
   "url": "https://example.com/",
-  "report": { 
+  "body": {
     "id": "audio-no-gesture", 
     "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
     "sourceFile": "https://foo.com/index.js",
@@ -85,7 +85,7 @@ A crash report indicates that the user was unable to continue using the page bec
   "type": "crash",
   "age": 10,
   "url": "https://example.com/",
-  "report": { 
+  "body": {
     "crashId": "c2dd3217-24f5-4bee-b74d-99bd055e7edb"
   }
 }
@@ -98,7 +98,7 @@ In addition to (or even instead of) having reports delivered to an endpoint, it 
 function onReport(reports, observer) {
   for(let report of reports) {
     if (report.type == "deprecation") {
-      sendDeprecationAnalytics(JSON.stringify(report.report));
+      sendDeprecationAnalytics(JSON.stringify(report.body));
     }
   }
 }
