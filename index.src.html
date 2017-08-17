@@ -545,6 +545,8 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
   5.  Add |report| to the <a>reporting cache</a>.
+  
+  6.  Queue a task which executes [[#notify-observers]] on |report|.
 
   Note: We strip the username, password, and fragment from the serialized URL
   in the report. See [[#capability-urls]].
@@ -747,6 +749,42 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
       Endpoint`".
 
   8.  Return "`Failure`".
+</section>
+
+<section>
+  <h2 id="observers">Reporting Observers</h2>
+  
+  <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
+
+  <pre class="idl">
+[NoInterfaceObject]
+interface ReportBody {
+};
+
+[NoInterfaceObject]
+interface Report {
+    readonly attribute DOMString type;
+    readonly attribute DOMString url;
+    readonly attribute ReportBody? body;
+};
+
+[Constructor(ReportingObserverCallback callback)]
+interface ReportingObserver {
+    void observe();
+    void disconnect();
+};
+
+callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
+
+  </pre>
+    
+  <h3 id="notify-observers" algorithm>
+    Notify reporting observers with |report|
+  </h3>
+  
+  Given a <a>report</a> (|report|), this algorithm makes it's contents available
+  to any registered {{ReportingObserver}}s.
+  
 </section>
 
 <section>
