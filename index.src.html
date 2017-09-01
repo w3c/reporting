@@ -792,6 +792,12 @@ dictionary ReportingObserverOptions {
   Issue: How do we specify which reports are observable?  Network-layer reports
   like CSP reports will not be.  Maybe there's something about the settings
   object?
+  
+  A <dfn id=dom-report interface>Report</dfn> is the application exposed
+  representation of a <a>report</a>. <dfn attribute for="Report">type</dfn>
+  returns [=report/type=], <dfn attribute for="Report">url</dfn> returns
+  [=report/url=] and <dfn attribute for="Report">body</dfn> returns
+  [=report/body=].
     
   Each {{ReportingObserver}} object has these associated concepts:
     - A <dfn for=ReportingObserver>callback</dfn> set on creation.
