@@ -828,11 +828,11 @@ dictionary ReportingObserverOptions {
      object</a> associated with the <a>context object</a>.
  
   <h3 id="notify-observers" algorithm>
-    Notify reporting observers on |settings| with |report|.
+    Notify reporting observers on |settings| with |report|
   </h3>
   
   This algorithm makes |report|'s contents available to any registered
-  {{ReportingObserver}}s on the provided  <a>environment settings object</a>
+  {{ReportingObserver}}s on the provided <a>environment settings object</a>
   |settings|.
   
   1. For each {{ReportingObserver}} |observer| of the <a>registered
@@ -855,7 +855,7 @@ dictionary ReportingObserverOptions {
      <a>registered observers</a> associated with |settings|.
    
   <h3 id="invoke-observers" algorthm>
-    Invoke observers with |notify list|.
+    Invoke observers with |notify list|
   </h3>
   
   This algorithm invokes observer callback functions for reports of previously
@@ -869,11 +869,11 @@ dictionary ReportingObserverOptions {
   
   1. For each {{ReportingObserver}} |observer| in |notify list|:
   
-     1. Let |reports| be a copy of |observer|'s |observer report list|
+     1. Let |reports| be a copy of |observer|'s <a>report list</a>
      
-     2. Clear |observer|'s |observer report list|
+     2. Clear |observer|'s <a>report list</a>
      
-     3. <a spec=webidl>invoke</a> |observer|'s <a>callback</a> with a list of
+     3. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
         arguments consisting of |reports| and |observer|, and |observer| as the
         <a>callback this value</a>.  If this throws an exception, <a>report the
         exception</a>.
