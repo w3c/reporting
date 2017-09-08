@@ -1688,9 +1688,41 @@ reports in a consistent manner.</p>
       <p>For each <var>tuple</var> in <var>tuples</var>:</p>
       <ol>
        <li data-md="">
-        <p>Let <var>new</var> be a new <a data-link-type="dfn" href="#client" id="ref-for-client⑧">client</a> whose properties are set as follows:</p>
+        <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑨">endpoint</a> (<var>endpoint</var>) in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache③">reporting
+  cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code> is <var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URL</a></code>:</p>
+        <ol>
+         <li data-md="">
+          <p>For each <var>client</var> in <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients" id="ref-for-dom-endpoint-clients①">clients</a></code>, delete <var>client</var> if <var>origin</var> is the same as <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin">origin</a></code>.</p>
+        </ol>
+       <li data-md="">
+        <p>If <var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl①">ttl</a></code> is equal to 0, skip to the next tuple.</p>
+       <li data-md="">
+        <p>If there does not exist an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②⓪">endpoint</a> (<var>endpoint</var>) in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache④">reporting cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url①">url</a></code> is <var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url②">URL</a></code>:</p>
+        <ol>
+         <li data-md="">
+          <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②①">endpoint</a> whose properties are set
+  as follows:</p>
+          <dl>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url②">url</a></code>
+           <dd data-md="">
+            <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url③">URL</a></code></p>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures">failures</a></code>
+           <dd data-md="">
+            <p>0</p>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after①">retry-after</a></code>
+           <dd data-md="">
+            <p><code>null</code></p>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients" id="ref-for-dom-endpoint-clients②">clients</a></code>
+           <dd data-md="">
+            <p>an empty list</p>
+          </dl>
+         <li data-md="">
+          <p>Insert <var>endpoint</var> into the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑤">reporting cache</a> for <var>origin</var>.</p>
+        </ol>
+       <li data-md="">
+        <p>Let <var>client</var> be a new <a data-link-type="dfn" href="#client" id="ref-for-client⑧">client</a> whose properties are set as follows:</p>
         <dl>
-         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin">origin</a></code>
+         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin①">origin</a></code>
          <dd data-md="">
           <p><var>origin</var></p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-subdomains" id="ref-for-dom-client-subdomains">subdomains</a></code>
@@ -1699,47 +1731,20 @@ reports in a consistent manner.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-group" id="ref-for-dom-client-group①">group</a></code>
          <dd data-md="">
           <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-group" id="ref-for-dom-client-group②">group</a></code></p>
-         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl①">ttl</a></code>
+         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl②">ttl</a></code>
          <dd data-md="">
-          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl②">ttl</a></code></p>
+          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl③">ttl</a></code></p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-client-creation" id="ref-for-dom-client-creation①">creation</a></code>
          <dd data-md="">
           <p>The current timestamp</p>
         </dl>
        <li data-md="">
-        <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑨">endpoint</a> (<var>endpoint</var>) in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache③">reporting
-  cache</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code> is <var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URL</a></code>:</p>
-        <ol>
-         <li data-md="">
-          <p>For each <var>client</var> in <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients" id="ref-for-dom-endpoint-clients①">clients</a></code>, delete <var>client</var> if <var>new</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin①">origin</a></code> is the same as <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin②">origin</a></code>.</p>
-         <li data-md="">
-          <p>If <var>new</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl③">ttl</a></code> is greater than 0, append <var>new</var> to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients" id="ref-for-dom-endpoint-clients②">clients</a></code> list.</p>
-         <li data-md="">
-          <p>Skip to the next <var>tuple</var>.</p>
-        </ol>
-       <li data-md="">
-        <p>Otherwise, there is no existing <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②⓪">endpoint</a>, so let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②①">endpoint</a> whose properties are set as follows:</p>
-        <dl>
-         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url①">url</a></code>
-         <dd data-md="">
-          <p><var>tuple</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url②">URL</a></code></p>
-         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures">failures</a></code>
-         <dd data-md="">
-          <p>0</p>
-         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after①">retry-after</a></code>
-         <dd data-md="">
-          <p><code>null</code></p>
-         <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients" id="ref-for-dom-endpoint-clients③">clients</a></code>
-         <dd data-md="">
-          <p>A new list, containing <var>tuple</var></p>
-        </dl>
-       <li data-md="">
-        <p>Insert <var>endpoint</var> into the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache④">reporting cache</a> for <var>origin</var>.</p>
+        <p>Append <var>client</var> to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-clients" id="ref-for-dom-endpoint-clients③">clients</a></code> list.</p>
       </ol>
     </ol>
     <h3 class="heading settled algorithm" data-algorithm="Parse reporting endpoint tuples from value" data-level="3.3" id="parse-header"><span class="secno">3.3. </span><span class="content"> Parse reporting endpoint tuples from <var>value</var> </span><a class="self-link" href="#parse-header"></a></h3>
     <p>Given a string (<var>value</var>) this algorithm will return a list of tuples
-  containing a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url③">URL</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains" id="ref-for-dom-client-subdomains②">subdomains</a></code> flag, <code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl④">ttl</a></code>, and a <code class="idl"><a data-link-type="idl" href="#dom-client-group" id="ref-for-dom-client-group③">group</a></code>. This list will be empty if no valid endpoints could be
+  containing a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url④">URL</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains" id="ref-for-dom-client-subdomains②">subdomains</a></code> flag, <code class="idl"><a data-link-type="idl" href="#dom-client-ttl" id="ref-for-dom-client-ttl④">ttl</a></code>, and a <code class="idl"><a data-link-type="idl" href="#dom-client-group" id="ref-for-dom-client-group③">group</a></code>. This list will be empty if no valid endpoints could be
   parsed.</p>
     <ol>
      <li data-md="">
@@ -1790,7 +1795,7 @@ reports in a consistent manner.</p>
    <section>
     <h2 class="heading settled" data-level="4" id="report-delivery"><span class="secno">4. </span><span class="content">Report Delivery</span><a class="self-link" href="#report-delivery"></a></h2>
     <p>Over time, various features will queue up a list of <a data-link-type="dfn" href="#report" id="ref-for-report①②">reports</a> in the
-  user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑤">reporting cache</a>. The user agent will periodically grab
+  user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑥">reporting cache</a>. The user agent will periodically grab
   the list of currently pending reports, and deliver them to the associated
   endpoints. This document does not define a schedule for the user agent to
   follow, and assumes that the user agent will have enough contextual
@@ -1803,7 +1808,7 @@ reports in a consistent manner.</p>
     <h3 class="heading settled algorithm" data-algorithm="Queue data as type for endpoint group on settings" data-level="4.1" id="queue-report"><span class="secno">4.1. </span><span class="content"> Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var> </span><a class="self-link" href="#queue-report"></a></h3>
     <p>Given a serializable object (<var>data</var>), a string (<var>type</var>), another string
   (<var>endpoint group</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a> (<var>settings</var>),
-  the following algorithm will create a <a data-link-type="dfn" href="#report" id="ref-for-report①③">report</a>, and add it to <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑥">reporting cache</a>’s queue for future delivery.</p>
+  the following algorithm will create a <a data-link-type="dfn" href="#report" id="ref-for-report①③">report</a>, and add it to <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑦">reporting cache</a>’s queue for future delivery.</p>
     <ol>
      <li data-md="">
       <p>Let <var>report</var> be a new <a data-link-type="dfn" href="#report" id="ref-for-report①④">report</a> object with its values initialized as
@@ -1836,7 +1841,7 @@ reports in a consistent manner.</p>
       <p>Set <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url">url</a></code> to the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer" id="ref-for-concept-url-serializer">URL
   serializer</a> on <var>url</var> with the <em>exclude fragment flag</em> set.</p>
      <li data-md="">
-      <p>Add <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑦">reporting cache</a>.</p>
+      <p>Add <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a>.</p>
     </ol>
     <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from the serialized URL
   in the report. See <a href="#capability-urls">§7.1 Capability URLs</a>.</p>
@@ -1860,8 +1865,8 @@ reports in a consistent manner.</p>
          <li data-md="">
           <p><var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-group" id="ref-for-dom-report-group①">group</a></code> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#ascii-case-insensitive" id="ref-for-ascii-case-insensitive">ASCII case-insensitive</a> match for <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-group" id="ref-for-dom-client-group④">group</a></code></p>
          <li data-md="">
-          <p>If <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains" id="ref-for-dom-client-subdomains③">subdomains</a></code> is "<code>exclude</code>", <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-origin" id="ref-for-dom-report-origin①">origin</a></code> is the same as <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin③">origin</a></code></p>
-          <p>Otherwise, <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin④">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host①">host</a></code> is either
+          <p>If <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-subdomains" id="ref-for-dom-client-subdomains③">subdomains</a></code> is "<code>exclude</code>", <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-origin" id="ref-for-dom-report-origin①">origin</a></code> is the same as <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin②">origin</a></code></p>
+          <p>Otherwise, <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-origin" id="ref-for-dom-client-origin③">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host①">host</a></code> is either
   a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2">superdomain match</a> or a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2①">congruent match</a> for <var>report</var>’s <code class="idl"><a data-link-type="idl" href="#dom-report-origin" id="ref-for-dom-report-origin②">origin</a></code>'s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host②">host</a></code> <a data-link-type="biblio" href="#biblio-rfc6797">[RFC6797]</a></p>
         </ol>
       </ol>
@@ -1872,18 +1877,18 @@ reports in a consistent manner.</p>
     <p>A user agent sends reports by executing the following steps:</p>
     <ol>
      <li data-md="">
-      <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="#report" id="ref-for-report①⑥">report</a> objects in <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a>.</p>
+      <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="#report" id="ref-for-report①⑥">report</a> objects in <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a>.</p>
      <li data-md="">
       <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②③">endpoint</a> objects to lists of <a data-link-type="dfn" href="#report" id="ref-for-report①⑦">report</a> objects.</p>
      <li data-md="">
       <p>For each <var>report</var> in <var>reports</var>:</p>
       <ol>
        <li data-md="">
-        <p>For <var>endpoint</var> in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a>:</p>
+        <p>For <var>endpoint</var> in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①⓪">reporting cache</a>:</p>
         <ol>
          <li data-md="">
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#endpoint-expired" id="ref-for-endpoint-expired">expired</a>, skip to the next <var>endpoint</var>.</p>
-          <p class="note" role="note"><span>Note:</span> In this case, the user agent MAY remove <var>endpoint</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①⓪">reporting cache</a>, or it may wait and collect garbage <i lang="fr">en masse</i> at some point in the future as described
+          <p class="note" role="note"><span>Note:</span> In this case, the user agent MAY remove <var>endpoint</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a>, or it may wait and collect garbage <i lang="fr">en masse</i> at some point in the future as described
   in <a href="#gc">§5.2 Garbage Collection</a>.</p>
          <li data-md="">
           <p>If <var>endpoint</var> is <a data-link-type="dfn" href="#endpoint-pending" id="ref-for-endpoint-pending">pending</a>, skip to the next <var>endpoint</var>.</p>
@@ -1902,7 +1907,7 @@ reports in a consistent manner.</p>
           </ol>
         </ol>
        <li data-md="">
-        <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②④">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§5.2 Garbage Collection</a> at some point in the future.</p>
+        <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②④">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①②">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§5.2 Garbage Collection</a> at some point in the future.</p>
       </ol>
      <li data-md="">
       <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>, execute the
@@ -1916,7 +1921,7 @@ reports in a consistent manner.</p>
          <li data-md="">
           <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures①">failures</a></code> to 0, and its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after②">retry-after</a></code> to <code>null</code>.</p>
          <li data-md="">
-          <p>Remove each <a data-link-type="dfn" href="#report" id="ref-for-report①⑧">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①②">reporting
+          <p>Remove each <a data-link-type="dfn" href="#report" id="ref-for-report①⑧">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①③">reporting
   cache</a>.</p>
         </ol>
         <p>Otherwise, if <var>result</var> is "<code>Remove Endpoint</code>":</p>
@@ -1989,7 +1994,7 @@ reports in a consistent manner.</p>
       <dl>
        <dt data-md=""><code>url</code>
        <dd data-md="">
-        <p><var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url②">url</a></code></p>
+        <p><var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url③">url</a></code></p>
        <dt data-md=""><code>header list</code>
        <dd data-md="">
         <p>A new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list" id="ref-for-concept-header-list">header list</a> containing a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> named
@@ -2171,11 +2176,11 @@ Content-Type: application/report
   certainly will have privacy implications, and should carefully consider
   whether they should be enabled across origin boundaries.</p>
     <h3 class="heading settled" data-level="8.5" id="clear-cache"><span class="secno">8.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
-    <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①③">reporting cache</a> contains data about a user’s activity
+    <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①④">reporting cache</a> contains data about a user’s activity
   on the web, and user agents ought to handle this data carefully. In
   particular, if a user agent gives users the ability to clear their site data,
   browsing history, browsing cache, or similar, the user agent MUST also clear
-  the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①④">reporting cache</a>. Note that this includes both the pending reports
+  the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①⑤">reporting cache</a>. Note that this includes both the pending reports
   themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.</p>
     <h3 class="heading settled" data-level="8.6" id="disable"><span class="secno">8.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
@@ -2547,8 +2552,8 @@ Content-Type: application/report
    <b><a href="#dom-endpoint-url">#dom-endpoint-url</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-endpoint-url">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-dom-endpoint-url①">(2)</a>
-    <li><a href="#ref-for-dom-endpoint-url②">4.4. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-dom-endpoint-url①">(2)</a> <a href="#ref-for-dom-endpoint-url②">(3)</a>
+    <li><a href="#ref-for-dom-endpoint-url③">4.4. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -2610,9 +2615,9 @@ Content-Type: application/report
    <b><a href="#dom-client-origin">#dom-client-origin</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-client-origin">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-dom-client-origin①">(2)</a> <a href="#ref-for-dom-client-origin②">(3)</a>
-    <li><a href="#ref-for-dom-client-origin③">4.2. 
-    Does endpoint match report? </a> <a href="#ref-for-dom-client-origin④">(2)</a>
+    Process reporting endpoints for response to request </a> <a href="#ref-for-dom-client-origin①">(2)</a>
+    <li><a href="#ref-for-dom-client-origin②">4.2. 
+    Does endpoint match report? </a> <a href="#ref-for-dom-client-origin③">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-client-subdomains">
@@ -2754,13 +2759,13 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-reporting-cache">3.1.4. The max-age member</a>
     <li><a href="#ref-for-reporting-cache①">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-reporting-cache②">(2)</a> <a href="#ref-for-reporting-cache③">(3)</a> <a href="#ref-for-reporting-cache④">(4)</a>
-    <li><a href="#ref-for-reporting-cache⑤">4. Report Delivery</a>
-    <li><a href="#ref-for-reporting-cache⑥">4.1. 
-    Queue data as type for endpoint group on settings </a> <a href="#ref-for-reporting-cache⑦">(2)</a>
-    <li><a href="#ref-for-reporting-cache⑧">4.3. 
-    Send reports </a> <a href="#ref-for-reporting-cache⑨">(2)</a> <a href="#ref-for-reporting-cache①⓪">(3)</a> <a href="#ref-for-reporting-cache①①">(4)</a> <a href="#ref-for-reporting-cache①②">(5)</a>
-    <li><a href="#ref-for-reporting-cache①③">8.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reporting-cache②">(2)</a> <a href="#ref-for-reporting-cache③">(3)</a> <a href="#ref-for-reporting-cache④">(4)</a> <a href="#ref-for-reporting-cache⑤">(5)</a>
+    <li><a href="#ref-for-reporting-cache⑥">4. Report Delivery</a>
+    <li><a href="#ref-for-reporting-cache⑦">4.1. 
+    Queue data as type for endpoint group on settings </a> <a href="#ref-for-reporting-cache⑧">(2)</a>
+    <li><a href="#ref-for-reporting-cache⑨">4.3. 
+    Send reports </a> <a href="#ref-for-reporting-cache①⓪">(2)</a> <a href="#ref-for-reporting-cache①①">(3)</a> <a href="#ref-for-reporting-cache①②">(4)</a> <a href="#ref-for-reporting-cache①③">(5)</a>
+    <li><a href="#ref-for-reporting-cache①④">8.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-to">
