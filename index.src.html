@@ -407,7 +407,32 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   5.  For each |tuple| in |tuples|:
 
-      1.  Let |new| be a new <a>client</a> whose properties are set as follows:
+      1.  If there exists an <a>endpoint</a> (|endpoint|) in the <a>reporting
+          cache</a> whose {{endpoint/url}} is |tuple|'s {{URL}}:
+
+          1.  For each |client| in |endpoint|'s {{endpoint/clients}}, delete
+              |client| if |origin| is the same as |client|'s {{client/origin}}.
+
+      2.  If |tuple|'s {{client/ttl}} is equal to 0, skip to the next tuple.
+
+      3.  If there does not exist an <a>endpoint</a> (|endpoint|) in the
+          <a>reporting cache</a> whose {{endpoint/url}} is |tuple|'s {{URL}}:
+
+          1.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
+              as follows:
+
+              :   {{endpoint/url}}
+              ::  |tuple|'s {{URL}}
+              :   {{endpoint/failures}}
+              ::  0
+              :   {{endpoint/retry-after}}
+              ::  `null`
+              :   {{endpoint/clients}}
+              ::  an empty list
+
+          2.  Insert |endpoint| into the <a>reporting cache</a> for |origin|.
+
+      4.  Let |client| be a new <a>client</a> whose properties are set as follows:
 
           :   {{client/origin}}
           ::  |origin|
@@ -420,31 +445,8 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           :   {{client/creation}}
           ::  The current timestamp
 
-      2.  If there exists an <a>endpoint</a> (|endpoint|) in the <a>reporting
-          cache</a> whose {{endpoint/url}} is |tuple|'s {{URL}}:
+      5.  Append |client| to |endpoint|'s {{endpoint/clients}} list.
 
-          1.  For each |client| in |endpoint|'s {{endpoint/clients}}, delete
-              |client| if |new|'s {{client/origin}} is the same as |client|'s
-              {{client/origin}}.
-
-          2.  If |new|'s {{client/ttl}} is greater than 0, append |new| to
-              |endpoint|'s {{endpoint/clients}} list.
-
-          3.  Skip to the next |tuple|.
-
-      3.  Otherwise, there is no existing <a>endpoint</a>, so let |endpoint|
-          be a new <a>endpoint</a> whose properties are set as follows:
-
-          :   {{endpoint/url}}
-          ::  |tuple|'s {{URL}}
-          :   {{endpoint/failures}}
-          ::  0
-          :   {{endpoint/retry-after}}
-          ::  `null`
-          :   {{endpoint/clients}}
-          ::  A new list, containing |tuple|
-
-      4.  Insert |endpoint| into the <a>reporting cache</a> for |origin|.
 
   <h3 id="parse-header" algorithm>
     Parse reporting endpoint tuples from |value|
