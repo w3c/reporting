@@ -5,7 +5,7 @@ The Reporting API is a mechanism for web servers to tell browsers where to send 
 When a web application encounters some error or potential problem it is important that the application author have some mechanism to be made aware of that error.  Common errors such as unhandled JavaScript exceptions can be observed in script.  But other errors may occur when it's not possible to rely on running script (such as a browser crash, or a Content Security Policy violation that prevents the page from being loaded).  The Reporting API provides a generic mechanism for a browser to report errors back to an HTTP Server in an out-of-band fashion.
 
 ## Enabling reporting ##
-Reporting is enabled by specifying a `Report-To` header in the HTTP request, eg:
+Reporting is enabled by specifying a `Report-To` header in the HTTP response, eg:
 ```http
 Report-To: { "url": "https://example.com/reports", "max-age": 10886400 }
 ```
