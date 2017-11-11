@@ -32,6 +32,14 @@ Each report has:
  - `url`: the URL of the page which triggered the report.
  - `body`: the contents of the report as defined by the `type`.
 
+### Custom metdata ###
+
+A developer could want to attach some sort of metadata to an individual request in order to better understand the state of application (e.g. version of their app, a/b bucket, etc). This can be accomplished by encoding any relevant information into a query string for the `Report-To` `url` field. 
+
+```http
+Report-To: { "url": "https://example.com/reports?buildId=6e5x7crtyuvi&segment=united%20states", "max-age": 10886400 }
+```
+
 ## Basic report formats ##
 A number of basic report types are defined which are always enabled (and sent to the default reporting [group](http://wicg.github.io/reporting/#id-member)).
 
