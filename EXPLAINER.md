@@ -48,7 +48,8 @@ Deprecations are reports indicating that a browser API or feature has been used 
     "anticipatedRemoval": "1/1/2020", 
     "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
     "sourceFile": "https://foo.com/index.js",
-    "lineNumber": 1234
+    "lineNumber": 1234,
+    "columnNumber": 42
   }
 }
 ```
@@ -59,6 +60,7 @@ The report has the following properties:
 - `message`: A developer-readable message with details (typically matching what would be displayed on the developer console).  The message is not guaranteed to be unique for a given `id` (eg. it may contain additional context on how the API was used).
 - `sourceFile`: If known, the file which first used the indicated API
 - `lineNumber`: if known, the line number in `sourceFile` where the indicated API was first used.
+- `columnNumber`: if known, the column number in `sourceFile` where the indicated API was first used.
 
 ### Interventions ###
 An [intervention](https://github.com/WICG/interventions/blob/master/README.md) occurs when a browser decides not to honor a request made by the application (eg. for security, performance or user annoyance reasons).  The report properties are similar to those for deprecations.
@@ -72,7 +74,8 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
     "id": "audio-no-gesture", 
     "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
     "sourceFile": "https://foo.com/index.js",
-    "lineNumber": 1234
+    "lineNumber": 1234,
+    "columnNumber": 42
   }
 }
 ```
