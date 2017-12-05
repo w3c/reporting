@@ -5,7 +5,7 @@ The Reporting API is a mechanism for web servers to tell browsers where to send 
 When a web application encounters some error or potential problem it is important that the application author have some mechanism to be made aware of that error.  Common errors such as unhandled JavaScript exceptions can be observed in script.  But other errors may occur when it's not possible to rely on running script (such as a browser crash, or a Content Security Policy violation that prevents the page from being loaded).  The Reporting API provides a generic mechanism for a browser to report errors back to an HTTP Server in an out-of-band fashion.
 
 ## Enabling reporting ##
-Reporting is enabled by specifying a `Report-To` header in the HTTP request, eg:
+Reporting is enabled by specifying a `Report-To` header in the HTTP response, eg:
 ```http
 Report-To: { "url": "https://example.com/reports", "max-age": 10886400 }
 ```
@@ -48,7 +48,8 @@ Deprecations are reports indicating that a browser API or feature has been used 
     "anticipatedRemoval": "1/1/2020", 
     "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
     "sourceFile": "https://foo.com/index.js",
-    "lineNumber": 1234
+    "lineNumber": 1234,
+    "columnNumber": 42
   }
 }
 ```
@@ -59,6 +60,7 @@ The report has the following properties:
 - `message`: A developer-readable message with details (typically matching what would be displayed on the developer console).  The message is not guaranteed to be unique for a given `id` (eg. it may contain additional context on how the API was used).
 - `sourceFile`: If known, the file which first used the indicated API
 - `lineNumber`: if known, the line number in `sourceFile` where the indicated API was first used.
+- `columnNumber`: if known, the column number in `sourceFile` where the indicated API was first used.
 
 ### Interventions ###
 An [intervention](https://github.com/WICG/interventions/blob/master/README.md) occurs when a browser decides not to honor a request made by the application (eg. for security, performance or user annoyance reasons).  The report properties are similar to those for deprecations.
@@ -72,7 +74,8 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
     "id": "audio-no-gesture", 
     "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
     "sourceFile": "https://foo.com/index.js",
-    "lineNumber": 1234
+    "lineNumber": 1234,
+    "columnNumber": 42
   }
 }
 ```
@@ -92,7 +95,7 @@ A crash report indicates that the user was unable to continue using the page bec
 ```
 
 ## ReportingObserver - Observing reports from JavaScript
-In addition to (or even instead of) having reports delivered to an endpoint, it can be convenient to be informed of reports from within the page's JavaScript.  This doesn't make sense or isn't possible for all reports (eg. crashes), but is most useful for reports generated as a direct result of something the page's script has done (such as a deprecation warning).
+In addition to (or even instead of) having reports delivered to an endpoint, it can be convenient to be informed of reports from within the page's JavaScript (eg. for analytics libraries which have no way to influence HTTP headers).  This doesn't make sense or isn't possible for all reports (eg. crashes), but is most useful for reports generated as a direct result of something the page's script has done (such as a deprecation warning).
 
 ```javascript
 function onReport(reports, observer) {
