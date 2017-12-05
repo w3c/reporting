@@ -155,12 +155,12 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
     define a set of reporting endpoints named "`endpoint-1`":
 
     <pre>
-      <a>Report-To</a>: { "<a>url</a>": "https://example.com/reports",
-                   "<a>group</a>": "endpoint-1",
-                   "<a>max-age</a>": 10886400 },
-                 { "<a>url</a>": "https://backup.com/reports",
-                   "<a>group</a>": "endpoint-1",
-                   "<a>max-age</a>": 10886400 }
+      <a>Report-To</a>: { "<a for="ReportTo">url</a>": "https://example.com/reports",
+                   "<a for="ReportTo">group</a>": "endpoint-1",
+                   "<a for="ReportTo">max-age</a>": 10886400 },
+                 { "<a for="ReportTo">url</a>": "https://backup.com/reports",
+                   "<a for="ReportTo">group</a>": "endpoint-1",
+                   "<a for="ReportTo">max-age</a>": 10886400 }
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to that group:
@@ -178,12 +178,12 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: { "<a>url</a>": "https://example.com/csp-reports",
-                   "<a>group</a>": "csp-endpoint",
-                   "<a>max-age</a>": 10886400 },
-                 { "<a>url</a>": "https://example.com/hpkp-reports",
-                   "<a>group</a>": "hpkp-endpoint",
-                   "<a>max-age</a>": 10886400 }
+      <a>Report-To</a>: { "<a for="ReportTo">url</a>": "https://example.com/csp-reports",
+                   "<a for="ReportTo">group</a>": "csp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400 },
+                 { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports",
+                   "<a for="ReportTo">group</a>": "hpkp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400 }
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
@@ -231,7 +231,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   an <a>endpoint</a>.
 
   Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
-  which is an <a>origin</a>.
+  which is an <a spec="html">origin</a>.
 
   Each <a>client</a> has a <dfn for="client" export attribute>subdomains</dfn>
   flag (which is either "`include`" or "`exclude`").
@@ -254,32 +254,32 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>body</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>body</dfn>,
   which is either `null` or an object which can be serialized into a <a>JSON
   text</a>.
 
-  Each <a>report</a> has an <dfn for="report" export attribute>url</dfn>,
+  Each <a>report</a> has an <dfn for="report" export>url</dfn>,
   which is the address of the `Document` or `Worker` from which the report was
   generated.
 
   Note: We strip the username, password, and fragment from this serialized URL.
   See [[#capability-urls]].
 
-  Each <a>report</a> has an <dfn for="report" export attribute>origin</dfn>,
-  which is an <a>origin</a> representing the report's initiator.
+  Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
+  which is an <a spec="html">origin</a> representing the report's initiator.
 
-  Each <a>report</a> has an <dfn for="report" export attribute>group</dfn>,
+  Each <a>report</a> has an <dfn for="report" export>group</dfn>,
   which is a string representing the {{client/group}} to which this report
   will be sent.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>type</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>type</dfn>,
   which is a non-empty string specifying the type of data the report contains.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>timestamp</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>attempts</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>attempts</dfn>,
   which is a non-negative integer representing the number of times the user
   agent attempted to deliver the report.
 
@@ -287,8 +287,9 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
   is a storage mechanism that maintains a set of <a>endpoints</a> that websites
-  have instructed the user agent to associate with their <a>origins</a>, and a
-  set of <a>reports</a> which are queued for delivery.
+  have instructed the user agent to associate with their
+  <a spec="html">origins</a>, and a set of <a>reports</a> which are queued for
+  delivery.
 
   This storage mechanism is opaque, vendor-specific, and not exposed to the
   web, but it MUST provide the following methods which will be used in the
@@ -332,19 +333,20 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   <h4 id="url-member">The `url` member</h4>
 
-  The REQUIRED <dfn>`url`</dfn> member is a string that defines the location
-  of a reporting endpoint. The member's value MUST be a string; any other type
-  will result in a parse error.
+  The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines
+  the location of a reporting endpoint. The member's value MUST be a string; any
+  other type will result in a parse error.
 
   Moreover, the URL that the member's value represents MUST be <a>potentially
   trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
 
   <h4 id="id-member">The `group` member</h4>
 
-  The OPTIONAL <dfn>`group`</dfn> member is a string that associates a name with
-  the reporting endpoint. The member's value MUST be a string; any other type
-  will result in a parse error. If no member named "`group`" is present in the
-  object, the <a>endpoint</a> will be associated with a group named "`default`".
+  The OPTIONAL <dfn for="ReportTo">`group`</dfn> member is a string that
+  associates a name with the reporting endpoint. The member's value MUST be a
+  string; any other type will result in a parse error. If no member named
+  "`group`" is present in the object, the <a>endpoint</a> will be associated
+  with a group named "`default`".
 
   The group name is not unique and multiple endpoints may use the same name to
   create a set of reporting endpoints that can be used for backup and failover
@@ -357,16 +359,18 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   <h4 id="includesubdomains-member">The `includeSubdomains` member</h4>
 
-  The OPTIONAL <dfn>`includeSubdomains`</dfn> member is a boolean that enables
-  an endpoint for all subdomains of the current <a>origin</a>'s {{URL/host}}.
-  If no member named "`includeSubdomains`" is present in the object, or its
-  value is not "`true`", the endpoint will not be enabled for subdomains.
+  The OPTIONAL <dfn for="ReportTo">`includeSubdomains`</dfn> member is a boolean
+  that enables an endpoint for all subdomains of the current
+  <a spec="html">origin</a>'s {{URL/host}}.  If no member named
+  "`includeSubdomains`" is present in the object, or its value is not "`true`",
+  the endpoint will not be enabled for subdomains.
 
   <h4 id="max-age-member">The `max-age` member</h4>
 
-  The REQUIRED <dfn export>`max-age`</dfn> member defines the reporting endpoint's
-  lifetime, as a non-negative integer number of seconds. The member's value MUST
-  be a number; any other type will result in a parse error.
+  The REQUIRED <dfn for="ReportTo" export>`max-age`</dfn> member defines the
+  reporting endpoint's lifetime, as a non-negative integer number of seconds.
+  The member's value MUST be a number; any other type will result in a parse
+  error.
 
   A value of "`0`" will cause the <a>endpoint</a> to be removed from the user
   agent's <a>reporting cache</a>.
@@ -464,26 +468,26 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   3.  For each |item| in |list|:
 
-      1.  If |item| has no member named "<a>`url`</a>", or that member's value
-          is not a string, skip to the next |item|.
+      1.  If |item| has no member named "<a for="ReportTo">`url`</a>", or that
+          member's value is not a string, skip to the next |item|.
 
-      2.  If |item| has no member named "<a>`max-age`</a>", or that member's
-          value is not a number, skip to the next |item|.
+      2.  If |item| has no member named "<a for="ReportTo">`max-age`</a>", or
+          that member's value is not a number, skip to the next |item|.
 
       3.  Let |tuple| be a new tuple containing the following:
 
           :   "`url`"
           ::  The result of executing the <a>URL parser</a> on |item|'s
-              "<a>`url`</a>" member's value.
+              "<a for="ReportTo">`url`</a>" member's value.
           :   "`subdomains`"
           ::  "`Include`" if |item| has a member named
-              "<a>`includeSubdomains`</a>" whose value is `true`, "`Exclude`"
-              otherwise.
+              "<a for="ReportTo">`includeSubdomains`</a>" whose value is `true`,
+              "`Exclude`" otherwise.
           :   "`ttl`"
-          ::  |item|'s "<a>`max-age`</a>" member's value.
+          ::  |item|'s "<a for="ReportTo">`max-age`</a>" member's value.
           :   "`group`"
-          ::  |item|'s "<a>`group`</a>" member's value if present, and
-              "`default`" otherwise.
+          ::  |item|'s "<a for="ReportTo">`group`</a>" member's value if
+              present, and "`default`" otherwise.
 
       4.  If |tuple|'s "`url`" is not <a>potentially trustworthy</a>, or
           |tuple|'s "`ttl`" is a negative number, skip to the next |item|.
@@ -525,17 +529,17 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
 
-      :   {{report/body}}
+      :   [=report/body=]
       ::  |data|
-      :   {{report/origin}}
-      ::  |settings|'s <a>origin</a>
-      :   {{report/group}}
+      :   [=report/origin=]
+      ::  |settings|'s <a spec="html">origin</a>
+      :   [=report/group=]
       ::  |endpoint group|
-      :   {{report/type}}
+      :   [=report/type=]
       ::  |type|
-      :   {{report/timestamp}}
+      :   [=report/timestamp=]
       ::  The current timestamp.
-      :   {{report/attempts}}
+      :   [=report/attempts=]
       ::  0
 
   2.  Let |url| be |settings|'s <a>creation URL</a>.
@@ -543,10 +547,12 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
 
-  4.  Set |report|'s {{report/url}} to the result of executing the <a>URL
+  4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
   5.  Add |report| to the <a>reporting cache</a>.
+  
+  6.  Execute [[#notify-observers]] with |settings| and |report|.
 
   Note: We strip the username, password, and fragment from the serialized URL
   in the report. See [[#capability-urls]].
@@ -572,13 +578,13 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
       2.  Return "`Match`" if each of the following criteria is met:
 
-          1.  |report|'s {{report/group}} is an <a>ASCII case-insensitive</a>
+          1.  |report|'s [=report/group=] is an <a>ASCII case-insensitive</a>
               match for |client|'s {{client/group}}
 
           2.  If |client|'s {{client/subdomains}} is "`exclude`", |report|'s
-              {{report/origin}} is the same as |client|'s {{client/origin}}
+              [=report/origin=] is the same as |client|'s {{client/origin}}
 
-              Otherwise, |client|'s {{client/origin}}'s {{URL/host}} is either
+              Otherwise, |client|'s [=client/origin=]'s {{URL/host}} is either
               a <a>superdomain match</a> or a <a>congruent match</a> for
               |report|'s {{report/origin}}'s {{URL/host}} [[!RFC6797]]
 
@@ -691,20 +697,20 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           [[!ECMA-262]]:
 
           :   `age`
-          ::  The number of milliseconds between |report|'s {{report/timestamp}}
+          ::  The number of milliseconds between |report|'s [=report/timestamp=]
               and the current time.
           :   `type`
-          ::  |report|'s {{report/type}}
+          ::  |report|'s [=report/type=]
           :   `url`
-          ::  |report|'s {{report/url}}
+          ::  |report|'s [=report/url=]
           :   `body`
-          ::  |report|'s {{report/body}}
+          ::  |report|'s [=report/body=]
 
           Note: Client clocks are unreliable and subject to skew. We therefore
           deliver an `age` attribute rather than an absolute timestamp. See
           also [[#fingerprinting-clock-skew]]
 
-      2.  Increment |report|'s {{report/attempts}}.
+      2.  Increment |report|'s [=report/attempts=].
 
       3.  Append |data| to |collection|.
 
@@ -752,6 +758,130 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 </section>
 
 <section>
+  <h2 id="observers">Reporting Observers</h2>
+  Each <a>environment settings object</a> has an associated list of
+  <dfn>registered reporting observers</dfn> ({{ReportingObserver}} objects).
+   
+  <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
+
+  <pre class="idl">
+[NoInterfaceObject]
+interface ReportBody {
+};
+
+[NoInterfaceObject]
+interface Report {
+    readonly attribute DOMString type;
+    readonly attribute DOMString url;
+    readonly attribute ReportBody? body;
+};
+
+[Constructor(ReportingObserverCallback callback)]
+interface ReportingObserver {
+    void observe(optional ReportingObserverOptions options);
+    void disconnect();
+};
+
+callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
+
+dictionary ReportingObserverOptions {
+  sequence&lt;DOMString> types;
+};
+  </pre>
+  A {{ReportingObserver}} object can be used to observe some types of
+  <a>reports</a> from JavaScript when they are created.
+  
+  Issue: How do we specify which reports are observable?  Network-layer reports
+  like CSP reports will not be.  Maybe there's something about the settings
+  object?
+  
+  A <dfn id=dom-report interface>Report</dfn> is the application exposed
+  representation of a <a>report</a>. <dfn attribute for="Report">type</dfn>
+  returns [=report/type=], <dfn attribute for="Report">url</dfn> returns
+  [=report/url=] and <dfn attribute for="Report">body</dfn> returns
+  [=report/body=].
+    
+  Each {{ReportingObserver}} object has these associated concepts:
+    - A <dfn for=ReportingObserver>callback</dfn> set on creation.
+    - An {{ReportingObserverOptions}} dictionary called
+      <dfn for=ReportingObserver>options</dfn>.
+    - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
+      list</dfn> that is initially empty.
+
+  The <dfn constructor for=ReportingObserver><code>
+  ReportingObserver(|callback|)</code></dfn> constructor, when invoked, must
+  create a new {{ReportingObserver}} object with <a>callback</a> set to
+  |callback|, and then return it.
+  
+  The <dfn method for=ReportingObserver><code>observe(|options|)</code></dfn>
+  method, when invoked, must run these steps:
+  
+  1. Set the <a>context object</a>'s <a>options</a> to |options|.
+  
+  2. If it is not already present, add the <a>context object</a> to the 
+     list of <a>registered reporting observers</a> for the <a>environment
+     settings object</a> associated with the <a>context object</a>.
+  
+  The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
+  when invoked, must run these steps:
+  
+  1. If present, remove the <a>context object</a> from the list of
+     <a>registered reporting observers</a> for the <a>environment settings
+     object</a> associated with the <a>context object</a>.
+ 
+  <h3 id="notify-observers" algorithm>
+    Notify reporting observers on |settings| with |report|
+  </h3>
+  
+  This algorithm makes |report|'s contents available to any registered
+  {{ReportingObserver}}s on the provided <a>environment settings object</a>
+  |settings|.
+  
+  1. For each {{ReportingObserver}} |observer| of the <a>registered
+     observers</a> associated with |settings|:
+     
+     1. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
+        member which does not contain |report|'s [=report/type=], skip these
+        sub-steps.
+        
+     2. Create a new {{Report}} |r| with {{Report/type}} initialized to
+        |report|'s [=report/type=], {{Report/url}} initialized to |report|'s
+        [=report/url=], and {{Report/body}} initialized to |report|'s
+        [=report/body=].
+
+        Issue: how to polymorphically initialize body?
+       
+     3. Add |r| to the end of |observer|'s <a>report list</a>.
+         
+  2. <a>Queue a task</a> to [[#invoke-observers]] with a copy of the
+     <a>registered observers</a> associated with |settings|.
+   
+  <h3 id="invoke-observers" algorthm>
+    Invoke observers with |notify list|
+  </h3>
+  
+  This algorithm invokes observer callback functions for reports of previously
+  observed behavior.
+  
+  Note: It is possible for the registered observers and their options to be
+  different at this time than when reports were generated. It is important
+  that we rely only on the state at the time of generation, for example to
+  permit libraries to observe behavior only within the context of their own
+  code.  
+  
+  1. For each {{ReportingObserver}} |observer| in |notify list|:
+  
+     1. Let |reports| be a copy of |observer|'s <a>report list</a>
+     
+     2. Clear |observer|'s <a>report list</a>
+     
+     3. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
+        arguments consisting of |reports| and |observer|, and |observer| as the
+        <a>callback this value</a>.  If this throws an exception, <a>report the
+        exception</a>.
+</section>
+
+<section>
   <h2 id="implementation">Implementation Considerations</h2>
 
   <h3 id="delivery">Delivery</h3>
@@ -783,7 +913,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
       (perhaps a ~week?)
   *   <a>endpoints</a> whose {{endpoint/failures}} exceed
       some user-agent-defined threshold (~5 seems reasonable)
-  *   <a>reports</a> whose {{report/attempts}} exceed
+  *   <a>reports</a> whose [=report/attempts=] exceed
       some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> which have not been delivered in some arbitrary period of
       time (perhaps ~2 days?)
@@ -858,7 +988,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   that such URLs will be leaked via this reporting mechanism, we strip out
   credential information and fragment data from the URL we store as a
   <a>report</a>'s originator. It is still possible, however, for a feature
-  to unintentionally leak such data via a report's {{report/body}}. Implementers
+  to unintentionally leak such data via a report's [=report/body=]. Implementers
   SHOULD ensure that URLs contained in a report's body are similarly stripped.
 </section>
 
