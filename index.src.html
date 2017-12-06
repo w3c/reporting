@@ -757,8 +757,22 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
 <section>
   <h2 id="observers">Reporting Observers</h2>
-  Each <a>environment settings object</a> has an associated list of
-  <dfn>registered reporting observers</dfn> ({{ReportingObserver}} objects).
+
+  A <dfn>reporting observer</dfn> observes some types of <a>reports</a> from
+  JavaScript, and is represented in JavaScript by the {{ReportingObserver}}
+  object.
+
+  Each <a>environment settings object</a> has a <dfn>registered reporting
+  observer list</dfn>, which is a list of <a>reporting observers</a>.
+
+  To <dfn>register</dfn> a <a>reporting observer</a> means to add it to
+  the <a>registered reporting observer list</a>.
+
+  Each <a>environment settings object</a> has a <dfn>report buffer</dfn>, which
+  is an ordered list of <a>reports</a> that have been generated in
+  that <a>environment settings object</a>. This list is initially empty, and the
+  reports are stored in the same chronological order in which they are
+  generated.
    
   <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
 
@@ -783,11 +797,10 @@ interface ReportingObserver {
 callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
 
 dictionary ReportingObserverOptions {
-  sequence&lt;DOMString> types;
+    sequence&lt;DOMString> types;
+    boolean futureOnly;
 };
   </pre>
-  A {{ReportingObserver}} object can be used to observe some types of
-  <a>reports</a> from JavaScript when they are created.
   
   Issue: How do we specify which reports are observable?  Network-layer reports
   like CSP reports will not be.  Maybe there's something about the settings
@@ -796,15 +809,17 @@ dictionary ReportingObserverOptions {
   A <dfn id=dom-report interface>Report</dfn> is the application exposed
   representation of a <a>report</a>. <dfn attribute for="Report">type</dfn>
   returns [=report/type=], <dfn attribute for="Report">url</dfn> returns
-  [=report/url=] and <dfn attribute for="Report">body</dfn> returns
+  [=report/url=], and <dfn attribute for="Report">body</dfn> returns
   [=report/body=].
     
   Each {{ReportingObserver}} object has these associated concepts:
-    - A <dfn for=ReportingObserver>callback</dfn> set on creation.
-    - An {{ReportingObserverOptions}} dictionary called
+    - A <dfn for=ReportingObserver>callback</dfn> function set on creation.
+    - A {{ReportingObserverOptions}} dictionary called
       <dfn for=ReportingObserver>options</dfn>.
     - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
-      list</dfn> that is initially empty.
+      list</dfn>, which is initially empty if the <a>context object</a> has a
+      {{futureOnly}} <a>option</a> that is true, or a copy of the <a>report
+      buffer</a> of the associated <a>environment settings object</a> otherwise.
 
   The <dfn constructor for=ReportingObserver><code>
   ReportingObserver(|callback|)</code></dfn> constructor, when invoked, must
@@ -816,27 +831,29 @@ dictionary ReportingObserverOptions {
   
   1. Set the <a>context object</a>'s <a>options</a> to |options|.
   
-  2. If it is not already present, add the <a>context object</a> to the 
-     list of <a>registered reporting observers</a> for the <a>environment
-     settings object</a> associated with the <a>context object</a>.
+  2. If it is not already registered, <a>register</a> the <a>context object</a>
+     with its associated <a>environment settings object</a>.
   
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
-  
-  1. If present, remove the <a>context object</a> from the list of
-     <a>registered reporting observers</a> for the <a>environment settings
-     object</a> associated with the <a>context object</a>.
+
+  1. If the <a>context object</a> is not registered, stop.
+
+  2. Remove the <a>context object</a> from the <a>registered reporting observer
+     list</a> of its associated <a>environment settings object</a>.
+
+  3. Execute the <a href="#invoke-observers">invoke reporting observers</a>
+     algorithm with a list containing the <a>context object</a>.
  
   <h3 id="notify-observers" algorithm>
     Notify reporting observers on |settings| with |report|
   </h3>
   
-  This algorithm makes |report|'s contents available to any registered
-  {{ReportingObserver}}s on the provided <a>environment settings object</a>
+  This algorithm makes |report|'s contents available to any <a>registered</a>
+  <a>reporting observers</a> on the provided <a>environment settings object</a>
   |settings|.
   
-  1. For each {{ReportingObserver}} |observer| of the <a>registered
-     observers</a> associated with |settings|:
+  1. For each {{ReportingObserver}} |observer| <a>registered</a> with |settings|:
      
      1. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
         member which does not contain |report|'s [=report/type=], skip these
@@ -855,17 +872,17 @@ dictionary ReportingObserverOptions {
      <a>registered observers</a> associated with |settings|.
    
   <h3 id="invoke-observers" algorthm>
-    Invoke observers with |notify list|
+    Invoke reporting observers with |notify list|
   </h3>
   
   This algorithm invokes observer callback functions for reports of previously
   observed behavior.
   
-  Note: It is possible for the registered observers and their options to be
-  different at this time than when reports were generated. It is important
-  that we rely only on the state at the time of generation, for example to
-  permit libraries to observe behavior only within the context of their own
-  code.  
+  Note: It is possible for the <a>registered</a> reporting observers and
+  their <a>options</a> to be different at this time than when reports were
+  generated. It is important that we rely only on the state at the time of
+  generation, for example to permit libraries to observe behavior only within
+  the context of their own code.
   
   1. For each {{ReportingObserver}} |observer| in |notify list|:
   
