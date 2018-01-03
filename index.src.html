@@ -763,7 +763,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   object.
 
   Each <a>environment settings object</a> has a <dfn>registered reporting
-  observer list</dfn>, which is a list of <a>reporting observers</a>.
+  observer list</dfn>, which is an <a>ordered set</a> of <a>reporting observers</a>.
 
   Any <a>reporting observer</a> that is in a <a>registered reporting observer
   list</a> is considered <dfn>registered</dfn>.
@@ -787,9 +787,9 @@ interface Report {
   readonly attribute ReportBody? body;
 };
 
-[Constructor(ReportingObserverCallback callback)]
+[Constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options)]
 interface ReportingObserver {
-  void observe(optional ReportingObserverOptions options);
+  void observe();
   void disconnect();
 };
 
@@ -819,46 +819,51 @@ dictionary ReportingObserverOptions {
       list</dfn>, which is initially empty.
 
   The <dfn constructor for=ReportingObserver><code>
-  ReportingObserver(|callback|)</code></dfn> constructor, when invoked, must
-  create a new {{ReportingObserver}} object with <a>callback</a> set to
-  |callback|, and then return it.
+  ReportingObserver(|callback|, |options|)</code></dfn> constructor, when invoked, must run
+  these steps:
 
-  The <dfn method for=ReportingObserver><code>observe(|options|)</code></dfn>
+  1. Create a new {{ReportingObserver}} object |observer|.
+
+  2. Set |observer|'s <a>callback</a> to |callback|.
+
+  3. Set |observer|'s <a>options</a> to |options|.
+
+  4. Return |observer|.
+
+  The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
 
-  1. Set the <a>context object</a>'s <a>options</a> to |options|.
+  1. Let |settings| be the <a>environment settings object</a> associated with
+     the <a>context object</a>.
 
-  2. Let |settings| be the <a>environment settings object</a> associated with
-     the <a>context object</a>
+  2. Append the <a>context object</a> to the <a>registered reporting observer
+     list</a> of its associated <a>environment settings object</a>.
 
-  3. If it is not already registered, add the <a>context object</a> to
-     the <a>registered reporting observer list</a> of its
-     associated <a>environment settings object</a>.
+  3. If the <a>context object</a>'s {{futureOnly}} <a>option</a> is true, return.
 
-  4. If the <a>context object's</a> {{futureOnly}} <a>option</a> is true, stop.
+  4. Set <a>context object</a>'s {{futureOnly}} <a>option</a> to true.
 
-  5. For each <a>report</a> |report| in the <a>report buffer</a> associated with
-     |settings|, execute [[#add-report]] with |report| and the <a>context object</a>.
-
-  6. <a>Queue a task</a> to [[#invoke-observers]] with a list containing the <a>context object</a>
+  5. For each |report| in the <a>report buffer</a> associated with |settings|,
+     execute [[#add-report]] with |report| and the <a>context object</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
 
-  1. If the <a>context object</a> is not <a>registered</a>, stop.
+  1. If the <a>context object</a> is not <a>registered</a>, return.
 
   2. Remove the <a>context object</a> from the <a>registered reporting observer
      list</a> of its associated <a>environment settings object</a>.
 
   <h3 id="add-report" algorithm>
-    Add |report| to reporting |observer|
+    Add |report| to |observer|
   </h3>
 
-  This algorithm adds |report| as a {{Report}} object to |observer|'s <a>report
-  list</a>, so long as |report|'s <a>type</a> is observable by |observer|.
+  Given a <a>report</a> |report| and a {{ReportingObserver}} |observer|, this
+  algorithm adds |report| to |observer|'s <a>report list</a>, so long as
+  |report|'s <a>type</a> is observable by |observer|.
 
   1. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
-     member which does not contain |report|'s [=report/type=], stop.
+     member which does not contain |report|'s [=report/type=], return.
 
   2. Create a new {{Report}} |r| with {{Report/type}} initialized to |report|'s
      [=report/type=], {{Report/url}} initialized to |report|'s [=report/url=],
@@ -866,46 +871,42 @@ dictionary ReportingObserverOptions {
 
   Issue: how to polymorphically initialize body?
 
-  3. Add |r| to the end of |observer|'s <a>report list</a>.
-      
+  3. Append |r| to |observer|'s <a>report list</a>.
+
+  4. If the size of |observer|'s <a>report list</a> is 1, <a>Queue a task</a> to
+     [[#invoke-observers]] with a copy of the <a>registered reporting observer
+     list</a> of the <a>environment settings object</a> associated with
+     |observer|.
+
   <h3 id="notify-observers" algorithm>
     Notify reporting observers on |settings| with |report|
   </h3>
-  
+
   This algorithm makes |report|'s contents available to any <a>registered</a>
   <a>reporting observers</a> on the provided <a>environment settings object</a>
   |settings|.
-  
+
   1. For each {{ReportingObserver}} |observer| <a>registered</a> with
      |settings|, execute [[#add-report]] on |report| and |observer|.
- 
+
   2. Add |report| to the <a>report buffer</a> associated with |settings|.
-  
+
   3. If the <a>report buffer</a> now contains more than 100 reports, remove the
-     oldest report.
-  
-  4. <a>Queue a task</a> to [[#invoke-observers]] with a copy of the
-     <a>registered reporting observer list</a> associated with |settings|.
-   
+     item at the beginning of the <a>report buffer</a>.
+
   <h3 id="invoke-observers" algorthm>
     Invoke reporting observers with |notify list|
   </h3>
-  
+
   This algorithm invokes observer callback functions for reports of previously
   observed behavior.
-  
-  Note: It is possible for the <a>registered</a> reporting observers and
-  their <a>options</a> to be different at this time than when reports were
-  generated. It is important that we rely only on the state at the time of
-  generation, for example to permit libraries to observe behavior only within
-  the context of their own code.
-  
+
   1. For each {{ReportingObserver}} |observer| in |notify list|:
-  
+
      1. Let |reports| be a copy of |observer|'s <a>report list</a>
-     
+
      2. Clear |observer|'s <a>report list</a>
-     
+
      3. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
         arguments consisting of |reports| and |observer|, and |observer| as the
         <a>callback this value</a>.  If this throws an exception, <a>report the
