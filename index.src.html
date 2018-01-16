@@ -548,8 +548,8 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
-  5.  Add |report| to the <a>reporting cache</a>.
-  
+  5.  Append |report| to the <a>reporting cache</a>.
+
   6.  Execute [[#notify-observers]] with |settings| and |report|.
 
   Note: We strip the username, password, and fragment from the serialized URL
@@ -854,6 +854,22 @@ dictionary ReportingObserverOptions {
   2. Remove the <a>context object</a> from the <a>registered reporting observer
      list</a> of its associated <a>environment settings object</a>.
 
+  <h3 id="notify-observers" algorithm>
+    Notify reporting observers on |settings| with |report|
+  </h3>
+
+  This algorithm makes |report|'s contents available to any <a>registered</a>
+  <a>reporting observers</a> on the provided <a>environment settings object</a>
+  |settings|.
+
+  1. For each {{ReportingObserver}} |observer| <a>registered</a> with
+     |settings|, execute [[#add-report]] on |report| and |observer|.
+
+  2. Add |report| to the <a>report buffer</a> associated with |settings|.
+
+  3. If the <a>report buffer</a> now contains more than 100 reports, remove the
+     item at the beginning of the <a>report buffer</a>.
+
   <h3 id="add-report" algorithm>
     Add |report| to |observer|
   </h3>
@@ -878,22 +894,6 @@ dictionary ReportingObserverOptions {
      list</a> of the <a>environment settings object</a> associated with
      |observer|.
 
-  <h3 id="notify-observers" algorithm>
-    Notify reporting observers on |settings| with |report|
-  </h3>
-
-  This algorithm makes |report|'s contents available to any <a>registered</a>
-  <a>reporting observers</a> on the provided <a>environment settings object</a>
-  |settings|.
-
-  1. For each {{ReportingObserver}} |observer| <a>registered</a> with
-     |settings|, execute [[#add-report]] on |report| and |observer|.
-
-  2. Add |report| to the <a>report buffer</a> associated with |settings|.
-
-  3. If the <a>report buffer</a> now contains more than 100 reports, remove the
-     item at the beginning of the <a>report buffer</a>.
-
   <h3 id="invoke-observers" algorthm>
     Invoke reporting observers with |notify list|
   </h3>
@@ -903,11 +903,13 @@ dictionary ReportingObserverOptions {
 
   1. For each {{ReportingObserver}} |observer| in |notify list|:
 
-     1. Let |reports| be a copy of |observer|'s <a>report list</a>
+     1. If |observer|'s <a>report list</a> is empty, then continue.
 
-     2. Clear |observer|'s <a>report list</a>
+     2. Let |reports| be a copy of |observer|'s <a>report list</a>
 
-     3. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
+     3. Empty |observer|'s <a>report list</a>
+
+     4. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
         arguments consisting of |reports| and |observer|, and |observer| as the
         <a>callback this value</a>.  If this throws an exception, <a>report the
         exception</a>.
