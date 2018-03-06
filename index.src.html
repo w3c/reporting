@@ -104,6 +104,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html
   type: grammar
     text: json-field-value; url: rfc.section.2
+
+spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
+  type: dfn
+    text: Realm
 </pre>
 <pre class="biblio">
 {
@@ -550,7 +554,10 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   5.  Append |report| to the <a>reporting cache</a>.
 
-  6.  Execute [[#notify-observers]] with |settings| and |report|.
+  6.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+
+  7.  Execute [[#notify-observers]] with |environment| and |report|.
 
   Note: We strip the username, password, and fragment from the serialized URL
   in the report. See [[#capability-urls]].
@@ -762,25 +769,29 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   JavaScript, and is represented in JavaScript by the {{ReportingObserver}}
   object.
 
-  Each <a>environment settings object</a> has a <dfn>registered reporting
-  observer list</dfn>, which is an <a>ordered set</a> of <a>reporting observers</a>.
+  Not all <a>report</a> <a>types</a> are observable from
+  JavaScript. A <a>type</a> can be specified to be <dfn>observable from
+  JavaScript</dfn>, but is not by default.
+
+  Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
+  a <dfn>registered reporting observer list</dfn>, which is an <a>ordered
+  set</a> of <a>reporting observers</a>.
 
   Any <a>reporting observer</a> that is in a <a>registered reporting observer
   list</a> is considered <dfn>registered</dfn>.
 
-  Each <a>environment settings object</a> has a <dfn>report buffer</dfn>, which
-  is an ordered list of <a>reports</a> that have been generated in
-  that <a>environment settings object</a>. This list is initially empty, and the
-  reports are stored in the same order in which they are generated.
+  Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
+  a <dfn>report buffer</dfn>, which is a <a spec=infra>list</a>
+  of <a>reports</a> that have been generated in that <a spec=ecmascript
+  lt=realm>ECMAScript global environment</a>. This list is initially empty, and
+  the reports are stored in the same order in which they are generated.
 
   <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
 
   <pre class="idl">
-[NoInterfaceObject]
 interface ReportBody {
 };
 
-[NoInterfaceObject]
 interface Report {
   readonly attribute DOMString type;
   readonly attribute DOMString url;
@@ -791,19 +802,18 @@ interface Report {
 interface ReportingObserver {
   void observe();
   void disconnect();
+  ReportList takeRecords();
 };
 
 callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
 
 dictionary ReportingObserverOptions {
   sequence&lt;DOMString> types;
-  boolean futureOnly = false;
+  boolean buffered = true;
 };
-  </pre>
 
-  Issue: How do we specify which reports are observable?  Network-layer reports
-  like CSP reports will not be.  Maybe there's something about the settings
-  object?
+typedef sequence&lt;Report> ReportList;
+  </pre>
 
   A <dfn id=dom-report interface>Report</dfn> is the application exposed
   representation of a <a>report</a>. <dfn attribute for="Report">type</dfn>
@@ -817,6 +827,9 @@ dictionary ReportingObserverOptions {
       <dfn for=ReportingObserver>options</dfn>.
     - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
       list</dfn>, which is initially empty.
+
+  A {{ReportList}} represents a sequence of {{Report}}s, providing developers
+  with all the convenience methods found on JavaScript arrays.
 
   The <dfn constructor for=ReportingObserver><code>
   ReportingObserver(|callback|, |options|)</code></dfn> constructor, when invoked, must run
@@ -833,17 +846,17 @@ dictionary ReportingObserverOptions {
   The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
 
-  1. Let |settings| be the <a>environment settings object</a> associated with
+  1. Let |environment| be the <a spec=ecmascript lt=realm>ECMAScript global environment</a> associated with
      the <a>context object</a>.
 
   2. Append the <a>context object</a> to the <a>registered reporting observer
-     list</a> of its associated <a>environment settings object</a>.
+     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
 
-  3. If the <a>context object</a>'s {{futureOnly}} <a>option</a> is true, return.
+  3. If the <a>context object</a>'s {{buffered}} <a>option</a> is false, return.
 
-  4. Set <a>context object</a>'s {{futureOnly}} <a>option</a> to true.
+  4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
 
-  5. For each |report| in the <a>report buffer</a> associated with |settings|,
+  5. For each |report| in the <a>report buffer</a> associated with |environment|,
      execute [[#add-report]] with |report| and the <a>context object</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
@@ -852,20 +865,29 @@ dictionary ReportingObserverOptions {
   1. If the <a>context object</a> is not <a>registered</a>, return.
 
   2. Remove the <a>context object</a> from the <a>registered reporting observer
-     list</a> of its associated <a>environment settings object</a>.
+     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+
+  The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
+  when invoked, must run these steps:
+
+  1. Let |reports| be a copy of the <a>context object</a>'s <a>report list</a>.
+
+  2. Empty the <a>context object</a>'s <a>report list</a>.
+
+  3. Return |reports|.
 
   <h3 id="notify-observers" algorithm>
-    Notify reporting observers on |settings| with |report|
+    Notify reporting observers on |environment| with |report|
   </h3>
 
   This algorithm makes |report|'s contents available to any <a>registered</a>
-  <a>reporting observers</a> on the provided <a>environment settings object</a>
-  |settings|.
+  <a>reporting observers</a> on the provided <a spec=ecmascript lt=realm>ECMAScript global environment</a>
+  |environment|.
 
   1. For each {{ReportingObserver}} |observer| <a>registered</a> with
-     |settings|, execute [[#add-report]] on |report| and |observer|.
+     |environment|, execute [[#add-report]] on |report| and |observer|.
 
-  2. Add |report| to the <a>report buffer</a> associated with |settings|.
+  2. Append |report| to the <a>report buffer</a> associated with |environment|.
 
   3. If the <a>report buffer</a> now contains more than 100 reports, remove the
      item at the beginning of the <a>report buffer</a>.
@@ -878,10 +900,13 @@ dictionary ReportingObserverOptions {
   algorithm adds |report| to |observer|'s <a>report list</a>, so long as
   |report|'s <a>type</a> is observable by |observer|.
 
-  1. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
+  1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
+     return.
+
+  2. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
      member which does not contain |report|'s [=report/type=], return.
 
-  2. Create a new {{Report}} |r| with {{Report/type}} initialized to |report|'s
+  3. Create a new {{Report}} |r| with {{Report/type}} initialized to |report|'s
      [=report/type=], {{Report/url}} initialized to |report|'s [=report/url=],
      and {{Report/body}} initialized to |report|'s [=report/body=].
 
@@ -891,7 +916,7 @@ dictionary ReportingObserverOptions {
 
   4. If the size of |observer|'s <a>report list</a> is 1, <a>Queue a task</a> to
      [[#invoke-observers]] with a copy of the <a>registered reporting observer
-     list</a> of the <a>environment settings object</a> associated with
+     list</a> of the <a spec=ecmascript lt=realm>ECMAScript global environment</a> associated with
      |observer|.
 
   <h3 id="invoke-observers" algorthm>
