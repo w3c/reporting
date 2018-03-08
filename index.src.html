@@ -160,11 +160,11 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
     define a set of reporting endpoints named "`endpoint-1`":
 
     <pre>
-      <a>Report-To</a>: { "<a>group</a>": "endpoint-1",
-                   "<a>max-age</a>": 10886400,
+      <a>Report-To</a>: { "<a for="ReportTo">group</a>": "endpoint-1",
+                   "<a for="ReportTo">max-age</a>": 10886400,
                    "<a>endpoints</a>": [
-                     { "<a>url</a>": "https://example.com/reports" },
-                     { "<a>url</a>": "https://backup.com/reports" }
+                     { "<a for="ReportTo">url</a>": "https://example.com/reports" },
+                     { "<a for="ReportTo">url</a>": "https://backup.com/reports" }
                    ] }
     </pre>
 
@@ -189,15 +189,15 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
                  { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports",
                    "<a for="ReportTo">group</a>": "hpkp-endpoint",
                    "<a for="ReportTo">max-age</a>": 10886400 }
-      <a>Report-To</a>: { "<a>group</a>": "csp-endpoint",
-                   "<a>max-age</a>": 10886400,
-                   "<a>endpoints</a>": [
-                     { "<a>url</a>": "https://example.com/csp-reports" }
+      <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">endpoints</a>": [
+                     { "<a for="ReportTo">url</a>": "https://example.com/csp-reports" }
                    ] },
-                 { "<a>group</a>": "hpkp-endpoint",
-                   "<a>max-age</a>": 10886400,
-                   "<a>endpoints</a>": [
-                     { "<a>url</a>": "https://example.com/hpkp-reports" }
+                 { "<a for="ReportTo">group</a>": "hpkp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">endpoints</a>": [
+                     { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports" }
                    ] }
     </pre>
 
@@ -220,7 +220,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   a set of <a>endpoints</a>.
 
   Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
-  which is an <a>origin</a>.
+  which is an <a spec="html">origin</a>.
 
   Each <a>client</a> has an
   <dfn for="client" export attribute>endpoint-groups</dfn> list, which is a list
@@ -247,12 +247,12 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   either "`include`" or "`exclude`".
 
   Each <a>endpoint group</a> has a
-  <dfn for="endpoint group" export attribute>ttl</dfn> representing the the
-  number of seconds the group remains valid for an <a>origin</a>.
+  <dfn for="endpoint group" export attribute>ttl</dfn> representing the
+  number of seconds the group remains valid for an <a spec="html">origin</a>.
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>creation</dfn> which is the
-  timestamp at which the group was added to an <a>origin</a>.
+  timestamp at which the group was added to an <a spec="html">origin</a>.
 
   An <a>endpoint group</a> is
   <dfn for="endpoint group" id="endpoint-group-expired">expired</dfn> if its
@@ -262,7 +262,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   <h3 id="concept-endpoints">Endpoints</h3>
 
   An <dfn export>endpoint</dfn> is location to which <a>reports</a> for a
-  particular <a>origin</a> may be sent.
+  particular <a spec="html">origin</a> may be sent.
 
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
   which is a {{URL}}.
@@ -288,7 +288,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   which is either `null` or an object which can be serialized into a <a>JSON
   text</a>.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>url</dfn>, which
+  Each <a>report</a> has a <dfn for="report" export>url</dfn>, which
   is the address of the `Document` or `Worker` from which the report was
   generated.
 
@@ -298,9 +298,9 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
   which is an <a spec="html">origin</a> representing the report's initiator.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>group</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
-  <a>origin</a>'s <a>endpoint group</a> that the report will be sent to.
+  <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent to.
 
   Each <a>report</a> has a <dfn for="report" export>type</dfn>,
   which is a non-empty string specifying the type of data the report contains.
@@ -309,7 +309,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
-  Each <a>report</a> has an <dfn for="report" export attribute>attempts</dfn>
+  Each <a>report</a> has an <dfn for="report" export>attempts</dfn>
   counter, which is a non-negative integer representing the number of times the
   user agent attempted to deliver the report.
 
@@ -318,7 +318,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
   is a storage mechanism that maintains a set of <a>endpoint groups</a> that
   websites have instructed the user agent to associate with their
-  <a>origins</a>, and a set of <a>reports</a> which are queued for delivery.
+  <a spec="html">origins</a>, and a set of <a>reports</a> which are queued for
+  delivery.
 
   This storage mechanism is opaque, vendor-specific, and not exposed to the
   web, but it MUST provide the following methods which will be used in the
@@ -326,7 +327,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   1.  Insert, update, and remove <a>clients</a>.
   2.  Enqueue and dequeue <a>reports</a> for delivery.
-  3.  Retrieve a list of <a>client</a> objects for an <a>origin</a>.
+  3.  Retrieve a list of <a>client</a> objects for an <a spec="html">origin</a>.
   4.  Retrieve a list of queued <a>report</a> objects.
   5.  Clear the cache.
 </section>
@@ -362,7 +363,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   <h4 id="id-member">The `group` member</h4>
 
-  The OPTIONAL <dfn>`group`</dfn> member is a string that associates a
+  The OPTIONAL <dfn for="ReportTo">`group`</dfn> member is a string that associates a
   {{endpoint group/name}} with the <a>endpoint group</a>. The member's value
   MUST be a string; any other type will result in a parse error. If no member
   named "`group`" is present in the object, the <a>endpoint group</a> will be
@@ -371,14 +372,14 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   <h4 id="include-subdomains-member">The `include-subdomains` member</h4>
 
   The OPTIONAL <dfn>`include-subdomains`</dfn> member is a boolean that enables
-  this <a>endpoint group</a> for all subdomains of the current <a>origin</a>'s
-  {{URL/host}}.  If no member named "`include-subdomains`" is present in the
-  object, or its value is not "`true`", the <a>endpoint group</a> will not be
-  enabled for subdomains.
+  this <a>endpoint group</a> for all subdomains of the
+  current <a spec="html">origin</a>'s {{URL/host}}.  If no member named
+  "`include-subdomains`" is present in the object, or its value is not "`true`",
+  the <a>endpoint group</a> will not be enabled for subdomains.
 
   <h4 id="max-age-member">The `max-age` member</h4>
 
-  The REQUIRED <dfn export>`max-age`</dfn> member defines the <a>endpoint
+  The REQUIRED <dfn for="ReportTo" export>`max-age`</dfn> member defines the <a>endpoint
   group</a>'s lifetime, as a non-negative integer number of seconds. The
   member's value MUST be a non-negative number; any other type will result in a
   parse error.
@@ -388,7 +389,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   <h4 id="endpoints-member">The `endpoints` member</h4>
 
-  The REQUIRED <dfn export>`endpoints`</dfn> member defines the list of
+  The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the list of
   <a>endpoints</a> that belong to this <a>endpoint group</a>. The member's value
   MUST be an array of JSON objects.
 
@@ -405,7 +406,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   <h4 id="endpoints-url-member">The `endpoints.url` member</h4>
 
-  The REQUIRED <dfn>`url`</dfn> member is a string that defines the location
+  The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines the location
   of the <a>endpoint</a>. The member's value MUST be a string; any other type
   will result in a parse error.
 
@@ -418,7 +419,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
   algorithm extracts a list of <a>endpoints</a> and <a>endpoint groups</a> for
-  the request's <a>origin</a>, and updates the <a>reporting cache</a>
+  the request's <a spec="html">origin</a>, and updates the <a>reporting cache</a>
   accordingly.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
@@ -453,13 +454,13 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   6.  For each |item| in |list|:
 
-      1.  If |item| has no member named "<a>`max-age`</a>", or that member's
+      1.  If |item| has no member named "<a for="ReportTo">`max-age`</a>", or that member's
           value is not a number, skip to the next |item|.
 
       2.  If |item| has no member named "<a>`endpoints`</a>", or that member's
           value is not an array, skip to the next |item|.
 
-      3.  Let |name| be |item|'s "<a>`group`</a>" member's value if present, and
+      3.  Let |name| be |item|'s "<a for="ReportTo">`group`</a>" member's value if present, and
           "`default`" otherwise.
 
       4.  If there is already an <a>endpoint group</a> in |groups| whose
@@ -467,10 +468,10 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
       5.  Let |endpoints| be an empty list.
 
-      6.  For each |endpoint item| in the value of |item|'s "<a>`endpoints`</a>"
+      6.  For each |endpoint item| in the value of |item|'s "<a for="ReportTo">`endpoints`</a>"
           member:
 
-          1.  If |endpoint item| has no member named "<a>`url`</a>", or that
+          1.  If |endpoint item| has no member named "<a for="ReportTo">`url`</a>", or that
               member's value is not a string, skip to the next |endpoint item|.
 
           2.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
@@ -478,7 +479,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
               :   {{endpoint/url}}
               ::  The result of executing the <a>URL parser</a> on
-                  |endpoint item|'s "<a>`url`</a>" member's value.
+                  |endpoint item|'s "<a for="ReportTo">`url`</a>" member's value.
               :   {{endpoint/failures}}
               ::  0
               :   {{endpoint/retry-after}}
@@ -496,7 +497,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
               "<a>`include-subdomains`</a>" whose value is `true`, "`exclude`"
               otherwise.
           :   {{endpoint group/ttl}}
-          ::  |item|'s "<a>`max-age`</a>" member's value.
+          ::  |item|'s "<a for="ReportTo">`max-age`</a>" member's value.
           :   {{endpoint group/creation}}
           ::  The current timestamp
           :   {{endpoint group/endpoints}}
@@ -512,8 +513,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
       ::  |groups|
 
   8.  If there is already an entry in the <a>reporting cache</a> for
-      <a>origin</a>, replace it with |client|.  Otherwise, insert |client| into
-      the <a>reporting cache</a> for <a>origin</a>.
+      <a spec="html">origin</a>, replace it with |client|.  Otherwise, insert
+      |client| into the <a>reporting cache</a> for <a spec="html">origin</a>.
 
 
 <!-- Big Text: Reporting -->
@@ -617,14 +618,14 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   3.  For each |report| in |reports|:
 
-      1.  Let |origin| be |report|'s {{report/origin}}.
+      1.  Let |origin| be |report|'s [=report/origin=].
 
       2.  Let |client| be the entry in the <a>reporting cache</a> for
           |origin|.
 
       3.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
           {{client/endpoint-groups}} list whose {{endpoint group/name}} is
-          |report|'s {{report/group}}:
+          |report|'s [=report/group=]:
 
           1.  Let |endpoint| be the result of executing [[#choose-endpoint]] on
               |group|.
@@ -644,7 +645,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
           2.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
               {{client/endpoint-groups}} list whose {{endpoint group/name}} is
-              |report|'s {{report/group}} <b>and</b> whose {{endpoint
+              |report|'s [=report/group=] <b>and</b> whose {{endpoint
               group/subdomains}} flag is "`include`":
 
               1.  Let |endpoint| be the result of executing [[#choose-endpoint]]
