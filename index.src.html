@@ -142,7 +142,9 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   The delivery is not, however, guaranteed in a strict sense. We spell out a
   reasonable set of retry rules in the algorithms below, but it's quite possible
-  for a report to be dropped on the floor if things go badly.
+  for a report to be dropped on the floor if things go badly. Also, the user
+  agent MAY choose to prevent delivery of specific reports for privacy or
+  security reasons.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
   up groups of <a>endpoints</a> in order to distribute load. Each of these
@@ -279,6 +281,27 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   An <a>endpoint</a> is <dfn for="endpoint">pending</dfn> if its
   {{endpoint/retry-after}} is not `null`, and represents a time in the future.
 
+  <h3 id="concept-report-type">Report Type</h3>
+
+  A <dfn>report type</dfn> is a non-empty string that specifies the set of data
+  that is contained in the [=report/body=] of a <a>report</a>.
+
+  A <a>report type</a> can be specified to be <dfn>observable from
+  JavaScript</dfn>, meaning that <a>reports</a> of that type can be observed by
+  a <a>reporting observer</a>. By default, <a>report types</a> are
+  not <a>observable from JavaScript</a>.
+
+  A <a>report type</a> may have an associated <dfn>aggregated type</dfn>, which
+  is itself a <a>report type</a> with the following properties:
+
+  1.  A <a>report type</a>'s <a>aggregated type</a>'s <a>report</a> [=report/body=]
+      will contain a subset of the fields in the original <a>report type</a>'s
+      <a>report</a> [=report/body=], plus an additional "count" field.
+  2.  An <a>aggregated type</a>'s <a>report</a> [=report/body=] must contain a
+      "count" field.
+  3.  An <a>aggregated type</a> is never <a>observable from JavaScript</a>.
+  4.  An <a>aggregated type</a> does not have its own <a>aggregated type</a>.
+
   <h3 id="concept-reports">Reports</h3>
 
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
@@ -302,8 +325,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   which is a string representing the {{endpoint group/name}} of the
   <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent to.
 
-  Each <a>report</a> has a <dfn for="report" export>type</dfn>,
-  which is a non-empty string specifying the type of data the report contains.
+  Each <a>report</a> has a <dfn for="report" export>type</dfn>, which is
+  a <a>report type</a>.
 
   Each <a>report</a> has a <dfn for="report" export>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
@@ -716,6 +739,12 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   are only removed from the cache when they're successfully delivered, skipped
   reports will simply be delivered later.
 
+  Note: For reports in the cache with <a>report types</a> that have
+  associated <a>aggregated types</a>, endpoints may receive aggregated reports
+  (reports with the <a>aggregated type</a>) in place of these original
+  reports. Reports may be aggregated in this way for privacy or security
+  reasons.
+
   <h3 id="try-delivery" algorithm>
     Attempt to deliver |reports| to |endpoint|
   </h3>
@@ -781,17 +810,29 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
       ISSUE: The "`report`" type does not exist in Fetch. Talk to Anne.
 
-  4.  <a>Queue a task</a> to <a>fetch</a> |request|.
+  4.  User agent MAY choose to alter |request| in order to send |report| to a
+      different endpoint.
 
-  5.  <a>Wait for a response</a> (|response|).
+  NOTE: The intended use case for allowing reports to be sent to a different
+  endpoint is so that reports containing sensitive information (either for
+  security or privacy reasons) can be aggregated and anonymized at a third party
+  server before being delivered to the originally intended |endpoint|. For this
+  use case, the original |endpoint|'s {{endpoint/url}} should be included with
+  the |request|, and the eventually sent aggregated report should have
+  the <a>report type</a> of |report|'s <a>report type</a>'s <a>aggregated
+  type</a>.
 
-  6.  If |response|'s `status` is an <a>OK status</a> (200-299), return
+  5.  <a>Queue a task</a> to <a>fetch</a> |request|.
+
+  6.  <a>Wait for a response</a> (|response|).
+
+  7.  If |response|'s `status` is an <a>OK status</a> (200-299), return
       "`Success`".
 
-  7.  If |response|'s `status` is `410 Gone` [[!RFC7231]], return "`Remove
+  8.  If |response|'s `status` is `410 Gone` [[!RFC7231]], return "`Remove
       Endpoint`".
 
-  8.  Return "`Failure`".
+  9.  Return "`Failure`".
 </section>
 
 <section>
@@ -800,10 +841,6 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   A <dfn>reporting observer</dfn> observes some types of <a>reports</a> from
   JavaScript, and is represented in JavaScript by the {{ReportingObserver}}
   object.
-
-  Not all <a>report</a> <a>types</a> are observable from
-  JavaScript. A <a>type</a> can be specified to be <dfn>observable from
-  JavaScript</dfn>, but is not by default.
 
   Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
   a <dfn>registered reporting observer list</dfn>, which is an <a>ordered
