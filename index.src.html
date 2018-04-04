@@ -574,6 +574,9 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   7.  Execute [[#notify-observers]] with |environment| and |report|.
 
+  Note: <a>reporting observers</a> can only observe reports from the
+  same <a>environment settings object</a>.
+
   Note: We strip the username, password, and fragment from the serialized URL
   in the report. See [[#capability-urls]].
 
@@ -809,6 +812,13 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   lt=realm>ECMAScript global environment</a>. This list is initially empty, and
   the reports are stored in the same order in which they are generated.
 
+  Note: The purpose of the <a>report buffer</a> is to allow <a>reporting
+  observers</a> to observe reports that were generated earlier than that
+  observer could be created (via the {{buffered}} option). For example, some
+  reports might be generated during an earlier stage of page loading than when
+  an observer could first be created, or before a JavaScript library is loaded
+  that wishes to observe these reports.
+
   <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
 
   <pre class="idl">
@@ -999,6 +1009,9 @@ typedef sequence&lt;Report> ReportList;
       some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> which have not been delivered in some arbitrary period of
       time (perhaps ~2 days?)
+
+  For any <a>reports</a> that are discarded, these <a>reports</a> should also be
+  removed from the <a>report buffer</a> of any <a>reporting observer</a>.
 </section>
 
 <section>
