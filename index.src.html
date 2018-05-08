@@ -302,14 +302,17 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   3.  An <a>aggregated type</a> is never <a>observable from JavaScript</a>.
   4.  An <a>aggregated type</a> does not have its own <a>aggregated type</a>.
 
+  Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
+
   <h3 id="concept-reports">Reports</h3>
 
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.
 
-  Each <a>report</a> has a <dfn for="report" export>body</dfn>,
-  which is either `null` or an object which can be serialized into a <a>JSON
-  text</a>.
+  Each <a>report</a> has a <dfn for="report" export>body</dfn>, which is either
+  `null` or an object which can be serialized into a <a>JSON text</a>. The
+  fields contained in a <a>report</a>'s [=report/body=] are determined by
+  the <a>report</a>'s [=report/type=].
 
   Each <a>report</a> has a <dfn for="report" export>url</dfn>, which
   is the address of the `Document` or `Worker` from which the report was
@@ -1017,6 +1020,50 @@ typedef sequence&lt;Report> ReportList;
         arguments consisting of |reports| and |observer|, and |observer| as the
         <a>callback this value</a>.  If this throws an exception, <a>report the
         exception</a>.
+</section>
+
+<section>
+  <h2 id="report-types">Report Types</h2>
+
+  <h3 id="deprecation-report">Deprecation</h3>
+
+  Deprecation reports indicate that a browser API or feature has been used which
+  is expected to stop working in a future update to the browser.
+
+  Deprecation reports have the <a>report type</a> "deprecation".
+
+  A deprecation report's [=report/body=] contains the following fields:
+
+    - <dfn for="Deprecation">id</dfn>: an implementation-defined string
+      identifying the feature or API that will be removed. This string can be used
+      for grouping and counting related reports.
+
+    - <dfn for="Deprecation">anticipatedRemoval</dfn>: A date indicating roughly
+      when the browser version without the specified API will be generally
+      available (excluding "beta" or other pre-release channels). This value
+      should be used to sort or prioritize warnings. If unknown, this field
+      should be set to null, and the deprecation should be considered low
+      priority (removal may not actually occur).
+
+    - <dfn for="Deprecation">message</dfn>: A human-readable string with
+      details typically matching what would be displayed on the developer
+      console. The message is not guaranteed to be unique for a given
+      [=Deprecation/id=] (eg. it may contain additional context on how the API
+      was used).
+
+    - <dfn for="Deprecation">sourceFile</dfn>: If known, the file which first
+      used the indicated API, or null otherwise.
+
+    - <dfn for="Deprecation">lineNumber</dfn>: If known, the line number in
+      [=Deprecation/sourceFile=] where the indicated API was first used, or null
+      otherwise.
+
+    - <dfn for="Deprecation">columnNumber</dfn>: If known, the column number in
+      [=Deprecation/sourceFile=] where the indicated API was first used, or null
+      otherwise.
+
+  Deprecation reports are <a>observable from JavaScript</a>.
+
 </section>
 
 <section>
