@@ -1176,9 +1176,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 10a4272387e18258544277e014d3ca5eb0dcd258" name="generator">
+  <meta content="Bikeshed version b740b15097946bf1d13405dc6d7ca5a72fa2530d" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="d302adba48606a588767a1ad1f9b29c7e967e111" name="document-revision">
+  <meta content="e64602edb61a32f99c882c3d067253d9e8e3fd1c" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1267,13 +1267,13 @@ figcaption:not(.no-marker)::before {
 <style>/* style-var-click-highlighting */
 
     var { cursor: pointer; }
-    var.selected0 { background-color: hsl(60deg, 50%, 90%); }
-    var.selected1 { background-color: hsl(0deg, 50%, 90%); }
-    var.selected2 { background-color: hsl(120deg, 50%, 90%); }
-    var.selected3 { background-color: hsl(180deg, 50%, 90%); }
-    var.selected4 { background-color: hsl(30deg, 50%, 90%); }
-    var.selected5 { background-color: hsl(240deg, 50%, 90%); }
-    var.selected6 { background-color: hsl(330deg, 80%, 93%); }
+    var.selected0 { background-color: #F4D200 }
+    var.selected1 { background-color: #FF87A2 }
+    var.selected2 { background-color: #96E885 }
+    var.selected3 { background-color: #3EEED2 }
+    var.selected4 { background-color: #EACFB6 }
+    var.selected5 { background-color: #82DDFF }
+    var.selected6 { background-color: #FFBCF2 }
     </style>
 <style>/* style-autolinks */
 
@@ -1436,7 +1436,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-03">3 May 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-11">11 May 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3467,13 +3467,11 @@ Content-Type: application/report
             let highlightClass = null;
             if(addClass) {
                 const index = chooseHighlightIndex(algoName, varName);
-                console.log("add", index);
                 indexCounts.get(algoName)[index] += 1;
                 indexNames.set(algoName+"///"+varName, index);
                 highlightClass = nameFromIndex(index);
             } else {
                 const index = previousHighlightIndex(algoName, varName);
-                console.log("remove", index);
                 indexCounts.get(algoName)[index] -= 1;
                 highlightClass = nameFromIndex(index);
             }
