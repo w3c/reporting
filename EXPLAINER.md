@@ -45,25 +45,25 @@ Deprecations are reports indicating that a browser API or feature has been used 
   "url": "https://example.com/",
   "body": {
     "id": "websql", 
-    "anticipatedRemoval": "1/1/2020", 
+    "anticipated-removal": "1/1/2020", 
     "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
-    "sourceFile": "https://foo.com/index.js",
-    "lineNumber": 1234,
-    "columnNumber": 42
+    "source-file": "https://foo.com/index.js",
+    "line-number": 1234,
+    "column-number": 42
   }
 }
 ```
 
 The report has the following properties:
 - `id` (required): an implementation-defined string identifying the feature or API that will be removed.  This string can be used for grouping and counting related reports.
-- `anticipatedRemoval`: A date indicating roughly when the browser version without the specified API will be generally available (excluding "beta" or other pre-release channels).  This value should be used to sort or prioritize warnings.  When omitted the deprecation should be considered low priority (removal may not actually occur).  
+- `anticipated-removal`: A date indicating roughly when the browser version without the specified API will be generally available (excluding "beta" or other pre-release channels).  This value should be used to sort or prioritize warnings.  When omitted the deprecation should be considered low priority (removal may not actually occur).  
 - `message`: A developer-readable message with details (typically matching what would be displayed on the developer console).  The message is not guaranteed to be unique for a given `id` (eg. it may contain additional context on how the API was used).
-- `sourceFile`: If known, the file which first used the indicated API
-- `lineNumber`: if known, the line number in `sourceFile` where the indicated API was first used.
-- `columnNumber`: if known, the column number in `sourceFile` where the indicated API was first used.
+- `source-file`: If known, the file which first used the indicated API
+- `line-number`: if known, the line number in `source-file` where the indicated API was first used.
+- `column-number`: if known, the column number in `source-file` where the indicated API was first used.
 
 ### Interventions ###
-An [intervention](https://github.com/WICG/interventions/blob/master/README.md) occurs when a browser decides not to honor a request made by the application (eg. for security, performance or user annoyance reasons).  The report properties are the same as those for deprecations, except for the absense of `anticipatedRemoval`.
+An [intervention](https://github.com/WICG/interventions/blob/master/README.md) occurs when a browser decides not to honor a request made by the application (eg. for security, performance or user annoyance reasons).  The report properties are the same as those for deprecations, except for the absense of `anticipated-removal`.
 
 ```json
 {
@@ -73,9 +73,9 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
   "body": {
     "id": "audio-no-gesture", 
     "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
-    "sourceFile": "https://foo.com/index.js",
-    "lineNumber": 1234,
-    "columnNumber": 42
+    "source-file": "https://foo.com/index.js",
+    "line-number": 1234,
+    "column-number": 42
   }
 }
 ```
@@ -89,14 +89,14 @@ A crash report indicates that the user was unable to continue using the page bec
   "age": 10,
   "url": "https://example.com/",
   "body": {
-    "crashId": "c2dd3217-24f5-4bee-b74d-99bd055e7edb",
+    "crash-id": "c2dd3217-24f5-4bee-b74d-99bd055e7edb",
     "type": "oom"
   }
 }
 ```
 
 The report has the following properties:
-- `crashId`: A unique identifier. This identifier will not be meaningful to developers directly, but it can potentially be supplied to the browser vendor for more details.
+- `crash-id`: A unique identifier. This identifier will not be meaningful to developers directly, but it can potentially be supplied to the browser vendor for more details.
 - `type`: A more specific classification of the type of crash that occured. Currently, the only valid type is "oom" (omitted otherwise), indicating an out-of-memory crash.
 
 ## ReportingObserver - Observing reports from JavaScript

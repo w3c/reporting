@@ -1035,14 +1035,14 @@ typedef sequence&lt;Report> ReportList;
   A deprecation report's [=report/body=] contains the following fields:
 
     - <dfn for="Deprecation">id</dfn>: an implementation-defined string
-      identifying the feature or API that will be removed. This string can be used
-      for grouping and counting related reports.
+      identifying the feature or API that will be removed. This string can be
+      used for grouping and counting related reports.
 
-    - <dfn for="Deprecation">anticipatedRemoval</dfn>: A date indicating roughly
-      when the browser version without the specified API will be generally
-      available (excluding "beta" or other pre-release channels). This value
-      should be used to sort or prioritize warnings. If unknown, this field
-      should be set to null, and the deprecation should be considered low
+    - <dfn for="Deprecation">anticipated-removal</dfn>: A date indicating
+      roughly when the browser version without the specified API will be
+      generally available (excluding "beta" or other pre-release channels). This
+      value should be used to sort or prioritize warnings. If unknown, this
+      field should be set to null, and the deprecation should be considered low
       priority (removal may not actually occur).
 
     - <dfn for="Deprecation">message</dfn>: A human-readable string with
@@ -1051,16 +1051,16 @@ typedef sequence&lt;Report> ReportList;
       [=Deprecation/id=] (eg. it may contain additional context on how the API
       was used).
 
-    - <dfn for="Deprecation">sourceFile</dfn>: If known, the file which first
+    - <dfn for="Deprecation">source-file</dfn>: If known, the file which first
       used the indicated API, or null otherwise.
 
-    - <dfn for="Deprecation">lineNumber</dfn>: If known, the line number in
-      [=Deprecation/sourceFile=] where the indicated API was first used, or null
-      otherwise.
+    - <dfn for="Deprecation">line-number</dfn>: If known, the line number in
+      [=Deprecation/source-file=] where the indicated API was first used, or
+      null otherwise.
 
-    - <dfn for="Deprecation">columnNumber</dfn>: If known, the column number in
-      [=Deprecation/sourceFile=] where the indicated API was first used, or null
-      otherwise.
+    - <dfn for="Deprecation">column-number</dfn>: If known, the column number in
+      [=Deprecation/source-file=] where the indicated API was first used, or
+      null otherwise.
 
   Deprecation reports are <a>observable from JavaScript</a>.
 
