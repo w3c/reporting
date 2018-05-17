@@ -105,6 +105,10 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html
   type: grammar
     text: json-field-value; url: rfc.section.2
+
+spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
+  type: dfn
+    text: Realm
 </pre>
 <pre class="biblio">
 {
@@ -138,7 +142,8 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   The delivery is not, however, guaranteed in a strict sense. We spell out a
   reasonable set of retry rules in the algorithms below, but it's quite possible
-  for a report to be dropped on the floor if things go badly.
+  for a report to be dropped on the floor if things go badly. Also, the user
+  agent MAY choose to prevent delivery of specific reports.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
   up groups of <a>endpoints</a>.  The user agent will do its best to deliver a
@@ -156,11 +161,11 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
     define a set of reporting endpoints named "`endpoint-1`":
 
     <pre>
-      <a>Report-To</a>: { "<a>group</a>": "endpoint-1",
-                   "<a>max-age</a>": 10886400,
+      <a>Report-To</a>: { "<a for="ReportTo">group</a>": "endpoint-1",
+                   "<a for="ReportTo">max-age</a>": 10886400,
                    "<a>endpoints</a>": [
-                     { "<a>url</a>": "https://example.com/reports", "<a>priority</a>": 1 },
-                     { "<a>url</a>": "https://backup.com/reports", "<a>priority</a>": 2 }
+                     { "<a for="ReportTo">url</a>": "https://example.com/reports", "<a for="ReportTo">priority</a>": 1 },
+                     { "<a for="ReportTo">url</a>": "https://backup.com/reports", "<a for="ReportTo">priority</a>": 2 }
                    ] }
     </pre>
 
@@ -179,15 +184,21 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: { "<a>group</a>": "csp-endpoint",
-                   "<a>max-age</a>": 10886400,
-                   "<a>endpoints</a>": [
-                     { "<a>url</a>": "https://example.com/csp-reports" }
+      <a>Report-To</a>: { "<a for="ReportTo">url</a>": "https://example.com/csp-reports",
+                   "<a for="ReportTo">group</a>": "csp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400 },
+                 { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports",
+                   "<a for="ReportTo">group</a>": "hpkp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400 }
+      <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">endpoints</a>": [
+                     { "<a for="ReportTo">url</a>": "https://example.com/csp-reports" }
                    ] },
-                 { "<a>group</a>": "hpkp-endpoint",
-                   "<a>max-age</a>": 10886400,
-                   "<a>endpoints</a>": [
-                     { "<a>url</a>": "https://example.com/hpkp-reports" }
+                 { "<a for="ReportTo">group</a>": "hpkp-endpoint",
+                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">endpoints</a>": [
+                     { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports" }
                    ] }
     </pre>
 
@@ -210,7 +221,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   a set of <a>endpoints</a>.
 
   Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
-  which is an <a>origin</a>.
+  which is an <a spec="html">origin</a>.
 
   Each <a>client</a> has an
   <dfn for="client" export attribute>endpoint-groups</dfn> list, which is a list
@@ -237,12 +248,12 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   either "`include`" or "`exclude`".
 
   Each <a>endpoint group</a> has a
-  <dfn for="endpoint group" export attribute>ttl</dfn> representing the the
-  number of seconds the group remains valid for an <a>origin</a>.
+  <dfn for="endpoint group" export attribute>ttl</dfn> representing the
+  number of seconds the group remains valid for an <a spec="html">origin</a>.
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>creation</dfn> which is the
-  timestamp at which the group was added to an <a>origin</a>.
+  timestamp at which the group was added to an <a spec="html">origin</a>.
 
   An <a>endpoint group</a> is
   <dfn for="endpoint group" id="endpoint-group-expired">expired</dfn> if its
@@ -252,7 +263,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   <h3 id="concept-endpoints">Endpoints</h3>
 
   An <dfn export>endpoint</dfn> is location to which <a>reports</a> for a
-  particular <a>origin</a> may be sent.
+  particular <a spec="html">origin</a> may be sent.
 
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
   which is a {{URL}}.
@@ -275,37 +286,62 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   An <a>endpoint</a> is <dfn for="endpoint">pending</dfn> if its
   {{endpoint/retry-after}} is not `null`, and represents a time in the future.
 
+  <h3 id="concept-report-type">Report Type</h3>
+
+  A <dfn>report type</dfn> is a non-empty string that specifies the set of data
+  that is contained in the [=report/body=] of a <a>report</a>.
+
+  When a <a>report type</a> is defined (in this spec or others), it can be
+  specified to be <dfn>observable from JavaScript</dfn>, meaning
+  that <a>reports</a> of that type can be observed by a <a>reporting
+  observer</a>. By default, <a>report types</a> are not <a>observable from
+  JavaScript</a>.
+
+  A <a>report type</a> may have an associated <dfn>aggregated type</dfn>, which
+  is itself a <a>report type</a> with the following properties:
+
+  1.  A <a>report type</a>'s <a>aggregated type</a>'s <a>report</a> [=report/body=]
+      will contain a subset of the fields in the original <a>report type</a>'s
+      <a>report</a> [=report/body=], plus an additional "count" field.
+  2.  An <a>aggregated type</a>'s <a>report</a> [=report/body=] must contain a
+      "count" field.
+  3.  An <a>aggregated type</a> is never <a>observable from JavaScript</a>.
+  4.  An <a>aggregated type</a> does not have its own <a>aggregated type</a>.
+
+  Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
+
   <h3 id="concept-reports">Reports</h3>
 
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>body</dfn>,
-  which is either `null` or an object which can be serialized into a <a>JSON
-  text</a>.
+  Each <a>report</a> has a <dfn for="report" export>body</dfn>, which is either
+  `null` or an object which can be serialized into a <a>JSON text</a>. The
+  fields contained in a <a>report</a>'s [=report/body=] are determined by
+  the <a>report</a>'s [=report/type=].
 
-  Each <a>report</a> has a <dfn for="report" export attribute>url</dfn>, which
+  Each <a>report</a> has a <dfn for="report" export>url</dfn>, which
   is the address of the `Document` or `Worker` from which the report was
   generated.
 
   Note: We strip the username, password, and fragment from this serialized URL.
   See [[#capability-urls]].
 
-  Each <a>report</a> has an <dfn for="report" export attribute>origin</dfn>,
-  which is an <a>origin</a> representing the report's initiator.
+  Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
+  which is an <a spec="html">origin</a> representing the report's initiator.
 
-  Each <a>report</a> has an <dfn for="report" export attribute>group</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
-  <a>origin</a>'s <a>endpoint group</a> that the report will be sent to.
+  <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent to.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>type</dfn>,
-  which is a non-empty string specifying the type of data the report contains.
+  Each <a>report</a> has a <dfn for="report" export>type</dfn>, which is
+  a <a>report type</a>.
 
-  Each <a>report</a> has a <dfn for="report" export attribute>timestamp</dfn>,
+  Each <a>report</a> has a <dfn for="report" export>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.
 
-  Each <a>report</a> has an <dfn for="report" export attribute>attempts</dfn>
+  Each <a>report</a> has an <dfn for="report" export>attempts</dfn>
   counter, which is a non-negative integer representing the number of times the
   user agent attempted to deliver the report.
 
@@ -314,7 +350,8 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
   is a storage mechanism that maintains a set of <a>endpoint groups</a> that
   websites have instructed the user agent to associate with their
-  <a>origins</a>, and a set of <a>reports</a> which are queued for delivery.
+  <a spec="html">origins</a>, and a set of <a>reports</a> which are queued for
+  delivery.
 
   This storage mechanism is opaque, vendor-specific, and not exposed to the
   web, but it MUST provide the following methods which will be used in the
@@ -322,7 +359,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   1.  Insert, update, and remove <a>clients</a>.
   2.  Enqueue and dequeue <a>reports</a> for delivery.
-  3.  Retrieve a list of <a>client</a> objects for an <a>origin</a>.
+  3.  Retrieve a list of <a>client</a> objects for an <a spec="html">origin</a>.
   4.  Retrieve a list of queued <a>report</a> objects.
   5.  Clear the cache.
 
@@ -373,7 +410,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   <h4 id="id-member">The `group` member</h4>
 
-  The OPTIONAL <dfn>`group`</dfn> member is a string that associates a
+  The OPTIONAL <dfn for="ReportTo">`group`</dfn> member is a string that associates a
   {{endpoint group/name}} with the <a>endpoint group</a>. The member's value
   MUST be a string; any other type will result in a parse error. If no member
   named "`group`" is present in the object, the <a>endpoint group</a> will be
@@ -382,14 +419,14 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   <h4 id="include-subdomains-member">The `include-subdomains` member</h4>
 
   The OPTIONAL <dfn>`include-subdomains`</dfn> member is a boolean that enables
-  this <a>endpoint group</a> for all subdomains of the current <a>origin</a>'s
-  {{URL/host}}.  If no member named "`include-subdomains`" is present in the
-  object, or its value is not "`true`", the <a>endpoint group</a> will not be
-  enabled for subdomains.
+  this <a>endpoint group</a> for all subdomains of the
+  current <a spec="html">origin</a>'s {{URL/host}}.  If no member named
+  "`include-subdomains`" is present in the object, or its value is not "`true`",
+  the <a>endpoint group</a> will not be enabled for subdomains.
 
   <h4 id="max-age-member">The `max-age` member</h4>
 
-  The REQUIRED <dfn export>`max-age`</dfn> member defines the <a>endpoint
+  The REQUIRED <dfn for="ReportTo" export>`max-age`</dfn> member defines the <a>endpoint
   group</a>'s lifetime, as a non-negative integer number of seconds. The
   member's value MUST be a non-negative number; any other type will result in a
   parse error.
@@ -399,7 +436,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   <h4 id="endpoints-member">The `endpoints` member</h4>
 
-  The REQUIRED <dfn export>`endpoints`</dfn> member defines the list of
+  The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the list of
   <a>endpoints</a> that belong to this <a>endpoint group</a>. The member's value
   MUST be an array of JSON objects.
 
@@ -416,7 +453,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   <h4 id="endpoints-url-member">The `endpoints.url` member</h4>
 
-  The REQUIRED <dfn>`url`</dfn> member is a string that defines the location
+  The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines the location
   of the <a>endpoint</a>. The member's value MUST be a string; any other type
   will result in a parse error.
 
@@ -443,7 +480,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
   algorithm extracts a list of <a>endpoints</a> and <a>endpoint groups</a> for
-  the request's <a>origin</a>, and updates the <a>reporting cache</a>
+  the request's <a spec="html">origin</a>, and updates the <a>reporting cache</a>
   accordingly.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
@@ -478,13 +515,13 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   6.  For each |item| in |list|:
 
-      1.  If |item| has no member named "<a>`max-age`</a>", or that member's
+      1.  If |item| has no member named "<a for="ReportTo">`max-age`</a>", or that member's
           value is not a number, skip to the next |item|.
 
       2.  If |item| has no member named "<a>`endpoints`</a>", or that member's
           value is not an array, skip to the next |item|.
 
-      3.  Let |name| be |item|'s "<a>`group`</a>" member's value if present, and
+      3.  Let |name| be |item|'s "<a for="ReportTo">`group`</a>" member's value if present, and
           "`default`" otherwise.
 
       4.  If there is already an <a>endpoint group</a> in |groups| whose
@@ -492,10 +529,10 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
       5.  Let |endpoints| be an empty list.
 
-      6.  For each |endpoint item| in the value of |item|'s "<a>`endpoints`</a>"
+      6.  For each |endpoint item| in the value of |item|'s "<a for="ReportTo">`endpoints`</a>"
           member:
 
-          1.  If |endpoint item| has no member named "<a>`url`</a>", or that
+          1.  If |endpoint item| has no member named "<a for="ReportTo">`url`</a>", or that
               member's value is not a string, skip to the next |endpoint item|.
 
           2.  If |endpoint item| has a member named "<a>`priority`</a>", whose
@@ -511,13 +548,15 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
               :   {{endpoint/url}}
               ::  The result of executing the <a>URL parser</a> on
-                  |endpoint item|'s "<a>`url`</a>" member's value.
+                  |endpoint item|'s "<a for="ReportTo">`url`</a>" member's
+                  value.
               :   {{endpoint/priority}}
-              ::  The value of the |endpoint item|'s "<a>`priority`</a>" member,
-                  if present; `1` otherwise.
+              ::  The value of the |endpoint item|'s "<a
+                  for="ReportTo">`priority`</a>" member, if present; `1`
+                  otherwise.
               :   {{endpoint/weight}}
-              ::  The value of the |endpoint item|'s "<a>`weight`</a>" member,
-                  if present; `1` otherwise.
+              ::  The value of the |endpoint item|'s "<a
+                  for="ReportTo">`weight`</a>" member, if present; `1` otherwise.
               :   {{endpoint/failures}}
               ::  0
               :   {{endpoint/retry-after}}
@@ -532,10 +571,10 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           ::  |name|
           :   {{endpoint group/subdomains}}
           ::  "`include`" if |item| has a member named
-              "<a>`include-subdomains`</a>" whose value is `true`, "`exclude`"
-              otherwise.
+              "<a for="ReportTo">`include-subdomains`</a>" whose value is
+              `true`, "`exclude`" otherwise.
           :   {{endpoint group/ttl}}
-          ::  |item|'s "<a>`max-age`</a>" member's value.
+          ::  |item|'s "<a for="ReportTo">`max-age`</a>" member's value.
           :   {{endpoint group/creation}}
           ::  The current timestamp
           :   {{endpoint group/endpoints}}
@@ -551,8 +590,8 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
       ::  |groups|
 
   8.  If there is already an entry in the <a>reporting cache</a> for
-      <a>origin</a>, replace it with |client|.  Otherwise, insert |client| into
-      the <a>reporting cache</a> for <a>origin</a>.
+      <a spec="html">origin</a>, replace it with |client|.  Otherwise, insert
+      |client| into the <a>reporting cache</a> for <a spec="html">origin</a>.
 
 
 <!-- Big Text: Reporting -->
@@ -584,17 +623,17 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
 
-      :   {{report/body}}
+      :   [=report/body=]
       ::  |data|
-      :   {{report/origin}}
-      ::  |settings|'s <a>origin</a>
-      :   {{report/group}}
+      :   [=report/origin=]
+      ::  |settings|'s <a spec="html">origin</a>
+      :   [=report/group=]
       ::  |endpoint group|
-      :   {{report/type}}
+      :   [=report/type=]
       ::  |type|
-      :   {{report/timestamp}}
+      :   [=report/timestamp=]
       ::  The current timestamp.
-      :   {{report/attempts}}
+      :   [=report/attempts=]
       ::  0
 
   2.  Let |url| be |settings|'s <a>creation URL</a>.
@@ -602,16 +641,30 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
 
-  4.  Set |report|'s {{report/url}} to the result of executing the <a>URL
+  4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
-  5.  Add |report| to the <a>reporting cache</a>.
+  5.  Append |report| to the <a>reporting cache</a>.
+
+  6.  The user agent MAY choose to hide |report| from JavaScript (for example,
+      for privacy or security reasons). If so, return.
+
+  7.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+
+  8.  Execute [[#notify-observers]] with |environment| and |report|.
+
+  Note: <a>reporting observers</a> can only observe reports from the
+  same <a>environment settings object</a>.
 
   Note: We strip the username, password, and fragment from the serialized URL
   in the report. See [[#capability-urls]].
 
   Note: The user agent MAY reject reports for any reason. This API does not
   guarantee delivery of arbitrary amounts of data, for instance.
+
+  Note: Non user agent clients (with no JavaScript engine) should not interact
+  with <a>reporting observers</a>, and thus should return in step 6.
 
   <h3 id="choose-endpoint">
     Choose an |endpoint| from a |group|
@@ -671,14 +724,14 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
   3.  For each |report| in |reports|:
 
-      1.  Let |origin| be |report|'s {{report/origin}}.
+      1.  Let |origin| be |report|'s [=report/origin=].
 
       2.  Let |client| be the entry in the <a>reporting cache</a> for
           |origin|.
 
       3.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
           {{client/endpoint-groups}} list whose {{endpoint group/name}} is
-          |report|'s {{report/group}}:
+          |report|'s [=report/group=]:
 
           1.  Let |endpoint| be the result of executing [[#choose-endpoint]] on
               |group|.
@@ -698,7 +751,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
           2.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
               {{client/endpoint-groups}} list whose {{endpoint group/name}} is
-              |report|'s {{report/group}} <b>and</b> whose {{endpoint
+              |report|'s [=report/group=] <b>and</b> whose {{endpoint
               group/subdomains}} flag is "`include`":
 
               1.  Let |endpoint| be the result of executing [[#choose-endpoint]]
@@ -760,6 +813,12 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   are only removed from the cache when they're successfully delivered, skipped
   reports will simply be delivered later.
 
+  Note: For reports in the cache with <a>report types</a> that have
+  associated <a>aggregated types</a>, endpoints may receive aggregated reports
+  (reports with the <a>aggregated type</a>) in place of these original
+  reports. Reports may be aggregated in this way for privacy or security
+  reasons.
+
   <h3 id="try-delivery" algorithm>
     Attempt to deliver |reports| to |endpoint|
   </h3>
@@ -778,20 +837,20 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
           [[!ECMA-262]]:
 
           :   `age`
-          ::  The number of milliseconds between |report|'s {{report/timestamp}}
+          ::  The number of milliseconds between |report|'s [=report/timestamp=]
               and the current time.
           :   `type`
-          ::  |report|'s {{report/type}}
+          ::  |report|'s [=report/type=]
           :   `url`
-          ::  |report|'s {{report/url}}
+          ::  |report|'s [=report/url=]
           :   `body`
-          ::  |report|'s {{report/body}}
+          ::  |report|'s [=report/body=]
 
           Note: Client clocks are unreliable and subject to skew. We therefore
           deliver an `age` attribute rather than an absolute timestamp. See
           also [[#fingerprinting-clock-skew]]
 
-      2.  Increment |report|'s {{report/attempts}}.
+      2.  Increment |report|'s [=report/attempts=].
 
       3.  Append |data| to |collection|.
 
@@ -825,17 +884,257 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
 
       ISSUE: The "`report`" type does not exist in Fetch. Talk to Anne.
 
-  4.  <a>Queue a task</a> to <a>fetch</a> |request|.
+  4.  User agent MAY choose to alter |request| in order to send |report| to a
+      different endpoint.
 
-  5.  <a>Wait for a response</a> (|response|).
+  Note: The intended use case for allowing reports to be sent to a different
+  endpoint is so that reports containing sensitive information (either for
+  security or privacy reasons) can be aggregated and anonymized at a third party
+  server before being delivered to the originally intended |endpoint|. For this
+  use case, the original |endpoint|'s {{endpoint/url}} should be included with
+  the |request|, and the eventually sent aggregated report should have
+  the <a>report type</a> of |report|'s <a>report type</a>'s <a>aggregated
+  type</a>.
 
-  6.  If |response|'s `status` is an <a>OK status</a> (200-299), return
+  5.  <a>Queue a task</a> to <a>fetch</a> |request|.
+
+  6.  <a>Wait for a response</a> (|response|).
+
+  7.  If |response|'s `status` is an <a>OK status</a> (200-299), return
       "`Success`".
 
-  7.  If |response|'s `status` is `410 Gone` [[!RFC7231]], return "`Remove
+  8.  If |response|'s `status` is `410 Gone` [[!RFC7231]], return "`Remove
       Endpoint`".
 
-  8.  Return "`Failure`".
+  9.  Return "`Failure`".
+</section>
+
+<section>
+  <h2 id="observers">Reporting Observers</h2>
+
+  A <dfn>reporting observer</dfn> observes some types of <a>reports</a> from
+  JavaScript, and is represented in JavaScript by the {{ReportingObserver}}
+  object.
+
+  Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
+  a <dfn>registered reporting observer list</dfn>, which is an <a>ordered
+  set</a> of <a>reporting observers</a>.
+
+  Any <a>reporting observer</a> that is in a <a>registered reporting observer
+  list</a> is considered <dfn>registered</dfn>.
+
+  Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
+  a <dfn>report buffer</dfn>, which is a <a spec=infra>list</a>
+  of <a>reports</a> that have been generated in that <a spec=ecmascript
+  lt=realm>ECMAScript global environment</a>. This list is initially empty, and
+  the reports are stored in the same order in which they are generated.
+
+  Note: The purpose of the <a>report buffer</a> is to allow <a>reporting
+  observers</a> to observe reports that were generated earlier than that
+  observer could be created (via the {{buffered}} option). For example, some
+  reports might be generated during an earlier stage of page loading than when
+  an observer could first be created, or before a JavaScript library is loaded
+  that wishes to observe these reports.
+
+  Note: </a>Reporting observers</a> are only relevant for user agents with
+  JavaScript engines.
+
+  <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
+
+  <pre class="idl">
+interface ReportBody {
+};
+
+interface Report {
+  readonly attribute DOMString type;
+  readonly attribute DOMString url;
+  readonly attribute ReportBody? body;
+};
+
+[Constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options)]
+interface ReportingObserver {
+  void observe();
+  void disconnect();
+  ReportList takeRecords();
+};
+
+callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
+
+dictionary ReportingObserverOptions {
+  sequence&lt;DOMString> types;
+  boolean buffered = true;
+};
+
+typedef sequence&lt;Report> ReportList;
+  </pre>
+
+  A <dfn id=dom-report interface>Report</dfn> is the application exposed
+  representation of a <a>report</a>. <dfn attribute for="Report">type</dfn>
+  returns [=report/type=], <dfn attribute for="Report">url</dfn> returns
+  [=report/url=], and <dfn attribute for="Report">body</dfn> returns
+  [=report/body=].
+
+  Each {{ReportingObserver}} object has these associated concepts:
+    - A <dfn for=ReportingObserver>callback</dfn> function set on creation.
+    - A {{ReportingObserverOptions}} dictionary called
+      <dfn for=ReportingObserver>options</dfn>.
+    - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
+      list</dfn>, which is initially empty.
+
+  A {{ReportList}} represents a sequence of {{Report}}s, providing developers
+  with all the convenience methods found on JavaScript arrays.
+
+  The <dfn constructor for=ReportingObserver><code>
+  ReportingObserver(|callback|, |options|)</code></dfn> constructor, when invoked, must run
+  these steps:
+
+  1. Create a new {{ReportingObserver}} object |observer|.
+
+  2. Set |observer|'s <a>callback</a> to |callback|.
+
+  3. Set |observer|'s <a>options</a> to |options|.
+
+  4. Return |observer|.
+
+  The <dfn method for=ReportingObserver><code>observe()</code></dfn>
+  method, when invoked, must run these steps:
+
+  1. Let |environment| be the <a spec=ecmascript lt=realm>ECMAScript global environment</a> associated with
+     the <a>context object</a>.
+
+  2. Append the <a>context object</a> to the <a>registered reporting observer
+     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+
+  3. If the <a>context object</a>'s {{buffered}} <a>option</a> is false, return.
+
+  4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
+
+  5. For each |report| in the <a>report buffer</a> associated with |environment|,
+     execute [[#add-report]] with |report| and the <a>context object</a>.
+
+  The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
+  when invoked, must run these steps:
+
+  1. If the <a>context object</a> is not <a>registered</a>, return.
+
+  2. Remove the <a>context object</a> from the <a>registered reporting observer
+     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+
+  The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
+  when invoked, must run these steps:
+
+  1. Let |reports| be a copy of the <a>context object</a>'s <a>report list</a>.
+
+  2. Empty the <a>context object</a>'s <a>report list</a>.
+
+  3. Return |reports|.
+
+  <h3 id="notify-observers" algorithm>
+    Notify reporting observers on |environment| with |report|
+  </h3>
+
+  This algorithm makes |report|'s contents available to any <a>registered</a>
+  <a>reporting observers</a> on the provided <a spec=ecmascript lt=realm>ECMAScript global environment</a>
+  |environment|.
+
+  1. For each {{ReportingObserver}} |observer| <a>registered</a> with
+     |environment|, execute [[#add-report]] on |report| and |observer|.
+
+  2. Append |report| to the <a>report buffer</a> associated with |environment|.
+
+  3. If the <a>report buffer</a> now contains more than 100 reports, remove the
+     item at the beginning of the <a>report buffer</a>.
+
+  <h3 id="add-report" algorithm>
+    Add |report| to |observer|
+  </h3>
+
+  Given a <a>report</a> |report| and a {{ReportingObserver}} |observer|, this
+  algorithm adds |report| to |observer|'s <a>report list</a>, so long as
+  |report|'s <a>type</a> is observable by |observer|.
+
+  1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
+     return.
+
+  2. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
+     member which does not contain |report|'s [=report/type=], return.
+
+  3. Create a new {{Report}} |r| with {{Report/type}} initialized to |report|'s
+     [=report/type=], {{Report/url}} initialized to |report|'s [=report/url=],
+     and {{Report/body}} initialized to |report|'s [=report/body=].
+
+  Issue: how to polymorphically initialize body?
+
+  3. Append |r| to |observer|'s <a>report list</a>.
+
+  4. If the size of |observer|'s <a>report list</a> is 1, <a>Queue a task</a> to
+     [[#invoke-observers]] with a copy of the <a>registered reporting observer
+     list</a> of the <a spec=ecmascript lt=realm>ECMAScript global environment</a> associated with
+     |observer|.
+
+  <h3 id="invoke-observers" algorthm>
+    Invoke reporting observers with |notify list|
+  </h3>
+
+  This algorithm invokes observer callback functions for reports of previously
+  observed behavior.
+
+  1. For each {{ReportingObserver}} |observer| in |notify list|:
+
+     1. If |observer|'s <a>report list</a> is empty, then continue.
+
+     2. Let |reports| be a copy of |observer|'s <a>report list</a>
+
+     3. Empty |observer|'s <a>report list</a>
+
+     4. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
+        arguments consisting of |reports| and |observer|, and |observer| as the
+        <a>callback this value</a>.  If this throws an exception, <a>report the
+        exception</a>.
+</section>
+
+<section>
+  <h2 id="report-types">Report Types</h2>
+
+  <h3 id="deprecation-report">Deprecation</h3>
+
+  Deprecation reports indicate that a browser API or feature has been used which
+  is expected to stop working in a future update to the browser.
+
+  Deprecation reports have the <a>report type</a> "deprecation".
+
+  A deprecation report's [=report/body=] contains the following fields:
+
+    - <dfn for="Deprecation">id</dfn>: an implementation-defined string
+      identifying the feature or API that will be removed. This string can be used
+      for grouping and counting related reports.
+
+    - <dfn for="Deprecation">anticipatedRemoval</dfn>: A date indicating roughly
+      when the browser version without the specified API will be generally
+      available (excluding "beta" or other pre-release channels). This value
+      should be used to sort or prioritize warnings. If unknown, this field
+      should be set to null, and the deprecation should be considered low
+      priority (removal may not actually occur).
+
+    - <dfn for="Deprecation">message</dfn>: A human-readable string with
+      details typically matching what would be displayed on the developer
+      console. The message is not guaranteed to be unique for a given
+      [=Deprecation/id=] (eg. it may contain additional context on how the API
+      was used).
+
+    - <dfn for="Deprecation">sourceFile</dfn>: If known, the file which first
+      used the indicated API, or null otherwise.
+
+    - <dfn for="Deprecation">lineNumber</dfn>: If known, the line number in
+      [=Deprecation/sourceFile=] where the indicated API was first used, or null
+      otherwise.
+
+    - <dfn for="Deprecation">columnNumber</dfn>: If known, the column number in
+      [=Deprecation/sourceFile=] where the indicated API was first used, or null
+      otherwise.
+
+  Deprecation reports are <a>observable from JavaScript</a>.
+
 </section>
 
 <section>
@@ -870,10 +1169,13 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
       of time (perhaps a ~week?)
   *   <a>endpoints</a> whose {{endpoint/failures}} exceed
       some user-agent-defined threshold (~5 seems reasonable)
-  *   <a>reports</a> whose {{report/attempts}} exceed
+  *   <a>reports</a> whose [=report/attempts=] exceed
       some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> which have not been delivered in some arbitrary period of
       time (perhaps ~2 days?)
+
+  For any <a>reports</a> that are discarded, these <a>reports</a> should also be
+  removed from the <a>report buffer</a> of any <a>reporting observer</a>.
 </section>
 
 <section>
@@ -945,7 +1247,7 @@ spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-
   that such URLs will be leaked via this reporting mechanism, we strip out
   credential information and fragment data from the URL we store as a
   <a>report</a>'s originator. It is still possible, however, for a feature
-  to unintentionally leak such data via a report's {{report/body}}. Implementers
+  to unintentionally leak such data via a report's [=report/body=]. Implementers
   SHOULD ensure that URLs contained in a report's body are similarly stripped.
 </section>
 
