@@ -148,10 +148,10 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   Reporting can generate a good deal of traffic, so we allow developers to set
   up groups of <a>endpoints</a>.  The user agent will do its best to deliver a
   particular report to <strong>at most one</strong> endpoint in a group.
-  Endpoints can be assigned weights to distribute load, with endpoint receiving
-  a specified fraction of reporting traffic.  Endpoints can be assigned
-  priorities, allowing developers to set up fallback collectors that are only
-  tried when uploads to primary collectors fails.
+  Endpoints can be assigned weights to distribute load, with each endpoint
+  receiving a specified fraction of reporting traffic.  Endpoints can be
+  assigned priorities, allowing developers to set up fallback collectors that
+  are only tried when uploads to primary collectors fail.
 
   <h3 id="examples">Examples</h3>
 
