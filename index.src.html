@@ -462,17 +462,17 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   <h4 id="endpoints-priority-member">The `endpoints.priority` member</h4>
 
-  The OPTIONAL <dfn>`priority`</dfn> member is a number that defines which
-  failover class the <a>endpoint</a> belongs to.  The member's value, if
-  present, MUST be a non-negative integer; any other type will result in a parse
-  error.
+  The OPTIONAL <dfn for="ReportTo">`priority`</dfn> member is a number that
+  defines which failover class the <a>endpoint</a> belongs to.  The member's
+  value, if present, MUST be a non-negative integer; any other type will result
+  in a parse error.
 
   <h4 id="endpoints-weight-member">The `endpoints.weight` member</h4>
 
-  The OPTIONAL <dfn>`weight`</dfn> member is a number that defines load
-  balancing for the failover class that the <a>endpoint</a> belongs to.  The
-  member's value, if present, MUST be a non-negative integer; any other type
-  will result in a parse error.
+  The OPTIONAL <dfn for="ReportTo">`weight`</dfn> member is a number that
+  defines load balancing for the failover class that the <a>endpoint</a> belongs
+  to.  The member's value, if present, MUST be a non-negative integer; any other
+  type will result in a parse error.
 
   <h3 id="process-header" algorithm>
     Process reporting endpoints for |response| to |request|
@@ -535,13 +535,13 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
           1.  If |endpoint item| has no member named "<a for="ReportTo">`url`</a>", or that
               member's value is not a string, skip to the next |endpoint item|.
 
-          2.  If |endpoint item| has a member named "<a>`priority`</a>", whose
-              value is not a non-negative integer, skip to the next |endpoint
-              item|.
+          2.  If |endpoint item| has a member named "<a
+              for="ReportTo">`priority`</a>", whose value is not a non-negative
+              integer, skip to the next |endpoint item|.
 
-          3.  If |endpoint item| has a member named "<a>`weight`</a>", whose
-              value is not a non-negative integer, skip to the next |endpoint
-              item|.
+          3.  If |endpoint item| has a member named "<a
+              for="ReportTo">`weight`</a>", whose value is not a non-negative
+              integer, skip to the next |endpoint item|.
 
           4.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
               as follows:
