@@ -1211,9 +1211,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 2da2bba6b02a18ea677caf6ce3612fec356ed85f" name="generator">
+  <meta content="Bikeshed version 1a927b7d2ff9a70dcdc5dc9f892fd154b7b64097" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="d46d0f1812ffa185b4f602fccf23d576d3f858d2" name="document-revision">
+  <meta content="41c1fd07e27ed8783b997bac4d2c8b74b0bf3d75" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1471,7 +1471,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-15">15 May 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-05-22">22 May 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1530,6 +1530,7 @@ reports in a consistent manner.</p>
       <li><a href="#concept-report-type"><span class="secno">2.4</span> <span class="content">Report Type</span></a>
       <li><a href="#concept-reports"><span class="secno">2.5</span> <span class="content">Reports</span></a>
       <li><a href="#concept-storage"><span class="secno">2.6</span> <span class="content">Storage</span></a>
+      <li><a href="#concept-failover-load-balancing"><span class="secno">2.7</span> <span class="content">Failover and load balancing</span></a>
      </ol>
     <li>
      <a href="#endpoint-delivery"><span class="secno">3</span> <span class="content">Endpoint Delivery</span></a>
@@ -1542,6 +1543,8 @@ reports in a consistent manner.</p>
         <li><a href="#max-age-member"><span class="secno">3.1.3</span> <span class="content">The <code>max-age</code> member</span></a>
         <li><a href="#endpoints-member"><span class="secno">3.1.4</span> <span class="content">The <code>endpoints</code> member</span></a>
         <li><a href="#endpoints-url-member"><span class="secno">3.1.5</span> <span class="content">The <code>endpoints.url</code> member</span></a>
+        <li><a href="#endpoints-priority-member"><span class="secno">3.1.6</span> <span class="content">The <code>endpoints.priority</code> member</span></a>
+        <li><a href="#endpoints-weight-member"><span class="secno">3.1.7</span> <span class="content">The <code>endpoints.weight</code> member</span></a>
        </ol>
       <li><a href="#process-header"><span class="secno">3.2</span> <span class="content"> Process reporting endpoints for <var>response</var> to <var>request</var> </span></a>
      </ol>
@@ -1625,21 +1628,22 @@ reports in a consistent manner.</p>
   for a report to be dropped on the floor if things go badly. Also, the user
   agent MAY choose to prevent delivery of specific reports.</p>
     <p>Reporting can generate a good deal of traffic, so we allow developers to set
-  up groups of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints">endpoints</a> in order to distribute load. Each of these
-  endpoints will receive a subset of the generated reports which target that
-  group. The user agent will do its best to deliver a particular report to <strong>at most one</strong> endpoint in a group. That is, reports will not
-  fan-out to all the endpoints in a group, but the user agent will attempt
-  delivery to one endpoint, and fallback to another upon failure.</p>
+  up groups of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints">endpoints</a>.  The user agent will do its best to deliver a
+  particular report to <strong>at most one</strong> endpoint in a group.
+  Endpoints can be assigned weights to distribute load, with each endpoint
+  receiving a specified fraction of reporting traffic.  Endpoints can be
+  assigned priorities, allowing developers to set up fallback collectors that
+  are only tried when uploads to primary collectors fail.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-1edaf860">
-     <a class="self-link" href="#example-1edaf860"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    <div class="example" id="example-25e2cde9">
+     <a class="self-link" href="#example-25e2cde9"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
     define a set of reporting endpoints named "<code>endpoint-1</code>": 
 <pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group">group</a>": "endpoint-1",
              "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age">max-age</a>": 10886400,
              "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①">endpoints</a>": [
-               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url">url</a>": "https://example.com/reports" },
-               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url①">url</a>": "https://backup.com/reports" }
+               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url">url</a>": "https://example.com/reports", "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority">priority</a>": 1 },
+               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url①">url</a>": "https://backup.com/reports", "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority①">priority</a>": 2 }
              ] }
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to that group:</p>
@@ -1707,11 +1711,14 @@ reports in a consistent manner.</p>
   particular <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origin</a> may be sent.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-url"><code>url</code></dfn>,
   which is a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a></code>.</p>
-    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-failures"><code>failures</code></dfn>, which is a non-negative
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-priority"><code>priority</code></dfn>, which is a non-negative integer.</p>
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-weight"><code>weight</code></dfn>,
+  which is a non-negative integer.</p>
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint③">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-failures"><code>failures</code></dfn>, which is a non-negative
   integer representing the number of consecutive times this endpoint has failed
   to respond to a request.</p>
-    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-retry-after"><code>retry-after</code></dfn>, which is either <code>null</code>, or a timestamp after which delivery should be retried.</p>
-    <p>An <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint③">endpoint</a> is <dfn class="dfn-paneled" data-dfn-for="endpoint" data-dfn-type="dfn" data-noexport="" id="endpoint-pending">pending</dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after">retry-after</a></code> is not <code>null</code>, and represents a time in the future.</p>
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-retry-after"><code>retry-after</code></dfn>, which is either <code>null</code>, or a timestamp after which delivery should be retried.</p>
+    <p>An <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> is <dfn class="dfn-paneled" data-dfn-for="endpoint" data-dfn-type="dfn" data-noexport="" id="endpoint-pending">pending</dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after">retry-after</a></code> is not <code>null</code>, and represents a time in the future.</p>
     <h3 class="heading settled" data-level="2.4" id="concept-report-type"><span class="secno">2.4. </span><span class="content">Report Type</span><a class="self-link" href="#concept-report-type"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="report-type">report type</dfn> is a non-empty string that specifies the set of data
   that is contained in the <a data-link-type="dfn" href="#report-body" id="ref-for-report-body">body</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report①">report</a>.</p>
@@ -1776,6 +1783,13 @@ reports in a consistent manner.</p>
      <li data-md="">
       <p>Clear the cache.</p>
     </ol>
+    <h3 class="heading settled" data-level="2.7" id="concept-failover-load-balancing"><span class="secno">2.7. </span><span class="content">Failover and load balancing</span><a class="self-link" href="#concept-failover-load-balancing"></a></h3>
+    <p>The <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑦">endpoints</a> in an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑨">endpoint group</a> that all have the same <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority">priority</a></code> form a <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="failover-class">failover class</dfn>.  Failover
+  classes allow the developer to provide backup collectors (those with higher <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority①">priority</a></code> values) that will only receive reports if <strong>all</strong> of the
+  primary collectors (those with lower <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority②">priority</a></code> values) fail.</p>
+    <p>Developers can assign each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> in a <a data-link-type="dfn" href="#failover-class" id="ref-for-failover-class">failover class</a> a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight">weight</a></code>, which determines how report traffic is balanced across
+  the <a data-link-type="dfn" href="#failover-class" id="ref-for-failover-class①">failover class</a>.</p>
+    <p>The algorithm that implements these rules is described in <a href="#choose-endpoint">§4.2 Choose an endpoint from a group</a>.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="endpoint-delivery"><span class="secno">3. </span><span class="content">Endpoint Delivery</span><a class="self-link" href="#endpoint-delivery"></a></h2>
@@ -1791,32 +1805,32 @@ reports in a consistent manner.</p>
 </pre>
     <p>The header’s value is interpreted as an array of JSON objects, as described in
   Section 4 of <a data-link-type="biblio" href="#biblio-http-jfv">[HTTP-JFV]</a>.</p>
-    <p>Each object in the array defines an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑨">endpoint group</a> to which reports may
+    <p>Each object in the array defines an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⓪">endpoint group</a> to which reports may
   be delivered, and will be parsed as defined in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a>.</p>
     <p>The following subsections define the initial set of known members in each
   JSON object the header’s value defines. Future versions of this document may
   define additional such members, and user agents MUST ignore unknown members
   when parsing the header.</p>
     <h4 class="heading settled" data-level="3.1.1" id="id-member"><span class="secno">3.1.1. </span><span class="content">The <code>group</code> member</span><a class="self-link" href="#id-member"></a></h4>
-    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-group"><code>group</code></dfn> member is a string that associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⓪">endpoint group</a>. The member’s value
+    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-group"><code>group</code></dfn> member is a string that associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①①">endpoint group</a>. The member’s value
   MUST be a string; any other type will result in a parse error. If no member
-  named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①①">endpoint group</a> will be
+  named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①②">endpoint group</a> will be
   given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> "<code>default</code>".</p>
     <h4 class="heading settled" data-level="3.1.2" id="include-subdomains-member"><span class="secno">3.1.2. </span><span class="content">The <code>include-subdomains</code> member</span><a class="self-link" href="#include-subdomains-member"></a></h4>
-    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="include-subdomains"><code>include-subdomains</code></dfn> member is a boolean that enables
-  this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①②">endpoint group</a> for all subdomains of the
+    <p>The OPTIONAL <dfn data-dfn-type="dfn" data-noexport="" id="include-subdomains"><code>include-subdomains</code><a class="self-link" href="#include-subdomains"></a></dfn> member is a boolean that enables
+  this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①③">endpoint group</a> for all subdomains of the
   current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.  If no member named
   "<code>include-subdomains</code>" is present in the object, or its value is not "<code>true</code>",
-  the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①③">endpoint group</a> will not be enabled for subdomains.</p>
+  the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①④">endpoint group</a> will not be enabled for subdomains.</p>
     <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max-age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max-age"><code>max-age</code></dfn> member defines the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①④">endpoint
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max-age"><code>max-age</code></dfn> member defines the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint
   group</a>’s lifetime, as a non-negative integer number of seconds. The
   member’s value MUST be a non-negative number; any other type will result in a
   parse error.</p>
-    <p>A value of "<code>0</code>" will cause the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint group</a> to be removed from the
+    <p>A value of "<code>0</code>" will cause the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑥">endpoint group</a> to be removed from the
   user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache">reporting cache</a>.</p>
     <h4 class="heading settled" data-level="3.1.4" id="endpoints-member"><span class="secno">3.1.4. </span><span class="content">The <code>endpoints</code> member</span><a class="self-link" href="#endpoints-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-endpoints"><code>endpoints</code></dfn> member defines the list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑦">endpoints</a> that belong to this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑥">endpoint group</a>. The member’s value
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-endpoints"><code>endpoints</code></dfn> member defines the list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑧">endpoints</a> that belong to this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑦">endpoint group</a>. The member’s value
   MUST be an array of JSON objects.</p>
     <p>The following subsections define the initial set of known members in each
   JSON object in the array. Future versions of this document may define
@@ -1824,13 +1838,23 @@ reports in a consistent manner.</p>
   parsing the elements of the array.</p>
     <h4 class="heading settled" data-level="3.1.5" id="endpoints-url-member"><span class="secno">3.1.5. </span><span class="content">The <code>endpoints.url</code> member</span><a class="self-link" href="#endpoints-url-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-url"><code>url</code></dfn> member is a string that defines the location
-  of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoint</a>. The member’s value MUST be a string; any other type
+  of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a>. The member’s value MUST be a string; any other type
   will result in a parse error.</p>
     <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
   trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
+    <h4 class="heading settled" data-level="3.1.6" id="endpoints-priority-member"><span class="secno">3.1.6. </span><span class="content">The <code>endpoints.priority</code> member</span><a class="self-link" href="#endpoints-priority-member"></a></h4>
+    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-priority"><code>priority</code></dfn> member is a number that
+  defines which failover class the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoint</a> belongs to.  The member’s
+  value, if present, MUST be a non-negative integer; any other type will result
+  in a parse error.</p>
+    <h4 class="heading settled" data-level="3.1.7" id="endpoints-weight-member"><span class="secno">3.1.7. </span><span class="content">The <code>endpoints.weight</code> member</span><a class="self-link" href="#endpoints-weight-member"></a></h4>
+    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-weight"><code>weight</code></dfn> member is a number that
+  defines load balancing for the failover class that the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑨">endpoint</a> belongs
+  to.  The member’s value, if present, MUST be a non-negative integer; any other
+  type will result in a parse error.</p>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response to request" data-level="3.2" id="process-header"><span class="secno">3.2. </span><span class="content"> Process reporting endpoints for <var>response</var> to <var>request</var> </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>) and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> (<var>request</var>), this
-  algorithm extracts a list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑧">endpoints</a> and <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑦">endpoint groups</a> for
+  algorithm extracts a list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑨">endpoints</a> and <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑧">endpoint groups</a> for
   the request’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑨">origin</a>, and updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①">reporting cache</a> accordingly.</p>
     <p class="note" role="note"><span>Note:</span> This algorithm is called from around step 13 of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch" id="ref-for-main-fetch">main fetch</a> <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a>, and only updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache②">reporting cache</a> if the <var>response</var> has been delivered securely.</p>
     <p class="issue" id="issue-59ca7a64"><a class="self-link" href="#issue-59ca7a64"></a> Fetch monkey patching. Talk to Anne.</p>
@@ -1864,29 +1888,42 @@ reports in a consistent manner.</p>
         <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age⑤"><code>max-age</code></a>", or that member’s
   value is not a number, skip to the next <var>item</var>.</p>
        <li data-md="">
-        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑨"><code>endpoints</code></a>", or that member’s
+        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①⓪"><code>endpoints</code></a>", or that member’s
   value is not an array, skip to the next <var>item</var>.</p>
        <li data-md="">
         <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group⑤"><code>group</code></a>" member’s value if present, and
   "<code>default</code>" otherwise.</p>
        <li data-md="">
-        <p>If there is already an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑧">endpoint group</a> in <var>groups</var> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name④">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
+        <p>If there is already an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑨">endpoint group</a> in <var>groups</var> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name④">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
        <li data-md="">
         <p>Let <var>endpoints</var> be an empty list.</p>
        <li data-md="">
-        <p>For each <var>endpoint item</var> in the value of <var>item</var>’s "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①⓪"><code>endpoints</code></a>"
+        <p>For each <var>endpoint item</var> in the value of <var>item</var>’s "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①①"><code>endpoints</code></a>"
   member:</p>
         <ol>
          <li data-md="">
           <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑥"><code>url</code></a>", or that
   member’s value is not a string, skip to the next <var>endpoint item</var>.</p>
          <li data-md="">
-          <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> whose properties are set
+          <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority②"><code>priority</code></a>", whose value is not a non-negative
+  integer, skip to the next <var>endpoint item</var>.</p>
+         <li data-md="">
+          <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#reportto-weight" id="ref-for-reportto-weight"><code>weight</code></a>", whose value is not a non-negative
+  integer, skip to the next <var>endpoint item</var>.</p>
+         <li data-md="">
+          <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⓪">endpoint</a> whose properties are set
   as follows:</p>
           <dl>
            <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
            <dd data-md="">
-            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑦"><code>url</code></a>" member’s value.</p>
+            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑦"><code>url</code></a>" member’s
+  value.</p>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority③">priority</a></code>
+           <dd data-md="">
+            <p>The value of the <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority③"><code>priority</code></a>" member, if present; <code>1</code> otherwise.</p>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight①">weight</a></code>
+           <dd data-md="">
+            <p>The value of the <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-weight" id="ref-for-reportto-weight①"><code>weight</code></a>" member, if present; <code>1</code> otherwise.</p>
            <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures">failures</a></code>
            <dd data-md="">
             <p>0</p>
@@ -1898,7 +1935,7 @@ reports in a consistent manner.</p>
           <p>Add <var>endpoint</var> to <var>endpoints</var>.</p>
         </ol>
        <li data-md="">
-        <p>Let <var>group</var> be a new <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑨">endpoint group</a> whose properties are
+        <p>Let <var>group</var> be a new <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⓪">endpoint group</a> whose properties are
   set as follows:</p>
         <dl>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code>
@@ -1907,8 +1944,7 @@ reports in a consistent manner.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains">subdomains</a></code>
          <dd data-md="">
           <p>"<code>include</code>" if <var>item</var> has a member named
-  "<a data-link-type="dfn" href="#include-subdomains" id="ref-for-include-subdomains"><code>include-subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>"
-  otherwise.</p>
+  "<a data-link-type="dfn"><code>include-subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-ttl" id="ref-for-dom-endpoint-group-ttl①">ttl</a></code>
          <dd data-md="">
           <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age⑥"><code>max-age</code></a>" member’s value.</p>
@@ -2002,22 +2038,42 @@ reports in a consistent manner.</p>
      <p class="note" role="note"><span>Note:</span> Non user agent clients (with no JavaScript engine) should not interact
   with <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer②">reporting observers</a>, and thus should return in step 6.</p>
      <h3 class="heading settled" data-level="4.2" id="choose-endpoint"><span class="secno">4.2. </span><span class="content"> Choose an <var>endpoint</var> from a <var>group</var> </span><a class="self-link" href="#choose-endpoint"></a></h3>
-     <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⓪">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
-  eligible <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> from the group, if there is one.</p>
+     <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②①">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
+  eligible <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①①">endpoint</a> from the group, if there is one, taking into account
+  the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority④">priority</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight②">weight</a></code> of the <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①②">endpoints</a>.</p>
      <ol>
       <li data-md="">
        <p>If <var>group</var> is <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a>, return <code>null</code>.</p>
        <p class="note" role="note"><span>Note:</span> In this case, the user agent MAY remove <var>group</var> from its <a data-link-type="dfn" href="#client" id="ref-for-client⑤">client</a>, or it may wait and collect garbage <i lang="fr">en
   masse</i> at some point in the future as described in <a href="#gc">§7.2 Garbage Collection</a>.</p>
       <li data-md="">
-       <p>Return the first <var>endpoint</var> in <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> that
-  is not <a data-link-type="dfn" href="#endpoint-pending" id="ref-for-endpoint-pending">pending</a>.</p>
-       <p class="note" role="note"><span>Note:</span> This ensures that each report is assigned to a single endpoint in
-  the specified group. In order to ensure an even distribution across
-  endpoints, the user agent SHOULD randomize the order in which it walks
-  through endpoints in the group.</p>
+       <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
       <li data-md="">
-       <p>If there are no <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①①">endpoints</a> in <var>group</var> that aren’t <a data-link-type="dfn" href="#endpoint-pending" id="ref-for-endpoint-pending①">pending</a>, return <code>null</code>.</p>
+       <p>Remove every <var>endpoint</var> from <var>endpoints</var> that is <a data-link-type="dfn" href="#endpoint-pending" id="ref-for-endpoint-pending">pending</a>.</p>
+      <li data-md="">
+       <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
+      <li data-md="">
+       <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority⑤">priority</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
+      <li data-md="">
+       <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority⑥">priority</a></code> value
+  is not equal to <var>priority</var>.</p>
+      <li data-md="">
+       <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
+      <li data-md="">
+       <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight③">weight</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
+      <li data-md="">
+       <p>Let <var>weight</var> be a random number ≥ 0 and &lt; <var>total weight</var>.</p>
+      <li data-md="">
+       <p>For each <var>endpoint</var> in <var>endpoints</var>:</p>
+       <ol>
+        <li data-md="">
+         <p>If <var>weight</var> is less than <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight④">weight</a></code>, return <var>endpoint</var>.</p>
+        <li data-md="">
+         <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight⑤">weight</a></code> from <var>weight</var>.</p>
+       </ol>
+      <li data-md="">
+       <p>It should not be possible to fall through to here, since the random number
+  chosen earlier will be less than <var>total weight</var>.</p>
      </ol>
      <h3 class="heading settled algorithm" data-algorithm="Send reports" data-level="4.3" id="send-reports"><span class="secno">4.3. </span><span class="content"> Send reports </span><a class="self-link" href="#send-reports"></a></h3>
      <p>A user agent sends reports by executing the following steps:</p>
@@ -2025,7 +2081,7 @@ reports in a consistent manner.</p>
       <li data-md="">
        <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="#report" id="ref-for-report②①">report</a> objects in <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a>.</p>
       <li data-md="">
-       <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> objects to lists of <a data-link-type="dfn" href="#report" id="ref-for-report②②">report</a> objects.</p>
+       <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①②">endpoint</a> objects to lists of <a data-link-type="dfn" href="#report" id="ref-for-report②②">report</a> objects.</p>
       <li data-md="">
        <p>For each <var>report</var> in <var>reports</var>:</p>
        <ol>
@@ -2034,7 +2090,7 @@ reports in a consistent manner.</p>
         <li data-md="">
          <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for <var>origin</var>.</p>
         <li data-md="">
-         <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②①">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group①">group</a>:</p>
+         <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②②">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group①">group</a>:</p>
          <ol>
           <li data-md="">
            <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.2 Choose an endpoint from a group</a> on <var>group</var>.</p>
@@ -2053,12 +2109,12 @@ reports in a consistent manner.</p>
           <li data-md="">
            <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①⓪">reporting cache</a> for <var>parent origin</var>.</p>
           <li data-md="">
-           <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②②">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑦">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group②">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
+           <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑦">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group②">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
            <ol>
             <li data-md="">
              <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.2 Choose an endpoint from a group</a> on <var>group</var>.</p>
             <li data-md="">
-             <p>If <var>endpoint</var> is an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoint</a>:</p>
+             <p>If <var>endpoint</var> is an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a>:</p>
              <ol>
               <li data-md="">
                <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
@@ -2068,7 +2124,7 @@ reports in a consistent manner.</p>
            </ol>
          </ol>
         <li data-md="">
-         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑨">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§7.2 Garbage Collection</a> at some point in the future.</p>
+         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§7.2 Garbage Collection</a> at some point in the future.</p>
        </ol>
       <li data-md="">
        <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>, execute the
@@ -2121,7 +2177,7 @@ reports in a consistent manner.</p>
   reports. Reports may be aggregated in this way for privacy or security
   reasons.</p>
      <h3 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="4.4" id="try-delivery"><span class="secno">4.4. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h3>
-     <p>Given a list of <a data-link-type="dfn" href="#report" id="ref-for-report②④">reports</a> (<var>reports</var>) and an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⓪">endpoint</a> (<var>endpoint</var>), this algorithm will construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a>, and attempt to
+     <p>Given a list of <a data-link-type="dfn" href="#report" id="ref-for-report②④">reports</a> (<var>reports</var>) and an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoint</a> (<var>endpoint</var>), this algorithm will construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a>, and attempt to
   deliver it to <var>endpoint</var>. It returns "<code>Success</code>" if that delivery succeeds,
   "<code>Remove Endpoint</code>" if the endpoint explicitly removes itself as a reporting
   endpoint by sending a 410 response, and "<code>Failure</code>" otherwise.</p>
@@ -2432,16 +2488,16 @@ otherwise.</p>
      <p>The user agent MAY choose to prioritize reports from particular origins over
   others (perhaps those that the user visits most often?)</p>
      <h3 class="heading settled" data-level="7.2" id="gc"><span class="secno">7.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
-     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report" id="ref-for-report②⑨">reports</a> and <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①②">endpoints</a>, and discard those that are no longer relevant. These
+     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report" id="ref-for-report②⑨">reports</a> and <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①③">endpoints</a>, and discard those that are no longer relevant. These
   include:</p>
      <ul>
       <li data-md="">
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired①">expired</a></p>
+       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired①">expired</a></p>
       <li data-md="">
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint groups</a> which have not been used in some arbitrary period
+       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint groups</a> which have not been used in some arbitrary period
   of time (perhaps a ~week?)</p>
       <li data-md="">
-       <p><a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①③">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed
+       <p><a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①④">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed
   some user-agent-defined threshold (~5 seems reasonable)</p>
       <li data-md="">
        <p><a data-link-type="dfn" href="#report" id="ref-for-report③⓪">reports</a> whose <a data-link-type="dfn" href="#report-attempts" id="ref-for-report-attempts②">attempts</a> exceed
@@ -2761,6 +2817,7 @@ Content-Type: application/report
      <li><a href="#reportto-endpoints">dfn for ReportTo</a><span>, in §3.1.4</span>
     </ul>
    <li><a href="#endpoint-group-expired">expired</a><span>, in §2.2</span>
+   <li><a href="#failover-class">failover class</a><span>, in §2.7</span>
    <li><a href="#dom-endpoint-failures">failures</a><span>, in §2.3</span>
    <li>
     group
@@ -2784,6 +2841,12 @@ Content-Type: application/report
      <li><a href="#report-origin">dfn for report</a><span>, in §2.5</span>
     </ul>
    <li><a href="#endpoint-pending">pending</a><span>, in §2.3</span>
+   <li>
+    priority
+    <ul>
+     <li><a href="#dom-endpoint-priority">attribute for endpoint</a><span>, in §2.3</span>
+     <li><a href="#reportto-priority">dfn for ReportTo</a><span>, in §3.1.6</span>
+    </ul>
    <li><a href="#registered">registered</a><span>, in §5</span>
    <li><a href="#registered-reporting-observer-list">registered reporting observer list</a><span>, in §5</span>
    <li><a href="#dom-report">Report</a><span>, in §5.1</span>
@@ -2820,6 +2883,12 @@ Content-Type: application/report
      <li><a href="#dom-endpoint-url">attribute for endpoint</a><span>, in §2.3</span>
      <li><a href="#reportto-url">dfn for ReportTo</a><span>, in §3.1.5</span>
      <li><a href="#report-url">dfn for report</a><span>, in §2.5</span>
+    </ul>
+   <li>
+    weight
+    <ul>
+     <li><a href="#dom-endpoint-weight">attribute for endpoint</a><span>, in §2.3</span>
+     <li><a href="#reportto-weight">dfn for ReportTo</a><span>, in §3.1.7</span>
     </ul>
   </ul>
   <aside class="dfn-panel" data-for="term-for-content-security-policy">
@@ -3328,18 +3397,19 @@ Content-Type: application/report
     <li><a href="#ref-for-endpoint-group①">2.2. Endpoint groups</a> <a href="#ref-for-endpoint-group②">(2)</a> <a href="#ref-for-endpoint-group③">(3)</a> <a href="#ref-for-endpoint-group④">(4)</a> <a href="#ref-for-endpoint-group⑤">(5)</a> <a href="#ref-for-endpoint-group⑥">(6)</a>
     <li><a href="#ref-for-endpoint-group⑦">2.5. Reports</a>
     <li><a href="#ref-for-endpoint-group⑧">2.6. Storage</a>
-    <li><a href="#ref-for-endpoint-group⑨">3.1. The Report-To HTTP Response Header Field</a>
-    <li><a href="#ref-for-endpoint-group①⓪">3.1.1. The group member</a> <a href="#ref-for-endpoint-group①①">(2)</a>
-    <li><a href="#ref-for-endpoint-group①②">3.1.2. The include-subdomains member</a> <a href="#ref-for-endpoint-group①③">(2)</a>
-    <li><a href="#ref-for-endpoint-group①④">3.1.3. The max-age member</a> <a href="#ref-for-endpoint-group①⑤">(2)</a>
-    <li><a href="#ref-for-endpoint-group①⑥">3.1.4. The endpoints member</a>
-    <li><a href="#ref-for-endpoint-group①⑦">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-endpoint-group①⑧">(2)</a> <a href="#ref-for-endpoint-group①⑨">(3)</a>
-    <li><a href="#ref-for-endpoint-group②⓪">4.2. 
+    <li><a href="#ref-for-endpoint-group⑨">2.7. Failover and load balancing</a>
+    <li><a href="#ref-for-endpoint-group①⓪">3.1. The Report-To HTTP Response Header Field</a>
+    <li><a href="#ref-for-endpoint-group①①">3.1.1. The group member</a> <a href="#ref-for-endpoint-group①②">(2)</a>
+    <li><a href="#ref-for-endpoint-group①③">3.1.2. The include-subdomains member</a> <a href="#ref-for-endpoint-group①④">(2)</a>
+    <li><a href="#ref-for-endpoint-group①⑤">3.1.3. The max-age member</a> <a href="#ref-for-endpoint-group①⑥">(2)</a>
+    <li><a href="#ref-for-endpoint-group①⑦">3.1.4. The endpoints member</a>
+    <li><a href="#ref-for-endpoint-group①⑧">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-endpoint-group①⑨">(2)</a> <a href="#ref-for-endpoint-group②⓪">(3)</a>
+    <li><a href="#ref-for-endpoint-group②①">4.2. 
     Choose an endpoint from a group </a>
-    <li><a href="#ref-for-endpoint-group②①">4.3. 
-    Send reports </a> <a href="#ref-for-endpoint-group②②">(2)</a>
-    <li><a href="#ref-for-endpoint-group②③">7.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②④">(2)</a>
+    <li><a href="#ref-for-endpoint-group②②">4.3. 
+    Send reports </a> <a href="#ref-for-endpoint-group②③">(2)</a>
+    <li><a href="#ref-for-endpoint-group②④">7.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-group-name">
@@ -3399,15 +3469,18 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="endpoint">
    <b><a href="#endpoint">#endpoint</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-endpoint">2.3. Endpoints</a> <a href="#ref-for-endpoint①">(2)</a> <a href="#ref-for-endpoint②">(3)</a> <a href="#ref-for-endpoint③">(4)</a>
-    <li><a href="#ref-for-endpoint④">3.1.5. The endpoints.url member</a>
-    <li><a href="#ref-for-endpoint⑤">3.2. 
+    <li><a href="#ref-for-endpoint">2.3. Endpoints</a> <a href="#ref-for-endpoint①">(2)</a> <a href="#ref-for-endpoint②">(3)</a> <a href="#ref-for-endpoint③">(4)</a> <a href="#ref-for-endpoint④">(5)</a> <a href="#ref-for-endpoint⑤">(6)</a>
+    <li><a href="#ref-for-endpoint⑥">2.7. Failover and load balancing</a>
+    <li><a href="#ref-for-endpoint⑦">3.1.5. The endpoints.url member</a>
+    <li><a href="#ref-for-endpoint⑧">3.1.6. The endpoints.priority member</a>
+    <li><a href="#ref-for-endpoint⑨">3.1.7. The endpoints.weight member</a>
+    <li><a href="#ref-for-endpoint①⓪">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-endpoint⑥">4.2. 
+    <li><a href="#ref-for-endpoint①①">4.2. 
     Choose an endpoint from a group </a>
-    <li><a href="#ref-for-endpoint⑦">4.3. 
-    Send reports </a> <a href="#ref-for-endpoint⑧">(2)</a> <a href="#ref-for-endpoint⑨">(3)</a>
-    <li><a href="#ref-for-endpoint①⓪">4.4. 
+    <li><a href="#ref-for-endpoint①②">4.3. 
+    Send reports </a> <a href="#ref-for-endpoint①③">(2)</a> <a href="#ref-for-endpoint①④">(3)</a>
+    <li><a href="#ref-for-endpoint①⑤">4.4. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3418,6 +3491,26 @@ Content-Type: application/report
     Process reporting endpoints for response to request </a>
     <li><a href="#ref-for-dom-endpoint-url①">4.4. 
     Attempt to deliver reports to endpoint </a> <a href="#ref-for-dom-endpoint-url②">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-endpoint-priority">
+   <b><a href="#dom-endpoint-priority">#dom-endpoint-priority</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-endpoint-priority">2.7. Failover and load balancing</a> <a href="#ref-for-dom-endpoint-priority①">(2)</a> <a href="#ref-for-dom-endpoint-priority②">(3)</a>
+    <li><a href="#ref-for-dom-endpoint-priority③">3.2. 
+    Process reporting endpoints for response to request </a>
+    <li><a href="#ref-for-dom-endpoint-priority④">4.2. 
+    Choose an endpoint from a group </a> <a href="#ref-for-dom-endpoint-priority⑤">(2)</a> <a href="#ref-for-dom-endpoint-priority⑥">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-endpoint-weight">
+   <b><a href="#dom-endpoint-weight">#dom-endpoint-weight</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-endpoint-weight">2.7. Failover and load balancing</a>
+    <li><a href="#ref-for-dom-endpoint-weight①">3.2. 
+    Process reporting endpoints for response to request </a>
+    <li><a href="#ref-for-dom-endpoint-weight②">4.2. 
+    Choose an endpoint from a group </a> <a href="#ref-for-dom-endpoint-weight③">(2)</a> <a href="#ref-for-dom-endpoint-weight④">(3)</a> <a href="#ref-for-dom-endpoint-weight⑤">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-failures">
@@ -3444,7 +3537,7 @@ Content-Type: application/report
    <b><a href="#endpoint-pending">#endpoint-pending</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-endpoint-pending">4.2. 
-    Choose an endpoint from a group </a> <a href="#ref-for-endpoint-pending①">(2)</a>
+    Choose an endpoint from a group </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-type">
@@ -3592,6 +3685,12 @@ Content-Type: application/report
     <li><a href="#ref-for-reporting-cache①③">10.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="failover-class">
+   <b><a href="#failover-class">#failover-class</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-failover-class">2.7. Failover and load balancing</a> <a href="#ref-for-failover-class①">(2)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="report-to">
    <b><a href="#report-to">#report-to</a></b><b>Referenced in:</b>
    <ul>
@@ -3606,13 +3705,6 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-reportto-group">1.2. Examples</a> <a href="#ref-for-reportto-group①">(2)</a> <a href="#ref-for-reportto-group②">(3)</a> <a href="#ref-for-reportto-group③">(4)</a> <a href="#ref-for-reportto-group④">(5)</a>
     <li><a href="#ref-for-reportto-group⑤">3.2. 
-    Process reporting endpoints for response to request </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="include-subdomains">
-   <b><a href="#include-subdomains">#include-subdomains</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-include-subdomains">3.2. 
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
@@ -3631,12 +3723,13 @@ Content-Type: application/report
     <li><a href="#ref-for-reportto-endpoints①">1.2. Examples</a> <a href="#ref-for-reportto-endpoints②">(2)</a> <a href="#ref-for-reportto-endpoints③">(3)</a>
     <li><a href="#ref-for-reportto-endpoints④">2.1. Clients</a>
     <li><a href="#ref-for-reportto-endpoints⑤">2.2. Endpoint groups</a> <a href="#ref-for-reportto-endpoints⑥">(2)</a>
-    <li><a href="#ref-for-reportto-endpoints⑦">3.1.4. The endpoints member</a>
-    <li><a href="#ref-for-reportto-endpoints⑧">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-endpoints⑨">(2)</a> <a href="#ref-for-reportto-endpoints①⓪">(3)</a>
-    <li><a href="#ref-for-reportto-endpoints①①">4.2. 
+    <li><a href="#ref-for-reportto-endpoints⑦">2.7. Failover and load balancing</a>
+    <li><a href="#ref-for-reportto-endpoints⑧">3.1.4. The endpoints member</a>
+    <li><a href="#ref-for-reportto-endpoints⑨">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-endpoints①⓪">(2)</a> <a href="#ref-for-reportto-endpoints①①">(3)</a>
+    <li><a href="#ref-for-reportto-endpoints①②">4.2. 
     Choose an endpoint from a group </a>
-    <li><a href="#ref-for-reportto-endpoints①②">7.2. Garbage Collection</a> <a href="#ref-for-reportto-endpoints①③">(2)</a>
+    <li><a href="#ref-for-reportto-endpoints①③">7.2. Garbage Collection</a> <a href="#ref-for-reportto-endpoints①④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportto-url">
@@ -3645,6 +3738,21 @@ Content-Type: application/report
     <li><a href="#ref-for-reportto-url">1.2. Examples</a> <a href="#ref-for-reportto-url①">(2)</a> <a href="#ref-for-reportto-url②">(3)</a> <a href="#ref-for-reportto-url③">(4)</a> <a href="#ref-for-reportto-url④">(5)</a> <a href="#ref-for-reportto-url⑤">(6)</a>
     <li><a href="#ref-for-reportto-url⑥">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-url⑦">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="reportto-priority">
+   <b><a href="#reportto-priority">#reportto-priority</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-reportto-priority">1.2. Examples</a> <a href="#ref-for-reportto-priority①">(2)</a>
+    <li><a href="#ref-for-reportto-priority②">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-priority③">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="reportto-weight">
+   <b><a href="#reportto-weight">#reportto-weight</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-reportto-weight">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-weight①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reporting-observer">
