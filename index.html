@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 1a927b7d2ff9a70dcdc5dc9f892fd154b7b64097" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="41c1fd07e27ed8783b997bac4d2c8b74b0bf3d75" name="document-revision">
+  <meta content="9b7e40a4d319f6ad08f1cdc73c89c572f2ee0d66" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2318,7 +2318,7 @@ reports in a consistent manner.</p>
 
 <span class="kt">dictionary</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-reportingobserveroptions"><code>ReportingObserverOptions</code></dfn> {
   <span class="kt">sequence</span>&lt;<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><span class="kt">DOMString</span></a>> <dfn class="nv dfn-paneled idl-code" data-dfn-for="ReportingObserverOptions" data-dfn-type="dict-member" data-export="" data-type="sequence<DOMString> " id="dom-reportingobserveroptions-types"><code>types</code></dfn>;
-  <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><span class="kt">boolean</span></a> <dfn class="nv dfn-paneled idl-code" data-default="true" data-dfn-for="ReportingObserverOptions" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-reportingobserveroptions-buffered"><code>buffered</code></dfn> = <span class="kt">true</span>;
+  <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><span class="kt">boolean</span></a> <dfn class="nv dfn-paneled idl-code" data-default="false" data-dfn-for="ReportingObserverOptions" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-reportingobserveroptions-buffered"><code>buffered</code></dfn> = <span class="kt">false</span>;
 };
 
 <span class="kt">typedef</span> <span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②">Report</a>> <dfn class="nv dfn-paneled idl-code" data-dfn-type="typedef" data-export="" id="typedefdef-reportlist"><code>ReportList</code></dfn>;
@@ -3347,7 +3347,7 @@ Content-Type: application/report
 
 <span class="kt">dictionary</span> <a class="nv" href="#dictdef-reportingobserveroptions"><code>ReportingObserverOptions</code></a> {
   <span class="kt">sequence</span>&lt;<a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②①"><span class="kt">DOMString</span></a>> <a class="nv" data-type="sequence<DOMString> " href="#dom-reportingobserveroptions-types"><code>types</code></a>;
-  <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><span class="kt">boolean</span></a> <a class="nv" data-default="true" data-type="boolean " href="#dom-reportingobserveroptions-buffered"><code>buffered</code></a> = <span class="kt">true</span>;
+  <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><span class="kt">boolean</span></a> <a class="nv" data-default="false" data-type="boolean " href="#dom-reportingobserveroptions-buffered"><code>buffered</code></a> = <span class="kt">false</span>;
 };
 
 <span class="kt">typedef</span> <span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②①">Report</a>> <a class="nv" href="#typedefdef-reportlist"><code>ReportList</code></a>;
