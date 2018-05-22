@@ -146,12 +146,12 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   agent MAY choose to prevent delivery of specific reports.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
-  up groups of <a>endpoints</a> in order to distribute load. Each of these
-  endpoints will receive a subset of the generated reports which target that
-  group. The user agent will do its best to deliver a particular report to
-  <strong>at most one</strong> endpoint in a group. That is, reports will not
-  fan-out to all the endpoints in a group, but the user agent will attempt
-  delivery to one endpoint, and fallback to another upon failure.
+  up groups of <a>endpoints</a>.  The user agent will do its best to deliver a
+  particular report to <strong>at most one</strong> endpoint in a group.
+  Endpoints can be assigned weights to distribute load, with each endpoint
+  receiving a specified fraction of reporting traffic.  Endpoints can be
+  assigned priorities, allowing developers to set up fallback collectors that
+  are only tried when uploads to primary collectors fail.
 
   <h3 id="examples">Examples</h3>
 
@@ -164,8 +164,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "endpoint-1",
                    "<a for="ReportTo">max-age</a>": 10886400,
                    "<a>endpoints</a>": [
-                     { "<a for="ReportTo">url</a>": "https://example.com/reports" },
-                     { "<a for="ReportTo">url</a>": "https://backup.com/reports" }
+                     { "<a for="ReportTo">url</a>": "https://example.com/reports", "<a for="ReportTo">priority</a>": 1 },
+                     { "<a for="ReportTo">url</a>": "https://backup.com/reports", "<a for="ReportTo">priority</a>": 2 }
                    ] }
     </pre>
 
@@ -268,6 +268,12 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>url</dfn>,
   which is a {{URL}}.
 
+  Each <a>endpoint</a> has a <dfn for="endpoint" export
+  attribute>priority</dfn>, which is a non-negative integer.
+
+  Each <a>endpoint</a> has a <dfn for="endpoint" export attribute>weight</dfn>,
+  which is a non-negative integer.
+
   Each <a>endpoint</a> has a
   <dfn for="endpoint" export attribute>failures</dfn>, which is a non-negative
   integer representing the number of consecutive times this endpoint has failed
@@ -356,6 +362,21 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   3.  Retrieve a list of <a>client</a> objects for an <a spec="html">origin</a>.
   4.  Retrieve a list of queued <a>report</a> objects.
   5.  Clear the cache.
+
+  <h3 id="concept-failover-load-balancing">Failover and load balancing</h3>
+
+  The <a>endpoints</a> in an <a>endpoint group</a> that all have the same
+  {{endpoint/priority}} form a <dfn export>failover class</dfn>.  Failover
+  classes allow the developer to provide backup collectors (those with higher
+  {{endpoint/priority}} values) that will only receive reports if **all** of the
+  primary collectors (those with lower {{endpoint/priority}} values) fail.
+
+  Developers can assign each <a>endpoint</a> in a <a>failover class</a> a
+  {{endpoint/weight}}, which determines how report traffic is balanced across
+  the <a>failover class</a>.
+
+  The algorithm that implements these rules is described in
+  [[#choose-endpoint]].
 </section>
 
 <section>
@@ -439,6 +460,20 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   Moreover, the URL that the member's value represents MUST be <a>potentially
   trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
 
+  <h4 id="endpoints-priority-member">The `endpoints.priority` member</h4>
+
+  The OPTIONAL <dfn for="ReportTo">`priority`</dfn> member is a number that
+  defines which failover class the <a>endpoint</a> belongs to.  The member's
+  value, if present, MUST be a non-negative integer; any other type will result
+  in a parse error.
+
+  <h4 id="endpoints-weight-member">The `endpoints.weight` member</h4>
+
+  The OPTIONAL <dfn for="ReportTo">`weight`</dfn> member is a number that
+  defines load balancing for the failover class that the <a>endpoint</a> belongs
+  to.  The member's value, if present, MUST be a non-negative integer; any other
+  type will result in a parse error.
+
   <h3 id="process-header" algorithm>
     Process reporting endpoints for |response| to |request|
   </h3>
@@ -500,18 +535,34 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
           1.  If |endpoint item| has no member named "<a for="ReportTo">`url`</a>", or that
               member's value is not a string, skip to the next |endpoint item|.
 
-          2.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
+          2.  If |endpoint item| has a member named "<a
+              for="ReportTo">`priority`</a>", whose value is not a non-negative
+              integer, skip to the next |endpoint item|.
+
+          3.  If |endpoint item| has a member named "<a
+              for="ReportTo">`weight`</a>", whose value is not a non-negative
+              integer, skip to the next |endpoint item|.
+
+          4.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
               as follows:
 
               :   {{endpoint/url}}
               ::  The result of executing the <a>URL parser</a> on
-                  |endpoint item|'s "<a for="ReportTo">`url`</a>" member's value.
+                  |endpoint item|'s "<a for="ReportTo">`url`</a>" member's
+                  value.
+              :   {{endpoint/priority}}
+              ::  The value of the |endpoint item|'s "<a
+                  for="ReportTo">`priority`</a>" member, if present; `1`
+                  otherwise.
+              :   {{endpoint/weight}}
+              ::  The value of the |endpoint item|'s "<a
+                  for="ReportTo">`weight`</a>" member, if present; `1` otherwise.
               :   {{endpoint/failures}}
               ::  0
               :   {{endpoint/retry-after}}
               ::  `null`
 
-          3.  Add |endpoint| to |endpoints|.
+          5.  Add |endpoint| to |endpoints|.
 
       7.  Let |group| be a new <a>endpoint group</a> whose properties are
           set as follows:
@@ -520,8 +571,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
           ::  |name|
           :   {{endpoint group/subdomains}}
           ::  "`include`" if |item| has a member named
-              "<a>`include-subdomains`</a>" whose value is `true`, "`exclude`"
-              otherwise.
+              "<a for="ReportTo">`include-subdomains`</a>" whose value is
+              `true`, "`exclude`" otherwise.
           :   {{endpoint group/ttl}}
           ::  |item|'s "<a for="ReportTo">`max-age`</a>" member's value.
           :   {{endpoint group/creation}}
@@ -620,7 +671,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   </h3>
 
   Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
-  eligible <a>endpoint</a> from the group, if there is one.
+  eligible <a>endpoint</a> from the group, if there is one, taking into account
+  the {{endpoint/priority}} and {{endpoint/weight}} of the <a>endpoints</a>.
 
   1.  If |group| is <a for="endpoint group">expired</a>, return `null`.
 
@@ -628,16 +680,35 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
       <a>client</a>, or it may wait and collect garbage <i lang="fr">en
       masse</i> at some point in the future as described in [[#gc]].
 
-  2.  Return the first |endpoint| in |group|'s {{endpoint group/endpoints}} that
-      is not <a for="endpoint">pending</a>.
+  2.  Let |endpoints| be a copy of |group|'s {{endpoint group/endpoints}} list.
 
-      Note: This ensures that each report is assigned to a single endpoint in
-      the specified group. In order to ensure an even distribution across
-      endpoints, the user agent SHOULD randomize the order in which it walks
-      through endpoints in the group.
+  3.  Remove every |endpoint| from |endpoints| that is
+      <a for="endpoint">pending</a>.
 
-  3.  If there are no <a>endpoints</a> in |group| that aren't
-      <a for="endpoint">pending</a>, return `null`.
+  4.  If |endpoints| is empty, return `null`.
+
+  5.  Let |priority| be the minimum {{endpoint/priority}} value of each
+      |endpoint| in |endpoints|.
+
+  6.  Remove every |endpoint| from |endpoints| whose {{endpoint/priority}} value
+      is not equal to |priority|.
+
+  7.  If |endpoints| is empty, return `null`.
+
+  8.  Let |total weight| be the sum of the {{endpoint/weight}} value of each
+      |endpoint| in |endpoints|.
+
+  9.  Let |weight| be a random number ≥ 0 and &lt; |total weight|.
+
+  10. For each |endpoint| in |endpoints|:
+
+      1.  If |weight| is less than |endpoint|'s {{endpoint/weight}}, return
+          |endpoint|.
+
+      2.  Subtract |endpoint|'s {{endpoint/weight}} from |weight|.
+
+  11. It should not be possible to fall through to here, since the random number
+      chosen earlier will be less than |total weight|.
 
   <h3 id="send-reports" algorithm>
     Send reports
