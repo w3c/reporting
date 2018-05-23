@@ -877,7 +877,7 @@ interface ReportBody {
 interface Report {
   readonly attribute DOMString type;
   readonly attribute DOMString url;
-  readonly attribute ReportBody body;
+  readonly attribute ReportBody? body;
 };
 
 [Constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options)]
@@ -905,8 +905,8 @@ typedef sequence&lt;Report> ReportList;
 
   Each {{ReportingObserver}} object has these associated concepts:
     - A <dfn for=ReportingObserver>callback</dfn> function set on creation.
-    - A list of strings called <dfn for=ReportingObserver>types</dfn>.
-    - A boolean called <dfn for=ReportingObserver>buffered</dfn>.
+    - A {{ReportingObserverOptions}} dictionary called
+      <dfn for=ReportingObserver>options</dfn>.
     - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
       list</dfn>, which is initially empty.
 
@@ -914,28 +914,16 @@ typedef sequence&lt;Report> ReportList;
   with all the convenience methods found on JavaScript arrays.
 
   The <dfn constructor for=ReportingObserver><code>
-  ReportingObserver(|callback|, |options|)</code></dfn> constructor, when
-  invoked, must run these steps:
+  ReportingObserver(|callback|, |options|)</code></dfn> constructor, when invoked, must run
+  these steps:
 
   1. Create a new {{ReportingObserver}} object |observer|.
 
   2. Set |observer|'s <a>callback</a> to |callback|.
 
-  3. If |options| is omitted:
+  3. Set |observer|'s <a>options</a> to |options|.
 
-     1. Set |observer|'s <a>types</a> to an empty list.
-
-     2. Set |observer|'s <a>buffered</a> to true.
-  
-  4. Otherwise:
-
-     1. Set |observer|'s <a>types</a> to |options|'s
-        {{ReportingObserverOptions/types}} member.
-
-     2. Set |observer|'s <a>buffered</a> to to |options|'s
-        {{ReportingObserverOptions/buffered}} member.
-
-  5. Return |observer|.
+  4. Return |observer|.
 
   The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
@@ -997,7 +985,8 @@ typedef sequence&lt;Report> ReportList;
   1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
      return.
 
-  2. If |observer|'s <a>types</a> is non-empty and does not contain |report|'s
+  2. If |observer|'s <a>options</a> has a non-empty
+     {{ReportingObserverOptions/types}} member which does not contain |report|'s
      [=report/type=], return.
 
   3. Create a new {{Report}} |r| with {{Report/type}} initialized to |report|'s
