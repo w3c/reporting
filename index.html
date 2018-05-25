@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 1a927b7d2ff9a70dcdc5dc9f892fd154b7b64097" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="c5217d7b787a6c68112f3072201660317a50c36d" name="document-revision">
+  <meta content="455cc70c558a3642cb5270c66cd737921e46205a" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1724,15 +1724,15 @@ reports in a consistent manner.</p>
     <p>When a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type">report type</a> is defined (in this spec or others), it can be
   specified to be <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="observable-from-javascript">observable from JavaScript</dfn>, meaning
   that <a data-link-type="dfn" href="#report" id="ref-for-report②">reports</a> of that type can be observed by a <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer">reporting
-  observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report types</a> are not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript">observable from
+  observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript">observable from
   JavaScript</a>.</p>
-    <p class="note" role="note"><span>Note:</span> See <a href="#deprecation-report">§6.1 Deprecation</a> as an example <a data-link-type="dfn" href="#report-type" id="ref-for-report-type③">report type</a> definition.</p>
+    <p class="note" role="note"><span>Note:</span> See <a href="#deprecation-report">§6.1 Deprecation</a> as an example <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a> definition.</p>
     <h3 class="heading settled" data-level="2.5" id="concept-reports"><span class="secno">2.5. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="report">report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report③">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-body">body</dfn>, which is either <code>null</code> or an object which can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7159#section-2" id="ref-for-section-2">JSON text</a>. The
   fields contained in a <a data-link-type="dfn" href="#report" id="ref-for-report④">report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body①">body</a> are determined by
-  the <a data-link-type="dfn" href="#report" id="ref-for-report⑤">report</a>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①">type</a>.</p>
+  the <a data-link-type="dfn" href="#report" id="ref-for-report⑤">report</a>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype">type</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑥">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-url">url</dfn>, which
   is the address of the <code>Document</code> or <code>Worker</code> from which the report was
   generated.</p>
@@ -1741,9 +1741,9 @@ reports in a consistent manner.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a> has an <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-origin">origin</dfn>,
   which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a> representing the report’s initiator.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑧">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-group">group</dfn>,
-  which is a string representing the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name①">name</a></code> of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑤">origin</a>’s <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑦">endpoint group</a> that the report will be sent to.</p>
-    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑨">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-type①">type</dfn>, which is
-  a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a>.</p>
+  which is a string representing the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name①">name</a></code> of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑤">origin</a>’s <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑦">endpoint group</a> that the report will be sent
+  to.</p>
+    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑨">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-reporttype">type</dfn>, which is a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type③">report type</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①⓪">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-timestamp">timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.</p>
@@ -1798,34 +1798,36 @@ reports in a consistent manner.</p>
   define additional such members, and user agents MUST ignore unknown members
   when parsing the header.</p>
     <h4 class="heading settled" data-level="3.1.1" id="id-member"><span class="secno">3.1.1. </span><span class="content">The <code>group</code> member</span><a class="self-link" href="#id-member"></a></h4>
-    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-group"><code>group</code></dfn> member is a string that associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①①">endpoint group</a>. The member’s value
-  MUST be a string; any other type will result in a parse error. If no member
-  named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①②">endpoint group</a> will be
-  given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> "<code>default</code>".</p>
+    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-group"><code>group</code></dfn> member is a string that
+  associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①①">endpoint group</a>. The
+  member’s value MUST be a string; any other type will result in a parse
+  error. If no member named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①②">endpoint
+  group</a> will be given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> "<code>default</code>".</p>
     <h4 class="heading settled" data-level="3.1.2" id="include-subdomains-member"><span class="secno">3.1.2. </span><span class="content">The <code>include-subdomains</code> member</span><a class="self-link" href="#include-subdomains-member"></a></h4>
-    <p>The OPTIONAL <dfn data-dfn-type="dfn" data-noexport="" id="include-subdomains"><code>include-subdomains</code><a class="self-link" href="#include-subdomains"></a></dfn> member is a boolean that enables
-  this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①③">endpoint group</a> for all subdomains of the
+    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-include-subdomains"><code>include-subdomains</code></dfn> member is a
+  boolean that enables this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①③">endpoint group</a> for all subdomains of the
   current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.  If no member named
   "<code>include-subdomains</code>" is present in the object, or its value is not "<code>true</code>",
   the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①④">endpoint group</a> will not be enabled for subdomains.</p>
     <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max_age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max_age"><code>max_age</code></dfn> member defines the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint
-  group</a>’s lifetime, as a non-negative integer number of seconds. The
-  member’s value MUST be a non-negative number; any other type will result in a
-  parse error.</p>
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max_age"><code>max_age</code></dfn> member defines
+  the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint group</a>’s lifetime, as a non-negative integer number of
+  seconds. The member’s value MUST be a non-negative number; any other type will
+  result in a parse error.</p>
     <p>A value of "<code>0</code>" will cause the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑥">endpoint group</a> to be removed from the
   user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache">reporting cache</a>.</p>
     <h4 class="heading settled" data-level="3.1.4" id="endpoints-member"><span class="secno">3.1.4. </span><span class="content">The <code>endpoints</code> member</span><a class="self-link" href="#endpoints-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-endpoints"><code>endpoints</code></dfn> member defines the list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑧">endpoints</a> that belong to this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑦">endpoint group</a>. The member’s value
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-endpoints"><code>endpoints</code></dfn> member defines the
+  list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑧">endpoints</a> that belong to this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑦">endpoint group</a>. The member’s value
   MUST be an array of JSON objects.</p>
     <p>The following subsections define the initial set of known members in each
   JSON object in the array. Future versions of this document may define
   additional such members, and user agents MUST ignore unknown members when
   parsing the elements of the array.</p>
     <h4 class="heading settled" data-level="3.1.5" id="endpoints-url-member"><span class="secno">3.1.5. </span><span class="content">The <code>endpoints.url</code> member</span><a class="self-link" href="#endpoints-url-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-url"><code>url</code></dfn> member is a string that defines the location
-  of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a>. The member’s value MUST be a string; any other type
-  will result in a parse error.</p>
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-url"><code>url</code></dfn> member is a string that defines
+  the location of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a>. The member’s value MUST be a string; any
+  other type will result in a parse error.</p>
     <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
   trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
     <h4 class="heading settled" data-level="3.1.6" id="endpoints-priority-member"><span class="secno">3.1.6. </span><span class="content">The <code>endpoints.priority</code> member</span><a class="self-link" href="#endpoints-priority-member"></a></h4>
@@ -1841,7 +1843,8 @@ reports in a consistent manner.</p>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response to request" data-level="3.2" id="process-header"><span class="secno">3.2. </span><span class="content"> Process reporting endpoints for <var>response</var> to <var>request</var> </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>) and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> (<var>request</var>), this
   algorithm extracts a list of <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints⑨">endpoints</a> and <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑧">endpoint groups</a> for
-  the request’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑨">origin</a>, and updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①">reporting cache</a> accordingly.</p>
+  the request’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑨">origin</a>, and updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①">reporting
+  cache</a> accordingly.</p>
     <p class="note" role="note"><span>Note:</span> This algorithm is called from around step 13 of <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#main-fetch" id="ref-for-main-fetch">main fetch</a> <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a>, and only updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache②">reporting cache</a> if the <var>response</var> has been delivered securely.</p>
     <p class="issue" id="issue-59ca7a64"><a class="self-link" href="#issue-59ca7a64"></a> Fetch monkey patching. Talk to Anne.</p>
     <ol>
@@ -1871,25 +1874,24 @@ reports in a consistent manner.</p>
       <p>For each <var>item</var> in <var>list</var>:</p>
       <ol>
        <li data-md="">
-        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑤"><code>max_age</code></a>", or that member’s
-  value is not a number, skip to the next <var>item</var>.</p>
+        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑤"><code>max_age</code></a>", or
+  that member’s value is not a number, skip to the next <var>item</var>.</p>
        <li data-md="">
         <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①⓪"><code>endpoints</code></a>", or that member’s
   value is not an array, skip to the next <var>item</var>.</p>
        <li data-md="">
-        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group⑤"><code>group</code></a>" member’s value if present, and
-  "<code>default</code>" otherwise.</p>
+        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group⑤"><code>group</code></a>" member’s value
+  if present, and "<code>default</code>" otherwise.</p>
        <li data-md="">
         <p>If there is already an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑨">endpoint group</a> in <var>groups</var> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name④">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
        <li data-md="">
         <p>Let <var>endpoints</var> be an empty list.</p>
        <li data-md="">
-        <p>For each <var>endpoint item</var> in the value of <var>item</var>’s "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①①"><code>endpoints</code></a>"
-  member:</p>
+        <p>For each <var>endpoint item</var> in the value of <var>item</var>’s "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①①"><code>endpoints</code></a>" member:</p>
         <ol>
          <li data-md="">
-          <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑥"><code>url</code></a>", or that
-  member’s value is not a string, skip to the next <var>endpoint item</var>.</p>
+          <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑥"><code>url</code></a>", or that member’s value is not a
+  string, skip to the next <var>endpoint item</var>.</p>
          <li data-md="">
           <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority②"><code>priority</code></a>", whose value is not a non-negative
   integer, skip to the next <var>endpoint item</var>.</p>
@@ -1930,7 +1932,7 @@ reports in a consistent manner.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains">subdomains</a></code>
          <dd data-md="">
           <p>"<code>include</code>" if <var>item</var> has a member named
-  "<a data-link-type="dfn"><code>include-subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
+  "<a data-link-type="dfn" href="#reportto-include-subdomains" id="ref-for-reportto-include-subdomains"><code>include-subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-ttl" id="ref-for-dom-endpoint-group-ttl①">ttl</a></code>
          <dd data-md="">
           <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑥"><code>max_age</code></a>" member’s value.</p>
@@ -1988,7 +1990,7 @@ reports in a consistent manner.</p>
         <dt data-md=""><a data-link-type="dfn" href="#report-group" id="ref-for-report-group">group</a>
         <dd data-md="">
          <p><var>endpoint group</var></p>
-        <dt data-md=""><a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①①">type</a>
+        <dt data-md=""><a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype①">type</a>
         <dd data-md="">
          <p><var>type</var></p>
         <dt data-md=""><a data-link-type="dfn" href="#report-timestamp" id="ref-for-report-timestamp">timestamp</a>
@@ -2008,7 +2010,8 @@ reports in a consistent manner.</p>
       <li data-md="">
        <p>Append <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑦">reporting cache</a>.</p>
       <li data-md="">
-       <p>Let <var>environment</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#realm-execution-context" id="ref-for-realm-execution-context">realm execution context</a>’s <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm">realm</a>’s <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm①">ECMAScript global environment</a>.</p>
+       <p>Let <var>environment</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#realm-execution-context" id="ref-for-realm-execution-context">realm execution context</a>’s <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm">realm</a>’s <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm①">ECMAScript
+  global environment</a>.</p>
       <li data-md="">
        <p>Execute <a href="#notify-observers">§5.2 Notify reporting observers on environment with report</a> with <var>environment</var> and <var>report</var>.</p>
      </ol>
@@ -2173,7 +2176,7 @@ reports in a consistent manner.</p>
            <p>The number of milliseconds between <var>report</var>’s <a data-link-type="dfn" href="#report-timestamp" id="ref-for-report-timestamp①">timestamp</a> and the current time.</p>
           <dt data-md=""><code>type</code>
           <dd data-md="">
-           <p><var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①②">type</a></p>
+           <p><var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype②">type</a></p>
           <dt data-md=""><code>url</code>
           <dd data-md="">
            <p><var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url①">url</a></p>
@@ -2289,7 +2292,7 @@ reports in a consistent manner.</p>
 <span class="kt">typedef</span> <span class="kt">sequence</span>&lt;<a class="n" data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②">Report</a>> <dfn class="nv dfn-paneled idl-code" data-dfn-type="typedef" data-export="" id="typedefdef-reportlist"><code>ReportList</code></dfn>;
 </pre>
      <p>A <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="dom-report"><code>Report</code></dfn> is the application exposed
-  representation of a <a data-link-type="dfn" href="#report" id="ref-for-report②④">report</a>. <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export="" id="dom-report-type"><code>type</code></dfn> returns <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①③">type</a>, <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export="" id="dom-report-url"><code>url</code></dfn> returns <a data-link-type="dfn" href="#report-url" id="ref-for-report-url②">url</a>, and <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export="" id="dom-report-body"><code>body</code></dfn> returns <a data-link-type="dfn" href="#report-body" id="ref-for-report-body④">body</a>.</p>
+  representation of a <a data-link-type="dfn" href="#report" id="ref-for-report②④">report</a>. <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export="" id="dom-report-type"><code>type</code></dfn> returns <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype③">type</a>, <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export="" id="dom-report-url"><code>url</code></dfn> returns <a data-link-type="dfn" href="#report-url" id="ref-for-report-url②">url</a>, and <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export="" id="dom-report-body"><code>body</code></dfn> returns <a data-link-type="dfn" href="#report-body" id="ref-for-report-body④">body</a>.</p>
      <p>Each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver③">ReportingObserver</a></code> object has these associated concepts:</p>
      <ul>
       <li data-md="">
@@ -2302,8 +2305,8 @@ list</dfn>, which is initially empty.</p>
      </ul>
      <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
-     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export="" data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when invoked, must run
-  these steps:</p>
+     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export="" data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
+  invoked, must run these steps:</p>
      <ol>
       <li data-md="">
        <p>Create a new <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver④">ReportingObserver</a></code> object <var>observer</var>.</p>
@@ -2317,18 +2320,19 @@ list</dfn>, which is initially empty.</p>
      <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export="" id="dom-reportingobserver-observe"><code>observe()</code></dfn> method, when invoked, must run these steps:</p>
      <ol>
       <li data-md="">
-       <p>Let <var>environment</var> be the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑤">ECMAScript global environment</a> associated with
- the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object">context object</a>.</p>
+       <p>Let <var>environment</var> be the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑤">ECMAScript global
+ environment</a> associated with the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object">context object</a>.</p>
       <li data-md="">
        <p>Append the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object①">context object</a> to the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list①">registered reporting observer
- list</a> of its associated <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑥">ECMAScript global environment</a>.</p>
+ list</a> of its associated <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑥">ECMAScript global
+ environment</a>.</p>
       <li data-md="">
        <p>If the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object②">context object</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered①">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options①">option</a> is false, return.</p>
       <li data-md="">
        <p>Set <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered②">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options②">option</a> to false.</p>
       <li data-md="">
-       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>,
- execute <a href="#add-report">§5.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context object</a>.</p>
+       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>, execute <a href="#add-report">§5.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context
+ object</a>.</p>
      </ol>
      <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export="" id="dom-reportingobserver-disconnect"><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:</p>
@@ -2337,7 +2341,8 @@ list</dfn>, which is initially empty.</p>
        <p>If the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑤">context object</a> is not <a data-link-type="dfn" href="#registered" id="ref-for-registered">registered</a>, return.</p>
       <li data-md="">
        <p>Remove the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑥">context object</a> from the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list②">registered reporting observer
- list</a> of its associated <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑦">ECMAScript global environment</a>.</p>
+ list</a> of its associated <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑦">ECMAScript global
+ environment</a>.</p>
      </ol>
      <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export="" id="dom-reportingobserver-takerecords"><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:</p>
@@ -2362,15 +2367,15 @@ list</dfn>, which is initially empty.</p>
      </ol>
      <h3 class="heading settled algorithm" data-algorithm="Add report to observer" data-level="5.3" id="add-report"><span class="secno">5.3. </span><span class="content"> Add <var>report</var> to <var>observer</var> </span><a class="self-link" href="#add-report"></a></h3>
      <p>Given a <a data-link-type="dfn" href="#report" id="ref-for-report②⑤">report</a> <var>report</var> and a <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑥">ReportingObserver</a></code> <var>observer</var>, this
-  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list②">report list</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①④">type</a> is observable by <var>observer</var>.</p>
+  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list②">report list</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> is observable by <var>observer</var>.</p>
      <ol>
       <li data-md="">
-       <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑤">type</a> is not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript①">observable from JavaScript</a>,
+       <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> is not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript①">observable from JavaScript</a>,
  return.</p>
       <li data-md="">
-       <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑥">type</a>, return.</p>
+       <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑥">type</a>, return.</p>
       <li data-md="">
-       <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type①">type</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑦">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url①">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>,
+       <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type①">type</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑦">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url①">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>,
  and <code class="idl"><a data-link-type="idl" href="#dom-report-body" id="ref-for-dom-report-body①">body</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑤">body</a>.</p>
      </ol>
      <p class="issue" id="issue-6311d126"><a class="self-link" href="#issue-6311d126"></a> how to polymorphically initialize body?</p>
@@ -2379,7 +2384,8 @@ list</dfn>, which is initially empty.</p>
        <p>Append <var>r</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list③">report list</a>.</p>
       <li data-md="">
        <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list④">report list</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a href="#invoke-observers">§5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting observer
- list</a> of the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑨">ECMAScript global environment</a> associated with <var>observer</var>.</p>
+ list</a> of the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑨">ECMAScript global
+ environment</a> associated with <var>observer</var>.</p>
      </ol>
      <h3 algorthm="" class="heading settled" data-level="5.4" id="invoke-observers"><span class="secno">5.4. </span><span class="content"> Invoke reporting observers with <var>notify list</var> </span><a class="self-link" href="#invoke-observers"></a></h3>
      <p>This algorithm invokes observer callback functions for reports of previously
@@ -2406,7 +2412,7 @@ list</dfn>, which is initially empty.</p>
      <h3 class="heading settled" data-level="6.1" id="deprecation-report"><span class="secno">6.1. </span><span class="content">Deprecation</span><a class="self-link" href="#deprecation-report"></a></h3>
      <p>Deprecation reports indicate that a browser API or feature has been used which
   is expected to stop working in a future update to the browser.</p>
-     <p>Deprecation reports have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑤">report type</a> "deprecation".</p>
+     <p>Deprecation reports have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a> "deprecation".</p>
      <p>A deprecation report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a> contains the following fields:</p>
      <ul>
       <li data-md="">
@@ -2790,7 +2796,7 @@ Content-Type: application/report
      <li><a href="#report-group">dfn for report</a><span>, in §2.5</span>
     </ul>
    <li><a href="#deprecation-id">id</a><span>, in §6.1</span>
-   <li><a href="#include-subdomains">include-subdomains</a><span>, in §3.1.2</span>
+   <li><a href="#reportto-include-subdomains">include-subdomains</a><span>, in §3.1.2</span>
    <li><a href="#deprecation-line_number">line_number</a><span>, in §6.1</span>
    <li><a href="#reportto-max_age">max_age</a><span>, in §3.1.3</span>
    <li><a href="#deprecation-message">message</a><span>, in §6.1</span>
@@ -2837,7 +2843,7 @@ Content-Type: application/report
     type
     <ul>
      <li><a href="#dom-report-type">attribute for Report</a><span>, in §5.1</span>
-     <li><a href="#report-type①">dfn for report</a><span>, in §2.5</span>
+     <li><a href="#report-reporttype">dfn for report</a><span>, in §2.5</span>
     </ul>
    <li><a href="#dom-reportingobserveroptions-types">types</a><span>, in §5.1</span>
    <li>
@@ -3507,9 +3513,9 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="report-type">
    <b><a href="#report-type">#report-type</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-type">2.4. Report Type</a> <a href="#ref-for-report-type②">(2)</a> <a href="#ref-for-report-type③">(3)</a>
-    <li><a href="#ref-for-report-type④">2.5. Reports</a>
-    <li><a href="#ref-for-report-type⑤">6.1. Deprecation</a>
+    <li><a href="#ref-for-report-type">2.4. Report Type</a> <a href="#ref-for-report-type①">(2)</a> <a href="#ref-for-report-type②">(3)</a>
+    <li><a href="#ref-for-report-type③">2.5. Reports</a>
+    <li><a href="#ref-for-report-type④">6.1. Deprecation</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="observable-from-javascript">
@@ -3589,17 +3595,17 @@ Content-Type: application/report
     Send reports </a> <a href="#ref-for-report-group②">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="report-type①">
-   <b><a href="#report-type①">#report-type①</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="report-reporttype">
+   <b><a href="#report-reporttype">#report-reporttype</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-type①">2.5. Reports</a>
-    <li><a href="#ref-for-report-type①①">4.1. 
+    <li><a href="#ref-for-report-reporttype">2.5. Reports</a>
+    <li><a href="#ref-for-report-reporttype①">4.1. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-type①②">4.4. 
+    <li><a href="#ref-for-report-reporttype②">4.4. 
     Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-report-type①③">5.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-report-type①④">5.3. 
-    Add report to observer </a> <a href="#ref-for-report-type①⑤">(2)</a> <a href="#ref-for-report-type①⑥">(3)</a> <a href="#ref-for-report-type①⑦">(4)</a>
+    <li><a href="#ref-for-report-reporttype③">5.1. Interface ReportingObserver</a>
+    <li><a href="#ref-for-report-reporttype④">5.3. 
+    Add report to observer </a> <a href="#ref-for-report-reporttype⑤">(2)</a> <a href="#ref-for-report-reporttype⑥">(3)</a> <a href="#ref-for-report-reporttype⑦">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-timestamp">
@@ -3655,6 +3661,13 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-reportto-group">1.2. Examples</a> <a href="#ref-for-reportto-group①">(2)</a> <a href="#ref-for-reportto-group②">(3)</a> <a href="#ref-for-reportto-group③">(4)</a> <a href="#ref-for-reportto-group④">(5)</a>
     <li><a href="#ref-for-reportto-group⑤">3.2. 
+    Process reporting endpoints for response to request </a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="reportto-include-subdomains">
+   <b><a href="#reportto-include-subdomains">#reportto-include-subdomains</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-reportto-include-subdomains">3.2. 
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
