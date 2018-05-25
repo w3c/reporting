@@ -161,7 +161,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
     <pre>
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "endpoint-1",
-                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">max_age</a>": 10886400,
                    "<a>endpoints</a>": [
                      { "<a for="ReportTo">url</a>": "https://example.com/reports", "<a for="ReportTo">priority</a>": 1 },
                      { "<a for="ReportTo">url</a>": "https://backup.com/reports", "<a for="ReportTo">priority</a>": 2 }
@@ -185,17 +185,17 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
     <pre>
       <a>Report-To</a>: { "<a for="ReportTo">url</a>": "https://example.com/csp-reports",
                    "<a for="ReportTo">group</a>": "csp-endpoint",
-                   "<a for="ReportTo">max-age</a>": 10886400 },
+                   "<a for="ReportTo">max_age</a>": 10886400 },
                  { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports",
                    "<a for="ReportTo">group</a>": "hpkp-endpoint",
-                   "<a for="ReportTo">max-age</a>": 10886400 }
+                   "<a for="ReportTo">max_age</a>": 10886400 }
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp-endpoint",
-                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">max_age</a>": 10886400,
                    "<a for="ReportTo">endpoints</a>": [
                      { "<a for="ReportTo">url</a>": "https://example.com/csp-reports" }
                    ] },
                  { "<a for="ReportTo">group</a>": "hpkp-endpoint",
-                   "<a for="ReportTo">max-age</a>": 10886400,
+                   "<a for="ReportTo">max_age</a>": 10886400,
                    "<a for="ReportTo">endpoints</a>": [
                      { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports" }
                    ] }
@@ -279,11 +279,11 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   to respond to a request.
 
   Each <a>endpoint</a> has a
-  <dfn for="endpoint" export attribute>retry-after</dfn>, which is either
+  <dfn for="endpoint" export attribute>retry_after</dfn>, which is either
   `null`, or a timestamp after which delivery should be retried.
 
   An <a>endpoint</a> is <dfn for="endpoint">pending</dfn> if its
-  {{endpoint/retry-after}} is not `null`, and represents a time in the future.
+  {{endpoint/retry_after}} is not `null`, and represents a time in the future.
 
   <h3 id="concept-report-type">Report Type</h3>
 
@@ -412,9 +412,9 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   "`include-subdomains`" is present in the object, or its value is not "`true`",
   the <a>endpoint group</a> will not be enabled for subdomains.
 
-  <h4 id="max-age-member">The `max-age` member</h4>
+  <h4 id="max-age-member">The `max_age` member</h4>
 
-  The REQUIRED <dfn for="ReportTo" export>`max-age`</dfn> member defines the <a>endpoint
+  The REQUIRED <dfn for="ReportTo" export>`max_age`</dfn> member defines the <a>endpoint
   group</a>'s lifetime, as a non-negative integer number of seconds. The
   member's value MUST be a non-negative number; any other type will result in a
   parse error.
@@ -503,7 +503,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   6.  For each |item| in |list|:
 
-      1.  If |item| has no member named "<a for="ReportTo">`max-age`</a>", or that member's
+      1.  If |item| has no member named "<a for="ReportTo">`max_age`</a>", or that member's
           value is not a number, skip to the next |item|.
 
       2.  If |item| has no member named "<a>`endpoints`</a>", or that member's
@@ -547,7 +547,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
                   for="ReportTo">`weight`</a>" member, if present; `1` otherwise.
               :   {{endpoint/failures}}
               ::  0
-              :   {{endpoint/retry-after}}
+              :   {{endpoint/retry_after}}
               ::  `null`
 
           5.  Add |endpoint| to |endpoints|.
@@ -562,7 +562,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
               "<a for="ReportTo">`include-subdomains`</a>" whose value is
               `true`, "`exclude`" otherwise.
           :   {{endpoint group/ttl}}
-          ::  |item|'s "<a for="ReportTo">`max-age`</a>" member's value.
+          ::  |item|'s "<a for="ReportTo">`max_age`</a>" member's value.
           :   {{endpoint group/creation}}
           ::  The current timestamp
           :   {{endpoint group/endpoints}}
@@ -763,7 +763,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
       2.  If |result| is "`Success`":
 
           1.  Set |endpoint|'s {{endpoint/failures}} to 0, and its
-              {{endpoint/retry-after}} to `null`.
+              {{endpoint/retry_after}} to `null`.
 
           2.  Remove each <a>report</a> in |reports| from the <a>reporting
               cache</a>.
@@ -779,7 +779,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
           1.  Increment |endpoint|'s {{endpoint/failures}}.
 
-          2.  Set |endpoint|'s {{endpoint/retry-after}} to a point in the future
+          2.  Set |endpoint|'s {{endpoint/retry_after}} to a point in the future
               which the user agent chooses.
 
               Note: We don't specify a particular algorithm here, but user
@@ -1073,14 +1073,14 @@ typedef sequence&lt;Report> ReportList;
   A deprecation report's [=report/body=] contains the following fields:
 
     - <dfn for="Deprecation">id</dfn>: an implementation-defined string
-      identifying the feature or API that will be removed. This string can be used
-      for grouping and counting related reports.
+      identifying the feature or API that will be removed. This string can be
+      used for grouping and counting related reports.
 
-    - <dfn for="Deprecation">anticipatedRemoval</dfn>: A date indicating roughly
-      when the browser version without the specified API will be generally
-      available (excluding "beta" or other pre-release channels). This value
-      should be used to sort or prioritize warnings. If unknown, this field
-      should be set to null, and the deprecation should be considered low
+    - <dfn for="Deprecation">anticipated_removal</dfn>: A date indicating
+      roughly when the browser version without the specified API will be
+      generally available (excluding "beta" or other pre-release channels). This
+      value should be used to sort or prioritize warnings. If unknown, this
+      field should be set to null, and the deprecation should be considered low
       priority (removal may not actually occur).
 
     - <dfn for="Deprecation">message</dfn>: A human-readable string with
@@ -1089,16 +1089,16 @@ typedef sequence&lt;Report> ReportList;
       [=Deprecation/id=] (eg. it may contain additional context on how the API
       was used).
 
-    - <dfn for="Deprecation">sourceFile</dfn>: If known, the file which first
+    - <dfn for="Deprecation">source_file</dfn>: If known, the file which first
       used the indicated API, or null otherwise.
 
-    - <dfn for="Deprecation">lineNumber</dfn>: If known, the line number in
-      [=Deprecation/sourceFile=] where the indicated API was first used, or null
-      otherwise.
+    - <dfn for="Deprecation">line_number</dfn>: If known, the line number in
+      [=Deprecation/source_file=] where the indicated API was first used, or
+      null otherwise.
 
-    - <dfn for="Deprecation">columnNumber</dfn>: If known, the column number in
-      [=Deprecation/sourceFile=] where the indicated API was first used, or null
-      otherwise.
+    - <dfn for="Deprecation">column_number</dfn>: If known, the column number in
+      [=Deprecation/source_file=] where the indicated API was first used, or
+      null otherwise.
 
   Deprecation reports are <a>observable from JavaScript</a>.
 
