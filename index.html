@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 1a927b7d2ff9a70dcdc5dc9f892fd154b7b64097" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="e0077539ba7a77af5d88177309b91d216fd12790" name="document-revision">
+  <meta content="c5217d7b787a6c68112f3072201660317a50c36d" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2368,7 +2368,7 @@ list</dfn>, which is initially empty.</p>
        <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑤">type</a> is not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript①">observable from JavaScript</a>,
  return.</p>
       <li data-md="">
-       <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑥">type</a>, return.</p>
+       <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑥">type</a>, return.</p>
       <li data-md="">
        <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type①">type</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-type①" id="ref-for-report-type①⑦">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url①">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>,
  and <code class="idl"><a data-link-type="idl" href="#dom-report-body" id="ref-for-dom-report-body①">body</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑤">body</a>.</p>
