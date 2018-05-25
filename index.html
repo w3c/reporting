@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 1a927b7d2ff9a70dcdc5dc9f892fd154b7b64097" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="0d7ea863ba737a366bd6cb6519e111241faa1743" name="document-revision">
+  <meta content="e0077539ba7a77af5d88177309b91d216fd12790" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1540,7 +1540,7 @@ reports in a consistent manner.</p>
        <ol class="toc">
         <li><a href="#id-member"><span class="secno">3.1.1</span> <span class="content">The <code>group</code> member</span></a>
         <li><a href="#include-subdomains-member"><span class="secno">3.1.2</span> <span class="content">The <code>include-subdomains</code> member</span></a>
-        <li><a href="#max-age-member"><span class="secno">3.1.3</span> <span class="content">The <code>max-age</code> member</span></a>
+        <li><a href="#max-age-member"><span class="secno">3.1.3</span> <span class="content">The <code>max_age</code> member</span></a>
         <li><a href="#endpoints-member"><span class="secno">3.1.4</span> <span class="content">The <code>endpoints</code> member</span></a>
         <li><a href="#endpoints-url-member"><span class="secno">3.1.5</span> <span class="content">The <code>endpoints.url</code> member</span></a>
         <li><a href="#endpoints-priority-member"><span class="secno">3.1.6</span> <span class="content">The <code>endpoints.priority</code> member</span></a>
@@ -1634,12 +1634,12 @@ reports in a consistent manner.</p>
   assigned priorities, allowing developers to set up fallback collectors that
   are only tried when uploads to primary collectors fail.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-25e2cde9">
-     <a class="self-link" href="#example-25e2cde9"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    <div class="example" id="example-c38c5df8">
+     <a class="self-link" href="#example-c38c5df8"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
     define a set of reporting endpoints named "<code>endpoint-1</code>": 
 <pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group">group</a>": "endpoint-1",
-             "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age">max-age</a>": 10886400,
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age">max_age</a>": 10886400,
              "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①">endpoints</a>": [
                { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url">url</a>": "https://example.com/reports", "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority">priority</a>": 1 },
                { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url①">url</a>": "https://backup.com/reports", "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority①">priority</a>": 2 }
@@ -1650,24 +1650,24 @@ reports in a consistent manner.</p>
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1" id="ref-for-section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-7acf42c0">
-     <a class="self-link" href="#example-7acf42c0"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-3f56fc56">
+     <a class="self-link" href="#example-3f56fc56"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
 <pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to①">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url②">url</a>": "https://example.com/csp-reports",
              "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group①">group</a>": "csp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age①">max-age</a>": 10886400 },
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age①">max_age</a>": 10886400 },
            { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url③">url</a>": "https://example.com/hpkp-reports",
              "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group②">group</a>": "hpkp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age②">max-age</a>": 10886400 }
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age②">max_age</a>": 10886400 }
 <a data-link-type="dfn" href="#report-to" id="ref-for-report-to②">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group③">group</a>": "csp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age③">max-age</a>": 10886400,
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age③">max_age</a>": 10886400,
              "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints②">endpoints</a>": [
                { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url④">url</a>": "https://example.com/csp-reports" }
              ] },
            { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group④">group</a>": "hpkp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age④">max-age</a>": 10886400,
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age④">max_age</a>": 10886400,
              "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints③">endpoints</a>": [
                { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑤">url</a>": "https://example.com/hpkp-reports" }
              ] }
@@ -1716,8 +1716,8 @@ reports in a consistent manner.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint③">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-failures"><code>failures</code></dfn>, which is a non-negative
   integer representing the number of consecutive times this endpoint has failed
   to respond to a request.</p>
-    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-retry-after"><code>retry-after</code></dfn>, which is either <code>null</code>, or a timestamp after which delivery should be retried.</p>
-    <p>An <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> is <dfn class="dfn-paneled" data-dfn-for="endpoint" data-dfn-type="dfn" data-noexport="" id="endpoint-pending">pending</dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after">retry-after</a></code> is not <code>null</code>, and represents a time in the future.</p>
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export="" id="dom-endpoint-retry_after"><code>retry_after</code></dfn>, which is either <code>null</code>, or a timestamp after which delivery should be retried.</p>
+    <p>An <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> is <dfn class="dfn-paneled" data-dfn-for="endpoint" data-dfn-type="dfn" data-noexport="" id="endpoint-pending">pending</dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry_after" id="ref-for-dom-endpoint-retry_after">retry_after</a></code> is not <code>null</code>, and represents a time in the future.</p>
     <h3 class="heading settled" data-level="2.4" id="concept-report-type"><span class="secno">2.4. </span><span class="content">Report Type</span><a class="self-link" href="#concept-report-type"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="report-type">report type</dfn> is a non-empty string that specifies the set of data
   that is contained in the <a data-link-type="dfn" href="#report-body" id="ref-for-report-body">body</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report①">report</a>.</p>
@@ -1808,8 +1808,8 @@ reports in a consistent manner.</p>
   current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.  If no member named
   "<code>include-subdomains</code>" is present in the object, or its value is not "<code>true</code>",
   the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①④">endpoint group</a> will not be enabled for subdomains.</p>
-    <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max-age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max-age"><code>max-age</code></dfn> member defines the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint
+    <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max_age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max_age"><code>max_age</code></dfn> member defines the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint
   group</a>’s lifetime, as a non-negative integer number of seconds. The
   member’s value MUST be a non-negative number; any other type will result in a
   parse error.</p>
@@ -1871,7 +1871,7 @@ reports in a consistent manner.</p>
       <p>For each <var>item</var> in <var>list</var>:</p>
       <ol>
        <li data-md="">
-        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age⑤"><code>max-age</code></a>", or that member’s
+        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑤"><code>max_age</code></a>", or that member’s
   value is not a number, skip to the next <var>item</var>.</p>
        <li data-md="">
         <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①⓪"><code>endpoints</code></a>", or that member’s
@@ -1913,7 +1913,7 @@ reports in a consistent manner.</p>
            <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures">failures</a></code>
            <dd data-md="">
             <p>0</p>
-           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after①">retry-after</a></code>
+           <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry_after" id="ref-for-dom-endpoint-retry_after①">retry_after</a></code>
            <dd data-md="">
             <p><code>null</code></p>
           </dl>
@@ -1933,7 +1933,7 @@ reports in a consistent manner.</p>
   "<a data-link-type="dfn"><code>include-subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-ttl" id="ref-for-dom-endpoint-group-ttl①">ttl</a></code>
          <dd data-md="">
-          <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max-age" id="ref-for-reportto-max-age⑥"><code>max-age</code></a>" member’s value.</p>
+          <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑥"><code>max_age</code></a>" member’s value.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-creation" id="ref-for-dom-endpoint-group-creation①">creation</a></code>
          <dd data-md="">
           <p>The current timestamp</p>
@@ -2119,7 +2119,7 @@ reports in a consistent manner.</p>
          <p>If <var>result</var> is "<code>Success</code>":</p>
          <ol>
           <li data-md="">
-           <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures①">failures</a></code> to 0, and its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after②">retry-after</a></code> to <code>null</code>.</p>
+           <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures①">failures</a></code> to 0, and its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry_after" id="ref-for-dom-endpoint-retry_after②">retry_after</a></code> to <code>null</code>.</p>
           <li data-md="">
            <p>Remove each <a data-link-type="dfn" href="#report" id="ref-for-report②⓪">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①②">reporting
   cache</a>.</p>
@@ -2136,7 +2136,7 @@ reports in a consistent manner.</p>
           <li data-md="">
            <p>Increment <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures②">failures</a></code>.</p>
           <li data-md="">
-           <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry-after" id="ref-for-dom-endpoint-retry-after③">retry-after</a></code> to a point in the future
+           <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-retry_after" id="ref-for-dom-endpoint-retry_after③">retry_after</a></code> to a point in the future
   which the user agent chooses.</p>
            <p class="note" role="note"><span>Note:</span> We don’t specify a particular algorithm here, but user
   agents are encouraged to employ some sort of exponential backoff
@@ -2411,14 +2411,14 @@ list</dfn>, which is initially empty.</p>
      <ul>
       <li data-md="">
        <p><dfn class="dfn-paneled" data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-id">id</dfn>: an implementation-defined string
-identifying the feature or API that will be removed. This string can be used
-for grouping and counting related reports.</p>
+identifying the feature or API that will be removed. This string can be
+used for grouping and counting related reports.</p>
       <li data-md="">
-       <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-anticipatedremoval">anticipatedRemoval<a class="self-link" href="#deprecation-anticipatedremoval"></a></dfn>: A date indicating roughly
-when the browser version without the specified API will be generally
-available (excluding "beta" or other pre-release channels). This value
-should be used to sort or prioritize warnings. If unknown, this field
-should be set to null, and the deprecation should be considered low
+       <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-anticipated_removal">anticipated_removal<a class="self-link" href="#deprecation-anticipated_removal"></a></dfn>: A date indicating
+roughly when the browser version without the specified API will be
+generally available (excluding "beta" or other pre-release channels). This
+value should be used to sort or prioritize warnings. If unknown, this
+field should be set to null, and the deprecation should be considered low
 priority (removal may not actually occur).</p>
       <li data-md="">
        <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-message">message<a class="self-link" href="#deprecation-message"></a></dfn>: A human-readable string with
@@ -2426,14 +2426,14 @@ details typically matching what would be displayed on the developer
 console. The message is not guaranteed to be unique for a given <a data-link-type="dfn" href="#deprecation-id" id="ref-for-deprecation-id">id</a> (eg. it may contain additional context on how the API
 was used).</p>
       <li data-md="">
-       <p><dfn class="dfn-paneled" data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-sourcefile">sourceFile</dfn>: If known, the file which first
+       <p><dfn class="dfn-paneled" data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-source_file">source_file</dfn>: If known, the file which first
 used the indicated API, or null otherwise.</p>
       <li data-md="">
-       <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-linenumber">lineNumber<a class="self-link" href="#deprecation-linenumber"></a></dfn>: If known, the line number in <a data-link-type="dfn" href="#deprecation-sourcefile" id="ref-for-deprecation-sourcefile">sourceFile</a> where the indicated API was first used, or null
-otherwise.</p>
+       <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-line_number">line_number<a class="self-link" href="#deprecation-line_number"></a></dfn>: If known, the line number in <a data-link-type="dfn" href="#deprecation-source_file" id="ref-for-deprecation-source_file">source_file</a> where the indicated API was first used, or
+null otherwise.</p>
       <li data-md="">
-       <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-columnnumber">columnNumber<a class="self-link" href="#deprecation-columnnumber"></a></dfn>: If known, the column number in <a data-link-type="dfn" href="#deprecation-sourcefile" id="ref-for-deprecation-sourcefile①">sourceFile</a> where the indicated API was first used, or null
-otherwise.</p>
+       <p><dfn data-dfn-for="Deprecation" data-dfn-type="dfn" data-noexport="" id="deprecation-column_number">column_number<a class="self-link" href="#deprecation-column_number"></a></dfn>: If known, the column number in <a data-link-type="dfn" href="#deprecation-source_file" id="ref-for-deprecation-source_file①">source_file</a> where the indicated API was first used, or
+null otherwise.</p>
      </ul>
      <p>Deprecation reports are <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript②">observable from JavaScript</a>.</p>
     </section>
@@ -2757,7 +2757,7 @@ Content-Type: application/report
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#deprecation-anticipatedremoval">anticipatedRemoval</a><span>, in §6.1</span>
+   <li><a href="#deprecation-anticipated_removal">anticipated_removal</a><span>, in §6.1</span>
    <li><a href="#report-attempts">attempts</a><span>, in §2.5</span>
    <li>
     body
@@ -2768,7 +2768,7 @@ Content-Type: application/report
    <li><a href="#dom-reportingobserveroptions-buffered">buffered</a><span>, in §5.1</span>
    <li><a href="#reportingobserver-callback">callback</a><span>, in §5.1</span>
    <li><a href="#client">client</a><span>, in §2.1</span>
-   <li><a href="#deprecation-columnnumber">columnNumber</a><span>, in §6.1</span>
+   <li><a href="#deprecation-column_number">column_number</a><span>, in §6.1</span>
    <li><a href="#dom-endpoint-group-creation">creation</a><span>, in §2.2</span>
    <li><a href="#dom-reportingobserver-disconnect">disconnect()</a><span>, in §5.1</span>
    <li><a href="#endpoint">endpoint</a><span>, in §2.3</span>
@@ -2791,8 +2791,8 @@ Content-Type: application/report
     </ul>
    <li><a href="#deprecation-id">id</a><span>, in §6.1</span>
    <li><a href="#include-subdomains">include-subdomains</a><span>, in §3.1.2</span>
-   <li><a href="#deprecation-linenumber">lineNumber</a><span>, in §6.1</span>
-   <li><a href="#reportto-max-age">max-age</a><span>, in §3.1.3</span>
+   <li><a href="#deprecation-line_number">line_number</a><span>, in §6.1</span>
+   <li><a href="#reportto-max_age">max_age</a><span>, in §3.1.3</span>
    <li><a href="#deprecation-message">message</a><span>, in §6.1</span>
    <li><a href="#dom-endpoint-group-name">name</a><span>, in §2.2</span>
    <li><a href="#observable-from-javascript">observable from JavaScript</a><span>, in §2.4</span>
@@ -2827,8 +2827,8 @@ Content-Type: application/report
    <li><a href="#typedefdef-reportlist">ReportList</a><span>, in §5.1</span>
    <li><a href="#report-to">Report-To</a><span>, in §3.1</span>
    <li><a href="#report-type">report type</a><span>, in §2.4</span>
-   <li><a href="#dom-endpoint-retry-after">retry-after</a><span>, in §2.3</span>
-   <li><a href="#deprecation-sourcefile">sourceFile</a><span>, in §6.1</span>
+   <li><a href="#dom-endpoint-retry_after">retry_after</a><span>, in §2.3</span>
+   <li><a href="#deprecation-source_file">source_file</a><span>, in §6.1</span>
    <li><a href="#dom-endpoint-group-subdomains">subdomains</a><span>, in §2.2</span>
    <li><a href="#dom-reportingobserver-takerecords">takeRecords()</a><span>, in §5.1</span>
    <li><a href="#report-timestamp">timestamp</a><span>, in §2.5</span>
@@ -3365,7 +3365,7 @@ Content-Type: application/report
     <li><a href="#ref-for-endpoint-group①⓪">3.1. The Report-To HTTP Response Header Field</a>
     <li><a href="#ref-for-endpoint-group①①">3.1.1. The group member</a> <a href="#ref-for-endpoint-group①②">(2)</a>
     <li><a href="#ref-for-endpoint-group①③">3.1.2. The include-subdomains member</a> <a href="#ref-for-endpoint-group①④">(2)</a>
-    <li><a href="#ref-for-endpoint-group①⑤">3.1.3. The max-age member</a> <a href="#ref-for-endpoint-group①⑥">(2)</a>
+    <li><a href="#ref-for-endpoint-group①⑤">3.1.3. The max_age member</a> <a href="#ref-for-endpoint-group①⑥">(2)</a>
     <li><a href="#ref-for-endpoint-group①⑦">3.1.4. The endpoints member</a>
     <li><a href="#ref-for-endpoint-group①⑧">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-endpoint-group①⑨">(2)</a> <a href="#ref-for-endpoint-group②⓪">(3)</a>
@@ -3487,14 +3487,14 @@ Content-Type: application/report
     <li><a href="#ref-for-dom-endpoint-failures③">7.2. Garbage Collection</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-endpoint-retry-after">
-   <b><a href="#dom-endpoint-retry-after">#dom-endpoint-retry-after</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-endpoint-retry_after">
+   <b><a href="#dom-endpoint-retry_after">#dom-endpoint-retry_after</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-endpoint-retry-after">2.3. Endpoints</a>
-    <li><a href="#ref-for-dom-endpoint-retry-after①">3.2. 
+    <li><a href="#ref-for-dom-endpoint-retry_after">2.3. Endpoints</a>
+    <li><a href="#ref-for-dom-endpoint-retry_after①">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-retry-after②">4.3. 
-    Send reports </a> <a href="#ref-for-dom-endpoint-retry-after③">(2)</a>
+    <li><a href="#ref-for-dom-endpoint-retry_after②">4.3. 
+    Send reports </a> <a href="#ref-for-dom-endpoint-retry_after③">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="endpoint-pending">
@@ -3624,7 +3624,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="reporting-cache">
    <b><a href="#reporting-cache">#reporting-cache</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reporting-cache">3.1.3. The max-age member</a>
+    <li><a href="#ref-for-reporting-cache">3.1.3. The max_age member</a>
     <li><a href="#ref-for-reporting-cache①">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-reporting-cache②">(2)</a> <a href="#ref-for-reporting-cache③">(3)</a> <a href="#ref-for-reporting-cache④">(4)</a>
     <li><a href="#ref-for-reporting-cache⑤">4. Report Delivery</a>
@@ -3658,12 +3658,12 @@ Content-Type: application/report
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="reportto-max-age">
-   <b><a href="#reportto-max-age">#reportto-max-age</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="reportto-max_age">
+   <b><a href="#reportto-max_age">#reportto-max_age</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reportto-max-age">1.2. Examples</a> <a href="#ref-for-reportto-max-age①">(2)</a> <a href="#ref-for-reportto-max-age②">(3)</a> <a href="#ref-for-reportto-max-age③">(4)</a> <a href="#ref-for-reportto-max-age④">(5)</a>
-    <li><a href="#ref-for-reportto-max-age⑤">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-max-age⑥">(2)</a>
+    <li><a href="#ref-for-reportto-max_age">1.2. Examples</a> <a href="#ref-for-reportto-max_age①">(2)</a> <a href="#ref-for-reportto-max_age②">(3)</a> <a href="#ref-for-reportto-max_age③">(4)</a> <a href="#ref-for-reportto-max_age④">(5)</a>
+    <li><a href="#ref-for-reportto-max_age⑤">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-max_age⑥">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportto-endpoints">
@@ -3883,10 +3883,10 @@ Content-Type: application/report
     <li><a href="#ref-for-deprecation-id">6.1. Deprecation</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="deprecation-sourcefile">
-   <b><a href="#deprecation-sourcefile">#deprecation-sourcefile</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="deprecation-source_file">
+   <b><a href="#deprecation-source_file">#deprecation-source_file</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-deprecation-sourcefile">6.1. Deprecation</a> <a href="#ref-for-deprecation-sourcefile①">(2)</a>
+    <li><a href="#ref-for-deprecation-source_file">6.1. Deprecation</a> <a href="#ref-for-deprecation-source_file①">(2)</a>
    </ul>
   </aside>
 <script>/* script-var-click-highlighting */
