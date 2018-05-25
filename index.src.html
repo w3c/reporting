@@ -1023,8 +1023,9 @@ typedef sequence&lt;Report> ReportList;
   1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
      return.
 
-  2. If |observer|'s <a>options</a> has a {{ReportingObserverOptions/types}}
-     member which does not contain |report|'s [=report/type=], return.
+  2. If |observer|'s <a>options</a> has a non-empty
+     {{ReportingObserverOptions/types}} member which does not contain |report|'s
+     [=report/type=], return.
 
   3. Create a new {{Report}} |r| with {{Report/type}} initialized to |report|'s
      [=report/type=], {{Report/url}} initialized to |report|'s [=report/url=],
