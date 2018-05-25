@@ -320,10 +320,11 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
-  <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent to.
+  <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent
+  to.
 
-  Each <a>report</a> has a <dfn for="report" export>type</dfn>, which is
-  a <a>report type</a>.
+  Each <a>report</a> has a <dfn for="report" id="report-reporttype"
+  export>type</dfn>, which is a <a>report type</a>.
 
   Each <a>report</a> has a <dfn for="report" export>timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
@@ -398,33 +399,34 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   <h4 id="id-member">The `group` member</h4>
 
-  The OPTIONAL <dfn for="ReportTo">`group`</dfn> member is a string that associates a
-  {{endpoint group/name}} with the <a>endpoint group</a>. The member's value
-  MUST be a string; any other type will result in a parse error. If no member
-  named "`group`" is present in the object, the <a>endpoint group</a> will be
-  given the {{endpoint group/name}} "`default`".
+  The OPTIONAL <dfn for="ReportTo">`group`</dfn> member is a string that
+  associates a {{endpoint group/name}} with the <a>endpoint group</a>. The
+  member's value MUST be a string; any other type will result in a parse
+  error. If no member named "`group`" is present in the object, the <a>endpoint
+  group</a> will be given the {{endpoint group/name}} "`default`".
 
   <h4 id="include-subdomains-member">The `include-subdomains` member</h4>
 
-  The OPTIONAL <dfn>`include-subdomains`</dfn> member is a boolean that enables
-  this <a>endpoint group</a> for all subdomains of the
+  The OPTIONAL <dfn for="ReportTo">`include-subdomains`</dfn> member is a
+  boolean that enables this <a>endpoint group</a> for all subdomains of the
   current <a spec="html">origin</a>'s {{URL/host}}.  If no member named
   "`include-subdomains`" is present in the object, or its value is not "`true`",
   the <a>endpoint group</a> will not be enabled for subdomains.
 
   <h4 id="max-age-member">The `max_age` member</h4>
 
-  The REQUIRED <dfn for="ReportTo" export>`max_age`</dfn> member defines the <a>endpoint
-  group</a>'s lifetime, as a non-negative integer number of seconds. The
-  member's value MUST be a non-negative number; any other type will result in a
-  parse error.
+  The REQUIRED <dfn for="ReportTo" export>`max_age`</dfn> member defines
+  the <a>endpoint group</a>'s lifetime, as a non-negative integer number of
+  seconds. The member's value MUST be a non-negative number; any other type will
+  result in a parse error.
 
   A value of "`0`" will cause the <a>endpoint group</a> to be removed from the
   user agent's <a>reporting cache</a>.
 
   <h4 id="endpoints-member">The `endpoints` member</h4>
 
-  The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the list of
+  The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the
+  list of
   <a>endpoints</a> that belong to this <a>endpoint group</a>. The member's value
   MUST be an array of JSON objects.
 
@@ -441,9 +443,9 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   <h4 id="endpoints-url-member">The `endpoints.url` member</h4>
 
-  The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines the location
-  of the <a>endpoint</a>. The member's value MUST be a string; any other type
-  will result in a parse error.
+  The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines
+  the location of the <a>endpoint</a>. The member's value MUST be a string; any
+  other type will result in a parse error.
 
   Moreover, the URL that the member's value represents MUST be <a>potentially
   trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
@@ -468,8 +470,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
   algorithm extracts a list of <a>endpoints</a> and <a>endpoint groups</a> for
-  the request's <a spec="html">origin</a>, and updates the <a>reporting cache</a>
-  accordingly.
+  the request's <a spec="html">origin</a>, and updates the <a>reporting
+  cache</a> accordingly.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
@@ -503,25 +505,26 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 
   6.  For each |item| in |list|:
 
-      1.  If |item| has no member named "<a for="ReportTo">`max_age`</a>", or that member's
-          value is not a number, skip to the next |item|.
+      1.  If |item| has no member named "<a for="ReportTo">`max_age`</a>", or
+          that member's value is not a number, skip to the next |item|.
 
       2.  If |item| has no member named "<a>`endpoints`</a>", or that member's
           value is not an array, skip to the next |item|.
 
-      3.  Let |name| be |item|'s "<a for="ReportTo">`group`</a>" member's value if present, and
-          "`default`" otherwise.
+      3.  Let |name| be |item|'s "<a for="ReportTo">`group`</a>" member's value
+          if present, and "`default`" otherwise.
 
       4.  If there is already an <a>endpoint group</a> in |groups| whose
           {{endpoint group/name}} is |name|, skip to the next |item|.
 
       5.  Let |endpoints| be an empty list.
 
-      6.  For each |endpoint item| in the value of |item|'s "<a for="ReportTo">`endpoints`</a>"
-          member:
+      6.  For each |endpoint item| in the value of |item|'s "<a
+          for="ReportTo">`endpoints`</a>" member:
 
-          1.  If |endpoint item| has no member named "<a for="ReportTo">`url`</a>", or that
-              member's value is not a string, skip to the next |endpoint item|.
+          1.  If |endpoint item| has no member named "<a
+              for="ReportTo">`url`</a>", or that member's value is not a
+              string, skip to the next |endpoint item|.
 
           2.  If |endpoint item| has a member named "<a
               for="ReportTo">`priority`</a>", whose value is not a non-negative
@@ -544,7 +547,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
                   otherwise.
               :   {{endpoint/weight}}
               ::  The value of the |endpoint item|'s "<a
-                  for="ReportTo">`weight`</a>" member, if present; `1` otherwise.
+                  for="ReportTo">`weight`</a>" member, if present; `1`
+                  otherwise.
               :   {{endpoint/failures}}
               ::  0
               :   {{endpoint/retry_after}}
@@ -635,7 +639,8 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   5.  Append |report| to the <a>reporting cache</a>.
 
   6.  Let |environment| be |settings|'s <a>realm execution context</a>'s
-      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
+      global environment</a>.
 
   7.  Execute [[#notify-observers]] with |environment| and |report|.
 
@@ -952,8 +957,8 @@ typedef sequence&lt;Report> ReportList;
   with all the convenience methods found on JavaScript arrays.
 
   The <dfn constructor for=ReportingObserver><code>
-  ReportingObserver(|callback|, |options|)</code></dfn> constructor, when invoked, must run
-  these steps:
+  ReportingObserver(|callback|, |options|)</code></dfn> constructor, when
+  invoked, must run these steps:
 
   1. Create a new {{ReportingObserver}} object |observer|.
 
@@ -966,18 +971,20 @@ typedef sequence&lt;Report> ReportList;
   The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
 
-  1. Let |environment| be the <a spec=ecmascript lt=realm>ECMAScript global environment</a> associated with
-     the <a>context object</a>.
+  1. Let |environment| be the <a spec=ecmascript lt=realm>ECMAScript global
+     environment</a> associated with the <a>context object</a>.
 
   2. Append the <a>context object</a> to the <a>registered reporting observer
-     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global
+     environment</a>.
 
   3. If the <a>context object</a>'s {{buffered}} <a>option</a> is false, return.
 
   4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
 
-  5. For each |report| in the <a>report buffer</a> associated with |environment|,
-     execute [[#add-report]] with |report| and the <a>context object</a>.
+  5. For each |report| in the <a>report buffer</a> associated with
+     |environment|, execute [[#add-report]] with |report| and the <a>context
+     object</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
@@ -985,7 +992,8 @@ typedef sequence&lt;Report> ReportList;
   1. If the <a>context object</a> is not <a>registered</a>, return.
 
   2. Remove the <a>context object</a> from the <a>registered reporting observer
-     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global environment</a>.
+     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global
+     environment</a>.
 
   The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:
@@ -1001,8 +1009,8 @@ typedef sequence&lt;Report> ReportList;
   </h3>
 
   This algorithm makes |report|'s contents available to any <a>registered</a>
-  <a>reporting observers</a> on the provided <a spec=ecmascript lt=realm>ECMAScript global environment</a>
-  |environment|.
+  <a>reporting observers</a> on the provided <a spec=ecmascript
+  lt=realm>ECMAScript global environment</a> |environment|.
 
   1. For each {{ReportingObserver}} |observer| <a>registered</a> with
      |environment|, execute [[#add-report]] on |report| and |observer|.
@@ -1037,8 +1045,8 @@ typedef sequence&lt;Report> ReportList;
 
   4. If the size of |observer|'s <a>report list</a> is 1, <a>Queue a task</a> to
      [[#invoke-observers]] with a copy of the <a>registered reporting observer
-     list</a> of the <a spec=ecmascript lt=realm>ECMAScript global environment</a> associated with
-     |observer|.
+     list</a> of the <a spec=ecmascript lt=realm>ECMAScript global
+     environment</a> associated with |observer|.
 
   <h3 id="invoke-observers" algorthm>
     Invoke reporting observers with |notify list|
