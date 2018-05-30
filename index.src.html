@@ -101,14 +101,16 @@ spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234
 spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   type: dfn
     text: Public-Key-Pins; url: section-2.1
-
 spec: HTTP-JFV; urlPrefix: https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html
   type: grammar
     text: json-field-value; url: rfc.section.2
-
 spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   type: dfn
     text: Realm
+    text: Date object; url: sec-date-objects
+  type: interface
+    text: Date; url: sec-date-objects
+
 </pre>
 <pre class="biblio">
 {
@@ -563,7 +565,7 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
           ::  |name|
           :   {{endpoint group/subdomains}}
           ::  "`include`" if |item| has a member named
-              "<a for="ReportTo">`include-subdomains`</a>" whose value is
+              "<a>`include-subdomains`</a>" whose value is
               `true`, "`exclude`" otherwise.
           :   {{endpoint group/ttl}}
           ::  |item|'s "<a for="ReportTo">`max_age`</a>" member's value.
@@ -1079,37 +1081,50 @@ typedef sequence&lt;Report> ReportList;
 
   Deprecation reports have the <a>report type</a> "deprecation".
 
-  A deprecation report's [=report/body=] contains the following fields:
-
-    - <dfn for="Deprecation">id</dfn>: an implementation-defined string
-      identifying the feature or API that will be removed. This string can be
-      used for grouping and counting related reports.
-
-    - <dfn for="Deprecation">anticipated_removal</dfn>: A date indicating
-      roughly when the browser version without the specified API will be
-      generally available (excluding "beta" or other pre-release channels). This
-      value should be used to sort or prioritize warnings. If unknown, this
-      field should be set to null, and the deprecation should be considered low
-      priority (removal may not actually occur).
-
-    - <dfn for="Deprecation">message</dfn>: A human-readable string with
-      details typically matching what would be displayed on the developer
-      console. The message is not guaranteed to be unique for a given
-      [=Deprecation/id=] (eg. it may contain additional context on how the API
-      was used).
-
-    - <dfn for="Deprecation">source_file</dfn>: If known, the file which first
-      used the indicated API, or null otherwise.
-
-    - <dfn for="Deprecation">line_number</dfn>: If known, the line number in
-      [=Deprecation/source_file=] where the indicated API was first used, or
-      null otherwise.
-
-    - <dfn for="Deprecation">column_number</dfn>: If known, the column number in
-      [=Deprecation/source_file=] where the indicated API was first used, or
-      null otherwise.
-
   Deprecation reports are <a>observable from JavaScript</a>.
+
+  <pre class="idl">
+    interface DeprecationReportBody : ReportBody {
+      readonly attribute DOMString id;
+      readonly attribute Date? anticipatedRemoval;
+      readonly attribute DOMString message;
+      readonly attribute DOMString? sourceFile;
+      readonly attribute long? lineNumber;
+      readonly attribute long? columnNumber;
+    };
+  </pre>
+
+  A deprecation report's [=report/body=], represented in JavaScript by
+  {{DeprecationReportBody}}, contains the following fields:
+
+    - <dfn for="DeprecationReportBody">id</dfn>: an implementation-defined
+      string identifying the feature or API that will be removed. This string
+      can be used for grouping and counting related reports.
+
+    - <dfn for="DeprecationReportBody">anticipated_removal</dfn>: A
+      JavaScript <a>Date object</a> indicating roughly when the browser version
+      without the specified API will be generally available (excluding "beta" or
+      other pre-release channels). This value should be used to sort or
+      prioritize warnings. If unknown, this field should be null, and the
+      deprecation should be considered low priority (removal may not actually
+      occur).
+
+    - <dfn for="DeprecationReportBody">message</dfn>: A human-readable string
+      with details typically matching what would be displayed on the developer
+      console. The message is not guaranteed to be unique for a given
+      [=DeprecationReportBody/id=] (eg. it may contain additional context on how
+      the API was used).
+
+    - <dfn for="DeprecationReportBody">source_file</dfn>: If known, the file
+      which first used the indicated API, or null otherwise.
+
+    - <dfn for="DeprecationReportBody">line_number</dfn>: If known, the line
+      number in [=DeprecationReportBody/source_file=] where the indicated API
+      was first used, or null otherwise.
+
+    - <dfn for="DeprecationReportBody">column_number</dfn>: If known, the column
+      number in [=DeprecationReportBody/source_file=] where the indicated API
+      was first used, or null otherwise.
 
 </section>
 
