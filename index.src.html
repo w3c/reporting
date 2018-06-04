@@ -1102,12 +1102,12 @@ typedef sequence&lt;Report> ReportList;
       can be used for grouping and counting related reports.
 
     - <dfn for="DeprecationReportBody">anticipated_removal</dfn>: A
-      JavaScript <a>Date object</a> indicating roughly when the browser version
-      without the specified API will be generally available (excluding "beta" or
-      other pre-release channels). This value should be used to sort or
-      prioritize warnings. If unknown, this field should be null, and the
-      deprecation should be considered low priority (removal may not actually
-      occur).
+      JavaScript <a>Date object</a> (rendered as an ISO 8601 string) indicating
+      roughly when the browser version without the specified API will be
+      generally available (excluding "beta" or other pre-release channels). This
+      value should be used to sort or prioritize warnings. If unknown, this
+      field should be null, and the deprecation should be considered low
+      priority (removal may not actually occur).
 
     - <dfn for="DeprecationReportBody">message</dfn>: A human-readable string
       with details typically matching what would be displayed on the developer
