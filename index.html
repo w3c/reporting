@@ -1211,9 +1211,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 6bebf68aed1298eb5349b6cdea3fab1e79551a6f" name="generator">
+  <meta content="Bikeshed version 60c7cf64c0efdd39a8c0261dfad14adb1da62902" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="d747d748a775f9b90f3f5b052be656038244e960" name="document-revision">
+  <meta content="71149a795463f29db64eec3719f435db900ecbf8" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1471,7 +1471,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-04">4 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-05">5 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1577,24 +1577,29 @@ reports in a consistent manner.</p>
      </ol>
     <li><a href="#sample-reports"><span class="secno">8</span> <span class="content">Sample Reports</span></a>
     <li>
-     <a href="#security"><span class="secno">9</span> <span class="content">Security Considerations</span></a>
+     <a href="#automation"><span class="secno">9</span> <span class="content">Automation</span></a>
      <ol class="toc">
-      <li><a href="#capability-urls"><span class="secno">9.1</span> <span class="content">Capability URLs</span></a>
+      <li><a href="#generate-test-report-command"><span class="secno">9.1</span> <span class="content">Generate Test Report</span></a>
      </ol>
     <li>
-     <a href="#privacy"><span class="secno">10</span> <span class="content">Privacy Considerations</span></a>
+     <a href="#security"><span class="secno">10</span> <span class="content">Security Considerations</span></a>
      <ol class="toc">
-      <li><a href="#network-leakage"><span class="secno">10.1</span> <span class="content">Network Leakage</span></a>
-      <li><a href="#fingerprinting-clock-skew"><span class="secno">10.2</span> <span class="content">Clock Skew</span></a>
-      <li><a href="#correlation"><span class="secno">10.3</span> <span class="content">Cross-origin correlation</span></a>
-      <li><a href="#subdomains"><span class="secno">10.4</span> <span class="content">Subdomains</span></a>
-      <li><a href="#clear-cache"><span class="secno">10.5</span> <span class="content">Clearing the reporting cache</span></a>
-      <li><a href="#disable"><span class="secno">10.6</span> <span class="content">Disabling Reporting</span></a>
+      <li><a href="#capability-urls"><span class="secno">10.1</span> <span class="content">Capability URLs</span></a>
      </ol>
     <li>
-     <a href="#iana-considerations"><span class="secno">11</span> <span class="content">IANA Considerations</span></a>
+     <a href="#privacy"><span class="secno">11</span> <span class="content">Privacy Considerations</span></a>
      <ol class="toc">
-      <li><a href="#iana-report-to"><span class="secno">11.1</span> <span class="content"> Report-To </span></a>
+      <li><a href="#network-leakage"><span class="secno">11.1</span> <span class="content">Network Leakage</span></a>
+      <li><a href="#fingerprinting-clock-skew"><span class="secno">11.2</span> <span class="content">Clock Skew</span></a>
+      <li><a href="#correlation"><span class="secno">11.3</span> <span class="content">Cross-origin correlation</span></a>
+      <li><a href="#subdomains"><span class="secno">11.4</span> <span class="content">Subdomains</span></a>
+      <li><a href="#clear-cache"><span class="secno">11.5</span> <span class="content">Clearing the reporting cache</span></a>
+      <li><a href="#disable"><span class="secno">11.6</span> <span class="content">Disabling Reporting</span></a>
+     </ol>
+    <li>
+     <a href="#iana-considerations"><span class="secno">12</span> <span class="content">IANA Considerations</span></a>
+     <ol class="toc">
+      <li><a href="#iana-report-to"><span class="secno">12.1</span> <span class="content"> Report-To </span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1737,7 +1742,7 @@ reports in a consistent manner.</p>
   is the address of the <code>Document</code> or <code>Worker</code> from which the report was
   generated.</p>
     <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from this serialized URL.
-  See <a href="#capability-urls">§9.1 Capability URLs</a>.</p>
+  See <a href="#capability-urls">§10.1 Capability URLs</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a> has an <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-origin">origin</dfn>,
   which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a> representing the report’s initiator.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑧">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-group">group</dfn>,
@@ -2018,7 +2023,7 @@ reports in a consistent manner.</p>
      <p class="note" role="note"><span>Note:</span> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer①">reporting observers</a> can only observe reports from the
   same <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object①">environment settings object</a>.</p>
      <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from the serialized URL
-  in the report. See <a href="#capability-urls">§9.1 Capability URLs</a>.</p>
+  in the report. See <a href="#capability-urls">§10.1 Capability URLs</a>.</p>
      <p class="note" role="note"><span>Note:</span> The user agent MAY reject reports for any reason. This API does not
   guarantee delivery of arbitrary amounts of data, for instance.</p>
      <p class="note" role="note"><span>Note:</span> Non user agent clients (with no JavaScript engine) should not interact
@@ -2186,7 +2191,7 @@ reports in a consistent manner.</p>
          </dl>
          <p class="note" role="note"><span>Note:</span> Client clocks are unreliable and subject to skew. We therefore
   deliver an <code>age</code> attribute rather than an absolute timestamp. See
-  also <a href="#fingerprinting-clock-skew">§10.2 Clock Skew</a></p>
+  also <a href="#fingerprinting-clock-skew">§11.2 Clock Skew</a></p>
         <li data-md="">
          <p>Increment <var>report</var>’s <a data-link-type="dfn" href="#report-attempts" id="ref-for-report-attempts①">attempts</a>.</p>
         <li data-md="">
@@ -2551,46 +2556,98 @@ Content-Type: application/report
      </div>
     </section>
     <section>
-     <h2 class="heading settled" data-level="9" id="security"><span class="secno">9. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
-     <h3 class="heading settled" data-level="9.1" id="capability-urls"><span class="secno">9.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
+     <h2 class="heading settled" data-level="9" id="automation"><span class="secno">9. </span><span class="content">Automation</span><a class="self-link" href="#automation"></a></h2>
+     <p>For the purposes of user-agent automation and application testing, this
+  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands" id="ref-for-dfn-extension-commands">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver">[WebDriver]</a> specification.</p>
+     <h3 class="heading settled" data-level="9.1" id="generate-test-report-command"><span class="secno">9.1. </span><span class="content">Generate Test Report</span><a class="self-link" href="#generate-test-report-command"></a></h3>
+     <p>The <dfn data-dfn-type="dfn" data-noexport="" id="generate-test-report">Generate Test Report<a class="self-link" href="#generate-test-report"></a></dfn> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands" id="ref-for-dfn-extension-commands①">extension command</a> simulates the
+  generation of a <a data-link-type="dfn" href="#report" id="ref-for-report③①">report</a> for the purposes of testing. This report will be
+  observed by any <a data-link-type="dfn" href="#registered" id="ref-for-registered③">registered</a> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑧">reporting observers</a>.</p>
+     <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands" id="ref-for-dfn-extension-commands②">extension command</a> is defined as follows:</p>
+<pre class="idl highlight def"><span class="kt">dictionary</span> <dfn class="nv idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-generatetestreportparameters"><code>GenerateTestReportParameters</code><a class="self-link" href="#dictdef-generatetestreportparameters"></a></dfn> {
+  <span class="kt">required</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><span class="kt">DOMString</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export="" data-type="DOMString " id="dom-generatetestreportparameters-message"><code>message</code></dfn>;
+  <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><span class="kt">DOMString</span></a> <dfn class="nv dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export="" data-type="DOMString " id="dom-generatetestreportparameters-group"><code>group</code></dfn>;
+};
+</pre>
+     <table style="border-spacing: 20px 0px;">
+      <tbody>
+       <tr>
+        <th>HTTP Method
+        <th><a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-prefix" id="ref-for-dfn-extension-command-prefix">Prefix</a>
+        <th><a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-name" id="ref-for-dfn-extension-command-name">Name</a>
+       <tr>
+        <td><code>POST</code>
+        <td><code>/session/{session id}/reporting</code>
+        <td><code>generate_test_report</code>
+     </table>
+     <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps" id="ref-for-dfn-remote-end-steps">remote end steps</a> are:</p>
+     <ol>
+      <li data-md="">
+       <p>If <var>parameters</var> is not a JSON <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-object" id="ref-for-concept-url-object">Object</a>, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error">WebDriver
+ error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument">invalid argument</a>.</p>
+      <li data-md="">
+       <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
+      <li data-md="">
+       <p>If <var>message</var> is null, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error①">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver
+ error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
+      <li data-md="">
+       <p>Let <var>group</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try" id="ref-for-dfn-try①">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code> property.</p>
+      <li data-md="">
+       <p>If <var>group</var> is null, set <var>group</var> to "default".</p>
+      <li data-md="">
+       <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7159#section-2" id="ref-for-section-2①">JSON text</a>,
+ containing a single string field, <var>body_message</var>.</p>
+      <li data-md="">
+       <p>Set <var>body_message</var> to <var>message</var>.</p>
+      <li data-md="">
+       <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a>.</p>
+      <li data-md="">
+       <p>Execute <a href="#queue-report">§4.1 Queue data as type for endpoint group on settings</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
+      <li data-md="">
+       <p>Return <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success" id="ref-for-dfn-success">success</a> with data null.</p>
+     </ol>
+    </section>
+    <section>
+     <h2 class="heading settled" data-level="10" id="security"><span class="secno">10. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
+     <h3 class="heading settled" data-level="10.1" id="capability-urls"><span class="secno">10.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
      <p>Some URLs are valuable in and of themselves. To mitigate the possibility
   that such URLs will be leaked via this reporting mechanism, we strip out
-  credential information and fragment data from the URL we store as a <a data-link-type="dfn" href="#report" id="ref-for-report③①">report</a>’s originator. It is still possible, however, for a feature
+  credential information and fragment data from the URL we store as a <a data-link-type="dfn" href="#report" id="ref-for-report③②">report</a>’s originator. It is still possible, however, for a feature
   to unintentionally leak such data via a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑦">body</a>. Implementers
   SHOULD ensure that URLs contained in a report’s body are similarly stripped.</p>
     </section>
     <section>
-     <h2 class="heading settled" data-level="10" id="privacy"><span class="secno">10. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
-     <h3 class="heading settled" data-level="10.1" id="network-leakage"><span class="secno">10.1. </span><span class="content">Network Leakage</span><a class="self-link" href="#network-leakage"></a></h3>
+     <h2 class="heading settled" data-level="11" id="privacy"><span class="secno">11. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
+     <h3 class="heading settled" data-level="11.1" id="network-leakage"><span class="secno">11.1. </span><span class="content">Network Leakage</span><a class="self-link" href="#network-leakage"></a></h3>
      <p>Because this reporting mechanism is out-of-band, and doesn’t rely on a page
   being open, it’s entirely possible for a report generated while a user is on
   one network to be sent while the user is on another network, even if they
   don’t explicitly open the page from which the report was sent.</p>
      <p class="issue" id="issue-acba119f"><a class="self-link" href="#issue-acba119f"></a> Consider mitigations. For example, we could
   drop reports if we change from one network to another. <a href="https://github.com/WICG/BackgroundSync/issues/107">&lt;https://github.com/WICG/BackgroundSync/issues/107></a></p>
-     <h3 class="heading settled" data-level="10.2" id="fingerprinting-clock-skew"><span class="secno">10.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
+     <h3 class="heading settled" data-level="11.2" id="fingerprinting-clock-skew"><span class="secno">11.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
      <p>Each report is delivered along with an <code>age</code> property, rather than the
   timestamp at which it was generated. We do this because each user’s local
   clock will be skewed from the clock on the server by an arbitrary amount.
   The difference between the time the report was generated and the time it
   was sent will be stable, regardless of clock skew, and we can avoid the
   fingerprinting risk of exposing the clock skew via this API.</p>
-     <h3 class="heading settled" data-level="10.3" id="correlation"><span class="secno">10.3. </span><span class="content">Cross-origin correlation</span><a class="self-link" href="#correlation"></a></h3>
+     <h3 class="heading settled" data-level="11.3" id="correlation"><span class="secno">11.3. </span><span class="content">Cross-origin correlation</span><a class="self-link" href="#correlation"></a></h3>
      <p>If multiple origins all use the same reporting endpoint, that endpoint may
   learn that a particular user has interacted with a certain set of websites,
   as it will receive origin-tagged reports from each. This doesn’t seem worse
   than the status quo ability to track the same information from cooperative
   origins, and doesn’t grant any new tracking ability above and beyond what’s
   possible with <code>&lt;img></code> today.</p>
-     <h3 class="heading settled" data-level="10.4" id="subdomains"><span class="secno">10.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
+     <h3 class="heading settled" data-level="11.4" id="subdomains"><span class="secno">11.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
      <p>This specification allows any resource on a host to declare a set of reporting
   endpoints for that host and each of its subdomains. This doesn’t have privacy
-  implications in and of itself (beyond those noted in <a href="#clear-cache">§10.5 Clearing the reporting cache</a>), as the
+  implications in and of itself (beyond those noted in <a href="#clear-cache">§11.5 Clearing the reporting cache</a>), as the
   reporting endpoints themselves don’t take any real action, as features will
   need to opt-into using these reporting endpoints explicitly. Those features
   certainly will have privacy implications, and should carefully consider
   whether they should be enabled across origin boundaries.</p>
-     <h3 class="heading settled" data-level="10.5" id="clear-cache"><span class="secno">10.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
+     <h3 class="heading settled" data-level="11.5" id="clear-cache"><span class="secno">11.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
      <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①③">reporting cache</a> contains data about a user’s activity
   on the web, and user agents ought to handle this data carefully. In
   particular, if a user agent gives users the ability to clear their site data,
@@ -2598,7 +2655,7 @@ Content-Type: application/report
   the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①④">reporting cache</a>. Note that this includes both the pending reports
   themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.</p>
-     <h3 class="heading settled" data-level="10.6" id="disable"><span class="secno">10.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
+     <h3 class="heading settled" data-level="11.6" id="disable"><span class="secno">11.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
      <p>Reporting is, to some extent, a question of commons. In the aggregate, it
   seems useful for everyone for reports to be delivered. There is direct benefit
   to developers, as they can fix bugs, which means there’s indirect benefit to
@@ -2619,10 +2676,10 @@ Content-Type: application/report
   to maintain the priority of constituencies espoused in <a data-link-type="biblio" href="#biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
     </section>
     <section>
-     <h2 class="heading settled" data-level="11" id="iana-considerations"><span class="secno">11. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
+     <h2 class="heading settled" data-level="12" id="iana-considerations"><span class="secno">12. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
      <p>The permanent message header field registry should be updated
   with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
-     <h3 class="heading settled" data-level="11.1" id="iana-report-to"><span class="secno">11.1. </span><span class="content"> Report-To </span><a class="self-link" href="#iana-report-to"></a></h3>
+     <h3 class="heading settled" data-level="12.1" id="iana-report-to"><span class="secno">12.1. </span><span class="content"> Report-To </span><a class="self-link" href="#iana-report-to"></a></h3>
      <dl>
       <dt data-md="">Header field name
       <dd data-md="">
@@ -2804,11 +2861,14 @@ Content-Type: application/report
    <li><a href="#endpoint-group-expired">expired</a><span>, in §2.2</span>
    <li><a href="#failover-class">failover class</a><span>, in §2.7</span>
    <li><a href="#dom-endpoint-failures">failures</a><span>, in §2.3</span>
+   <li><a href="#generate-test-report">Generate Test Report</a><span>, in §9.1</span>
+   <li><a href="#dictdef-generatetestreportparameters">GenerateTestReportParameters</a><span>, in §9.1</span>
    <li>
     group
     <ul>
      <li><a href="#reportto-group">dfn for ReportTo</a><span>, in §3.1.1</span>
      <li><a href="#report-group">dfn for report</a><span>, in §2.5</span>
+     <li><a href="#dom-generatetestreportparameters-group">dict-member for GenerateTestReportParameters</a><span>, in §9.1</span>
     </ul>
    <li>
     id
@@ -2825,6 +2885,7 @@ Content-Type: application/report
     <ul>
      <li><a href="#dom-deprecationreportbody-message">attribute for DeprecationReportBody</a><span>, in §6.1</span>
      <li><a href="#deprecationreportbody-message">dfn for DeprecationReportBody</a><span>, in §6.1</span>
+     <li><a href="#dom-generatetestreportparameters-message">dict-member for GenerateTestReportParameters</a><span>, in §9.1</span>
     </ul>
    <li><a href="#dom-endpoint-group-name">name</a><span>, in §2.2</span>
    <li><a href="#observable-from-javascript">observable from JavaScript</a><span>, in §2.4</span>
@@ -3026,6 +3087,12 @@ Content-Type: application/report
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-active-document">
+   <a href="https://html.spec.whatwg.org/multipage/browsers.html#active-document">https://html.spec.whatwg.org/multipage/browsers.html#active-document</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-active-document">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-creation-url">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">https://html.spec.whatwg.org/multipage/webappapis.html#creation-url</a><b>Referenced in:</b>
    <ul>
@@ -3038,6 +3105,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-environment-settings-object">4.1. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-environment-settings-object①">(2)</a>
+    <li><a href="#ref-for-environment-settings-object②">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-origin">
@@ -3113,6 +3181,7 @@ Content-Type: application/report
    <a href="https://tools.ietf.org/html/rfc7159#section-2">https://tools.ietf.org/html/rfc7159#section-2</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-section-2">2.5. Reports</a>
+    <li><a href="#ref-for-section-2①">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
@@ -3133,6 +3202,12 @@ Content-Type: application/report
    <a href="https://url.spec.whatwg.org/#dom-url-host">https://url.spec.whatwg.org/#dom-url-host</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-url-host">3.1.2. The include-subdomains member</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-url-object">
+   <a href="https://url.spec.whatwg.org/#concept-url-object">https://url.spec.whatwg.org/#concept-url-object</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-url-object">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-origin">
@@ -3170,11 +3245,73 @@ Content-Type: application/report
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-current-browsing-context">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-current-browsing-context">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-extension-commands">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-extension-commands">9. Automation</a>
+    <li><a href="#ref-for-dfn-extension-commands①">9.1. Generate Test Report</a> <a href="#ref-for-dfn-extension-commands②">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-extension-command-name">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-name">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-name</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-extension-command-name">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-extension-command-prefix">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-prefix">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-prefix</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-extension-command-prefix">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-invalid-argument">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-invalid-argument">9.1. Generate Test Report</a> <a href="#ref-for-dfn-invalid-argument①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-remote-end-steps">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-remote-end-steps">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-success">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-success">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-try">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-try">9.1. Generate Test Report</a> <a href="#ref-for-dfn-try①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-error">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-error">9.1. Generate Test Report</a> <a href="#ref-for-dfn-error①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-error-code">
+   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-error-code">9.1. Generate Test Report</a> <a href="#ref-for-dfn-error-code①">(2)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
    <a href="https://heycam.github.io/webidl/#idl-DOMString">https://heycam.github.io/webidl/#idl-DOMString</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMString">5.1. Interface ReportingObserver</a> <a href="#ref-for-idl-DOMString①">(2)</a> <a href="#ref-for-idl-DOMString②">(3)</a>
     <li><a href="#ref-for-idl-DOMString③">6.1. Deprecation</a> <a href="#ref-for-idl-DOMString④">(2)</a> <a href="#ref-for-idl-DOMString⑤">(3)</a>
+    <li><a href="#ref-for-idl-DOMString⑥">9.1. Generate Test Report</a> <a href="#ref-for-idl-DOMString⑦">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-boolean">
@@ -3243,6 +3380,7 @@ Content-Type: application/report
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-active-document" style="color:initial">active document</span>
      <li><span class="dfn-paneled" id="term-for-creation-url" style="color:initial">creation url</span>
      <li><span class="dfn-paneled" id="term-for-environment-settings-object" style="color:initial">environment settings object</span>
      <li><span class="dfn-paneled" id="term-for-origin" style="color:initial">origin</span>
@@ -3286,11 +3424,26 @@ Content-Type: application/report
     <ul>
      <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">URL</span>
      <li><span class="dfn-paneled" id="term-for-dom-url-host" style="color:initial">host</span>
+     <li><span class="dfn-paneled" id="term-for-concept-url-object" style="color:initial">object</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-origin" style="color:initial">origin of a url</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-password" style="color:initial">password</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-parser" style="color:initial">url parser</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-serializer" style="color:initial">url serializer</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-username" style="color:initial">username</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WebDriver]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dfn-current-browsing-context" style="color:initial">current browsing context</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-extension-commands" style="color:initial">extension command</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-extension-command-name" style="color:initial">extension command name</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-extension-command-prefix" style="color:initial">extension command prefix</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-invalid-argument" style="color:initial">invalid argument</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-remote-end-steps" style="color:initial">remote end steps</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-success" style="color:initial">success</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-try" style="color:initial">trying</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-error" style="color:initial">webdriver error</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-error-code" style="color:initial">webdriver error code</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
@@ -3331,6 +3484,8 @@ Content-Type: application/report
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
+   <dt id="biblio-webdriver">[WebDriver]
+   <dd>Simon Stewart; David Burns. <a href="https://www.w3.org/TR/webdriver1/">WebDriver</a>. 5 June 2018. REC. URL: <a href="https://www.w3.org/TR/webdriver1/">https://www.w3.org/TR/webdriver1/</a>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Cameron McCormack; Boris Zbarsky; Tobie Langel. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
   </dl>
@@ -3350,7 +3505,7 @@ Content-Type: application/report
 };
 
 <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="#dom-report" id="ref-for-dom-report⑥">Report</a> {
-  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><span class="kt">DOMString</span></a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②">type</a>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧"><span class="kt">DOMString</span></a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②">type</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><span class="kt">DOMString</span></a> <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url②">url</a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody②">ReportBody</a>? <a class="nv idl-code" data-link-type="attribute" data-readonly="" data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body②">body</a>;
 };
@@ -3378,6 +3533,11 @@ Content-Type: application/report
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><span class="kt">DOMString</span></a>? <a class="nv" data-readonly="" data-type="DOMString?" href="#dom-deprecationreportbody-sourcefile"><code>sourceFile</code></a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long②"><span class="kt">long</span></a>? <a class="nv" data-readonly="" data-type="long?" href="#dom-deprecationreportbody-linenumber"><code>lineNumber</code></a>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①①"><span class="kt">long</span></a>? <a class="nv" data-readonly="" data-type="long?" href="#dom-deprecationreportbody-columnnumber"><code>columnNumber</code></a>;
+};
+
+<span class="kt">dictionary</span> <a class="nv" href="#dictdef-generatetestreportparameters"><code>GenerateTestReportParameters</code></a> {
+  <span class="kt">required</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><span class="kt">DOMString</span></a> <a class="nv" data-type="DOMString " href="#dom-generatetestreportparameters-message"><code>message</code></a>;
+  <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><span class="kt">DOMString</span></a> <a class="nv" data-type="DOMString " href="#dom-generatetestreportparameters-group"><code>group</code></a>;
 };
 
 </pre>
@@ -3604,7 +3764,8 @@ Content-Type: application/report
     <li><a href="#ref-for-report②⑤">5.3. 
     Add report to observer </a>
     <li><a href="#ref-for-report②⑥">7.2. Garbage Collection</a> <a href="#ref-for-report②⑦">(2)</a> <a href="#ref-for-report②⑧">(3)</a> <a href="#ref-for-report②⑨">(4)</a> <a href="#ref-for-report③⓪">(5)</a>
-    <li><a href="#ref-for-report③①">9.1. Capability URLs</a>
+    <li><a href="#ref-for-report③①">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-report③②">10.1. Capability URLs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-body">
@@ -3620,7 +3781,7 @@ Content-Type: application/report
     <li><a href="#ref-for-report-body⑤">5.3. 
     Add report to observer </a>
     <li><a href="#ref-for-report-body⑥">6.1. Deprecation</a>
-    <li><a href="#ref-for-report-body⑦">9.1. Capability URLs</a>
+    <li><a href="#ref-for-report-body⑦">10.1. Capability URLs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-url">
@@ -3696,7 +3857,7 @@ Content-Type: application/report
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-reporting-cache⑦">(2)</a>
     <li><a href="#ref-for-reporting-cache⑧">4.3. 
     Send reports </a> <a href="#ref-for-reporting-cache⑨">(2)</a> <a href="#ref-for-reporting-cache①⓪">(3)</a> <a href="#ref-for-reporting-cache①①">(4)</a> <a href="#ref-for-reporting-cache①②">(5)</a>
-    <li><a href="#ref-for-reporting-cache①③">10.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
+    <li><a href="#ref-for-reporting-cache①③">11.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="failover-class">
@@ -3786,6 +3947,7 @@ Content-Type: application/report
     <li><a href="#ref-for-reporting-observer⑥">5.2. 
     Notify reporting observers on environment with report </a>
     <li><a href="#ref-for-reporting-observer⑦">7.2. Garbage Collection</a>
+    <li><a href="#ref-for-reporting-observer⑧">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="registered-reporting-observer-list">
@@ -3803,6 +3965,7 @@ Content-Type: application/report
     <li><a href="#ref-for-registered">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-registered①">5.2. 
     Notify reporting observers on environment with report </a> <a href="#ref-for-registered②">(2)</a>
+    <li><a href="#ref-for-registered③">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-buffer">
@@ -3965,6 +4128,18 @@ Content-Type: application/report
    <b><a href="#deprecationreportbody-source_file">#deprecationreportbody-source_file</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-deprecationreportbody-source_file">6.1. Deprecation</a> <a href="#ref-for-deprecationreportbody-source_file①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-generatetestreportparameters-message">
+   <b><a href="#dom-generatetestreportparameters-message">#dom-generatetestreportparameters-message</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-generatetestreportparameters-message">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-generatetestreportparameters-group">
+   <b><a href="#dom-generatetestreportparameters-group">#dom-generatetestreportparameters-group</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-generatetestreportparameters-group">9.1. Generate Test Report</a>
    </ul>
   </aside>
 <script>/* script-var-click-highlighting */
