@@ -110,7 +110,20 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
     text: Date object; url: sec-date-objects
   type: interface
     text: Date; url: sec-date-objects
-
+spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
+  type: dfn
+    text: current browsing context; url: dfn-current-browsing-context
+    text: WebDriver error; url: dfn-error
+    text: WebDriver error code; url: dfn-error-code
+    text: extension command; url: dfn-extension-commands
+    text: extension command name; url: dfn-extension-command-name
+    text: extension command prefix; url: dfn-extension-command-prefix
+    text: invalid argument; url: dfn-invalid-argument
+    text: local end; url: dfn-local-end
+    text: remote end steps; url: dfn-remote-end-steps
+    text: session; url: dfn-session
+    text: success; url: dfn-success
+    text: trying; url: dfn-try
 </pre>
 <pre class="biblio">
 {
@@ -1227,6 +1240,72 @@ typedef sequence&lt;Report> ReportList;
       }]
     </pre>
   </div>
+</section>
+
+<section>
+  <h2 id="automation">Automation</h2>
+
+  For the purposes of user-agent automation and application testing, this
+  document defines a number of <a>extension commands</a> for the [[WebDriver]]
+  specification.
+
+  <h3 id="generate-test-report-command">Generate Test Report</h3>
+
+  The <dfn>Generate Test Report</dfn> <a>extension command</a> simulates the
+  generation of a <a>report</a> for the purposes of testing. This report will be
+  observed by any <a>registered</a> <a>reporting observers</a>.
+
+  The <a>extension command</a> is defined as follows:
+
+  <pre class='idl'>
+    dictionary GenerateTestReportParameters {
+      required DOMString message;
+      DOMString group;
+    };
+  </pre>
+
+  <table style="border-spacing: 20px 0px;">
+    <tbody>
+      <tr>
+        <th>HTTP Method</th>
+        <th><a lt="extension command prefix">Prefix</a></th>
+        <th><a lt="extension command name">Name</a></th>
+      </tr>
+      <tr>
+        <td>`POST`</td>
+        <td>`/session/{session id}/reporting`</td>
+        <td>`generate_test_report`</td>
+      </tr>
+    </tbody>
+  </table>
+
+  The <a>remote end steps</a> are:
+
+  1. If |parameters| is not a JSON <a>Object</a>, return a <a>WebDriver
+     error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.
+
+  2. Let |message| be the result of <a>trying</a> to get |parameters|'s
+     {{GenerateTestReportParameters/message}} property.
+
+  3. If |message| is null, return a <a>WebDriver error</a> with <a>WebDriver
+     error code</a> <a>invalid argument</a>.
+
+  4. Let |group| be the result of <a>trying</a> to get |parameters|'s
+     {{GenerateTestReportParameters/group}} property.
+
+  5. If |group| is null, set |group| to "default".
+
+  6. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
+     containing a single string field, |body_message|.
+
+  7. Set |body_message| to |message|.
+
+  8. Let |settings| be the <a>environment settings object</a> of the
+     <a>current browsing context</a>'s <a>active document</a>.
+
+  9. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
+
+  10. Return <a>success</a> with data null.
 </section>
 
 <section>
