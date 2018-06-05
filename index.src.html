@@ -1243,8 +1243,6 @@ typedef sequence&lt;Report> ReportList;
 </section>
 
 <section>
-
-</section>
   <h2 id="automation">Automation</h2>
 
   For the purposes of user-agent automation and application testing, this
@@ -1255,25 +1253,9 @@ typedef sequence&lt;Report> ReportList;
 
   The <dfn>Generate Test Report</dfn> <a>extension command</a> simulates the
   generation of a <a>report</a> for the purposes of testing. This report will be
-  routed through any defined reporting <a>endpoints</a> and observed by
-  any <a>registered</a> <a>reporting observers</a>, as per normal.
+  observed by any <a>registered</a> <a>reporting observers</a>.
 
   The <a>extension command</a> is defined as follows:
-
-  <table>
-    <tbody>
-      <tr>
-        <th>HTTP Method</th>
-        <th><a lt="extension command prefix">Prefix</a></th>
-        <th><a lt="extension command name">Name</a></th>
-      </tr>
-      <tr>
-        <td>POST</td>
-        <td>/session/{session id}/reporting</td>
-        <td>generate_test_report</td>
-      </tr>
-    </tbody>
-  </table>
 
   <pre class='idl'>
     dictionary GenerateTestReportParameters {
@@ -1281,6 +1263,21 @@ typedef sequence&lt;Report> ReportList;
       DOMString group;
     };
   </pre>
+
+  <table style="border-spacing: 20px 0px;">
+    <tbody>
+      <tr>
+        <th>HTTP Method</th>
+        <th><a lt="extension command prefix">Prefix</a></th>
+        <th><a lt="extension command name">Name</a></th>
+      </tr>
+      <tr>
+        <td>`POST`</td>
+        <td>`/session/{session id}/reporting`</td>
+        <td>`generate_test_report`</td>
+      </tr>
+    </tbody>
+  </table>
 
   The <a>remote end steps</a> are:
 
@@ -1309,6 +1306,7 @@ typedef sequence&lt;Report> ReportList;
   9. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
 
   10. Return <a>success</a> with data null.
+</section>
 
 <section>
   <h2 id="security">Security Considerations</h2>
