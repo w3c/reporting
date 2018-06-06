@@ -1139,6 +1139,52 @@ typedef sequence&lt;Report> ReportList;
       number in [=DeprecationReportBody/source_file=] where the indicated API
       was first used, or null otherwise.
 
+  <h3 id="intervention-report">Intervention</h3>
+
+  <dfn>Intervention reports</dfn> indicate that a user agent has decided not to
+  honor a request made by the application (e.g. for security, performance or
+  user annoyance reasons). Note that the report properties are the same as those
+  for <a>deprecation reports</a>, except for the absense of
+  [=DeprecationReportBody/anticipated_removal=].
+
+  <a>Intervention reports</a> have the <a>report type</a> "intervention".
+
+  <a>Intervention reports</a> are <a>observable from JavaScript</a>.
+
+  <pre class="idl">
+    interface InterventionReportBody : ReportBody {
+      readonly attribute DOMString id;
+      readonly attribute DOMString message;
+      readonly attribute DOMString? sourceFile;
+      readonly attribute long? lineNumber;
+      readonly attribute long? columnNumber;
+    };
+  </pre>
+
+  An <a>intervention report</a>'s [=report/body=], represented in JavaScript by
+  {{InterventionReportBody}}, contains the following fields:
+
+    - <dfn for="InterventionReportBody">id</dfn>: an implementation-defined
+      string identifying the specific intervention that occured. This string can
+      be used for grouping and counting related reports.
+
+    - <dfn for="InterventionReportBody">message</dfn>: A human-readable string
+      with details typically matching what would be displayed on the developer
+      console. The message is not guaranteed to be unique for a given
+      [=InterventionReportBody/id=] (e.g. it may contain additional context on
+      what led to the intervention).
+
+    - <dfn for="InterventionReportBody">source_file</dfn>: If known, the file
+      which first used the indicated API, or null otherwise.
+
+    - <dfn for="InterventionReportBody">line_number</dfn>: If known, the line
+      number in [=InterventionReportBody/source_file=] of the offending behavior
+      (which prompted the intervention), or null otherwise.
+
+    - <dfn for="InterventionReportBody">column_number</dfn>: If known, the
+      column number in [=InterventionReportBody/source_file=] of the offending
+      behavior (which prompted the intervention), or null otherwise.
+
 </section>
 
 <section>
