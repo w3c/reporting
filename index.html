@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 60c7cf64c0efdd39a8c0261dfad14adb1da62902" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="71149a795463f29db64eec3719f435db900ecbf8" name="document-revision">
+  <meta content="c8772a337fa3b54983c32bcffd86f7e90454cb45" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1471,7 +1471,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-05">5 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-07">7 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2415,10 +2415,10 @@ list</dfn>, which is initially empty.</p>
     <section>
      <h2 class="heading settled" data-level="6" id="report-types"><span class="secno">6. </span><span class="content">Report Types</span><a class="self-link" href="#report-types"></a></h2>
      <h3 class="heading settled" data-level="6.1" id="deprecation-report"><span class="secno">6.1. </span><span class="content">Deprecation</span><a class="self-link" href="#deprecation-report"></a></h3>
-     <p>Deprecation reports indicate that a browser API or feature has been used which
-  is expected to stop working in a future update to the browser.</p>
-     <p>Deprecation reports have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a> "deprecation".</p>
-     <p>Deprecation reports are <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript②">observable from JavaScript</a>.</p>
+     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="deprecation-reports">Deprecation reports</dfn> indicate that a browser API or feature has been
+  used which is expected to stop working in a future update to the browser.</p>
+     <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports">Deprecation reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a> "deprecation".</p>
+     <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports①">Deprecation reports</a> are <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript②">observable from JavaScript</a>.</p>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="deprecationreportbody"><code>DeprecationReportBody</code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①">ReportBody</a> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-deprecationreportbody-id"><code>id</code><a class="self-link" href="#dom-deprecationreportbody-id"></a></dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects"><span class="kt">Date</span></a>? <dfn class="nv idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Date?" id="dom-deprecationreportbody-anticipatedremoval"><code>anticipatedRemoval</code><a class="self-link" href="#dom-deprecationreportbody-anticipatedremoval"></a></dfn>;
@@ -2428,7 +2428,7 @@ list</dfn>, which is initially empty.</p>
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①"><span class="kt">long</span></a>? <dfn class="nv idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="long?" id="dom-deprecationreportbody-columnnumber"><code>columnNumber</code><a class="self-link" href="#dom-deprecationreportbody-columnnumber"></a></dfn>;
 };
 </pre>
-     <p>A deprecation report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#deprecationreportbody" id="ref-for-deprecationreportbody">DeprecationReportBody</a></code>, contains the following fields:</p>
+     <p>A <a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports②">deprecation report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#deprecationreportbody" id="ref-for-deprecationreportbody">DeprecationReportBody</a></code>, contains the following fields:</p>
      <ul>
       <li data-md="">
        <p><dfn class="dfn-paneled" data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport="" id="deprecationreportbody-id">id</dfn>: an implementation-defined
@@ -2848,6 +2848,7 @@ Content-Type: application/report
    <li><a href="#deprecationreportbody-column_number">column_number</a><span>, in §6.1</span>
    <li><a href="#dom-endpoint-group-creation">creation</a><span>, in §2.2</span>
    <li><a href="#deprecationreportbody">DeprecationReportBody</a><span>, in §6.1</span>
+   <li><a href="#deprecation-reports">Deprecation reports</a><span>, in §6.1</span>
    <li><a href="#dom-reportingobserver-disconnect">disconnect()</a><span>, in §5.1</span>
    <li><a href="#endpoint">endpoint</a><span>, in §2.3</span>
    <li><a href="#endpoint-group">endpoint group</a><span>, in §2.2</span>
@@ -4110,6 +4111,12 @@ Content-Type: application/report
    <b><a href="#dom-reportingobserver-takerecords">#dom-reportingobserver-takerecords</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-reportingobserver-takerecords">5.1. Interface ReportingObserver</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="deprecation-reports">
+   <b><a href="#deprecation-reports">#deprecation-reports</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-deprecation-reports">6.1. Deprecation</a> <a href="#ref-for-deprecation-reports①">(2)</a> <a href="#ref-for-deprecation-reports②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="deprecationreportbody">
