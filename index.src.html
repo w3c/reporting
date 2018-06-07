@@ -1089,12 +1089,12 @@ typedef sequence&lt;Report> ReportList;
 
   <h3 id="deprecation-report">Deprecation</h3>
 
-  Deprecation reports indicate that a browser API or feature has been used which
-  is expected to stop working in a future update to the browser.
+  <dfn>Deprecation reports</dfn> indicate that a browser API or feature has been
+  used which is expected to stop working in a future update to the browser.
 
-  Deprecation reports have the <a>report type</a> "deprecation".
+  <a>Deprecation reports</a> have the <a>report type</a> "deprecation".
 
-  Deprecation reports are <a>observable from JavaScript</a>.
+  <a>Deprecation reports</a> are <a>observable from JavaScript</a>.
 
   <pre class="idl">
     interface DeprecationReportBody : ReportBody {
@@ -1107,7 +1107,7 @@ typedef sequence&lt;Report> ReportList;
     };
   </pre>
 
-  A deprecation report's [=report/body=], represented in JavaScript by
+  A <a>deprecation report</a>'s [=report/body=], represented in JavaScript by
   {{DeprecationReportBody}}, contains the following fields:
 
     - <dfn for="DeprecationReportBody">id</dfn>: an implementation-defined
