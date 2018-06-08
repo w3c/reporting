@@ -420,12 +420,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   error. If no member named "`group`" is present in the object, the <a>endpoint
   group</a> will be given the {{endpoint group/name}} "`default`".
 
-  <h4 id="include-subdomains-member">The `include-subdomains` member</h4>
+  <h4 id="include-subdomains-member">The `include_subdomains` member</h4>
 
-  The OPTIONAL <dfn for="ReportTo">`include-subdomains`</dfn> member is a
+  The OPTIONAL <dfn for="ReportTo">`include_subdomains`</dfn> member is a
   boolean that enables this <a>endpoint group</a> for all subdomains of the
   current <a spec="html">origin</a>'s {{URL/host}}.  If no member named
-  "`include-subdomains`" is present in the object, or its value is not "`true`",
+  "`include_subdomains`" is present in the object, or its value is not "`true`",
   the <a>endpoint group</a> will not be enabled for subdomains.
 
   <h4 id="max-age-member">The `max_age` member</h4>
@@ -578,7 +578,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
           ::  |name|
           :   {{endpoint group/subdomains}}
           ::  "`include`" if |item| has a member named
-              "<a>`include-subdomains`</a>" whose value is
+              "<a for="ReportTo">`include_subdomains`</a>" whose value is
               `true`, "`exclude`" otherwise.
           :   {{endpoint group/ttl}}
           ::  |item|'s "<a for="ReportTo">`max_age`</a>" member's value.
