@@ -1211,9 +1211,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 60c7cf64c0efdd39a8c0261dfad14adb1da62902" name="generator">
+  <meta content="Bikeshed version 5888e02cf0071ba98c44312075d6903689282c04" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="c8772a337fa3b54983c32bcffd86f7e90454cb45" name="document-revision">
+  <meta content="238764137aaecd2d324b2e1b86b7b9cdd6eb066c" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1471,7 +1471,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-07">7 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-08">8 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1539,7 +1539,7 @@ reports in a consistent manner.</p>
        <a href="#header"><span class="secno">3.1</span> <span class="content">The <code>Report-To</code> HTTP Response Header Field</span></a>
        <ol class="toc">
         <li><a href="#id-member"><span class="secno">3.1.1</span> <span class="content">The <code>group</code> member</span></a>
-        <li><a href="#include-subdomains-member"><span class="secno">3.1.2</span> <span class="content">The <code>include-subdomains</code> member</span></a>
+        <li><a href="#include-subdomains-member"><span class="secno">3.1.2</span> <span class="content">The <code>include_subdomains</code> member</span></a>
         <li><a href="#max-age-member"><span class="secno">3.1.3</span> <span class="content">The <code>max_age</code> member</span></a>
         <li><a href="#endpoints-member"><span class="secno">3.1.4</span> <span class="content">The <code>endpoints</code> member</span></a>
         <li><a href="#endpoints-url-member"><span class="secno">3.1.5</span> <span class="content">The <code>endpoints.url</code> member</span></a>
@@ -1808,11 +1808,11 @@ reports in a consistent manner.</p>
   member’s value MUST be a string; any other type will result in a parse
   error. If no member named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①②">endpoint
   group</a> will be given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> "<code>default</code>".</p>
-    <h4 class="heading settled" data-level="3.1.2" id="include-subdomains-member"><span class="secno">3.1.2. </span><span class="content">The <code>include-subdomains</code> member</span><a class="self-link" href="#include-subdomains-member"></a></h4>
-    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-include-subdomains"><code>include-subdomains</code></dfn> member is a
+    <h4 class="heading settled" data-level="3.1.2" id="include-subdomains-member"><span class="secno">3.1.2. </span><span class="content">The <code>include_subdomains</code> member</span><a class="self-link" href="#include-subdomains-member"></a></h4>
+    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport="" id="reportto-include_subdomains"><code>include_subdomains</code></dfn> member is a
   boolean that enables this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①③">endpoint group</a> for all subdomains of the
   current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.  If no member named
-  "<code>include-subdomains</code>" is present in the object, or its value is not "<code>true</code>",
+  "<code>include_subdomains</code>" is present in the object, or its value is not "<code>true</code>",
   the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①④">endpoint group</a> will not be enabled for subdomains.</p>
     <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max_age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export="" id="reportto-max_age"><code>max_age</code></dfn> member defines
@@ -1937,7 +1937,7 @@ reports in a consistent manner.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains">subdomains</a></code>
          <dd data-md="">
           <p>"<code>include</code>" if <var>item</var> has a member named
-  "<a data-link-type="dfn" href="#reportto-include-subdomains" id="ref-for-reportto-include-subdomains"><code>include-subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
+  "<a data-link-type="dfn" href="#reportto-include_subdomains" id="ref-for-reportto-include_subdomains"><code>include_subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
          <dt data-md=""><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-ttl" id="ref-for-dom-endpoint-group-ttl①">ttl</a></code>
          <dd data-md="">
           <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑥"><code>max_age</code></a>" member’s value.</p>
@@ -2877,7 +2877,7 @@ Content-Type: application/report
      <li><a href="#dom-deprecationreportbody-id">attribute for DeprecationReportBody</a><span>, in §6.1</span>
      <li><a href="#deprecationreportbody-id">dfn for DeprecationReportBody</a><span>, in §6.1</span>
     </ul>
-   <li><a href="#reportto-include-subdomains">include-subdomains</a><span>, in §3.1.2</span>
+   <li><a href="#reportto-include_subdomains">include_subdomains</a><span>, in §3.1.2</span>
    <li><a href="#deprecationreportbody-line_number">line_number</a><span>, in §6.1</span>
    <li><a href="#dom-deprecationreportbody-linenumber">lineNumber</a><span>, in §6.1</span>
    <li><a href="#reportto-max_age">max_age</a><span>, in §3.1.3</span>
@@ -3117,7 +3117,7 @@ Content-Type: application/report
     <li><a href="#ref-for-origin③">2.3. Endpoints</a>
     <li><a href="#ref-for-origin④">2.5. Reports</a> <a href="#ref-for-origin⑤">(2)</a>
     <li><a href="#ref-for-origin⑥">2.6. Storage</a> <a href="#ref-for-origin⑦">(2)</a>
-    <li><a href="#ref-for-origin⑧">3.1.2. The include-subdomains member</a>
+    <li><a href="#ref-for-origin⑧">3.1.2. The include_subdomains member</a>
     <li><a href="#ref-for-origin⑨">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-origin①⓪">(2)</a> <a href="#ref-for-origin①①">(3)</a>
     <li><a href="#ref-for-origin①②">4.1. 
@@ -3202,7 +3202,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-dom-url-host">
    <a href="https://url.spec.whatwg.org/#dom-url-host">https://url.spec.whatwg.org/#dom-url-host</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-url-host">3.1.2. The include-subdomains member</a>
+    <li><a href="#ref-for-dom-url-host">3.1.2. The include_subdomains member</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-object">
@@ -3589,7 +3589,7 @@ Content-Type: application/report
     <li><a href="#ref-for-endpoint-group⑨">2.7. Failover and load balancing</a>
     <li><a href="#ref-for-endpoint-group①⓪">3.1. The Report-To HTTP Response Header Field</a>
     <li><a href="#ref-for-endpoint-group①①">3.1.1. The group member</a> <a href="#ref-for-endpoint-group①②">(2)</a>
-    <li><a href="#ref-for-endpoint-group①③">3.1.2. The include-subdomains member</a> <a href="#ref-for-endpoint-group①④">(2)</a>
+    <li><a href="#ref-for-endpoint-group①③">3.1.2. The include_subdomains member</a> <a href="#ref-for-endpoint-group①④">(2)</a>
     <li><a href="#ref-for-endpoint-group①⑤">3.1.3. The max_age member</a> <a href="#ref-for-endpoint-group①⑥">(2)</a>
     <li><a href="#ref-for-endpoint-group①⑦">3.1.4. The endpoints member</a>
     <li><a href="#ref-for-endpoint-group①⑧">3.2. 
@@ -3884,10 +3884,10 @@ Content-Type: application/report
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="reportto-include-subdomains">
-   <b><a href="#reportto-include-subdomains">#reportto-include-subdomains</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="reportto-include_subdomains">
+   <b><a href="#reportto-include_subdomains">#reportto-include_subdomains</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reportto-include-subdomains">3.2. 
+    <li><a href="#ref-for-reportto-include_subdomains">3.2. 
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
