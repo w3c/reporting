@@ -315,6 +315,23 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <h3 id="concept-reports">Reports</h3>
 
+  <pre class="idl">
+    interface Report {
+      readonly attribute ReportBody body;
+      readonly attribute DOMString url;
+      readonly attribute DOMString origin;
+      readonly attribute DOMString? group;
+      readonly attribute DOMString type;
+      readonly attribute DOMTimeStamp timestamp;
+      readonly attribute unsigned long attempts;
+    };
+  </pre>
+
+  <pre class="idl">
+    interface ReportBody {
+    };
+  </pre>
+
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.
 
@@ -348,6 +365,97 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   Each <a>report</a> has an <dfn for="report" export>attempts</dfn>
   counter, which is a non-negative integer representing the number of times the
   user agent attempted to deliver the report.
+
+  <h3 id="concept-report-body-types">Report Body Types</h3>
+
+  A generated {{Report}}'s body MUST be an instance of the base {{ReportBody}} type,
+  rather than using the ReportBody type directly. A number of ReportBodyTypes are available
+
+  1. <dfn export>DeprecationReportBody</dfn>
+
+  <pre class="idl">
+    interface DeprecationReportBody {
+      readonly attribute DOMString id;
+      readonly attribute Date? anticipatedRemoval;
+      readonly attribute DOMString message;
+      readonly attribute DOMString? sourceFile;
+      readonly attribute unsigned long? lineNumber;
+    };
+  </pre>
+
+  Each <a>DeprecationReportBody</a> has a <dfn for="DeprecationReportBody" export attribute>id</dfn>,
+  which is an implementation-defined string identifying the feature or API that has been deprecated.
+  This string can be used for grouping and counting related reports.
+
+  Each <a>DeprecationReportBody</a> has an optional <dfn for="DeprecationReportBody" export attribute>anticipatedRemoval</dfn>,
+  which is a standard javascript Date object, as defined by <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.5.43">ECMA-262 §15.9.5.43</a>, that represents the expected point in the future that the API will be removed from a stable, public build of the UA.
+
+  Each <a>DeprecationReportBody</a> has a <dfn for="DeprecationReportBody" export attribute>message</dfn>,
+  which is a developer-readable message with details (typically matching what would be displayed on the
+  developer console). The message is not guaranteed to be unique for a given id (eg. it may contain
+  additional context on how the API was used). 
+
+  Each <a>DeprecationReportBody</a> has an optional <dfn for="DeprecationReportBody" export attribute>sourceFile</dfn>,
+  which a string representing the URI to the file that contains the code that triggered the deprecation. When eval() is
+  used, a UA can return the string "eval".
+
+  Each <a>DeprecationReportBody</a> has a <dfn for="DeprecationReportBody" export attribute>lineNumber</dfn>,
+  which is a integer correlating to the line in the {{sourceFile}} that triggered the deprecation.
+
+  2. <dfn export>InterventionReportBody</dfn>
+  <pre class="idl">
+    interface InterventionReportBody {
+      readonly attribute DOMString id;
+      readonly attribute DOMString message;
+      readonly attribute DOMString? sourceFile;
+      readonly attribute unsigned long? lineNumber;
+    };
+  </pre>
+
+  Each <a>InterventionReportBody</a> has a <dfn for="InterventionReportBody" export attribute>id</dfn>,
+  which is an implementation-defined string identifying the feature or API that has been intervened against.
+  This string can be used for grouping and counting related reports.
+
+  Each <a>InterventionReportBody</a> has a <dfn for="InterventionReportBody" export attribute>message</dfn>,
+  which is a developer-readable message with details (typically matching what would be displayed on the
+  developer console). The message is not guaranteed to be unique for a given id (eg. it may contain
+  additional context on how the API was used). 
+
+  Each <a>InterventionReportBody</a> has an optional <dfn for="InterventionReportBody" export attribute>sourceFile</dfn>,
+  which a string representing the URI to the file that contains the code that triggered the intervention. When eval() is
+  used, a UA can return the string "eval".
+
+  Each <a>InterventionReportBody</a> has a <dfn for="InterventionReportBody" export attribute>lineNumber</dfn>,
+  which is a integer correlating to the line in the {{sourceFile}} that triggered the intervention.
+
+  3. <dfn export>CrashReport</dfn>
+
+  <pre class="idl">
+    interface CrashReportBody {
+      readonly attribute DOMString? crashId;
+      readonly attribute CrashCause? cause;
+    };
+  </pre>
+
+  Each <a>CrashReportBody</a> has an optional <dfn for="CrashReportBody" export attribute>crashId</dfn>,
+  which is a unique string identifier that can be provided to the UA vendor to retrieve additional crash information
+
+  Each <a>CrashReportBody</a> has an optional <dfn for="CrashReportBody" export attribute>cause</dfn>,
+  which is a string that can be used to describe the cause of the crash, when safe for the UA to do so.
+
+  <pre class="idl">
+  enum CrashCause {
+    "oom"
+  };
+  </pre>
+
+ A {{CrashCause}} is a string that represents the reason the crash occurred
+ <ul>
+   <li><dfn for='CrashCause' enum-value>oom</dfn> can be used when the 
+     cause for generating a {{CrashReportBody}} was the result of the
+     process running out of memory.
+   </li>
+ </ul>
 
   <h3 id="concept-storage">Storage</h3>
 
