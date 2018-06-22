@@ -774,43 +774,53 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
           directly. Depending on load, the user agent MAY instead wait for
           [[#gc]] at some point in the future.
 
-  4.  For each (|endpoint|, |reports|) pair in |endpoint map|, execute the
-      following steps asynchronously:
+  4.  For each (|endpoint|, |reports|) pair in |endpoint map|:
 
-      1.  Let |result| be the result of executing [[#try-delivery]] on
-          |endpoint| and |reports|.
+      1.  Let |origin map| be an empty map of <a spec="html">origins</a> to
+          lists of <a>report</a> objects.
 
-      2.  If |result| is "`Success`":
+      2.  For each |report| in |reports|:
 
-          1.  Set |endpoint|'s {{endpoint/failures}} to 0, and its
-              {{endpoint/retry_after}} to `null`.
+          1.  Append |report| to |origin map|'s list of reports for |report|'s
+              [=report/origin=].
 
-          2.  Remove each <a>report</a> in |reports| from the <a>reporting
-              cache</a>.
+      3.  For each (|origin|, |per-origin reports|) pair in |origin map|,
+          execute the following steps asynchronously:
 
-          Otherwise, if |result| is "`Remove Endpoint`":
+          1.  Let |result| be the result of executing [[#try-delivery]] on
+              |endpoint|, |origin|, and |per-origin reports|.
 
-          1.  Remove |endpoint| from the reporting cache.
+          2.  If |result| is "`Success`":
 
-              Note: |reports| remain in the reporting cache for potential
-              delivery to other endpoints.
+              1.  Set |endpoint|'s {{endpoint/failures}} to 0, and its
+                  {{endpoint/retry_after}} to `null`.
 
-          Otherwise (if |result| is "`Failure`"):
+              2.  Remove each <a>report</a> in |reports| from the <a>reporting
+                  cache</a>.
 
-          1.  Increment |endpoint|'s {{endpoint/failures}}.
+              Otherwise, if |result| is "`Remove Endpoint`":
 
-          2.  Set |endpoint|'s {{endpoint/retry_after}} to a point in the future
-              which the user agent chooses.
+              1.  Remove |endpoint| from the reporting cache.
 
-              Note: We don't specify a particular algorithm here, but user
-              agents are encouraged to employ some sort of exponential backoff
-              algorithm which increases the retry period with the number of
-              failures, with the addition of some random jitter to ensure that
-              temporary failures don't lead to a crush of reports all being
-              retried on the same schedule.
+                  Note: |reports| remain in the reporting cache for potential
+                  delivery to other endpoints.
 
-              ISSUE: Add in a reasonable reference describing a good algorithm.
-              Wikipedia, if nothing else.
+              Otherwise (if |result| is "`Failure`"):
+
+              1.  Increment |endpoint|'s {{endpoint/failures}}.
+
+              2.  Set |endpoint|'s {{endpoint/retry_after}} to a point in the
+                  future which the user agent chooses.
+
+                  Note: We don't specify a particular algorithm here, but user
+                  agents are encouraged to employ some sort of exponential
+                  backoff algorithm which increases the retry period with the
+                  number of failures, with the addition of some random jitter to
+                  ensure that temporary failures don't lead to a crush of
+                  reports all being retried on the same schedule.
+
+                  ISSUE: Add in a reasonable reference describing a good
+                  algorithm.  Wikipedia, if nothing else.
 
   Note: User agents MAY decide to attempt delivery for only a subset of the
   collected reports or endpoints (because, for example, sending all the reports
@@ -822,11 +832,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     Attempt to deliver |reports| to |endpoint|
   </h3>
 
-  Given a list of <a>reports</a> (|reports|) and an <a>endpoint</a>
-  (|endpoint|), this algorithm will construct a <a>request</a>, and attempt to
-  deliver it to |endpoint|. It returns "`Success`" if that delivery succeeds,
-  "`Remove Endpoint`" if the endpoint explicitly removes itself as a reporting
-  endpoint by sending a 410 response, and "`Failure`" otherwise.
+  Given an <a>endpoint</a> (|endpoint|), an <a spec="html">origin</a>
+  (|origin|), and a list of <a>reports</a> (|reports|), this algorithm will
+  construct a <a>request</a>, and attempt to deliver it to |endpoint|. It
+  returns "`Success`" if that delivery succeeds, "`Remove Endpoint`" if the
+  endpoint explicitly removes itself as a reporting endpoint by sending a 410
+  response, and "`Failure`" otherwise.
 
   1.  Let |collection| be a new ECMAScript `Array` object [[!ECMA-262]].
 
@@ -858,6 +869,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
       :   `url`
       ::  |endpoint|'s {{endpoint/url}}
+      :   `origin`
+      ::  |origin|
       :   `header list`
       ::  A new <a>header list</a> containing a <a>header</a> named
           "`Content-Type`" whose value is "`application/report`"
@@ -869,19 +882,19 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  Set.
       :   `initiator`
       ::  ""
-      :   `type`
+      :   `destination`
       ::  "`report`"
       :   `destination`
       ::  ""
       :   `mode`
       ::  "`cors`"
+      :   `unsafe-request` flag
+      ::  set
       :   `credentials`
       ::  "`include`"
       :   `body`
       ::  The string resulting from executing the {{JSON.stringify()}} algorithm
           on |collection| [[!ECMA-262]]
-
-      ISSUE: The "`report`" type does not exist in Fetch. Talk to Anne.
 
   4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
