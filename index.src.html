@@ -77,6 +77,9 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn
       text: origin
       text: top-level browsing context
+  urlPrefix: system-state.html
+    type: dfn
+      text: navigator.userAgent; url: dom-navigator-useragent
 spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
   type: grammar
     text: absolute-uri; url: section-4.3
@@ -332,6 +335,10 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
   which is an <a spec="html">origin</a> representing the report's initiator.
+
+  Each <a>report</a> has a <dfn for="report" export>user agent</dfn>, which is
+  the value of the <code>User-Agent</code> <a>header</a> of the <a>request</a>
+  from which the report was generated.
 
   Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
@@ -634,6 +641,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  |data|
       :   [=report/origin=]
       ::  |settings|'s <a spec="html">origin</a>
+      :   [=report/user agent=]
+      ::  The current value of <a><code>navigator.userAgent</code></a>
       :   [=report/group=]
       ::  |endpoint group|
       :   [=report/type=]
@@ -842,6 +851,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
           ::  |report|'s [=report/type=]
           :   `url`
           ::  |report|'s [=report/url=]
+          :   `user_agent`
+          ::  |report|'s [=report/user agent=]
           :   `body`
           ::  |report|'s [=report/body=]
 
@@ -1242,6 +1253,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "csp",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
+        "user_agent": "ReportingSpec/1",
         "body": {
           "blocked": "https://evil.com/evil.js",
           "directive": "script-src",
@@ -1253,6 +1265,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "hpkp",
         "age": 32,
         "url": "https://www.example.com/",
+        "user_agent": "ReportingSpec/1",
         "body": {
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
@@ -1274,6 +1287,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "nel",
         "age": 29,
         "url": "https://example.com/thing.js",
+        "user_agent": "ReportingSpec/1",
         "body": {
           "referrer": "https://www.example.com/",
           "server-ip": "234.233.232.231",
