@@ -340,6 +340,13 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   the value of the <code>User-Agent</code> <a>header</a> of the <a>request</a>
   from which the report was generated.
 
+  Note: We collect the <code>User-Agent</code> header for each report, even
+  though we can also get this header from the report upload requests.  This
+  allows you to detect when the user needed to use <code>User-Agent</code>
+  spoofing to get the best experience when accessing a site, or when the user
+  explicitly requested a desktop version of your site when accessing it from a
+  mobile device.
+
   Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
   <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent
