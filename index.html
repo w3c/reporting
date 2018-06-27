@@ -1211,9 +1211,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 5888e02cf0071ba98c44312075d6903689282c04" name="generator">
+  <meta content="Bikeshed version 6abc9f98f620481a5031cd9b44944d60af9b79b9" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="16f6684d2678a696843799b559f4feba1c51a56f" name="document-revision">
+  <meta content="a613a5e1843582623e87969e8e19f0349ac46f55" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1471,7 +1471,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-08">8 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-27">27 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1551,10 +1551,11 @@ reports in a consistent manner.</p>
     <li>
      <a href="#report-delivery"><span class="secno">4</span> <span class="content">Report Delivery</span></a>
      <ol class="toc">
-      <li><a href="#queue-report"><span class="secno">4.1</span> <span class="content"> Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var> </span></a>
-      <li><a href="#choose-endpoint"><span class="secno">4.2</span> <span class="content"> Choose an <var>endpoint</var> from a <var>group</var> </span></a>
-      <li><a href="#send-reports"><span class="secno">4.3</span> <span class="content"> Send reports </span></a>
-      <li><a href="#try-delivery"><span class="secno">4.4</span> <span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span></a>
+      <li><a href="#media-type"><span class="secno">4.1</span> <span class="content">Media Type</span></a>
+      <li><a href="#queue-report"><span class="secno">4.2</span> <span class="content"> Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var> </span></a>
+      <li><a href="#choose-endpoint"><span class="secno">4.3</span> <span class="content"> Choose an <var>endpoint</var> from a <var>group</var> </span></a>
+      <li><a href="#send-reports"><span class="secno">4.4</span> <span class="content"> Send reports </span></a>
+      <li><a href="#try-delivery"><span class="secno">4.5</span> <span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span></a>
      </ol>
     <li>
      <a href="#observers"><span class="secno">5</span> <span class="content">Reporting Observers</span></a>
@@ -1600,7 +1601,8 @@ reports in a consistent manner.</p>
     <li>
      <a href="#iana-considerations"><span class="secno">12</span> <span class="content">IANA Considerations</span></a>
      <ol class="toc">
-      <li><a href="#iana-report-to"><span class="secno">12.1</span> <span class="content"> Report-To </span></a>
+      <li><a href="#header-field-registration"><span class="secno">12.1</span> <span class="content">The <code>Report-To</code> Header</span></a>
+      <li><a href="#media-type-registration"><span class="secno">12.2</span> <span class="content">The <code>application/reports+json</code> Media Type</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1781,7 +1783,7 @@ reports in a consistent manner.</p>
   primary collectors (those with lower <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority②">priority</a></code> values) fail.</p>
     <p>Developers can assign each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> in a <a data-link-type="dfn" href="#failover-class" id="ref-for-failover-class">failover class</a> a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight">weight</a></code>, which determines how report traffic is balanced across
   the <a data-link-type="dfn" href="#failover-class" id="ref-for-failover-class①">failover class</a>.</p>
-    <p>The algorithm that implements these rules is described in <a href="#choose-endpoint">§4.2 Choose an endpoint from a group</a>.</p>
+    <p>The algorithm that implements these rules is described in <a href="#choose-endpoint">§4.3 Choose an endpoint from a group</a>.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="endpoint-delivery"><span class="secno">3. </span><span class="content">Endpoint Delivery</span><a class="self-link" href="#endpoint-delivery"></a></h2>
@@ -1978,7 +1980,9 @@ reports in a consistent manner.</p>
   possible after queuing, as a report’s data might be significantly more useful
   in the period directly after its generation than it would be a day or a week
   later.</p>
-     <h3 class="heading settled algorithm" data-algorithm="Queue data as type for endpoint group on settings" data-level="4.1" id="queue-report"><span class="secno">4.1. </span><span class="content"> Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var> </span><a class="self-link" href="#queue-report"></a></h3>
+     <h3 class="heading settled" data-level="4.1" id="media-type"><span class="secno">4.1. </span><span class="content">Media Type</span><a class="self-link" href="#media-type"></a></h3>
+     <p>The media type used when POSTing reports to a specified endpoint is <code>application/reports+json</code>.</p>
+     <h3 class="heading settled algorithm" data-algorithm="Queue data as type for endpoint group on settings" data-level="4.2" id="queue-report"><span class="secno">4.2. </span><span class="content"> Queue <var>data</var> as <var>type</var> for <var>endpoint group</var> on <var>settings</var> </span><a class="self-link" href="#queue-report"></a></h3>
      <p>Given a serializable object (<var>data</var>), a string (<var>type</var>), another string
   (<var>endpoint group</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a> (<var>settings</var>),
   the following algorithm will create a <a data-link-type="dfn" href="#report" id="ref-for-report①⑥">report</a>, and add it to <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑥">reporting cache</a>’s queue for future delivery.</p>
@@ -2029,7 +2033,7 @@ reports in a consistent manner.</p>
   guarantee delivery of arbitrary amounts of data, for instance.</p>
      <p class="note" role="note"><span>Note:</span> Non user agent clients (with no JavaScript engine) should not interact
   with <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer②">reporting observers</a>, and thus should return in step 6.</p>
-     <h3 class="heading settled" data-level="4.2" id="choose-endpoint"><span class="secno">4.2. </span><span class="content"> Choose an <var>endpoint</var> from a <var>group</var> </span><a class="self-link" href="#choose-endpoint"></a></h3>
+     <h3 class="heading settled" data-level="4.3" id="choose-endpoint"><span class="secno">4.3. </span><span class="content"> Choose an <var>endpoint</var> from a <var>group</var> </span><a class="self-link" href="#choose-endpoint"></a></h3>
      <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②①">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
   eligible <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①①">endpoint</a> from the group, if there is one, taking into account
   the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority④">priority</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight②">weight</a></code> of the <a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①②">endpoints</a>.</p>
@@ -2067,7 +2071,7 @@ reports in a consistent manner.</p>
        <p>It should not be possible to fall through to here, since the random number
   chosen earlier will be less than <var>total weight</var>.</p>
      </ol>
-     <h3 class="heading settled algorithm" data-algorithm="Send reports" data-level="4.3" id="send-reports"><span class="secno">4.3. </span><span class="content"> Send reports </span><a class="self-link" href="#send-reports"></a></h3>
+     <h3 class="heading settled algorithm" data-algorithm="Send reports" data-level="4.4" id="send-reports"><span class="secno">4.4. </span><span class="content"> Send reports </span><a class="self-link" href="#send-reports"></a></h3>
      <p>A user agent sends reports by executing the following steps:</p>
      <ol>
       <li data-md="">
@@ -2085,7 +2089,7 @@ reports in a consistent manner.</p>
          <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②②">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group①">group</a>:</p>
          <ol>
           <li data-md="">
-           <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.2 Choose an endpoint from a group</a> on <var>group</var>.</p>
+           <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.3 Choose an endpoint from a group</a> on <var>group</var>.</p>
           <li data-md="">
            <p>If <var>endpoint</var> is a not <code>null</code>:</p>
            <ol>
@@ -2104,7 +2108,7 @@ reports in a consistent manner.</p>
            <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑦">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group②">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
            <ol>
             <li data-md="">
-             <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.2 Choose an endpoint from a group</a> on <var>group</var>.</p>
+             <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.3 Choose an endpoint from a group</a> on <var>group</var>.</p>
             <li data-md="">
              <p>If <var>endpoint</var> is an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a>:</p>
              <ol>
@@ -2123,7 +2127,7 @@ reports in a consistent manner.</p>
   following steps asynchronously:</p>
        <ol>
         <li data-md="">
-         <p>Let <var>result</var> be the result of executing <a href="#try-delivery">§4.4 Attempt to deliver reports to endpoint</a> on <var>endpoint</var> and <var>reports</var>.</p>
+         <p>Let <var>result</var> be the result of executing <a href="#try-delivery">§4.5 Attempt to deliver reports to endpoint</a> on <var>endpoint</var> and <var>reports</var>.</p>
         <li data-md="">
          <p>If <var>result</var> is "<code>Success</code>":</p>
          <ol>
@@ -2163,7 +2167,7 @@ reports in a consistent manner.</p>
   at once would consume an unreasonable amount of bandwidth, etc). As reports
   are only removed from the cache when they’re successfully delivered, skipped
   reports will simply be delivered later.</p>
-     <h3 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="4.4" id="try-delivery"><span class="secno">4.4. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h3>
+     <h3 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="4.5" id="try-delivery"><span class="secno">4.5. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h3>
      <p>Given a list of <a data-link-type="dfn" href="#report" id="ref-for-report②①">reports</a> (<var>reports</var>) and an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoint</a> (<var>endpoint</var>), this algorithm will construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a>, and attempt to
   deliver it to <var>endpoint</var>. It returns "<code>Success</code>" if that delivery succeeds,
   "<code>Remove Endpoint</code>" if the endpoint explicitly removes itself as a reporting
@@ -2207,7 +2211,7 @@ reports in a consistent manner.</p>
         <dt data-md=""><code>header list</code>
         <dd data-md="">
          <p>A new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list" id="ref-for-concept-header-list">header list</a> containing a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> named
-  "<code>Content-Type</code>" whose value is "<code>application/report</code>"</p>
+  "<code>Content-Type</code>" whose value is "<code>application/reports+json</code>"</p>
         <dt data-md=""><code>client</code>
         <dd data-md="">
          <p><code>null</code></p>
@@ -2538,12 +2542,12 @@ behavior (which prompted the intervention), or null otherwise.</p>
     </section>
     <section>
      <h2 class="heading settled" data-level="8" id="sample-reports"><span class="secno">8. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-     <div class="example" id="example-3c044958">
-      <a class="self-link" href="#example-3c044958"></a> 
+     <div class="example" id="example-f0c6387a">
+      <a class="self-link" href="#example-f0c6387a"></a> 
 <pre>POST / HTTP/1.1
 Host: example.com
 ...
-Content-Type: application/report
+Content-Type: application/reports+json
 
 [{
   "type": "csp",
@@ -2641,7 +2645,7 @@ Content-Type: application/report
       <li data-md="">
        <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a>.</p>
       <li data-md="">
-       <p>Execute <a href="#queue-report">§4.1 Queue data as type for endpoint group on settings</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
+       <p>Execute <a href="#queue-report">§4.2 Queue data as type for endpoint group on settings</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
       <li data-md="">
        <p>Return <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success" id="ref-for-dfn-success">success</a> with data null.</p>
      </ol>
@@ -2716,9 +2720,9 @@ Content-Type: application/report
     </section>
     <section>
      <h2 class="heading settled" data-level="12" id="iana-considerations"><span class="secno">12. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
+     <h3 class="heading settled" data-level="12.1" id="header-field-registration"><span class="secno">12.1. </span><span class="content">The <code>Report-To</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
      <p>The permanent message header field registry should be updated
   with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
-     <h3 class="heading settled" data-level="12.1" id="iana-report-to"><span class="secno">12.1. </span><span class="content"> Report-To </span><a class="self-link" href="#iana-report-to"></a></h3>
      <dl>
       <dt data-md="">Header field name
       <dd data-md="">
@@ -2735,6 +2739,56 @@ Content-Type: application/report
       <dt data-md="">Specification document
       <dd data-md="">
        <p>This specification (see <a href="#header">§3.1 The Report-To HTTP Response Header Field</a>)</p>
+     </dl>
+     <h3 class="heading settled" data-level="12.2" id="media-type-registration"><span class="secno">12.2. </span><span class="content">The <code>application/reports+json</code> Media Type</span><a class="self-link" href="#media-type-registration"></a></h3>
+     <dl>
+      <dt data-md="">Type name
+      <dd data-md="">
+       <p>application</p>
+      <dt data-md="">Subtype name
+      <dd data-md="">
+       <p>reports+json</p>
+      <dt data-md="">Required parameters
+      <dd data-md="">
+       <p>N/A</p>
+      <dt data-md="">Optional parameters
+      <dd data-md="">
+       <p>N/A</p>
+      <dt data-md="">Encoding considerations
+      <dd data-md="">
+       <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc7159">[RFC7159]</a>.</p>
+      <dt data-md="">Security considerations
+      <dd data-md="">
+       <p>See <a href="#security">§10 Security Considerations</a>.</p>
+      <dt data-md="">Interoperability considerations
+      <dd data-md="">
+       <p>This document specifies the format of conforming messages and the interpretation thereof.</p>
+      <dt data-md="">Published specification
+      <dd data-md="">
+       <p><a href="#media-type">§4.1 Media Type</a></p>
+      <dt data-md="">Applications that use this media type
+      <dt data-md="">Fragment identifier considerations
+      <dt data-md="">Additional information
+      <dd data-md="">
+       <p>N/A</p>
+      <dt data-md="">Person and email address to contact for further information
+      <dd data-md="">
+       <p>This document’s editors.</p>
+      <dt data-md="">Intended usage:
+      <dd data-md="">
+       <p>COMMON</p>
+      <dt data-md="">Restrictions on usage:
+      <dd data-md="">
+       <p>N/A</p>
+      <dt data-md="">Author
+      <dd data-md="">
+       <p>This document’s editors.</p>
+      <dt data-md="">Change controller
+      <dd data-md="">
+       <p>W3C</p>
+      <dt data-md="">Provisional registration?
+      <dd data-md="">
+       <p>Yes.</p>
      </dl>
     </section>
    </section>
@@ -3052,7 +3106,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-sec-json.stringify">
    <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-json.stringify">http://www.ecma-international.org/ecma-262/6.0/#sec-json.stringify</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-sec-json.stringify">4.4. 
+    <li><a href="#ref-for-sec-json.stringify">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3065,7 +3119,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-realm">
    <a href="https://tc39.github.io/ecma262/#realm">https://tc39.github.io/ecma262/#realm</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-realm">4.1. 
+    <li><a href="#ref-for-realm">4.2. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-realm①">(2)</a>
     <li><a href="#ref-for-realm②">5. Reporting Observers</a> <a href="#ref-for-realm③">(2)</a> <a href="#ref-for-realm④">(3)</a>
     <li><a href="#ref-for-realm⑤">5.1. Interface ReportingObserver</a> <a href="#ref-for-realm⑥">(2)</a> <a href="#ref-for-realm⑦">(3)</a>
@@ -3085,7 +3139,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-concept-fetch">
    <a href="https://fetch.spec.whatwg.org/#concept-fetch">https://fetch.spec.whatwg.org/#concept-fetch</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-fetch">4.4. 
+    <li><a href="#ref-for-concept-fetch">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3094,7 +3148,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-concept-header">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-concept-header①">(2)</a>
-    <li><a href="#ref-for-concept-header②">4.4. 
+    <li><a href="#ref-for-concept-header②">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3122,7 +3176,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-ok-status">
    <a href="https://fetch.spec.whatwg.org/#ok-status">https://fetch.spec.whatwg.org/#ok-status</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-ok-status">4.4. 
+    <li><a href="#ref-for-ok-status">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3131,7 +3185,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-concept-request">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-concept-request①">4.4. 
+    <li><a href="#ref-for-concept-request①">4.5. 
     Attempt to deliver reports to endpoint </a> <a href="#ref-for-concept-request②">(2)</a>
    </ul>
   </aside>
@@ -3159,7 +3213,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-wait-for-a-response">
    <a href="https://fetch.spec.whatwg.org/#wait-for-a-response">https://fetch.spec.whatwg.org/#wait-for-a-response</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-wait-for-a-response">4.4. 
+    <li><a href="#ref-for-wait-for-a-response">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3172,14 +3226,14 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-creation-url">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">https://html.spec.whatwg.org/multipage/webappapis.html#creation-url</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-creation-url">4.1. 
+    <li><a href="#ref-for-creation-url">4.2. 
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-environment-settings-object">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-environment-settings-object">4.1. 
+    <li><a href="#ref-for-environment-settings-object">4.2. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-environment-settings-object①">(2)</a>
     <li><a href="#ref-for-environment-settings-object②">9.1. Generate Test Report</a>
    </ul>
@@ -3195,14 +3249,14 @@ Content-Type: application/report
     <li><a href="#ref-for-origin⑧">3.1.2. The include_subdomains member</a>
     <li><a href="#ref-for-origin⑨">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-origin①⓪">(2)</a> <a href="#ref-for-origin①①">(3)</a>
-    <li><a href="#ref-for-origin①②">4.1. 
+    <li><a href="#ref-for-origin①②">4.2. 
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-queue-a-task">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task">https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-queue-a-task">4.4. 
+    <li><a href="#ref-for-queue-a-task">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-queue-a-task①">5.3. 
     Add report to observer </a>
@@ -3211,7 +3265,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-realm-execution-context">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#realm-execution-context">https://html.spec.whatwg.org/multipage/webappapis.html#realm-execution-context</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-realm-execution-context">4.1. 
+    <li><a href="#ref-for-realm-execution-context">4.2. 
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
@@ -3243,14 +3297,8 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-section-8.2">
    <a href="https://tools.ietf.org/html/rfc6797#section-8.2">https://tools.ietf.org/html/rfc6797#section-8.2</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-section-8.2">4.3. 
+    <li><a href="#ref-for-section-8.2">4.4. 
     Send reports </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-section-2.1">
-   <a href="https://tools.ietf.org/html/rfc7469#section-2.1">https://tools.ietf.org/html/rfc7469#section-2.1</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-2.1">1.2. Examples</a> <a href="#ref-for-section-2.1①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-section-2">
@@ -3258,6 +3306,12 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-section-2">2.5. Reports</a>
     <li><a href="#ref-for-section-2①">9.1. Generate Test Report</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-section-2.1">
+   <a href="https://tools.ietf.org/html/rfc7469#section-2.1">https://tools.ietf.org/html/rfc7469#section-2.1</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-section-2.1">1.2. Examples</a> <a href="#ref-for-section-2.1①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
@@ -3296,7 +3350,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-concept-url-password">
    <a href="https://url.spec.whatwg.org/#concept-url-password">https://url.spec.whatwg.org/#concept-url-password</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-url-password">4.1. 
+    <li><a href="#ref-for-concept-url-password">4.2. 
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
@@ -3310,14 +3364,14 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="term-for-concept-url-serializer">
    <a href="https://url.spec.whatwg.org/#concept-url-serializer">https://url.spec.whatwg.org/#concept-url-serializer</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-url-serializer">4.1. 
+    <li><a href="#ref-for-concept-url-serializer">4.2. 
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-username">
    <a href="https://url.spec.whatwg.org/#concept-url-username">https://url.spec.whatwg.org/#concept-url-username</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-url-username">4.1. 
+    <li><a href="#ref-for-concept-url-username">4.2. 
     Queue data as type for endpoint group on settings </a>
    </ul>
   </aside>
@@ -3483,14 +3537,14 @@ Content-Type: application/report
      <li><span class="dfn-paneled" id="term-for-section-8.2" style="color:initial">superdomain match</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[RFC7159]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-section-2" style="color:initial">json text</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[rfc7469]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-section-2.1" style="color:initial">public-key-pins</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[rfc8259]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-section-2" style="color:initial">json text</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SECURE-CONTEXTS]</a> defines the following terms:
@@ -3554,10 +3608,10 @@ Content-Type: application/report
    <dd>D. Crocker, Ed.; P. Overell. <a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>. January 2008. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc5234">https://tools.ietf.org/html/rfc5234</a>
    <dt id="biblio-rfc6797">[RFC6797]
    <dd>J. Hodges; C. Jackson; A. Barth. <a href="https://tools.ietf.org/html/rfc6797">HTTP Strict Transport Security (HSTS)</a>. November 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6797">https://tools.ietf.org/html/rfc6797</a>
+   <dt id="biblio-rfc7159">[RFC7159]
+   <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc8259">The JavaScript Object Notation (JSON) Data Interchange Format</a>. December 2017. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc8259">https://tools.ietf.org/html/rfc8259</a>
    <dt id="biblio-rfc7231">[RFC7231]
    <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
-   <dt id="biblio-rfc8259">[RFC8259]
-   <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc8259">The JavaScript Object Notation (JSON) Data Interchange Format</a>. December 2017. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc8259">https://tools.ietf.org/html/rfc8259</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
    <dt id="biblio-url">[URL]
@@ -3644,7 +3698,7 @@ Content-Type: application/report
     <li><a href="#ref-for-client②">2.6. Storage</a> <a href="#ref-for-client③">(2)</a>
     <li><a href="#ref-for-client④">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-client⑤">4.2. 
+    <li><a href="#ref-for-client⑤">4.3. 
     Choose an endpoint from a group </a>
    </ul>
   </aside>
@@ -3660,7 +3714,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-dom-client-endpoint-groups">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-client-endpoint-groups①">4.3. 
+    <li><a href="#ref-for-dom-client-endpoint-groups①">4.4. 
     Send reports </a> <a href="#ref-for-dom-client-endpoint-groups②">(2)</a>
    </ul>
   </aside>
@@ -3679,9 +3733,9 @@ Content-Type: application/report
     <li><a href="#ref-for-endpoint-group①⑦">3.1.4. The endpoints member</a>
     <li><a href="#ref-for-endpoint-group①⑧">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-endpoint-group①⑨">(2)</a> <a href="#ref-for-endpoint-group②⓪">(3)</a>
-    <li><a href="#ref-for-endpoint-group②①">4.2. 
+    <li><a href="#ref-for-endpoint-group②①">4.3. 
     Choose an endpoint from a group </a>
-    <li><a href="#ref-for-endpoint-group②②">4.3. 
+    <li><a href="#ref-for-endpoint-group②②">4.4. 
     Send reports </a> <a href="#ref-for-endpoint-group②③">(2)</a>
     <li><a href="#ref-for-endpoint-group②④">7.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②⑤">(2)</a>
    </ul>
@@ -3694,7 +3748,7 @@ Content-Type: application/report
     <li><a href="#ref-for-dom-endpoint-group-name②">3.1.1. The group member</a> <a href="#ref-for-dom-endpoint-group-name③">(2)</a>
     <li><a href="#ref-for-dom-endpoint-group-name④">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-dom-endpoint-group-name⑤">(2)</a>
-    <li><a href="#ref-for-dom-endpoint-group-name⑥">4.3. 
+    <li><a href="#ref-for-dom-endpoint-group-name⑥">4.4. 
     Send reports </a> <a href="#ref-for-dom-endpoint-group-name⑦">(2)</a>
    </ul>
   </aside>
@@ -3703,7 +3757,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-dom-endpoint-group-endpoints">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-group-endpoints①">4.2. 
+    <li><a href="#ref-for-dom-endpoint-group-endpoints①">4.3. 
     Choose an endpoint from a group </a>
    </ul>
   </aside>
@@ -3712,7 +3766,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-dom-endpoint-group-subdomains">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-group-subdomains①">4.3. 
+    <li><a href="#ref-for-dom-endpoint-group-subdomains①">4.4. 
     Send reports </a>
    </ul>
   </aside>
@@ -3735,7 +3789,7 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="endpoint-group-expired">
    <b><a href="#endpoint-group-expired">#endpoint-group-expired</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-endpoint-group-expired">4.2. 
+    <li><a href="#ref-for-endpoint-group-expired">4.3. 
     Choose an endpoint from a group </a>
     <li><a href="#ref-for-endpoint-group-expired①">7.2. Garbage Collection</a>
    </ul>
@@ -3750,11 +3804,11 @@ Content-Type: application/report
     <li><a href="#ref-for-endpoint⑨">3.1.7. The endpoints.weight member</a>
     <li><a href="#ref-for-endpoint①⓪">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-endpoint①①">4.2. 
+    <li><a href="#ref-for-endpoint①①">4.3. 
     Choose an endpoint from a group </a>
-    <li><a href="#ref-for-endpoint①②">4.3. 
+    <li><a href="#ref-for-endpoint①②">4.4. 
     Send reports </a> <a href="#ref-for-endpoint①③">(2)</a> <a href="#ref-for-endpoint①④">(3)</a>
-    <li><a href="#ref-for-endpoint①⑤">4.4. 
+    <li><a href="#ref-for-endpoint①⑤">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3763,7 +3817,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-dom-endpoint-url">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-url①">4.4. 
+    <li><a href="#ref-for-dom-endpoint-url①">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -3773,7 +3827,7 @@ Content-Type: application/report
     <li><a href="#ref-for-dom-endpoint-priority">2.7. Failover and load balancing</a> <a href="#ref-for-dom-endpoint-priority①">(2)</a> <a href="#ref-for-dom-endpoint-priority②">(3)</a>
     <li><a href="#ref-for-dom-endpoint-priority③">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-priority④">4.2. 
+    <li><a href="#ref-for-dom-endpoint-priority④">4.3. 
     Choose an endpoint from a group </a> <a href="#ref-for-dom-endpoint-priority⑤">(2)</a> <a href="#ref-for-dom-endpoint-priority⑥">(3)</a>
    </ul>
   </aside>
@@ -3783,7 +3837,7 @@ Content-Type: application/report
     <li><a href="#ref-for-dom-endpoint-weight">2.7. Failover and load balancing</a>
     <li><a href="#ref-for-dom-endpoint-weight①">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-weight②">4.2. 
+    <li><a href="#ref-for-dom-endpoint-weight②">4.3. 
     Choose an endpoint from a group </a> <a href="#ref-for-dom-endpoint-weight③">(2)</a> <a href="#ref-for-dom-endpoint-weight④">(3)</a> <a href="#ref-for-dom-endpoint-weight⑤">(4)</a>
    </ul>
   </aside>
@@ -3792,7 +3846,7 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-dom-endpoint-failures">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-failures①">4.3. 
+    <li><a href="#ref-for-dom-endpoint-failures①">4.4. 
     Send reports </a> <a href="#ref-for-dom-endpoint-failures②">(2)</a>
     <li><a href="#ref-for-dom-endpoint-failures③">7.2. Garbage Collection</a>
    </ul>
@@ -3803,14 +3857,14 @@ Content-Type: application/report
     <li><a href="#ref-for-dom-endpoint-retry_after">2.3. Endpoints</a>
     <li><a href="#ref-for-dom-endpoint-retry_after①">3.2. 
     Process reporting endpoints for response to request </a>
-    <li><a href="#ref-for-dom-endpoint-retry_after②">4.3. 
+    <li><a href="#ref-for-dom-endpoint-retry_after②">4.4. 
     Send reports </a> <a href="#ref-for-dom-endpoint-retry_after③">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="endpoint-pending">
    <b><a href="#endpoint-pending">#endpoint-pending</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-endpoint-pending">4.2. 
+    <li><a href="#ref-for-endpoint-pending">4.3. 
     Choose an endpoint from a group </a>
    </ul>
   </aside>
@@ -3841,11 +3895,11 @@ Content-Type: application/report
     <li><a href="#ref-for-report③">2.5. Reports</a> <a href="#ref-for-report④">(2)</a> <a href="#ref-for-report⑤">(3)</a> <a href="#ref-for-report⑥">(4)</a> <a href="#ref-for-report⑦">(5)</a> <a href="#ref-for-report⑧">(6)</a> <a href="#ref-for-report⑨">(7)</a> <a href="#ref-for-report①⓪">(8)</a> <a href="#ref-for-report①①">(9)</a>
     <li><a href="#ref-for-report①②">2.6. Storage</a> <a href="#ref-for-report①③">(2)</a> <a href="#ref-for-report①④">(3)</a>
     <li><a href="#ref-for-report①⑤">4. Report Delivery</a>
-    <li><a href="#ref-for-report①⑥">4.1. 
+    <li><a href="#ref-for-report①⑥">4.2. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-report①⑦">(2)</a>
-    <li><a href="#ref-for-report①⑧">4.3. 
+    <li><a href="#ref-for-report①⑧">4.4. 
     Send reports </a> <a href="#ref-for-report①⑨">(2)</a> <a href="#ref-for-report②⓪">(3)</a>
-    <li><a href="#ref-for-report②①">4.4. 
+    <li><a href="#ref-for-report②①">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-report②②">5. Reporting Observers</a> <a href="#ref-for-report②③">(2)</a>
     <li><a href="#ref-for-report②④">5.1. Interface ReportingObserver</a>
@@ -3861,9 +3915,9 @@ Content-Type: application/report
    <ul>
     <li><a href="#ref-for-report-body">2.4. Report Type</a>
     <li><a href="#ref-for-report-body①">2.5. Reports</a>
-    <li><a href="#ref-for-report-body②">4.1. 
+    <li><a href="#ref-for-report-body②">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-body③">4.4. 
+    <li><a href="#ref-for-report-body③">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-report-body④">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report-body⑤">5.3. 
@@ -3876,9 +3930,9 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="report-url">
    <b><a href="#report-url">#report-url</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-url">4.1. 
+    <li><a href="#ref-for-report-url">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-url①">4.4. 
+    <li><a href="#ref-for-report-url①">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-report-url②">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report-url③">5.3. 
@@ -3888,18 +3942,18 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="report-origin">
    <b><a href="#report-origin">#report-origin</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-origin">4.1. 
+    <li><a href="#ref-for-report-origin">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-origin①">4.3. 
+    <li><a href="#ref-for-report-origin①">4.4. 
     Send reports </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-group">
    <b><a href="#report-group">#report-group</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-group">4.1. 
+    <li><a href="#ref-for-report-group">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-group①">4.3. 
+    <li><a href="#ref-for-report-group①">4.4. 
     Send reports </a> <a href="#ref-for-report-group②">(2)</a>
    </ul>
   </aside>
@@ -3907,9 +3961,9 @@ Content-Type: application/report
    <b><a href="#report-reporttype">#report-reporttype</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-report-reporttype">2.5. Reports</a>
-    <li><a href="#ref-for-report-reporttype①">4.1. 
+    <li><a href="#ref-for-report-reporttype①">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-reporttype②">4.4. 
+    <li><a href="#ref-for-report-reporttype②">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-report-reporttype③">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report-reporttype④">5.3. 
@@ -3919,18 +3973,18 @@ Content-Type: application/report
   <aside class="dfn-panel" data-for="report-timestamp">
    <b><a href="#report-timestamp">#report-timestamp</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-timestamp">4.1. 
+    <li><a href="#ref-for-report-timestamp">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-timestamp①">4.4. 
+    <li><a href="#ref-for-report-timestamp①">4.5. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-attempts">
    <b><a href="#report-attempts">#report-attempts</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-attempts">4.1. 
+    <li><a href="#ref-for-report-attempts">4.2. 
     Queue data as type for endpoint group on settings </a>
-    <li><a href="#ref-for-report-attempts①">4.4. 
+    <li><a href="#ref-for-report-attempts①">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-report-attempts②">7.2. Garbage Collection</a>
    </ul>
@@ -3942,9 +3996,9 @@ Content-Type: application/report
     <li><a href="#ref-for-reporting-cache①">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-reporting-cache②">(2)</a> <a href="#ref-for-reporting-cache③">(3)</a> <a href="#ref-for-reporting-cache④">(4)</a>
     <li><a href="#ref-for-reporting-cache⑤">4. Report Delivery</a>
-    <li><a href="#ref-for-reporting-cache⑥">4.1. 
+    <li><a href="#ref-for-reporting-cache⑥">4.2. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-reporting-cache⑦">(2)</a>
-    <li><a href="#ref-for-reporting-cache⑧">4.3. 
+    <li><a href="#ref-for-reporting-cache⑧">4.4. 
     Send reports </a> <a href="#ref-for-reporting-cache⑨">(2)</a> <a href="#ref-for-reporting-cache①⓪">(3)</a> <a href="#ref-for-reporting-cache①①">(4)</a> <a href="#ref-for-reporting-cache①②">(5)</a>
     <li><a href="#ref-for-reporting-cache①③">11.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
    </ul>
@@ -3998,7 +4052,7 @@ Content-Type: application/report
     <li><a href="#ref-for-reportto-endpoints⑧">3.1.4. The endpoints member</a>
     <li><a href="#ref-for-reportto-endpoints⑨">3.2. 
     Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-endpoints①⓪">(2)</a> <a href="#ref-for-reportto-endpoints①①">(3)</a>
-    <li><a href="#ref-for-reportto-endpoints①②">4.2. 
+    <li><a href="#ref-for-reportto-endpoints①②">4.3. 
     Choose an endpoint from a group </a>
     <li><a href="#ref-for-reportto-endpoints①③">7.2. Garbage Collection</a> <a href="#ref-for-reportto-endpoints①④">(2)</a>
    </ul>
@@ -4030,7 +4084,7 @@ Content-Type: application/report
    <b><a href="#reporting-observer">#reporting-observer</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-reporting-observer">2.4. Report Type</a>
-    <li><a href="#ref-for-reporting-observer①">4.1. 
+    <li><a href="#ref-for-reporting-observer①">4.2. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-reporting-observer②">(2)</a>
     <li><a href="#ref-for-reporting-observer③">5. Reporting Observers</a> <a href="#ref-for-reporting-observer④">(2)</a> <a href="#ref-for-reporting-observer⑤">(3)</a>
     <li><a href="#ref-for-reporting-observer⑥">5.2. 
