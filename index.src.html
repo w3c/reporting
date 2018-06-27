@@ -618,6 +618,11 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   in the period directly after its generation than it would be a day or a week
   later.
 
+  <h3 id="media-type">Media Type</h3>
+
+  The media type used when POSTing reports to a specified endpoint is
+  `application/reports+json`.
+
   <h3 id="queue-report" algorithm>
     Queue |data| as |type| for |endpoint group| on |settings|
   </h3>
@@ -860,7 +865,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  |endpoint|'s {{endpoint/url}}
       :   `header list`
       ::  A new <a>header list</a> containing a <a>header</a> named
-          "`Content-Type`" whose value is "`application/report`"
+          "`Content-Type`" whose value is "`application/reports+json`"
       :   `client`
       ::  `null`
       :   `window`
@@ -1236,7 +1241,7 @@ typedef sequence&lt;Report> ReportList;
       POST / HTTP/1.1
       Host: example.com
       ...
-      Content-Type: application/report
+      Content-Type: application/reports+json
 
       [{
         "type": "csp",
@@ -1447,12 +1452,10 @@ typedef sequence&lt;Report> ReportList;
 <section>
   <h2 id="iana-considerations">IANA Considerations</h2>
 
+  <h3 id="header-field-registration">The `Report-To` Header</h3>
+
   The permanent message header field registry should be updated
   with the following registration: [[!RFC3864]]
-
-  <h3 id="iana-report-to">
-    Report-To
-  </h3>
 
   :   Header field name
   ::  `Report-To`
@@ -1464,4 +1467,39 @@ typedef sequence&lt;Report> ReportList;
   ::  W3C
   :   Specification document
   ::  This specification (see [[#header]])
+
+  <h3 id="media-type-registration">The `application/reports+json` Media Type</h3>
+
+  :   Type name
+  ::  application
+  :   Subtype name
+  ::  reports+json
+  :   Required parameters
+  ::  N/A
+  :   Optional parameters
+  ::  N/A
+  :   Encoding considerations
+  ::  Encoding considerations are identical to those specified for the "application/json" media type. See [[RFC7159]].
+  :   Security considerations
+  ::  See [[#security]].
+  :   Interoperability considerations
+  ::  This document specifies the format of conforming messages and the interpretation thereof.
+  :   Published specification
+  ::  [[#media-type]]
+  :   Applications that use this media type
+  :   Fragment identifier considerations
+  :   Additional information
+  ::  N/A
+  :   Person and email address to contact for further information
+  ::  This document's editors.
+  :   Intended usage:
+  ::  COMMON
+  :   Restrictions on usage:
+  ::  N/A
+  :   Author
+  ::  This document's editors.
+  :   Change controller
+  ::  W3C
+  :   Provisional registration?
+  ::  Yes.
 </section>
