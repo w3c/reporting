@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 6abc9f98f620481a5031cd9b44944d60af9b79b9" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="24587ffa07c64e0eb5eddc609847fd88b5ba1d23" name="document-revision">
+  <meta content="e11ec2ae3d4fc902cfcbe45b9507c22f350a5661" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -2552,8 +2552,8 @@ behavior (which prompted the intervention), or null otherwise.</p>
     </section>
     <section>
      <h2 class="heading settled" data-level="8" id="sample-reports"><span class="secno">8. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-     <div class="example" id="example-cf8d0bc0">
-      <a class="self-link" href="#example-cf8d0bc0"></a> 
+     <div class="example" id="example-76ba69fd">
+      <a class="self-link" href="#example-76ba69fd"></a> 
 <pre>POST / HTTP/1.1
 Host: example.com
 ...
@@ -2563,7 +2563,7 @@ Content-Type: application/reports+json
   "type": "csp",
   "age": 10,
   "url": "https://example.com/vulnerable-page/",
-  "user_agent": "ReportingSpec/1",
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
     "blocked": "https://evil.com/evil.js",
     "directive": "script-src",
@@ -2575,7 +2575,7 @@ Content-Type: application/reports+json
   "type": "hpkp",
   "age": 32,
   "url": "https://www.example.com/",
-  "user_agent": "ReportingSpec/1",
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
     "date-time": "2014-04-06T13:00:50Z",
     "hostname": "www.example.com",
@@ -2597,7 +2597,7 @@ Content-Type: application/reports+json
   "type": "nel",
   "age": 29,
   "url": "https://example.com/thing.js",
-  "user_agent": "ReportingSpec/1",
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
     "referrer": "https://www.example.com/",
     "server-ip": "234.233.232.231",
