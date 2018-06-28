@@ -1213,7 +1213,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 6abc9f98f620481a5031cd9b44944d60af9b79b9" name="generator">
   <link href="https://wicg.github.io/reporting/" rel="canonical">
-  <meta content="a98885a27bfdf27e96bab2e0effb9fe5b13000a1" name="document-revision">
+  <meta content="24587ffa07c64e0eb5eddc609847fd88b5ba1d23" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1471,7 +1471,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Reporting API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-27">27 June 2018</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2018-06-28">28 June 2018</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1738,7 +1738,7 @@ reports in a consistent manner.</p>
     <h3 class="heading settled" data-level="2.5" id="concept-reports"><span class="secno">2.5. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="report">report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
-    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report③">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-body">body</dfn>, which is either <code>null</code> or an object which can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7159#section-2" id="ref-for-section-2">JSON text</a>. The
+    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report③">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-body">body</dfn>, which is either <code>null</code> or an object which can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2">JSON text</a>. The
   fields contained in a <a data-link-type="dfn" href="#report" id="ref-for-report④">report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body①">body</a> are determined by
   the <a data-link-type="dfn" href="#report" id="ref-for-report⑤">report</a>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype">type</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑥">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export="" id="report-url">url</dfn>, which
@@ -1799,7 +1799,7 @@ reports in a consistent manner.</p>
   user agent to store reporting endpoints for an origin. The header is
   represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
 <pre class="abnf">Report-To = <a data-link-type="grammar" href="https://greenbytes.de/tech/webdav/draft-reschke-http-jfv-02.html#rfc.section.2" id="ref-for-rfc.section.2">json-field-value</a>
-            ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
+            ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
 </pre>
     <p>The header’s value is interpreted as an array of JSON objects, as described in
   Section 4 of <a data-link-type="biblio" href="#biblio-http-jfv">[HTTP-JFV]</a>.</p>
@@ -2651,7 +2651,7 @@ Content-Type: application/reports+json
       <li data-md="">
        <p>If <var>group</var> is null, set <var>group</var> to "default".</p>
       <li data-md="">
-       <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7159#section-2" id="ref-for-section-2①">JSON text</a>,
+       <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2①">JSON text</a>,
  containing a single string field, <var>body_message</var>.</p>
       <li data-md="">
        <p>Set <var>body_message</var> to <var>message</var>.</p>
@@ -2769,7 +2769,7 @@ Content-Type: application/reports+json
        <p>N/A</p>
       <dt data-md="">Encoding considerations
       <dd data-md="">
-       <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc7159">[RFC7159]</a>.</p>
+       <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc8259">[RFC8259]</a>.</p>
       <dt data-md="">Security considerations
       <dd data-md="">
        <p>See <a href="#security">§10 Security Considerations</a>.</p>
@@ -3324,17 +3324,17 @@ Content-Type: application/reports+json
     Send reports </a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-section-2">
-   <a href="https://tools.ietf.org/html/rfc7159#section-2">https://tools.ietf.org/html/rfc7159#section-2</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-2">2.5. Reports</a>
-    <li><a href="#ref-for-section-2①">9.1. Generate Test Report</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-section-2.1">
    <a href="https://tools.ietf.org/html/rfc7469#section-2.1">https://tools.ietf.org/html/rfc7469#section-2.1</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-section-2.1">1.2. Examples</a> <a href="#ref-for-section-2.1①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-section-2">
+   <a href="https://tools.ietf.org/html/rfc8259#section-2">https://tools.ietf.org/html/rfc8259#section-2</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-section-2">2.5. Reports</a>
+    <li><a href="#ref-for-section-2①">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
@@ -3561,14 +3561,14 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-section-8.2" style="color:initial">superdomain match</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[RFC7159]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-section-2" style="color:initial">json text</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[rfc7469]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-section-2.1" style="color:initial">public-key-pins</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[RFC8259]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-section-2" style="color:initial">json text</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SECURE-CONTEXTS]</a> defines the following terms:
@@ -3632,10 +3632,10 @@ Content-Type: application/reports+json
    <dd>D. Crocker, Ed.; P. Overell. <a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>. January 2008. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc5234">https://tools.ietf.org/html/rfc5234</a>
    <dt id="biblio-rfc6797">[RFC6797]
    <dd>J. Hodges; C. Jackson; A. Barth. <a href="https://tools.ietf.org/html/rfc6797">HTTP Strict Transport Security (HSTS)</a>. November 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6797">https://tools.ietf.org/html/rfc6797</a>
-   <dt id="biblio-rfc7159">[RFC7159]
-   <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc8259">The JavaScript Object Notation (JSON) Data Interchange Format</a>. December 2017. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc8259">https://tools.ietf.org/html/rfc8259</a>
    <dt id="biblio-rfc7231">[RFC7231]
    <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
+   <dt id="biblio-rfc8259">[RFC8259]
+   <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc8259">The JavaScript Object Notation (JSON) Data Interchange Format</a>. December 2017. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc8259">https://tools.ietf.org/html/rfc8259</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
    <dt id="biblio-url">[URL]
