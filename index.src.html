@@ -989,7 +989,7 @@ typedef sequence&lt;Report> ReportList;
     - A {{ReportingObserverOptions}} dictionary called
       <dfn for=ReportingObserver>options</dfn>.
     - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
-      list</dfn>, which is initially empty.
+      queue</dfn>, which is initially empty.
 
   A {{ReportList}} represents a sequence of {{Report}}s, providing developers
   with all the convenience methods found on JavaScript arrays.
@@ -1036,9 +1036,9 @@ typedef sequence&lt;Report> ReportList;
   The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:
 
-  1. Let |reports| be a copy of the <a>context object</a>'s <a>report list</a>.
+  1. Let |reports| be a copy of the <a>context object</a>'s <a>report queue</a>.
 
-  2. Empty the <a>context object</a>'s <a>report list</a>.
+  2. Empty the <a>context object</a>'s <a>report queue</a>.
 
   3. Return |reports|.
 
@@ -1063,7 +1063,7 @@ typedef sequence&lt;Report> ReportList;
   </h3>
 
   Given a <a>report</a> |report| and a {{ReportingObserver}} |observer|, this
-  algorithm adds |report| to |observer|'s <a>report list</a>, so long as
+  algorithm adds |report| to |observer|'s <a>report queue</a>, so long as
   |report|'s <a>type</a> is observable by |observer|.
 
   1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
@@ -1079,11 +1079,11 @@ typedef sequence&lt;Report> ReportList;
 
   Issue: how to polymorphically initialize body?
 
-  3. Append |r| to |observer|'s <a>report list</a>.
+  3. Append |r| to |observer|'s <a>report queue</a>.
 
-  4. If the size of |observer|'s <a>report list</a> is 1, <a>Queue a task</a> to
-     [[#invoke-observers]] with a copy of the <a>registered reporting observer
-     list</a> of the <a spec=ecmascript lt=realm>ECMAScript global
+  4. If the size of |observer|'s <a>report queue</a> is 1, <a>Queue a task</a>
+     to [[#invoke-observers]] with a copy of the <a>registered reporting
+     observer list</a> of the <a spec=ecmascript lt=realm>ECMAScript global
      environment</a> associated with |observer|.
 
   <h3 id="invoke-observers" algorthm>
@@ -1095,11 +1095,11 @@ typedef sequence&lt;Report> ReportList;
 
   1. For each {{ReportingObserver}} |observer| in |notify list|:
 
-     1. If |observer|'s <a>report list</a> is empty, then continue.
+     1. If |observer|'s <a>report queue</a> is empty, then continue.
 
-     2. Let |reports| be a copy of |observer|'s <a>report list</a>
+     2. Let |reports| be a copy of |observer|'s <a>report queue</a>
 
-     3. Empty |observer|'s <a>report list</a>
+     3. Empty |observer|'s <a>report queue</a>
 
      4. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
         arguments consisting of |reports| and |observer|, and |observer| as the
