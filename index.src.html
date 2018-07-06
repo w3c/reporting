@@ -1,9 +1,9 @@
 <h1>Reporting API</h1>
 <pre class="metadata">
-Status: CG-DRAFT
-ED: https://wicg.github.io/reporting/
+Status: ED
+ED: https://w3c.github.io/reporting/
 Shortname: reporting
-Group: wicg
+Group: webperf
 Editor: Douglas Creager 103120, Google Inc., dcreager@google.com
 Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.comm
 Editor: Mike West 56384, Google Inc., mkwst@google.com
@@ -15,9 +15,9 @@ Abstract:
   reports in a consistent manner.
 Level: 1
 Indent: 2
-Version History: https://github.com/wicg/reporting/commits/master/index.src.html
+Version History: https://github.com/w3c/reporting/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
-!Participate: <a href="https://github.com/wicg/reporting/issues/new">File an issue</a> (<a href="https://github.com/wicg/reporting/issues">open issues</a>)
+!Participate: <a href="https://github.com/w3c/reporting/issues/new">File an issue</a> (<a href="https://github.com/w3c/reporting/issues">open issues</a>)
 Markup Shorthands: css off, markdown on
 </pre>
 <pre class="anchors">
@@ -1403,7 +1403,7 @@ typedef sequence&lt;Report> ReportList;
   one network to be sent while the user is on another network, even if they
   don't explicitly open the page from which the report was sent.
 
-  ISSUE(WICG/BackgroundSync#107): Consider mitigations. For example, we could
+  ISSUE(w3c/BackgroundSync#107): Consider mitigations. For example, we could
   drop reports if we change from one network to another.
 
   <h3 id="fingerprinting-clock-skew">Clock Skew</h3>
