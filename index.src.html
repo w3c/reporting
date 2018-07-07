@@ -80,6 +80,10 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
   urlPrefix: system-state.html
     type: dfn
       text: navigator.userAgent; url: dom-navigator-useragent
+spec: RFC2782; for: SRV; urlPrefix: https://tools.ietf.org/html/rfc2782
+  type: dfn
+    text: SRV record; url:
+    text: target selection algorithm; url: page-4
 spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
   type: grammar
     text: absolute-uri; url: section-4.3
@@ -163,11 +167,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   for a report to be dropped on the floor if things go badly.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
-  up groups of <a>endpoints</a>.  The user agent will do its best to deliver a
-  particular report to <strong>at most one</strong> endpoint in a group.
-  Endpoints can be assigned weights to distribute load, with each endpoint
-  receiving a specified fraction of reporting traffic.  Endpoints can be
-  assigned priorities, allowing developers to set up fallback collectors that
+  up groups of <a>endpoints</a>, using a failover and load-balancing mechanism
+  inspired by the DNS <a>SRV record</a>.  The user agent will do its best to
+  deliver a particular report to <strong>at most one</strong> endpoint in a
+  group.  Endpoints can be assigned weights to distribute load, with each
+  endpoint receiving a specified fraction of reporting traffic.  Endpoints can
+  be assigned priorities, allowing developers to set up fallback collectors that
   are only tried when uploads to primary collectors fail.
 
   <h3 id="examples">Examples</h3>
@@ -395,6 +400,16 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   The algorithm that implements these rules is described in
   [[#choose-endpoint]].
+
+  Note: The {{endpoint/priority}} and {{endpoint/weight}} fields have the same
+  semantics as the corresponding fields in a DNS <a>SRV record</a>.
+
+  Note: Failover and load balancing is a feature that would be generally useful
+  outside of Reporting.  Reporting delegates to the [[FETCH]] API to actually
+  upload reports once an endpoint has been selected.  If, in the future, the
+  Fetch API adds native support for failover and load balancing of requests, a
+  future version of the Reporting API will be updated to use it instead of this
+  bespoke mechanism.
 </section>
 
 <section>
@@ -695,6 +710,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h3 id="choose-endpoint">
     Choose an |endpoint| from a |group|
   </h3>
+
+  Note: This algorithm is the same as the <a for="SRV">target selection
+    algorithm</a> used for DNS <a>SRV records</a>.
 
   Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
   eligible <a>endpoint</a> from the group, if there is one, taking into account
