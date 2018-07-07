@@ -1,9 +1,9 @@
 <h1>Reporting API</h1>
 <pre class="metadata">
-Status: CG-DRAFT
-ED: https://wicg.github.io/reporting/
+Status: ED
+ED: https://w3c.github.io/reporting/
 Shortname: reporting
-Group: wicg
+Group: webperf
 Editor: Douglas Creager 103120, Google Inc., dcreager@google.com
 Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.comm
 Editor: Mike West 56384, Google Inc., mkwst@google.com
@@ -15,9 +15,9 @@ Abstract:
   reports in a consistent manner.
 Level: 1
 Indent: 2
-Version History: https://github.com/wicg/reporting/commits/master/index.src.html
+Version History: https://github.com/w3c/reporting/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
-!Participate: <a href="https://github.com/wicg/reporting/issues/new">File an issue</a> (<a href="https://github.com/wicg/reporting/issues">open issues</a>)
+!Participate: <a href="https://github.com/w3c/reporting/issues/new">File an issue</a> (<a href="https://github.com/w3c/reporting/issues">open issues</a>)
 Markup Shorthands: css off, markdown on
 </pre>
 <pre class="anchors">
@@ -77,6 +77,9 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn
       text: origin
       text: top-level browsing context
+  urlPrefix: system-state.html
+    type: dfn
+      text: navigator.userAgent; url: dom-navigator-useragent
 spec: RFC2782; for: SRV; urlPrefix: https://tools.ietf.org/html/rfc2782
   type: dfn
     text: SRV record; url:
@@ -89,7 +92,7 @@ spec: RFC6797; urlPrefix: https://tools.ietf.org/html/rfc6797
     url: section-8.2
       text: superdomain match
       text: congruent match
-spec: RFC7159; urlPrefix: https://tools.ietf.org/html/rfc7159
+spec: RFC8259; urlPrefix: https://tools.ietf.org/html/rfc8259
   type: dfn
     text: JSON text; url: section-2
 spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
@@ -338,6 +341,17 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
   which is an <a spec="html">origin</a> representing the report's initiator.
 
+  Each <a>report</a> has a <dfn for="report" export>user agent</dfn>, which is
+  the value of the <code>User-Agent</code> <a>header</a> of the <a>request</a>
+  from which the report was generated.
+
+  Note: The <a for="report">user agent</a> of a <a>report</a> represents the
+  <code>User-Agent</code> sent by the browser for the page which generated the
+  <a>report</a>.  This is potentially distinct from the <code>User-Agent</code>
+  sent in the HTTP headers when uploading the report to a collector — for
+  instance, where the browser has chosen to use a non-default
+  <code>User-Agent</code> string such as the "request desktop site" feature.
+
   Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
   <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent
@@ -413,7 +427,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
     Report-To = <a>json-field-value</a>
-                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
+                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
   </pre>
 
   The header's value is interpreted as an array of JSON objects, as described in
@@ -633,6 +647,11 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   in the period directly after its generation than it would be a day or a week
   later.
 
+  <h3 id="media-type">Media Type</h3>
+
+  The media type used when POSTing reports to a specified endpoint is
+  `application/reports+json`.
+
   <h3 id="queue-report" algorithm>
     Queue |data| as |type| for |endpoint group| on |settings|
   </h3>
@@ -649,6 +668,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  |data|
       :   [=report/origin=]
       ::  |settings|'s <a spec="html">origin</a>
+      :   [=report/user agent=]
+      ::  The current value of <a><code>navigator.userAgent</code></a>
       :   [=report/group=]
       ::  |endpoint group|
       :   [=report/type=]
@@ -860,6 +881,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
           ::  |report|'s [=report/type=]
           :   `url`
           ::  |report|'s [=report/url=]
+          :   `user_agent`
+          ::  |report|'s [=report/user agent=]
           :   `body`
           ::  |report|'s [=report/body=]
 
@@ -878,7 +901,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  |endpoint|'s {{endpoint/url}}
       :   `header list`
       ::  A new <a>header list</a> containing a <a>header</a> named
-          "`Content-Type`" whose value is "`application/report`"
+          "`Content-Type`" whose value is "`application/reports+json`"
       :   `client`
       ::  `null`
       :   `window`
@@ -1162,7 +1185,7 @@ typedef sequence&lt;Report> ReportList;
   <dfn>Intervention reports</dfn> indicate that a user agent has decided not to
   honor a request made by the application (e.g. for security, performance or
   user annoyance reasons). Note that the report properties are the same as those
-  for <a>deprecation reports</a>, except for the absense of
+  for <a>deprecation reports</a>, except for the absence of
   [=DeprecationReportBody/anticipated_removal=].
 
   <a>Intervention reports</a> have the <a>report type</a> "intervention".
@@ -1183,7 +1206,7 @@ typedef sequence&lt;Report> ReportList;
   {{InterventionReportBody}}, contains the following fields:
 
     - <dfn for="InterventionReportBody">id</dfn>: an implementation-defined
-      string identifying the specific intervention that occured. This string can
+      string identifying the specific intervention that occurred. This string can
       be used for grouping and counting related reports.
 
     - <dfn for="InterventionReportBody">message</dfn>: A human-readable string
@@ -1254,12 +1277,13 @@ typedef sequence&lt;Report> ReportList;
       POST / HTTP/1.1
       Host: example.com
       ...
-      Content-Type: application/report
+      Content-Type: application/reports+json
 
       [{
         "type": "csp",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "blocked": "https://evil.com/evil.js",
           "directive": "script-src",
@@ -1271,6 +1295,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "hpkp",
         "age": 32,
         "url": "https://www.example.com/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
@@ -1292,6 +1317,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "nel",
         "age": 29,
         "url": "https://example.com/thing.js",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "referrer": "https://www.example.com/",
           "server-ip": "234.233.232.231",
@@ -1395,7 +1421,7 @@ typedef sequence&lt;Report> ReportList;
   one network to be sent while the user is on another network, even if they
   don't explicitly open the page from which the report was sent.
 
-  ISSUE(WICG/BackgroundSync#107): Consider mitigations. For example, we could
+  ISSUE(w3c/BackgroundSync#107): Consider mitigations. For example, we could
   drop reports if we change from one network to another.
 
   <h3 id="fingerprinting-clock-skew">Clock Skew</h3>
@@ -1465,12 +1491,10 @@ typedef sequence&lt;Report> ReportList;
 <section>
   <h2 id="iana-considerations">IANA Considerations</h2>
 
+  <h3 id="header-field-registration">The `Report-To` Header</h3>
+
   The permanent message header field registry should be updated
   with the following registration: [[!RFC3864]]
-
-  <h3 id="iana-report-to">
-    Report-To
-  </h3>
 
   :   Header field name
   ::  `Report-To`
@@ -1482,4 +1506,39 @@ typedef sequence&lt;Report> ReportList;
   ::  W3C
   :   Specification document
   ::  This specification (see [[#header]])
+
+  <h3 id="media-type-registration">The `application/reports+json` Media Type</h3>
+
+  :   Type name
+  ::  application
+  :   Subtype name
+  ::  reports+json
+  :   Required parameters
+  ::  N/A
+  :   Optional parameters
+  ::  N/A
+  :   Encoding considerations
+  ::  Encoding considerations are identical to those specified for the "application/json" media type. See [[RFC8259]].
+  :   Security considerations
+  ::  See [[#security]].
+  :   Interoperability considerations
+  ::  This document specifies the format of conforming messages and the interpretation thereof.
+  :   Published specification
+  ::  [[#media-type]]
+  :   Applications that use this media type
+  :   Fragment identifier considerations
+  :   Additional information
+  ::  N/A
+  :   Person and email address to contact for further information
+  ::  This document's editors.
+  :   Intended usage:
+  ::  COMMON
+  :   Restrictions on usage:
+  ::  N/A
+  :   Author
+  ::  This document's editors.
+  :   Change controller
+  ::  W3C
+  :   Provisional registration?
+  ::  Yes.
 </section>
