@@ -1,9 +1,9 @@
 <h1>Reporting API</h1>
 <pre class="metadata">
-Status: CG-DRAFT
-ED: https://wicg.github.io/reporting/
+Status: ED
+ED: https://w3c.github.io/reporting/
 Shortname: reporting
-Group: wicg
+Group: webperf
 Editor: Douglas Creager 103120, Google Inc., dcreager@google.com
 Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.comm
 Editor: Mike West 56384, Google Inc., mkwst@google.com
@@ -15,9 +15,9 @@ Abstract:
   reports in a consistent manner.
 Level: 1
 Indent: 2
-Version History: https://github.com/wicg/reporting/commits/master/index.src.html
+Version History: https://github.com/w3c/reporting/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
-!Participate: <a href="https://github.com/wicg/reporting/issues/new">File an issue</a> (<a href="https://github.com/wicg/reporting/issues">open issues</a>)
+!Participate: <a href="https://github.com/w3c/reporting/issues/new">File an issue</a> (<a href="https://github.com/w3c/reporting/issues">open issues</a>)
 Markup Shorthands: css off, markdown on
 </pre>
 <pre class="anchors">
@@ -77,6 +77,13 @@ spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn
       text: origin
       text: top-level browsing context
+  urlPrefix: system-state.html
+    type: dfn
+      text: navigator.userAgent; url: dom-navigator-useragent
+spec: RFC2782; for: SRV; urlPrefix: https://tools.ietf.org/html/rfc2782
+  type: dfn
+    text: SRV record; url:
+    text: target selection algorithm; url: page-4
 spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
   type: grammar
     text: absolute-uri; url: section-4.3
@@ -85,7 +92,7 @@ spec: RFC6797; urlPrefix: https://tools.ietf.org/html/rfc6797
     url: section-8.2
       text: superdomain match
       text: congruent match
-spec: RFC7159; urlPrefix: https://tools.ietf.org/html/rfc7159
+spec: RFC8259; urlPrefix: https://tools.ietf.org/html/rfc8259
   type: dfn
     text: JSON text; url: section-2
 spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
@@ -160,11 +167,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   for a report to be dropped on the floor if things go badly.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
-  up groups of <a>endpoints</a>.  The user agent will do its best to deliver a
-  particular report to <strong>at most one</strong> endpoint in a group.
-  Endpoints can be assigned weights to distribute load, with each endpoint
-  receiving a specified fraction of reporting traffic.  Endpoints can be
-  assigned priorities, allowing developers to set up fallback collectors that
+  up groups of <a>endpoints</a>, using a failover and load-balancing mechanism
+  inspired by the DNS <a>SRV record</a>.  The user agent will do its best to
+  deliver a particular report to <strong>at most one</strong> endpoint in a
+  group.  Endpoints can be assigned weights to distribute load, with each
+  endpoint receiving a specified fraction of reporting traffic.  Endpoints can
+  be assigned priorities, allowing developers to set up fallback collectors that
   are only tried when uploads to primary collectors fail.
 
   <h3 id="examples">Examples</h3>
@@ -306,10 +314,10 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   that is contained in the [=report/body=] of a <a>report</a>.
 
   When a <a>report type</a> is defined (in this spec or others), it can be
-  specified to be <dfn>observable from JavaScript</dfn>, meaning
+  specified to be <dfn>visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a>reports</a> of that type can be observed by a <a>reporting
-  observer</a>. By default, <a>report types</a> are not <a>observable from
-  JavaScript</a>.
+    observer</a>. By default, <a>report types</a> are not <a>visible to
+    <code>ReportingObserver</code>s</a>.
 
   Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
 
@@ -332,6 +340,17 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
   which is an <a spec="html">origin</a> representing the report's initiator.
+
+  Each <a>report</a> has a <dfn for="report" export>user agent</dfn>, which is
+  the value of the <code>User-Agent</code> <a>header</a> of the <a>request</a>
+  from which the report was generated.
+
+  Note: The <a for="report">user agent</a> of a <a>report</a> represents the
+  <code>User-Agent</code> sent by the browser for the page which generated the
+  <a>report</a>.  This is potentially distinct from the <code>User-Agent</code>
+  sent in the HTTP headers when uploading the report to a collector — for
+  instance, where the browser has chosen to use a non-default
+  <code>User-Agent</code> string such as the "request desktop site" feature.
 
   Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
@@ -381,6 +400,16 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   The algorithm that implements these rules is described in
   [[#choose-endpoint]].
+
+  Note: The {{endpoint/priority}} and {{endpoint/weight}} fields have the same
+  semantics as the corresponding fields in a DNS <a>SRV record</a>.
+
+  Note: Failover and load balancing is a feature that would be generally useful
+  outside of Reporting.  Reporting delegates to the [[FETCH]] API to actually
+  upload reports once an endpoint has been selected.  If, in the future, the
+  Fetch API adds native support for failover and load balancing of requests, a
+  future version of the Reporting API will be updated to use it instead of this
+  bespoke mechanism.
 </section>
 
 <section>
@@ -398,7 +427,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
     Report-To = <a>json-field-value</a>
-                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC7159]]
+                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
   </pre>
 
   The header's value is interpreted as an array of JSON objects, as described in
@@ -618,6 +647,11 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   in the period directly after its generation than it would be a day or a week
   later.
 
+  <h3 id="media-type">Media Type</h3>
+
+  The media type used when POSTing reports to a specified endpoint is
+  `application/reports+json`.
+
   <h3 id="queue-report" algorithm>
     Queue |data| as |type| for |endpoint group| on |settings|
   </h3>
@@ -634,6 +668,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  |data|
       :   [=report/origin=]
       ::  |settings|'s <a spec="html">origin</a>
+      :   [=report/user agent=]
+      ::  The current value of <a><code>navigator.userAgent</code></a>
       :   [=report/group=]
       ::  |endpoint group|
       :   [=report/type=]
@@ -674,6 +710,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h3 id="choose-endpoint">
     Choose an |endpoint| from a |group|
   </h3>
+
+  Note: This algorithm is the same as the <a for="SRV">target selection
+    algorithm</a> used for DNS <a>SRV records</a>.
 
   Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
   eligible <a>endpoint</a> from the group, if there is one, taking into account
@@ -853,6 +892,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
           ::  |report|'s [=report/type=]
           :   `url`
           ::  |report|'s [=report/url=]
+          :   `user_agent`
+          ::  |report|'s [=report/user agent=]
           :   `body`
           ::  |report|'s [=report/body=]
 
@@ -873,7 +914,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  |origin|
       :   `header list`
       ::  A new <a>header list</a> containing a <a>header</a> named
-          "`Content-Type`" whose value is "`application/report`"
+          "`Content-Type`" whose value is "`application/reports+json`"
       :   `client`
       ::  `null`
       :   `window`
@@ -979,7 +1020,7 @@ typedef sequence&lt;Report> ReportList;
     - A {{ReportingObserverOptions}} dictionary called
       <dfn for=ReportingObserver>options</dfn>.
     - A list of {{Report}} objects called the <dfn for=ReportingObserver>report
-      list</dfn>, which is initially empty.
+      queue</dfn>, which is initially empty.
 
   A {{ReportList}} represents a sequence of {{Report}}s, providing developers
   with all the convenience methods found on JavaScript arrays.
@@ -1026,9 +1067,9 @@ typedef sequence&lt;Report> ReportList;
   The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:
 
-  1. Let |reports| be a copy of the <a>context object</a>'s <a>report list</a>.
+  1. Let |reports| be a copy of the <a>context object</a>'s <a>report queue</a>.
 
-  2. Empty the <a>context object</a>'s <a>report list</a>.
+  2. Empty the <a>context object</a>'s <a>report queue</a>.
 
   3. Return |reports|.
 
@@ -1053,11 +1094,11 @@ typedef sequence&lt;Report> ReportList;
   </h3>
 
   Given a <a>report</a> |report| and a {{ReportingObserver}} |observer|, this
-  algorithm adds |report| to |observer|'s <a>report list</a>, so long as
+  algorithm adds |report| to |observer|'s <a>report queue</a>, so long as
   |report|'s <a>type</a> is observable by |observer|.
 
-  1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
-     return.
+  1. If |report|'s [=report/type=] is not <a>visible to
+    <code>ReportingObserver</code>s</a>, return.
 
   2. If |observer|'s <a>options</a> has a non-empty
      {{ReportingObserverOptions/types}} member which does not contain |report|'s
@@ -1069,11 +1110,11 @@ typedef sequence&lt;Report> ReportList;
 
   Issue: how to polymorphically initialize body?
 
-  3. Append |r| to |observer|'s <a>report list</a>.
+  3. Append |r| to |observer|'s <a>report queue</a>.
 
-  4. If the size of |observer|'s <a>report list</a> is 1, <a>Queue a task</a> to
-     [[#invoke-observers]] with a copy of the <a>registered reporting observer
-     list</a> of the <a spec=ecmascript lt=realm>ECMAScript global
+  4. If the size of |observer|'s <a>report queue</a> is 1, <a>Queue a task</a>
+     to [[#invoke-observers]] with a copy of the <a>registered reporting
+     observer list</a> of the <a spec=ecmascript lt=realm>ECMAScript global
      environment</a> associated with |observer|.
 
   <h3 id="invoke-observers" algorthm>
@@ -1085,11 +1126,11 @@ typedef sequence&lt;Report> ReportList;
 
   1. For each {{ReportingObserver}} |observer| in |notify list|:
 
-     1. If |observer|'s <a>report list</a> is empty, then continue.
+     1. If |observer|'s <a>report queue</a> is empty, then continue.
 
-     2. Let |reports| be a copy of |observer|'s <a>report list</a>
+     2. Let |reports| be a copy of |observer|'s <a>report queue</a>
 
-     3. Empty |observer|'s <a>report list</a>
+     3. Empty |observer|'s <a>report queue</a>
 
      4. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
         arguments consisting of |reports| and |observer|, and |observer| as the
@@ -1107,7 +1148,8 @@ typedef sequence&lt;Report> ReportList;
 
   <a>Deprecation reports</a> have the <a>report type</a> "deprecation".
 
-  <a>Deprecation reports</a> are <a>observable from JavaScript</a>.
+  <a>Deprecation reports</a> are <a>visible to
+  <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
     interface DeprecationReportBody : ReportBody {
@@ -1157,12 +1199,13 @@ typedef sequence&lt;Report> ReportList;
   <dfn>Intervention reports</dfn> indicate that a user agent has decided not to
   honor a request made by the application (e.g. for security, performance or
   user annoyance reasons). Note that the report properties are the same as those
-  for <a>deprecation reports</a>, except for the absense of
+  for <a>deprecation reports</a>, except for the absence of
   [=DeprecationReportBody/anticipated_removal=].
 
   <a>Intervention reports</a> have the <a>report type</a> "intervention".
 
-  <a>Intervention reports</a> are <a>observable from JavaScript</a>.
+  <a>Intervention reports</a> are <a>visible to
+  <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
     interface InterventionReportBody : ReportBody {
@@ -1178,7 +1221,7 @@ typedef sequence&lt;Report> ReportList;
   {{InterventionReportBody}}, contains the following fields:
 
     - <dfn for="InterventionReportBody">id</dfn>: an implementation-defined
-      string identifying the specific intervention that occured. This string can
+      string identifying the specific intervention that occurred. This string can
       be used for grouping and counting related reports.
 
     - <dfn for="InterventionReportBody">message</dfn>: A human-readable string
@@ -1249,12 +1292,13 @@ typedef sequence&lt;Report> ReportList;
       POST / HTTP/1.1
       Host: example.com
       ...
-      Content-Type: application/report
+      Content-Type: application/reports+json
 
       [{
         "type": "csp",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "blocked": "https://evil.com/evil.js",
           "directive": "script-src",
@@ -1266,6 +1310,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "hpkp",
         "age": 32,
         "url": "https://www.example.com/",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
@@ -1287,6 +1332,7 @@ typedef sequence&lt;Report> ReportList;
         "type": "nel",
         "age": 29,
         "url": "https://example.com/thing.js",
+        "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "referrer": "https://www.example.com/",
           "server-ip": "234.233.232.231",
@@ -1390,7 +1436,7 @@ typedef sequence&lt;Report> ReportList;
   one network to be sent while the user is on another network, even if they
   don't explicitly open the page from which the report was sent.
 
-  ISSUE(WICG/BackgroundSync#107): Consider mitigations. For example, we could
+  ISSUE(w3c/BackgroundSync#107): Consider mitigations. For example, we could
   drop reports if we change from one network to another.
 
   <h3 id="fingerprinting-clock-skew">Clock Skew</h3>
@@ -1460,12 +1506,10 @@ typedef sequence&lt;Report> ReportList;
 <section>
   <h2 id="iana-considerations">IANA Considerations</h2>
 
+  <h3 id="header-field-registration">The `Report-To` Header</h3>
+
   The permanent message header field registry should be updated
   with the following registration: [[!RFC3864]]
-
-  <h3 id="iana-report-to">
-    Report-To
-  </h3>
 
   :   Header field name
   ::  `Report-To`
@@ -1477,4 +1521,39 @@ typedef sequence&lt;Report> ReportList;
   ::  W3C
   :   Specification document
   ::  This specification (see [[#header]])
+
+  <h3 id="media-type-registration">The `application/reports+json` Media Type</h3>
+
+  :   Type name
+  ::  application
+  :   Subtype name
+  ::  reports+json
+  :   Required parameters
+  ::  N/A
+  :   Optional parameters
+  ::  N/A
+  :   Encoding considerations
+  ::  Encoding considerations are identical to those specified for the "application/json" media type. See [[RFC8259]].
+  :   Security considerations
+  ::  See [[#security]].
+  :   Interoperability considerations
+  ::  This document specifies the format of conforming messages and the interpretation thereof.
+  :   Published specification
+  ::  [[#media-type]]
+  :   Applications that use this media type
+  :   Fragment identifier considerations
+  :   Additional information
+  ::  N/A
+  :   Person and email address to contact for further information
+  ::  This document's editors.
+  :   Intended usage:
+  ::  COMMON
+  :   Restrictions on usage:
+  ::  N/A
+  :   Author
+  ::  This document's editors.
+  :   Change controller
+  ::  W3C
+  :   Provisional registration?
+  ::  Yes.
 </section>
