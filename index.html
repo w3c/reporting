@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version ebb192a273e3f86733233d2a1a128c3244b6962f" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="b3af33a41e670a6715c7af69bb48ec0a9acd60ef" name="document-revision">
+  <meta content="f6e72c5bd9afc4774f11a12171725910936a4c20" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-07-07">7 July 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-07-09">9 July 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -527,10 +527,9 @@ reports in a consistent manner.</p>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="report-type">report type</dfn> is a non-empty string that specifies the set of data
   that is contained in the <a data-link-type="dfn" href="#report-body" id="ref-for-report-body">body</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report①">report</a>.</p>
     <p>When a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type">report type</a> is defined (in this spec or others), it can be
-  specified to be <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="observable-from-javascript">observable from JavaScript</dfn>, meaning
+  specified to be <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a data-link-type="dfn" href="#report" id="ref-for-report②">reports</a> of that type can be observed by a <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer">reporting
-  observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript">observable from
-  JavaScript</a>.</p>
+    observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</a>.</p>
     <p class="note" role="note"><span>Note:</span> See <a href="#deprecation-report">§6.1 Deprecation</a> as an example <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a> definition.</p>
     <h3 class="heading settled" data-level="2.5" id="concept-reports"><span class="secno">2.5. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export="" id="report">report</dfn> is a collection of arbitrary data which the user
@@ -1197,8 +1196,7 @@ list</dfn>, which is initially empty.</p>
   algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list②">report list</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> is observable by <var>observer</var>.</p>
      <ol>
       <li data-md="">
-       <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> is not <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript①">observable from JavaScript</a>,
- return.</p>
+       <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> is not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers①">visible to <code>ReportingObserver</code>s</a>, return.</p>
       <li data-md="">
        <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑥">type</a>, return.</p>
       <li data-md="">
@@ -1240,7 +1238,7 @@ list</dfn>, which is initially empty.</p>
      <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="deprecation-reports">Deprecation reports</dfn> indicate that a browser API or feature has been
   used which is expected to stop working in a future update to the browser.</p>
      <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports">Deprecation reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a> "deprecation".</p>
-     <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports①">Deprecation reports</a> are <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript②">observable from JavaScript</a>.</p>
+     <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports①">Deprecation reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers②">visible to <code>ReportingObserver</code>s</a>.</p>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="deprecationreportbody"><code>DeprecationReportBody</code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①">ReportBody</a> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-deprecationreportbody-id"><code>id</code><a class="self-link" href="#dom-deprecationreportbody-id"></a></dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects"><span class="kt">Date</span></a>? <dfn class="nv idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="Date?" id="dom-deprecationreportbody-anticipatedremoval"><code>anticipatedRemoval</code><a class="self-link" href="#dom-deprecationreportbody-anticipatedremoval"></a></dfn>;
@@ -1287,7 +1285,7 @@ was first used, or null otherwise.</p>
   user annoyance reasons). Note that the report properties are the same as those
   for <a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports③">deprecation reports</a>, except for the absence of <a data-link-type="dfn" href="#deprecationreportbody-anticipated_removal" id="ref-for-deprecationreportbody-anticipated_removal">anticipated_removal</a>.</p>
      <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports">Intervention reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑤">report type</a> "intervention".</p>
-     <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports①">Intervention reports</a> are <a data-link-type="dfn" href="#observable-from-javascript" id="ref-for-observable-from-javascript③">observable from JavaScript</a>.</p>
+     <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports①">Intervention reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers③">visible to <code>ReportingObserver</code>s</a>.</p>
 <pre class="idl highlight def"><span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="interventionreportbody"><code>InterventionReportBody</code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody②">ReportBody</a> {
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-interventionreportbody-id"><code>id</code><a class="self-link" href="#dom-interventionreportbody-id"></a></dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <a class="n idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><span class="kt">DOMString</span></a> <dfn class="nv idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-interventionreportbody-message"><code>message</code><a class="self-link" href="#dom-interventionreportbody-message"></a></dfn>;
@@ -1700,7 +1698,6 @@ Content-Type: application/reports+json
      <li><a href="#dom-generatetestreportparameters-message">dict-member for GenerateTestReportParameters</a><span>, in §9.1</span>
     </ul>
    <li><a href="#dom-endpoint-group-name">name</a><span>, in §2.2</span>
-   <li><a href="#observable-from-javascript">observable from JavaScript</a><span>, in §2.4</span>
    <li><a href="#dom-reportingobserver-observe">observe()</a><span>, in §5.1</span>
    <li><a href="#reportingobserver-options">options</a><span>, in §5.1</span>
    <li>
@@ -1765,6 +1762,7 @@ Content-Type: application/reports+json
      <li><a href="#report-url">dfn for report</a><span>, in §2.5</span>
     </ul>
    <li><a href="#report-user-agent">user agent</a><span>, in §2.5</span>
+   <li><a href="#visible-to-reportingobservers">visible to ReportingObservers</a><span>, in §2.4</span>
    <li>
     weight
     <ul>
@@ -2604,14 +2602,14 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report-type⑤">6.2. Intervention</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="observable-from-javascript">
-   <b><a href="#observable-from-javascript">#observable-from-javascript</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="visible-to-reportingobservers">
+   <b><a href="#visible-to-reportingobservers">#visible-to-reportingobservers</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-observable-from-javascript">2.4. Report Type</a>
-    <li><a href="#ref-for-observable-from-javascript①">5.3. 
+    <li><a href="#ref-for-visible-to-reportingobservers">2.4. Report Type</a>
+    <li><a href="#ref-for-visible-to-reportingobservers①">5.3. 
     Add report to observer </a>
-    <li><a href="#ref-for-observable-from-javascript②">6.1. Deprecation</a>
-    <li><a href="#ref-for-observable-from-javascript③">6.2. Intervention</a>
+    <li><a href="#ref-for-visible-to-reportingobservers②">6.1. Deprecation</a>
+    <li><a href="#ref-for-visible-to-reportingobservers③">6.2. Intervention</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report">
