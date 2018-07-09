@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version ebb192a273e3f86733233d2a1a128c3244b6962f" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="f6e72c5bd9afc4774f11a12171725910936a4c20" name="document-revision">
+  <meta content="b52e0a2515e34aa1be1392315210c6eb1105f9c4" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1126,8 +1126,8 @@ reports in a consistent manner.</p>
       <li data-md="">
        <p>A <code class="idl"><a data-link-type="idl" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions①">ReportingObserverOptions</a></code> dictionary called <dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-noexport="" id="reportingobserver-options">options</dfn>.</p>
       <li data-md="">
-       <p>A list of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report③">Report</a></code> objects called the <dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-lt="report list" data-noexport="" id="reportingobserver-report-list">report
-list</dfn>, which is initially empty.</p>
+       <p>A list of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report③">Report</a></code> objects called the <dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-lt="report queue" data-noexport="" id="reportingobserver-report-queue">report
+queue</dfn>, which is initially empty.</p>
      </ul>
      <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
@@ -1174,9 +1174,9 @@ list</dfn>, which is initially empty.</p>
   when invoked, must run these steps:</p>
      <ol>
       <li data-md="">
-       <p>Let <var>reports</var> be a copy of the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑦">context object</a>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list">report list</a>.</p>
+       <p>Let <var>reports</var> be a copy of the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑦">context object</a>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue">report queue</a>.</p>
       <li data-md="">
-       <p>Empty the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑧">context object</a>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list①">report list</a>.</p>
+       <p>Empty the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object⑧">context object</a>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue①">report queue</a>.</p>
       <li data-md="">
        <p>Return <var>reports</var>.</p>
      </ol>
@@ -1193,7 +1193,7 @@ list</dfn>, which is initially empty.</p>
      </ol>
      <h3 class="heading settled algorithm" data-algorithm="Add report to observer" data-level="5.3" id="add-report"><span class="secno">5.3. </span><span class="content"> Add <var>report</var> to <var>observer</var> </span><a class="self-link" href="#add-report"></a></h3>
      <p>Given a <a data-link-type="dfn" href="#report" id="ref-for-report②⑧">report</a> <var>report</var> and a <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑥">ReportingObserver</a></code> <var>observer</var>, this
-  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list②">report list</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> is observable by <var>observer</var>.</p>
+  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue②">report queue</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> is observable by <var>observer</var>.</p>
      <ol>
       <li data-md="">
        <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> is not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers①">visible to <code>ReportingObserver</code>s</a>, return.</p>
@@ -1206,10 +1206,10 @@ list</dfn>, which is initially empty.</p>
      <p class="issue" id="issue-6311d126"><a class="self-link" href="#issue-6311d126"></a> how to polymorphically initialize body?</p>
      <ol start="3">
       <li data-md="">
-       <p>Append <var>r</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list③">report list</a>.</p>
+       <p>Append <var>r</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue③">report queue</a>.</p>
       <li data-md="">
-       <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list④">report list</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a href="#invoke-observers">§5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting observer
- list</a> of the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑨">ECMAScript global
+       <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue④">report queue</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a href="#invoke-observers">§5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting
+ observer list</a> of the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑨">ECMAScript global
  environment</a> associated with <var>observer</var>.</p>
      </ol>
      <h3 algorthm="" class="heading settled" data-level="5.4" id="invoke-observers"><span class="secno">5.4. </span><span class="content"> Invoke reporting observers with <var>notify list</var> </span><a class="self-link" href="#invoke-observers"></a></h3>
@@ -1220,11 +1220,11 @@ list</dfn>, which is initially empty.</p>
        <p>For each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑦">ReportingObserver</a></code> <var>observer</var> in <var>notify list</var>:</p>
        <ol>
         <li data-md="">
-         <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list⑤">report list</a> is empty, then continue.</p>
+         <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue⑤">report queue</a> is empty, then continue.</p>
         <li data-md="">
-         <p>Let <var>reports</var> be a copy of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list⑥">report list</a></p>
+         <p>Let <var>reports</var> be a copy of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue⑥">report queue</a></p>
         <li data-md="">
-         <p>Empty <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-list" id="ref-for-reportingobserver-report-list⑦">report list</a></p>
+         <p>Empty <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue⑦">report queue</a></p>
         <li data-md="">
          <p><a data-link-type="dfn" href="https://heycam.github.io/webidl/#invoke-a-callback-function" id="ref-for-invoke-a-callback-function">Invoke</a> <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-callback" id="ref-for-reportingobserver-callback①">callback</a> with a list of
   arguments consisting of <var>reports</var> and <var>observer</var>, and <var>observer</var> as the <a data-link-type="dfn" href="https://heycam.github.io/webidl/#dfn-callback-this-value" id="ref-for-dfn-callback-this-value">callback this value</a>.  If this throws an exception, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#report-the-exception" id="ref-for-report-the-exception">report the
@@ -1725,8 +1725,8 @@ Content-Type: application/reports+json
    <li><a href="#callbackdef-reportingobservercallback">ReportingObserverCallback</a><span>, in §5.1</span>
    <li><a href="#dom-reportingobserver-reportingobserver">ReportingObserver(callback, options)</a><span>, in §5.1</span>
    <li><a href="#dictdef-reportingobserveroptions">ReportingObserverOptions</a><span>, in §5.1</span>
-   <li><a href="#reportingobserver-report-list">report list</a><span>, in §5.1</span>
    <li><a href="#typedefdef-reportlist">ReportList</a><span>, in §5.1</span>
+   <li><a href="#reportingobserver-report-queue">report queue</a><span>, in §5.1</span>
    <li><a href="#report-to">Report-To</a><span>, in §3.1</span>
    <li><a href="#report-type">report type</a><span>, in §2.4</span>
    <li><a href="#dom-endpoint-retry_after">retry_after</a><span>, in §2.3</span>
@@ -2957,14 +2957,14 @@ Content-Type: application/reports+json
     Add report to observer </a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="reportingobserver-report-list">
-   <b><a href="#reportingobserver-report-list">#reportingobserver-report-list</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="reportingobserver-report-queue">
+   <b><a href="#reportingobserver-report-queue">#reportingobserver-report-queue</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reportingobserver-report-list">5.1. Interface ReportingObserver</a> <a href="#ref-for-reportingobserver-report-list①">(2)</a>
-    <li><a href="#ref-for-reportingobserver-report-list②">5.3. 
-    Add report to observer </a> <a href="#ref-for-reportingobserver-report-list③">(2)</a> <a href="#ref-for-reportingobserver-report-list④">(3)</a>
-    <li><a href="#ref-for-reportingobserver-report-list⑤">5.4. 
-    Invoke reporting observers with notify list </a> <a href="#ref-for-reportingobserver-report-list⑥">(2)</a> <a href="#ref-for-reportingobserver-report-list⑦">(3)</a>
+    <li><a href="#ref-for-reportingobserver-report-queue">5.1. Interface ReportingObserver</a> <a href="#ref-for-reportingobserver-report-queue①">(2)</a>
+    <li><a href="#ref-for-reportingobserver-report-queue②">5.3. 
+    Add report to observer </a> <a href="#ref-for-reportingobserver-report-queue③">(2)</a> <a href="#ref-for-reportingobserver-report-queue④">(3)</a>
+    <li><a href="#ref-for-reportingobserver-report-queue⑤">5.4. 
+    Invoke reporting observers with notify list </a> <a href="#ref-for-reportingobserver-report-queue⑥">(2)</a> <a href="#ref-for-reportingobserver-report-queue⑦">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-reportingobserver-reportingobserver">
