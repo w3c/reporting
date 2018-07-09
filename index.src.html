@@ -314,10 +314,10 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   that is contained in the [=report/body=] of a <a>report</a>.
 
   When a <a>report type</a> is defined (in this spec or others), it can be
-  specified to be <dfn>observable from JavaScript</dfn>, meaning
+  specified to be <dfn>visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a>reports</a> of that type can be observed by a <a>reporting
-  observer</a>. By default, <a>report types</a> are not <a>observable from
-  JavaScript</a>.
+    observer</a>. By default, <a>report types</a> are not <a>visible to
+    <code>ReportingObserver</code>s</a>.
 
   Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
 
@@ -1084,8 +1084,8 @@ typedef sequence&lt;Report> ReportList;
   algorithm adds |report| to |observer|'s <a>report list</a>, so long as
   |report|'s <a>type</a> is observable by |observer|.
 
-  1. If |report|'s [=report/type=] is not <a>observable from JavaScript</a>,
-     return.
+  1. If |report|'s [=report/type=] is not <a>visible to
+    <code>ReportingObserver</code>s</a>, return.
 
   2. If |observer|'s <a>options</a> has a non-empty
      {{ReportingObserverOptions/types}} member which does not contain |report|'s
@@ -1135,7 +1135,8 @@ typedef sequence&lt;Report> ReportList;
 
   <a>Deprecation reports</a> have the <a>report type</a> "deprecation".
 
-  <a>Deprecation reports</a> are <a>observable from JavaScript</a>.
+  <a>Deprecation reports</a> are <a>visible to
+  <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
     interface DeprecationReportBody : ReportBody {
@@ -1190,7 +1191,8 @@ typedef sequence&lt;Report> ReportList;
 
   <a>Intervention reports</a> have the <a>report type</a> "intervention".
 
-  <a>Intervention reports</a> are <a>observable from JavaScript</a>.
+  <a>Intervention reports</a> are <a>visible to
+  <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
     interface InterventionReportBody : ReportBody {
