@@ -1,5 +1,10 @@
+Reporting API
+===========
 
-# Specification 'reporting'
+This document defines a generic reporting framework which allows web developers to associate a set of named reporting endpoints with an origin. Various platform features (like Content Security Policy, Network Error Reporting, and others) will use these endpoints to deliver feature-specific reports in a consistent manner.
 
-This is the repository for reporting. You're welcome to contribute! Let's make the Web rock our socks
-off!
+
+* Read latest draft: https://github.com/w3c/reporting
+* Discuss on [open issues](https://github.com/w3c/reporting/issues)
+
+See also the [EXPLAINER](https://github.com/w3c/reporting/blob/master/EXPLAINER.md)
