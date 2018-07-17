@@ -327,8 +327,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   the <a>report</a>'s [=report/type=].
 
   Each <a>report</a> has a <dfn for="report" export>url</dfn>, which
-  is the address of the `Document` or `Worker` from which the report was
-  generated.
+  is typically the address of the `Document` or `Worker` from which the report
+  was generated.
 
   Note: We strip the username, password, and fragment from this serialized URL.
   See [[#capability-urls]].
@@ -652,9 +652,10 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   </h3>
 
   Given a serializable object (|data|), a string (|type|), another string
-  (|endpoint group|), and an <a>environment settings object</a> (|settings|),
-  the following algorithm will create a <a>report</a>, and add it to
-  <a>reporting cache</a>'s queue for future delivery.
+  (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
+  optional <a>URL</a> (|url|), the following algorithm will create a
+  <a>report</a>, and add it to <a>reporting cache</a>'s queue for future
+  delivery.
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -662,7 +663,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   [=report/body=]
       ::  |data|
       :   [=report/origin=]
-      ::  |settings|'s <a spec="html">origin</a>
+      ::  If |url| is provided, the <a>origin</a> of that <a>URL</a>; otherwise,
+          |settings|'s <a spec="html">origin</a>
       :   [=report/user agent=]
       ::  The current value of <a><code>navigator.userAgent</code></a>
       :   [=report/group=]
@@ -674,7 +676,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   [=report/attempts=]
       ::  0
 
-  2.  Let |url| be |settings|'s <a>creation URL</a>.
+  2.  If |url| was not provided by the caller, let |url| be |settings|'s
+      <a>creation URL</a>.
 
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
