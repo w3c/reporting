@@ -327,14 +327,11 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   the <a>report</a>'s [=report/type=].
 
   Each <a>report</a> has a <dfn for="report" export>url</dfn>, which
-  is the address of the `Document` or `Worker` from which the report was
-  generated.
+  is typically the address of the `Document` or `Worker` from which the report
+  was generated.
 
   Note: We strip the username, password, and fragment from this serialized URL.
   See [[#capability-urls]].
-
-  Each <a>report</a> has an <dfn for="report" export>origin</dfn>,
-  which is an <a spec="html">origin</a> representing the report's initiator.
 
   Each <a>report</a> has a <dfn for="report" export>user agent</dfn>, which is
   the value of the <code>User-Agent</code> <a>header</a> of the <a>request</a>
@@ -652,17 +649,15 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   </h3>
 
   Given a serializable object (|data|), a string (|type|), another string
-  (|endpoint group|), and an <a>environment settings object</a> (|settings|),
-  the following algorithm will create a <a>report</a>, and add it to
-  <a>reporting cache</a>'s queue for future delivery.
+  (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
+  optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
+  and add it to <a>reporting cache</a>'s queue for future delivery.
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
 
       :   [=report/body=]
       ::  |data|
-      :   [=report/origin=]
-      ::  |settings|'s <a spec="html">origin</a>
       :   [=report/user agent=]
       ::  The current value of <a><code>navigator.userAgent</code></a>
       :   [=report/group=]
@@ -674,7 +669,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   [=report/attempts=]
       ::  0
 
-  2.  Let |url| be |settings|'s <a>creation URL</a>.
+  2.  If |url| was not provided by the caller, let |url| be |settings|'s
+      <a>creation URL</a>.
 
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
@@ -763,7 +759,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   3.  For each |report| in |reports|:
 
-      1.  Let |origin| be |report|'s [=report/origin=].
+      1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
 
       2.  Let |client| be the entry in the <a>reporting cache</a> for
           |origin|.
@@ -815,8 +811,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
       2.  For each |report| in |reports|:
 
-          1.  Append |report| to |origin map|'s list of reports for |report|'s
-              [=report/origin=].
+          1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
+
+          2.  Append |report| to |origin map|'s list of reports for |origin|.
 
       3.  For each (|origin|, |per-origin reports|) pair in |origin map|,
           execute the following steps asynchronously:
