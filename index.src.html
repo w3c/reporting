@@ -1161,7 +1161,7 @@ typedef sequence&lt;Report> ReportList;
       string identifying the feature or API that will be removed. This string
       can be used for grouping and counting related reports.
 
-    - <dfn for="DeprecationReportBody">anticipated_removal</dfn>: A
+    - <dfn for="DeprecationReportBody">anticipatedRemoval</dfn>: A
       JavaScript <a>Date object</a> (rendered as an ISO 8601 string) indicating
       roughly when the browser version without the specified API will be
       generally available (excluding "beta" or other pre-release channels). This
@@ -1175,15 +1175,15 @@ typedef sequence&lt;Report> ReportList;
       [=DeprecationReportBody/id=] (eg. it may contain additional context on how
       the API was used).
 
-    - <dfn for="DeprecationReportBody">source_file</dfn>: If known, the file
+    - <dfn for="DeprecationReportBody">sourceFile</dfn>: If known, the file
       which first used the indicated API, or null otherwise.
 
-    - <dfn for="DeprecationReportBody">line_number</dfn>: If known, the line
-      number in [=DeprecationReportBody/source_file=] where the indicated API
+    - <dfn for="DeprecationReportBody">lineNumber</dfn>: If known, the line
+      number in [=DeprecationReportBody/sourceFile=] where the indicated API
       was first used, or null otherwise.
 
-    - <dfn for="DeprecationReportBody">column_number</dfn>: If known, the column
-      number in [=DeprecationReportBody/source_file=] where the indicated API
+    - <dfn for="DeprecationReportBody">columnNumber</dfn>: If known, the column
+      number in [=DeprecationReportBody/sourceFile=] where the indicated API
       was first used, or null otherwise.
 
   <h3 id="intervention-report">Intervention</h3>
@@ -1192,7 +1192,7 @@ typedef sequence&lt;Report> ReportList;
   honor a request made by the application (e.g. for security, performance or
   user annoyance reasons). Note that the report properties are the same as those
   for <a>deprecation reports</a>, except for the absence of
-  [=DeprecationReportBody/anticipated_removal=].
+  [=DeprecationReportBody/anticipatedRemoval=].
 
   <a>Intervention reports</a> have the <a>report type</a> "intervention".
 
@@ -1222,15 +1222,15 @@ typedef sequence&lt;Report> ReportList;
       [=InterventionReportBody/id=] (e.g. it may contain additional context on
       what led to the intervention).
 
-    - <dfn for="InterventionReportBody">source_file</dfn>: If known, the file
+    - <dfn for="InterventionReportBody">sourceFile</dfn>: If known, the file
       which first used the indicated API, or null otherwise.
 
-    - <dfn for="InterventionReportBody">line_number</dfn>: If known, the line
-      number in [=InterventionReportBody/source_file=] of the offending behavior
+    - <dfn for="InterventionReportBody">lineNumber</dfn>: If known, the line
+      number in [=InterventionReportBody/sourceFile=] of the offending behavior
       (which prompted the intervention), or null otherwise.
 
-    - <dfn for="InterventionReportBody">column_number</dfn>: If known, the
-      column number in [=InterventionReportBody/source_file=] of the offending
+    - <dfn for="InterventionReportBody">columnNumber</dfn>: If known, the
+      column number in [=InterventionReportBody/sourceFile=] of the offending
       behavior (which prompted the intervention), or null otherwise.
 
 </section>
