@@ -81,7 +81,7 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
 ```
 
 ### Crashes ###
-A crash report indicates that the user was unable to continue using the page because the browser (or one of it's processes necessary for the page) crashed.  For security reasons, no details of the crash are communicated except (optionally) the type of crash (such as "oom") and/or a unique identifier which can be supplied to the browser vendor. 
+A crash report indicates that the user was unable to continue using the page because the browser (or one of its processes necessary for the page) crashed.  For security reasons, no details of the crash are communicated except (optionally) the type of crash (such as "oom") and a unique identifier which can be supplied to the browser vendor. 
 
 ```json
 {
@@ -90,14 +90,14 @@ A crash report indicates that the user was unable to continue using the page bec
   "url": "https://example.com/",
   "body": {
     "crashId": "c2dd3217-24f5-4bee-b74d-99bd055e7edb",
-    "type": "oom"
+    "reason": "oom"
   }
 }
 ```
 
 The report has the following properties:
 - `crashId`: A unique identifier. This identifier will not be meaningful to developers directly, but it can potentially be supplied to the browser vendor for more details.
-- `type`: A more specific classification of the type of crash that occured. Currently, the only valid type is "oom" (omitted otherwise), indicating an out-of-memory crash.
+- `reason`: A more specific classification of the type of crash that occured. Currently, the only valid type is "oom" (omitted otherwise), indicating an out-of-memory crash.
 
 ## ReportingObserver - Observing reports from JavaScript
 In addition to (or even instead of) having reports delivered to an endpoint, it can be convenient to be informed of reports from within the page's JavaScript (eg. for analytics libraries which have no way to influence HTTP headers).  This doesn't make sense or isn't possible for all reports (eg. crashes), but is most useful for reports generated as a direct result of something the page's script has done (such as a deprecation warning).

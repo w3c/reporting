@@ -312,8 +312,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   When a <a>report type</a> is defined (in this spec or others), it can be
   specified to be <dfn>visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a>reports</a> of that type can be observed by a <a>reporting
-    observer</a>. By default, <a>report types</a> are not <a>visible to
-    <code>ReportingObserver</code>s</a>.
+  observer</a>. By default, <a>report types</a> are not <a>visible to
+  <code>ReportingObserver</code>s</a>.
 
   Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
 
@@ -1269,6 +1269,37 @@ typedef sequence&lt;Report> ReportList;
   }
   </pre>
   </div>
+
+  <h3 id="crash-report">Crash</h3>
+
+  <dfn>Crash reports</dfn> indicate that the user was unable to continue using
+  the page because the browser (or one of its processes necessary for the page)
+  crashed. For security reasons, no details of the crash are communicated except
+  for and a unique identifier (which can be interpreted by the browser vendor),
+  and optionally the reason for the crash (such as "oom").
+
+  <a>Crash reports</a> have the <a>report type</a> "crash".
+
+  <a>Crash reports</a> are <a>visible to <code>ReportingObserver</code>s</a>.
+
+  <pre class="idl">
+    interface CrashReportBody : ReportBody {
+      readonly attribute DOMString crashId;
+      readonly attribute DOMString? reason;
+    };
+  </pre>
+
+  An <a>crash report</a>'s [=report/body=], represented in JavaScript by
+  {{CrashReportBody}}, contains the following fields:
+
+    - <dfn for="CrashReportBody">crashId</dfn>: A unique identifier. This
+      identifier will not be meaningful to developers directly, but it can
+      potentially be supplied to the browser vendor for more details.
+
+    - <dfn for="CrashReportBody">reason</dfn>: A more specific classification of
+      the type of crash that occured. Currently, the only valid
+      [=CrashReportBody/reason=] is "oom" (omitted otherwise), indicating an
+      out-of-memory crash.
 </section>
 
 <section>
