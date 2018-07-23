@@ -1186,6 +1186,25 @@ typedef sequence&lt;Report> ReportList;
       number in [=DeprecationReportBody/sourceFile=] where the indicated API
       was first used, or null otherwise.
 
+  <div class="example">
+  <pre>
+  {
+    "type": "deprecation",
+    "age": 27,
+    "url": "https://example.com/",
+    "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
+    "body": {
+      "id": "websql",
+      "anticipatedRemoval": "1/1/2020",
+      "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
+      "sourceFile": "https://foo.com/index.js",
+      "lineNumber": 1234,
+      "columnNumber": 42
+    }
+  }
+  </pre>
+  </div>
+
   <h3 id="intervention-report">Intervention</h3>
 
   <dfn>Intervention reports</dfn> indicate that a user agent has decided not to
@@ -1233,6 +1252,22 @@ typedef sequence&lt;Report> ReportList;
       column number in [=InterventionReportBody/sourceFile=] of the offending
       behavior (which prompted the intervention), or null otherwise.
 
+  <div class="example">
+  <pre>
+  {
+    "type": "intervention",
+    "age": 27,
+    "url": "https://example.com/",
+    "body": {
+      "id": "audio-no-gesture",
+      "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
+      "sourceFile": "https://foo.com/index.js",
+      "lineNumber": 1234,
+      "columnNumber": 42
+    }
+  }
+  </pre>
+  </div>
 </section>
 
 <section>
