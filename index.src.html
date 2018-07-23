@@ -1292,14 +1292,30 @@ typedef sequence&lt;Report> ReportList;
   An <a>crash report</a>'s [=report/body=], represented in JavaScript by
   {{CrashReportBody}}, contains the following fields:
 
-    - <dfn for="CrashReportBody">crashId</dfn>: A unique identifier. This
-      identifier will not be meaningful to developers directly, but it can
-      potentially be supplied to the browser vendor for more details.
+    - <dfn for="CrashReportBody">crashId</dfn>: An implementation-defined unique
+      identifier (100 character maximum string). This identifier will not be
+      meaningful to developers directly, but it can potentially be supplied to
+      the browser vendor for more details.
 
     - <dfn for="CrashReportBody">reason</dfn>: A more specific classification of
       the type of crash that occured. Currently, the only valid
       [=CrashReportBody/reason=] is "oom" (omitted otherwise), indicating an
       out-of-memory crash.
+
+  <div class="example">
+  <pre>
+  {
+    "type": "crash",
+    "age": 42,
+    "url": "https://example.com/",
+    "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
+    "body": {
+      "crashId": "30437694edfeae5b",
+      "reason": "oom"
+    }
+  }
+  </pre>
+  </div>
 </section>
 
 <section>
