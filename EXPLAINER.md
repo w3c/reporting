@@ -47,7 +47,7 @@ Deprecations are reports indicating that a browser API or feature has been used 
     "id": "websql", 
     "anticipatedRemoval": "1/1/2020", 
     "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
-    "sourceFile": "https://foo.com/index.js",
+    "sourceFile": "https://example.com/index.js",
     "lineNumber": 1234,
     "columnNumber": 42
   }
@@ -73,7 +73,7 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
   "body": {
     "id": "audio-no-gesture", 
     "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
-    "sourceFile": "https://foo.com/index.js",
+    "sourceFile": "https://example.com/index.js",
     "lineNumber": 1234,
     "columnNumber": 42
   }
