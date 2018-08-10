@@ -423,8 +423,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
                 ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
   </pre>
 
-  The header's value is interpreted as an array of JSON objects, as described in
-  Section 4 of [[HTTP-JFV]].
+  The header's value is interpreted as a JSON-formatted array of objects
+  without the outer `[` and `]`, as described in Section 4 of [[HTTP-JFV]].
 
   Each object in the array defines an <a>endpoint group</a> to which reports may
   be delivered, and will be parsed as defined in [[#process-header]].
