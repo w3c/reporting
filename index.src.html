@@ -202,12 +202,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: { "<a for="ReportTo">url</a>": "https://example.com/csp-reports",
-                   "<a for="ReportTo">group</a>": "csp-endpoint",
-                   "<a for="ReportTo">max_age</a>": 10886400 },
-                 { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports",
-                   "<a for="ReportTo">group</a>": "hpkp-endpoint",
-                   "<a for="ReportTo">max_age</a>": 10886400 }
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp-endpoint",
                    "<a for="ReportTo">max_age</a>": 10886400,
                    "<a for="ReportTo">endpoints</a>": [
