@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version ca499dee738ad325bae89163f1eee6d8a2978cf4" name="generator">
+  <meta content="Bikeshed version d0d8d87ffe296a92b247fe143aae4c1411ba5f79" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="30b8aa749565bee72c2d57b1e787d8344a29fbd9" name="document-revision">
+  <meta content="74575bd289596bb70c21fae79fb50b7b5cb45cce" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-08-10">10 August 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-09-04">4 September 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -457,26 +457,20 @@ reports in a consistent manner.</p>
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1" id="ref-for-section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-3f56fc56">
-     <a class="self-link" href="#example-3f56fc56"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-ca5548fe">
+     <a class="self-link" href="#example-ca5548fe"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
-<pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to①">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url②">url</a>": "https://example.com/csp-reports",
-             "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group①">group</a>": "csp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age①">max_age</a>": 10886400 },
-           { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url③">url</a>": "https://example.com/hpkp-reports",
-             "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group②">group</a>": "hpkp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age②">max_age</a>": 10886400 }
-<a data-link-type="dfn" href="#report-to" id="ref-for-report-to②">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group③">group</a>": "csp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age③">max_age</a>": 10886400,
+<pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to①">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group①">group</a>": "csp-endpoint",
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age①">max_age</a>": 10886400,
              "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints②">endpoints</a>": [
-               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url④">url</a>": "https://example.com/csp-reports" }
+               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url②">url</a>": "https://example.com/csp-reports" }
              ] },
-           { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group④">group</a>": "hpkp-endpoint",
-             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age④">max_age</a>": 10886400,
+           { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group②">group</a>": "hpkp-endpoint",
+             "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age②">max_age</a>": 10886400,
              "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints③">endpoints</a>": [
-               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑤">url</a>": "https://example.com/hpkp-reports" }
+               { "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url③">url</a>": "https://example.com/hpkp-reports" }
              ] }
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to those named
@@ -596,7 +590,7 @@ reports in a consistent manner.</p>
    <section>
     <h2 class="heading settled" data-level="3" id="endpoint-delivery"><span class="secno">3. </span><span class="content">Endpoint Delivery</span><a class="self-link" href="#endpoint-delivery"></a></h2>
     <p>A server MAY define a set of reporting endpoints for an origin it controls
-  via the <a data-link-type="dfn" href="#report-to" id="ref-for-report-to③"><code>Report-To</code></a> HTTP response header field. This mechanism
+  via the <a data-link-type="dfn" href="#report-to" id="ref-for-report-to②"><code>Report-To</code></a> HTTP response header field. This mechanism
   is defined in <a href="#header">§3.1 The Report-To HTTP Response Header Field</a>, and its processing in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a>.</p>
     <h3 class="heading settled" data-level="3.1" id="header"><span class="secno">3.1. </span><span class="content">The <code>Report-To</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report-to"><code>Report-To</code></dfn> HTTP response header field instructs the
@@ -674,12 +668,12 @@ reports in a consistent manner.</p>
        <li data-md>
         <p><var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a> does not
   contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header①">header</a> whose <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-name" id="ref-for-concept-header-name">name</a> is
-  "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to④"><code>Report-To</code></a>".</p>
+  "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to③"><code>Report-To</code></a>".</p>
       </ol>
      <li data-md>
       <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin①">origin</a> of <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>.</p>
      <li data-md>
-      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to⑤"><code>Report-To</code></a>".</p>
+      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to④"><code>Report-To</code></a>".</p>
      <li data-md>
       <p>Let <var>list</var> be the result of executing the algorithm defined in Section 4
   of <a data-link-type="biblio" href="#biblio-http-jfv">[HTTP-JFV]</a> on <var>header</var>. If that algorithm results in an error, abort
@@ -690,13 +684,13 @@ reports in a consistent manner.</p>
       <p>For each <var>item</var> in <var>list</var>:</p>
       <ol>
        <li data-md>
-        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑤"><code>max_age</code></a>", or
+        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age③"><code>max_age</code></a>", or
   that member’s value is not a number, skip to the next <var>item</var>.</p>
        <li data-md>
         <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①⓪"><code>endpoints</code></a>", or that member’s
   value is not an array, skip to the next <var>item</var>.</p>
        <li data-md>
-        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group⑤"><code>group</code></a>" member’s value
+        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group③"><code>group</code></a>" member’s value
   if present, and "<code>default</code>" otherwise.</p>
        <li data-md>
         <p>If there is already an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑨">endpoint group</a> in <var>groups</var> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name④">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
@@ -706,7 +700,7 @@ reports in a consistent manner.</p>
         <p>For each <var>endpoint item</var> in the value of <var>item</var>’s "<a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①①"><code>endpoints</code></a>" member:</p>
         <ol>
          <li data-md>
-          <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑥"><code>url</code></a>", or that member’s value is not a
+          <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url④"><code>url</code></a>", or that member’s value is not a
   string, skip to the next <var>endpoint item</var>.</p>
          <li data-md>
           <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority②"><code>priority</code></a>", whose value is not a non-negative
@@ -720,7 +714,7 @@ reports in a consistent manner.</p>
           <dl>
            <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
            <dd data-md>
-            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑦"><code>url</code></a>" member’s
+            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑤"><code>url</code></a>" member’s
   value.</p>
            <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority④">priority</a></code>
            <dd data-md>
@@ -751,7 +745,7 @@ reports in a consistent manner.</p>
   "<a data-link-type="dfn" href="#reportto-include_subdomains" id="ref-for-reportto-include_subdomains"><code>include_subdomains</code></a>" whose value is <code>true</code>, "<code>exclude</code>" otherwise.</p>
          <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-ttl" id="ref-for-dom-endpoint-group-ttl①">ttl</a></code>
          <dd data-md>
-          <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age⑥"><code>max_age</code></a>" member’s value.</p>
+          <p><var>item</var>’s "<a data-link-type="dfn" href="#reportto-max_age" id="ref-for-reportto-max_age④"><code>max_age</code></a>" member’s value.</p>
          <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-creation" id="ref-for-dom-endpoint-group-creation①">creation</a></code>
          <dd data-md>
           <p>The current timestamp</p>
@@ -2845,17 +2839,17 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="report-to">
    <b><a href="#report-to">#report-to</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-to">1.2. Examples</a> <a href="#ref-for-report-to①">(2)</a> <a href="#ref-for-report-to②">(3)</a>
-    <li><a href="#ref-for-report-to③">3. Endpoint Delivery</a>
-    <li><a href="#ref-for-report-to④">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-report-to⑤">(2)</a>
+    <li><a href="#ref-for-report-to">1.2. Examples</a> <a href="#ref-for-report-to①">(2)</a>
+    <li><a href="#ref-for-report-to②">3. Endpoint Delivery</a>
+    <li><a href="#ref-for-report-to③">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-report-to④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportto-group">
    <b><a href="#reportto-group">#reportto-group</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reportto-group">1.2. Examples</a> <a href="#ref-for-reportto-group①">(2)</a> <a href="#ref-for-reportto-group②">(3)</a> <a href="#ref-for-reportto-group③">(4)</a> <a href="#ref-for-reportto-group④">(5)</a>
-    <li><a href="#ref-for-reportto-group⑤">3.2. 
+    <li><a href="#ref-for-reportto-group">1.2. Examples</a> <a href="#ref-for-reportto-group①">(2)</a> <a href="#ref-for-reportto-group②">(3)</a>
+    <li><a href="#ref-for-reportto-group③">3.2. 
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
@@ -2869,9 +2863,9 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="reportto-max_age">
    <b><a href="#reportto-max_age">#reportto-max_age</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reportto-max_age">1.2. Examples</a> <a href="#ref-for-reportto-max_age①">(2)</a> <a href="#ref-for-reportto-max_age②">(3)</a> <a href="#ref-for-reportto-max_age③">(4)</a> <a href="#ref-for-reportto-max_age④">(5)</a>
-    <li><a href="#ref-for-reportto-max_age⑤">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-max_age⑥">(2)</a>
+    <li><a href="#ref-for-reportto-max_age">1.2. Examples</a> <a href="#ref-for-reportto-max_age①">(2)</a> <a href="#ref-for-reportto-max_age②">(3)</a>
+    <li><a href="#ref-for-reportto-max_age③">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-max_age④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportto-endpoints">
@@ -2893,9 +2887,9 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="reportto-url">
    <b><a href="#reportto-url">#reportto-url</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reportto-url">1.2. Examples</a> <a href="#ref-for-reportto-url①">(2)</a> <a href="#ref-for-reportto-url②">(3)</a> <a href="#ref-for-reportto-url③">(4)</a> <a href="#ref-for-reportto-url④">(5)</a> <a href="#ref-for-reportto-url⑤">(6)</a>
-    <li><a href="#ref-for-reportto-url⑥">3.2. 
-    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-url⑦">(2)</a>
+    <li><a href="#ref-for-reportto-url">1.2. Examples</a> <a href="#ref-for-reportto-url①">(2)</a> <a href="#ref-for-reportto-url②">(3)</a> <a href="#ref-for-reportto-url③">(4)</a>
+    <li><a href="#ref-for-reportto-url④">3.2. 
+    Process reporting endpoints for response to request </a> <a href="#ref-for-reportto-url⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportto-priority">
