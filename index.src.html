@@ -1434,7 +1434,7 @@ typedef sequence&lt;Report> ReportList;
   <pre class='idl'>
     dictionary GenerateTestReportParameters {
       required DOMString message;
-      DOMString group;
+      DOMString group = "default";
     };
   </pre>
 
@@ -1461,25 +1461,23 @@ typedef sequence&lt;Report> ReportList;
   2. Let |message| be the result of <a>trying</a> to get |parameters|'s
      {{GenerateTestReportParameters/message}} property.
 
-  3. If |message| is null, return a <a>WebDriver error</a> with <a>WebDriver
-     error code</a> <a>invalid argument</a>.
+  3. If |message| is not present, return a <a>WebDriver error</a>
+     with <a>WebDriver error code</a> <a>invalid argument</a>.
 
   4. Let |group| be the result of <a>trying</a> to get |parameters|'s
      {{GenerateTestReportParameters/group}} property.
 
-  5. If |group| is null, set |group| to "default".
-
-  6. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
+  5. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
      containing a single string field, |body_message|.
 
-  7. Set |body_message| to |message|.
+  6. Set |body_message| to |message|.
 
-  8. Let |settings| be the <a>environment settings object</a> of the
+  7. Let |settings| be the <a>environment settings object</a> of the
      <a>current browsing context</a>'s <a>active document</a>.
 
-  9. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
+  8. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
 
-  10. Return <a>success</a> with data null.
+  9. Return <a>success</a> with data null.
 </section>
 
 <section>
