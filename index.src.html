@@ -1464,8 +1464,8 @@ typedef sequence&lt;Report> ReportList;
   3. If |message| is not present, return a <a>WebDriver error</a>
      with <a>WebDriver error code</a> <a>invalid argument</a>.
 
-  4. Let |group| be the result of <a>trying</a> to get |parameters|'s
-     {{GenerateTestReportParameters/group}} property.
+  4. Let |group| be |parameters|'s {{GenerateTestReportParameters/group}}
+     property.
 
   5. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
      containing a single string field, |body_message|.
