@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version d0d8d87ffe296a92b247fe143aae4c1411ba5f79" name="generator">
+  <meta content="Bikeshed version 018be3f805d3272ce699a232398d6e3902d1ea8d" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="3c5838e8b9cb7e4ace40dbe218b0cac09931c605" name="document-revision">
+  <meta content="6cab8cacaea8c7b71b5f2ac4c789c186a6c4e8be" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-09-05">5 September 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-10-16">16 October 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -291,10 +291,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
    <p>This document defines a generic reporting framework which allows web
 
-developers to associate a set of named reporting endpoints with an origin.
-Various platform features (like Content Security Policy, Network Error
-Reporting, and others) will use these endpoints to deliver feature-specific
-reports in a consistent manner.</p>
+  developers to associate a set of named reporting endpoints with an origin.
+  Various platform features (like Content Security Policy, Network Error
+  Reporting, and others) will use these endpoints to deliver feature-specific
+  reports in a consistent manner.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -1513,7 +1513,7 @@ Content-Type: application/reports+json
      <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands" id="ref-for-dfn-extension-commands②">extension command</a> is defined as follows:</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="idl-code" data-dfn-type="dictionary" data-export id="dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code><a class="self-link" href="#dictdef-generatetestreportparameters"></a></dfn> {
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-message"><code><c- g>message</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn>;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;default&quot;" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn> = "default";
 };
 </pre>
      <table style="border-spacing: 20px 0px;">
@@ -1535,12 +1535,9 @@ Content-Type: application/reports+json
       <li data-md>
        <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
       <li data-md>
-       <p>If <var>message</var> is null, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error①">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver
- error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
+       <p>If <var>message</var> is not present, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error①">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
       <li data-md>
-       <p>Let <var>group</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try" id="ref-for-dfn-try①">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code> property.</p>
-      <li data-md>
-       <p>If <var>group</var> is null, set <var>group</var> to "default".</p>
+       <p>Let <var>group</var> be <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code> property.</p>
       <li data-md>
        <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2②">JSON text</a>,
  containing a single string field, <var>body_message</var>.</p>
@@ -2228,7 +2225,7 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-dfn-try">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-try">9.1. Generate Test Report</a> <a href="#ref-for-dfn-try①">(2)</a>
+    <li><a href="#ref-for-dfn-try">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-error">
@@ -2441,11 +2438,11 @@ Content-Type: application/reports+json
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-csp3">[CSP3]
-   <dd>Mike West. <a href="https://www.w3.org/TR/CSP3/">Content Security Policy Level 3</a>. 13 September 2016. WD. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
+   <dd>Mike West. <a href="https://www.w3.org/TR/CSP3/">Content Security Policy Level 3</a>. 15 October 2018. WD. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
    <dt id="biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]
    <dd>Anne van Kesteren; Maciej Stachowiak. <a href="https://www.w3.org/TR/html-design-principles/">HTML Design Principles</a>. 26 November 2007. WD. URL: <a href="https://www.w3.org/TR/html-design-principles/">https://www.w3.org/TR/html-design-principles/</a>
    <dt id="biblio-network-error-logging">[NETWORK-ERROR-LOGGING]
-   <dd>Ilya Grigorik; et al. <a href="https://www.w3.org/TR/network-error-logging/">Network Error Logging</a>. 20 July 2016. NOTE. URL: <a href="https://www.w3.org/TR/network-error-logging/">https://www.w3.org/TR/network-error-logging/</a>
+   <dd>Douglas Creager; et al. <a href="https://www.w3.org/TR/network-error-logging-1/">Network Error Logging</a>. 25 September 2018. WD. URL: <a href="https://www.w3.org/TR/network-error-logging-1/">https://www.w3.org/TR/network-error-logging-1/</a>
    <dt id="biblio-rfc7469">[RFC7469]
    <dd>C. Evans; C. Palmer; R. Sleevi. <a href="https://tools.ietf.org/html/rfc7469">Public Key Pinning Extension for HTTP</a>. April 2015. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7469">https://tools.ietf.org/html/rfc7469</a>
   </dl>
@@ -2499,7 +2496,7 @@ Content-Type: application/reports+json
 
 <c- b>dictionary</c-> <a href="#dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code></a> {
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-generatetestreportparameters-message"><code><c- g>message</c-></code></a>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-generatetestreportparameters-group"><code><c- g>group</c-></code></a>;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②①"><c- b>DOMString</c-></a> <a data-default="&quot;default&quot;" data-type="DOMString " href="#dom-generatetestreportparameters-group"><code><c- g>group</c-></code></a> = "default";
 };
 
 </pre>
