@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 018be3f805d3272ce699a232398d6e3902d1ea8d" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="393afa756decd3e21e49b5fce46de2455099712f" name="document-revision">
+  <meta content="6fb92dc5dacbd69f4165661f16ea702f6bca16de" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-10-17">17 October 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-10-22">22 October 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1310,6 +1310,10 @@ was first used, or null otherwise.</p>
 }
 </pre>
      </div>
+     <p class="note" role="note"><span>Note:</span> Deprecation reports are always delivered to the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> named <code>default</code>; there is currently no way to override this.  If
+  you want to receive other kinds of reports, but not deprecation reports, make
+  sure to use a different name for the endpoint group that you choose for those
+  reports.</p>
      <h3 class="heading settled" data-level="6.2" id="intervention-report"><span class="secno">6.2. </span><span class="content">Intervention</span><a class="self-link" href="#intervention-report"></a></h3>
      <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="intervention-reports">Intervention reports</dfn> indicate that a user agent has decided not to
   honor a request made by the application (e.g. for security, performance or
@@ -1364,6 +1368,10 @@ behavior (which prompted the intervention), or null otherwise.</p>
 }
 </pre>
      </div>
+     <p class="note" role="note"><span>Note:</span> Intervention reports are always delivered to the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> named <code>default</code>; there is currently no way to override this.  If
+  you want to receive other kinds of reports, but not intervention reports, make
+  sure to use a different name for the endpoint group that you choose for those
+  reports.</p>
      <h3 class="heading settled" data-level="6.3" id="crash-report"><span class="secno">6.3. </span><span class="content">Crash</span><a class="self-link" href="#crash-report"></a></h3>
      <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="crash-reports">Crash reports</dfn> indicate that the user was unable to continue using
   the page because the browser (or one of its processes necessary for the page)
@@ -1403,6 +1411,9 @@ out-of-memory crash.</p>
 }
 </pre>
      </div>
+     <p class="note" role="note"><span>Note:</span> Crash reports are always delivered to the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑥">endpoint group</a> named <code>default</code>; there is currently no way to override this.  If you want
+  to receive other kinds of reports, but not crash reports, make sure to use a
+  different name for the endpoint group that you choose for those reports.</p>
     </section>
     <section>
      <h2 class="heading settled" data-level="7" id="implementation"><span class="secno">7. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation"></a></h2>
@@ -1424,9 +1435,9 @@ out-of-memory crash.</p>
   include:</p>
      <ul>
       <li data-md>
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired①">expired</a></p>
+       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑦">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired①">expired</a></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint groups</a> which have not been used in some arbitrary period
+       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑧">endpoint groups</a> which have not been used in some arbitrary period
   of time (perhaps a ~week?)</p>
       <li data-md>
        <p><a data-link-type="dfn" href="#reportto-endpoints" id="ref-for-reportto-endpoints①④">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed
@@ -2555,7 +2566,10 @@ Content-Type: application/reports+json
     Choose an endpoint from a group </a>
     <li><a href="#ref-for-endpoint-group②②">4.4. 
     Send reports </a> <a href="#ref-for-endpoint-group②③">(2)</a>
-    <li><a href="#ref-for-endpoint-group②④">7.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②⑤">(2)</a>
+    <li><a href="#ref-for-endpoint-group②④">6.1. Deprecation</a>
+    <li><a href="#ref-for-endpoint-group②⑤">6.2. Intervention</a>
+    <li><a href="#ref-for-endpoint-group②⑥">6.3. Crash</a>
+    <li><a href="#ref-for-endpoint-group②⑦">7.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②⑧">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-group-name">
