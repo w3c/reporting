@@ -190,7 +190,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     And the following headers, which direct CSP and HPKP reports to that group:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=endpoint-1
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a> endpoint-1
       <a>Public-Key-Pins</a>: ...; report-to=endpoint-1
     </pre>
   </div>
@@ -218,7 +218,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     endpoint:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=csp-endpoint
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a> csp-endpoint
       <a>Public-Key-Pins</a>: ...; report-to=hpkp-endpoint
     </pre>
   </div>
