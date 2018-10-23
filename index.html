@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 018be3f805d3272ce699a232398d6e3902d1ea8d" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="6fb92dc5dacbd69f4165661f16ea702f6bca16de" name="document-revision">
+  <meta content="d6f77a79ddbe82adfa61e8c6d3f8bbe1f1513a46" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-10-22">22 October 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-10-23">23 October 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -441,8 +441,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   be assigned priorities, allowing developers to set up fallback collectors that
   are only tried when uploads to primary collectors fail.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-c38c5df8">
-     <a class="self-link" href="#example-c38c5df8"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    <div class="example" id="example-2e84f3d4">
+     <a class="self-link" href="#example-2e84f3d4"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
     define a set of reporting endpoints named "<code>endpoint-1</code>": 
 <pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-group" id="ref-for-reportto-group">group</a>": "endpoint-1",
@@ -453,12 +453,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
              ] }
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to that group:</p>
-<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy" id="ref-for-content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#directives-reporting" id="ref-for-directives-reporting">report-to</a>=endpoint-1
+<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy" id="ref-for-content-security-policy">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#directives-reporting" id="ref-for-directives-reporting">report-to</a> endpoint-1
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1" id="ref-for-section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-ca5548fe">
-     <a class="self-link" href="#example-ca5548fe"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-ff42c89b">
+     <a class="self-link" href="#example-ff42c89b"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
@@ -475,7 +475,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to those named
     endpoint:</p>
-<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy" id="ref-for-content-security-policy①">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#directives-reporting" id="ref-for-directives-reporting①">report-to</a>=csp-endpoint
+<pre><a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#content-security-policy" id="ref-for-content-security-policy①">Content-Security-Policy</a>: ...; <a data-link-type="dfn" href="https://w3c.github.io/webappsec-csp/#directives-reporting" id="ref-for-directives-reporting①">report-to</a> csp-endpoint
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1" id="ref-for-section-2.1①">Public-Key-Pins</a>: ...; report-to=hpkp-endpoint
 </pre>
     </div>
