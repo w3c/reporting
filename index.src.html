@@ -1190,7 +1190,7 @@ typedef sequence&lt;Report> ReportList;
     "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
     "body": {
       "id": "websql",
-      "anticipatedRemoval": "1/1/2020",
+      "anticipatedRemoval": "2020-01-01",
       "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
       "sourceFile": "https://example.com/index.js",
       "lineNumber": 1234,
@@ -1285,8 +1285,6 @@ typedef sequence&lt;Report> ReportList;
   optionally the reason for the crash (such as "oom").
 
   <a>Crash reports</a> have the <a>report type</a> "crash".
-
-  <a>Crash reports</a> are <a>visible to <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
     interface CrashReportBody : ReportBody {
