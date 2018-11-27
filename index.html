@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 0da7328bb90ef81993146377e4e0fed236969c4c" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="5de6cccd122f655186a75593d36f74ac8a44f6b0" name="document-revision">
+  <meta content="0889dc1d933add2f521ec18582fa5ab3ea6febc7" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1292,8 +1292,8 @@ was first used, or null otherwise.</p>
 number in <a data-link-type="dfn" href="#deprecationreportbody-sourcefile" id="ref-for-deprecationreportbody-sourcefile①">sourceFile</a> where the indicated API
 was first used, or null otherwise.</p>
      </ul>
-     <div class="example" id="example-710342ff">
-      <a class="self-link" href="#example-710342ff"></a> 
+     <div class="example" id="example-21e2d71e">
+      <a class="self-link" href="#example-21e2d71e"></a> 
 <pre>{
   "type": "deprecation",
   "age": 27,
@@ -1301,7 +1301,7 @@ was first used, or null otherwise.</p>
   "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
     "id": "websql",
-    "anticipatedRemoval": "1/1/2020",
+    "anticipatedRemoval": "2020-01-01",
     "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
     "sourceFile": "https://example.com/index.js",
     "lineNumber": 1234,
@@ -1379,12 +1379,11 @@ behavior (which prompted the intervention), or null otherwise.</p>
   for a unique identifier (which can be interpreted by the browser vendor), and
   optionally the reason for the crash (such as "oom").</p>
      <p><a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports">Crash reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑥">report type</a> "crash".</p>
-     <p><a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports①">Crash reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers④">visible to <code>ReportingObserver</code>s</a>.</p>
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="crashreportbody"><code><c- g>CrashReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-crashreportbody-reason"><code><c- g>reason</c-></code><a class="self-link" href="#dom-crashreportbody-reason"></a></dfn>;
 };
 </pre>
-     <p>An <a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports②">crash report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑧">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#crashreportbody" id="ref-for-crashreportbody">CrashReportBody</a></code>, contains the following field:</p>
+     <p>An <a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports①">crash report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑧">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#crashreportbody" id="ref-for-crashreportbody">CrashReportBody</a></code>, contains the following field:</p>
      <ul>
       <li data-md>
        <p><dfn class="dfn-paneled" data-dfn-for="CrashReportBody" data-dfn-type="dfn" data-noexport id="crashreportbody-reason">reason</dfn>: A more specific classification of
@@ -2704,7 +2703,6 @@ Content-Type: application/reports+json
     Add report to observer </a>
     <li><a href="#ref-for-visible-to-reportingobservers②">6.1. Deprecation</a>
     <li><a href="#ref-for-visible-to-reportingobservers③">6.2. Intervention</a>
-    <li><a href="#ref-for-visible-to-reportingobservers④">6.3. Crash</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report">
@@ -3139,7 +3137,7 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="crash-reports">
    <b><a href="#crash-reports">#crash-reports</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-crash-reports">6.3. Crash</a> <a href="#ref-for-crash-reports①">(2)</a> <a href="#ref-for-crash-reports②">(3)</a>
+    <li><a href="#ref-for-crash-reports">6.3. Crash</a> <a href="#ref-for-crash-reports①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="crashreportbody">
