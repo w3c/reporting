@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 018be3f805d3272ce699a232398d6e3902d1ea8d" name="generator">
+  <meta content="Bikeshed version 0da7328bb90ef81993146377e4e0fed236969c4c" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="d6f77a79ddbe82adfa61e8c6d3f8bbe1f1513a46" name="document-revision">
+  <meta content="5de6cccd122f655186a75593d36f74ac8a44f6b0" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-10-23">23 October 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-11-27">27 November 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1381,31 +1381,24 @@ behavior (which prompted the intervention), or null otherwise.</p>
      <p><a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports">Crash reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑥">report type</a> "crash".</p>
      <p><a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports①">Crash reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers④">visible to <code>ReportingObserver</code>s</a>.</p>
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="crashreportbody"><code><c- g>CrashReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③"><c- n>ReportBody</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-crashreportbody-crashid"><code><c- g>crashId</c-></code><a class="self-link" href="#dom-crashreportbody-crashid"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①⓪"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-crashreportbody-reason"><code><c- g>reason</c-></code><a class="self-link" href="#dom-crashreportbody-reason"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-crashreportbody-reason"><code><c- g>reason</c-></code><a class="self-link" href="#dom-crashreportbody-reason"></a></dfn>;
 };
 </pre>
-     <p>An <a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports②">crash report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑧">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#crashreportbody" id="ref-for-crashreportbody">CrashReportBody</a></code>, contains the following fields:</p>
+     <p>An <a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports②">crash report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑧">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#crashreportbody" id="ref-for-crashreportbody">CrashReportBody</a></code>, contains the following field:</p>
      <ul>
-      <li data-md>
-       <p><dfn data-dfn-for="CrashReportBody" data-dfn-type="dfn" data-noexport id="crashreportbody-crashid">crashId<a class="self-link" href="#crashreportbody-crashid"></a></dfn>: An implementation-defined unique
-identifier (100 character maximum string). This identifier will not be
-meaningful to developers directly, but it can potentially be supplied to
-the browser vendor for more details.</p>
       <li data-md>
        <p><dfn class="dfn-paneled" data-dfn-for="CrashReportBody" data-dfn-type="dfn" data-noexport id="crashreportbody-reason">reason</dfn>: A more specific classification of
 the type of crash that occured. Currently, the only valid <a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashreportbody-reason">reason</a> is "oom" (omitted otherwise), indicating an
 out-of-memory crash.</p>
      </ul>
-     <div class="example" id="example-56b323c1">
-      <a class="self-link" href="#example-56b323c1"></a> 
+     <div class="example" id="example-87d4de2a">
+      <a class="self-link" href="#example-87d4de2a"></a> 
 <pre>{
   "type": "crash",
   "age": 42,
   "url": "https://example.com/",
   "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
-    "crashId": "30437694edfeae5b",
     "reason": "oom"
   }
 }
@@ -1523,8 +1516,8 @@ Content-Type: application/reports+json
   observed by any <a data-link-type="dfn" href="#registered" id="ref-for-registered③">registered</a> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑧">reporting observers</a>.</p>
      <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-commands" id="ref-for-dfn-extension-commands②">extension command</a> is defined as follows:</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="idl-code" data-dfn-type="dictionary" data-export id="dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code><a class="self-link" href="#dictdef-generatetestreportparameters"></a></dfn> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-message"><code><c- g>message</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;default&quot;" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn> = "default";
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①⓪"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-message"><code><c- g>message</c-></code></dfn>;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;default&quot;" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn> = "default";
 };
 </pre>
      <table style="border-spacing: 20px 0px;">
@@ -1732,12 +1725,6 @@ Content-Type: application/reports+json
      <li><a href="#dom-interventionreportbody-columnnumber">attribute for InterventionReportBody</a><span>, in §6.2</span>
      <li><a href="#deprecationreportbody-columnnumber">dfn for DeprecationReportBody</a><span>, in §6.1</span>
      <li><a href="#interventionreportbody-columnnumber">dfn for InterventionReportBody</a><span>, in §6.2</span>
-    </ul>
-   <li>
-    crashId
-    <ul>
-     <li><a href="#dom-crashreportbody-crashid">attribute for CrashReportBody</a><span>, in §6.3</span>
-     <li><a href="#crashreportbody-crashid">dfn for CrashReportBody</a><span>, in §6.3</span>
     </ul>
    <li><a href="#crashreportbody">CrashReportBody</a><span>, in §6.3</span>
    <li><a href="#crash-reports">Crash reports</a><span>, in §6.3</span>
@@ -2257,8 +2244,8 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-idl-DOMString">5.1. Interface ReportingObserver</a> <a href="#ref-for-idl-DOMString①">(2)</a> <a href="#ref-for-idl-DOMString②">(3)</a>
     <li><a href="#ref-for-idl-DOMString③">6.1. Deprecation</a> <a href="#ref-for-idl-DOMString④">(2)</a> <a href="#ref-for-idl-DOMString⑤">(3)</a>
     <li><a href="#ref-for-idl-DOMString⑥">6.2. Intervention</a> <a href="#ref-for-idl-DOMString⑦">(2)</a> <a href="#ref-for-idl-DOMString⑧">(3)</a>
-    <li><a href="#ref-for-idl-DOMString⑨">6.3. Crash</a> <a href="#ref-for-idl-DOMString①⓪">(2)</a>
-    <li><a href="#ref-for-idl-DOMString①①">9.1. Generate Test Report</a> <a href="#ref-for-idl-DOMString①②">(2)</a>
+    <li><a href="#ref-for-idl-DOMString⑨">6.3. Crash</a>
+    <li><a href="#ref-for-idl-DOMString①⓪">9.1. Generate Test Report</a> <a href="#ref-for-idl-DOMString①①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-boolean">
@@ -2462,8 +2449,8 @@ Content-Type: application/reports+json
 };
 
 <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#dom-report" id="ref-for-dom-report⑥"><c- g>Report</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①④"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②"><c- g>type</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①③"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url②"><c- g>url</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①③"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②"><c- g>type</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url②"><c- g>url</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody④"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body②"><c- g>body</c-></a>;
 };
 
@@ -2501,13 +2488,12 @@ Content-Type: application/reports+json
 };
 
 <c- b>interface</c-> <a href="#crashreportbody"><code><c- g>CrashReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③①"><c- n>ReportBody</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-crashreportbody-crashid"><code><c- g>crashId</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①⓪①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-crashreportbody-reason"><code><c- g>reason</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-crashreportbody-reason"><code><c- g>reason</c-></code></a>;
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code></a> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-generatetestreportparameters-message"><code><c- g>message</c-></code></a>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②①"><c- b>DOMString</c-></a> <a data-default="&quot;default&quot;" data-type="DOMString " href="#dom-generatetestreportparameters-group"><code><c- g>group</c-></code></a> = "default";
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①⓪①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-generatetestreportparameters-message"><code><c- g>message</c-></code></a>;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①①"><c- b>DOMString</c-></a> <a data-default="&quot;default&quot;" data-type="DOMString " href="#dom-generatetestreportparameters-group"><code><c- g>group</c-></code></a> = "default";
 };
 
 </pre>
