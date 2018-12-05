@@ -1296,9 +1296,25 @@ typedef sequence&lt;Report> ReportList;
   {{CrashReportBody}}, contains the following field:
 
     - <dfn for="CrashReportBody">reason</dfn>: A more specific classification of
-      the type of crash that occured. Currently, the only valid
-      [=CrashReportBody/reason=] is "oom" (omitted otherwise), indicating an
-      out-of-memory crash.
+      the type of crash that occured, if known, or omitted otherwise. The
+      valid <a>reason</a> strings are shown below.
+
+  <table border=1 cellpadding=5px style="border-collapse: collapse;">
+    <tbody>
+      <tr>
+        <th><a>Reason</a></th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>oom</td>
+        <td>The page ran out of memory.</td>
+      </tr>
+      <tr>
+        <td>unresponsive</td>
+        <td>The page was killed due to being unresponsive.</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="example">
   <pre>
