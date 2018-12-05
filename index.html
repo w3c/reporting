@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 0da7328bb90ef81993146377e4e0fed236969c4c" name="generator">
+  <meta content="Bikeshed version 670c46b501fc025ae87a3398a195af35379ab37d" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="0889dc1d933add2f521ec18582fa5ab3ea6febc7" name="document-revision">
+  <meta content="58185a4ff613fcff4f22a4e552b41c1a5c52ee96" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-11-27">27 November 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-12-05">5 December 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1387,9 +1387,21 @@ behavior (which prompted the intervention), or null otherwise.</p>
      <ul>
       <li data-md>
        <p><dfn class="dfn-paneled" data-dfn-for="CrashReportBody" data-dfn-type="dfn" data-noexport id="crashreportbody-reason">reason</dfn>: A more specific classification of
-the type of crash that occured. Currently, the only valid <a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashreportbody-reason">reason</a> is "oom" (omitted otherwise), indicating an
-out-of-memory crash.</p>
+the type of crash that occured, if known, or omitted otherwise. The
+valid <a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashreportbody-reason">reason</a> strings are shown below.</p>
      </ul>
+     <table border="1" cellpadding="5px" style="border-collapse: collapse;">
+      <tbody>
+       <tr>
+        <th><a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashreportbody-reason①">Reason</a>
+        <th>Description
+       <tr>
+        <td>oom
+        <td>The page ran out of memory.
+       <tr>
+        <td>unresponsive
+        <td>The page was killed due to being unresponsive.
+     </table>
      <div class="example" id="example-87d4de2a">
       <a class="self-link" href="#example-87d4de2a"></a> 
 <pre>{
@@ -3149,7 +3161,7 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="crashreportbody-reason">
    <b><a href="#crashreportbody-reason">#crashreportbody-reason</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-crashreportbody-reason">6.3. Crash</a>
+    <li><a href="#ref-for-crashreportbody-reason">6.3. Crash</a> <a href="#ref-for-crashreportbody-reason①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-generatetestreportparameters-message">
