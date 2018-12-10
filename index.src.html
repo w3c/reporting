@@ -636,6 +636,13 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   The media type used when POSTing reports to a specified endpoint is
   `application/reports+json`.
 
+  <h3 id="report-count">Report Count</h3>
+
+  Each <a>environment settings object</a> has a <dfn>report count</dfn>, which
+  is a <a spec=infra>map</a> from <a>report type</a> (string) to non-negative
+  integer. <a>report count</a> is used to track how many <a>reports</a> of
+  each <a>report type</a> have been generated in the current page.
+
   <h3 id="queue-report" algorithm>
     Queue |data| as |type| for |endpoint group| on |settings|
   </h3>
@@ -645,7 +652,14 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
   and add it to <a>reporting cache</a>'s queue for future delivery.
 
-  1.  Let |report| be a new <a>report</a> object with its values initialized as
+  1.  If |settings|'s <a>report count</a> contains an entry
+      with <a spec=infra>key</a> |type|, then increment that entry. Otherwise,
+      create an entry in |settings|'s <a>report count</a>
+      with <a spec=infra>key</a> |type| and <a spec=infra>value</a> 1.
+
+  2.  If |settings|'s <a>report count</a>[|type|] is greater than 100, return.
+  
+  3.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
 
       :   [=report/body=]
@@ -661,22 +675,22 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   [=report/attempts=]
       ::  0
 
-  2.  If |url| was not provided by the caller, let |url| be |settings|'s
+  4.  If |url| was not provided by the caller, let |url| be |settings|'s
       <a>creation URL</a>.
 
-  3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
+  5.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
 
-  4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
+  6.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
-  5.  Append |report| to the <a>reporting cache</a>.
+  7.  Append |report| to the <a>reporting cache</a>.
 
-  6.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+  8.  Let |environment| be |settings|'s <a>realm execution context</a>'s
       <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
       global environment</a>.
 
-  7.  Execute [[#notify-observers]] with |environment| and |report|.
+  9.  Execute [[#notify-observers]] with |environment| and |report|.
 
   Note: <a>reporting observers</a> can only observe reports from the
   same <a>environment settings object</a>.
