@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version a417ab651526c465cf0395da21ea73b0ffc2784e" name="generator">
+  <meta content="Bikeshed version 0ebbbc2ac0e7301d2b8e4f6d0df42963007fa2f9" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="3989ccea0f1a7a408c81a037013f2d0a4cbd3c21" name="document-revision">
+  <meta content="25ef462874d0ecab9887e6e0bd6ddbbe2dd89ed6" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-12-11">11 December 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-12-18">18 December 2018</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1198,19 +1198,21 @@ queue</dfn>, which is initially empty.</p>
       <li data-md>
        <p>Append <var>report</var> to the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer②">report buffer</a> associated with <var>environment</var>.</p>
       <li data-md>
-       <p>If the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer③">report buffer</a> now contains more than 100 reports, remove the
- item at the beginning of the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer④">report buffer</a>.</p>
+       <p>Let <var>type</var> be <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a>.</p>
+      <li data-md>
+       <p>If the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer③">report buffer</a> now contains more than 100 reports
+ with <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> equal to <var>type</var>, remove the earliest item with <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑥">type</a> equal to <var>type</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer④">report buffer</a>.</p>
      </ol>
      <h3 class="heading settled algorithm" data-algorithm="Add report to observer" data-level="5.3" id="add-report"><span class="secno">5.3. </span><span class="content"> Add <var>report</var> to <var>observer</var> </span><a class="self-link" href="#add-report"></a></h3>
      <p>Given a <a data-link-type="dfn" href="#report" id="ref-for-report②⑧">report</a> <var>report</var> and a <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑥">ReportingObserver</a></code> <var>observer</var>, this
-  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue②">report queue</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> is observable by <var>observer</var>.</p>
+  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue②">report queue</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑦">type</a> is observable by <var>observer</var>.</p>
      <ol>
       <li data-md>
-       <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> is not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers①">visible to <code>ReportingObserver</code>s</a>, return.</p>
+       <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑧">type</a> is not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers①">visible to <code>ReportingObserver</code>s</a>, return.</p>
       <li data-md>
-       <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑥">type</a>, return.</p>
+       <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑨">type</a>, return.</p>
       <li data-md>
-       <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type①">type</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑦">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url①">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url⑤">url</a>,
+       <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type①">type</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype①⓪">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url①">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url⑤">url</a>,
  and <code class="idl"><a data-link-type="idl" href="#dom-report-body" id="ref-for-dom-report-body①">body</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑤">body</a>.</p>
      </ol>
      <p class="issue" id="issue-6311d126"><a class="self-link" href="#issue-6311d126"></a> how to polymorphically initialize body?</p>
@@ -2797,8 +2799,10 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report-reporttype②">4.5. 
     Attempt to deliver reports to endpoint </a>
     <li><a href="#ref-for-report-reporttype③">5.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-report-reporttype④">5.3. 
-    Add report to observer </a> <a href="#ref-for-report-reporttype⑤">(2)</a> <a href="#ref-for-report-reporttype⑥">(3)</a> <a href="#ref-for-report-reporttype⑦">(4)</a>
+    <li><a href="#ref-for-report-reporttype④">5.2. 
+    Notify reporting observers on environment with report </a> <a href="#ref-for-report-reporttype⑤">(2)</a> <a href="#ref-for-report-reporttype⑥">(3)</a>
+    <li><a href="#ref-for-report-reporttype⑦">5.3. 
+    Add report to observer </a> <a href="#ref-for-report-reporttype⑧">(2)</a> <a href="#ref-for-report-reporttype⑨">(3)</a> <a href="#ref-for-report-reporttype①⓪">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-timestamp">
