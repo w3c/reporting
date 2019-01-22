@@ -26,9 +26,6 @@ spec: CSP; urlPrefix: https://w3c.github.io/webappsec-csp/
   type: dfn
     text: Content-Security-Policy
     text: reports directive; url: directives-reporting
-spec: ECMA-262; urlPrefix: http://www.ecma-international.org/ecma-262/6.0/
-  type: method
-    text: JSON.stringify(); url: sec-json.stringify
 spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
   type: dfn
     text: navigation request
@@ -919,8 +916,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   `credentials`
       ::  "`include`"
       :   `body`
-      ::  The string resulting from executing the {{JSON.stringify()}} algorithm
-          on |collection| [[!ECMA-262]]
+      ::  A [=/body=] whose [=body/source=] is the [=byte sequence=] resulting
+          from executing [=serialize JSON to bytes=] on |collection|.
 
   4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
