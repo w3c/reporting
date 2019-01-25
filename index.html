@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 0ebbbc2ac0e7301d2b8e4f6d0df42963007fa2f9" name="generator">
+  <meta content="Bikeshed version eee3e9e7543e2188fb60d183a6cf3fe3a7d971c1" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="25ef462874d0ecab9887e6e0bd6ddbbe2dd89ed6" name="document-revision">
+  <meta content="6465ac19cf39137131a8acdea33dd5b92f76b52a" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2018-12-18">18 December 2018</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-01-25">25 January 2019</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -284,7 +284,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2018 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2019 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -1065,8 +1065,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
          <p>"<code>include</code>"</p>
         <dt data-md><code>body</code>
         <dd data-md>
-         <p>The string resulting from executing the <code class="idl"><a data-link-type="idl" href="http://www.ecma-international.org/ecma-262/6.0/#sec-json.stringify" id="ref-for-sec-json.stringify">JSON.stringify()</a></code> algorithm
-  on <var>collection</var> <a data-link-type="biblio" href="#biblio-ecma-262">[ECMA-262]</a></p>
+         <p>A <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-body" id="ref-for-concept-body">body</a> whose <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-body-source" id="ref-for-concept-body-source">source</a> is the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#byte-sequence" id="ref-for-byte-sequence">byte sequence</a> resulting
+  from executing <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#serialize-json-to-bytes" id="ref-for-serialize-json-to-bytes">serialize JSON to bytes</a> on <var>collection</var>.</p>
        </dl>
       <li data-md>
        <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">Queue a task</a> to <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch">fetch</a> <var>request</var>.</p>
@@ -1544,7 +1544,7 @@ Content-Type: application/reports+json
      <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps" id="ref-for-dfn-remote-end-steps">remote end steps</a> are:</p>
      <ol>
       <li data-md>
-       <p>If <var>parameters</var> is not a JSON <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-object" id="ref-for-concept-url-object">Object</a>, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error">WebDriver
+       <p>If <var>parameters</var> is not a JSON <a data-link-type="dfn" href="https://w3c.github.io/FileAPI/#blob-url-entry-object" id="ref-for-blob-url-entry-object">Object</a>, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error">WebDriver
  error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument">invalid argument</a>.</p>
       <li data-md>
        <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
@@ -1886,13 +1886,6 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-sec-date-objects">6.1. Deprecation</a> <a href="#ref-for-sec-date-objects①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-sec-json.stringify">
-   <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-json.stringify">http://www.ecma-international.org/ecma-262/6.0/#sec-json.stringify</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-sec-json.stringify">4.5. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-sec-date-objects">
    <a href="https://tc39.github.io/ecma262/#sec-date-objects">https://tc39.github.io/ecma262/#sec-date-objects</a><b>Referenced in:</b>
    <ul>
@@ -1917,6 +1910,13 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-concept-response-https-state">3.2. 
     Process reporting endpoints for response to request </a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-body">
+   <a href="https://fetch.spec.whatwg.org/#concept-body">https://fetch.spec.whatwg.org/#concept-body</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-body">4.5. 
+    Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-fetch">
@@ -1981,6 +1981,13 @@ Content-Type: application/reports+json
     Process reporting endpoints for response to request </a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-body-source">
+   <a href="https://fetch.spec.whatwg.org/#concept-body-source">https://fetch.spec.whatwg.org/#concept-body-source</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-body-source">4.5. 
+    Attempt to deliver reports to endpoint </a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-concept-response-url">
    <a href="https://fetch.spec.whatwg.org/#concept-response-url">https://fetch.spec.whatwg.org/#concept-response-url</a><b>Referenced in:</b>
    <ul>
@@ -2000,6 +2007,12 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-wait-for-a-response">4.5. 
     Attempt to deliver reports to endpoint </a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-blob-url-entry-object">
+   <a href="https://w3c.github.io/FileAPI/#blob-url-entry-object">https://w3c.github.io/FileAPI/#blob-url-entry-object</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-blob-url-entry-object">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-active-document">
@@ -2076,6 +2089,13 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-section-2①">3.1. The Report-To HTTP Response Header Field</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-byte-sequence">
+   <a href="https://infra.spec.whatwg.org/#byte-sequence">https://infra.spec.whatwg.org/#byte-sequence</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-byte-sequence">4.5. 
+    Attempt to deliver reports to endpoint </a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-list">
    <a href="https://infra.spec.whatwg.org/#list">https://infra.spec.whatwg.org/#list</a><b>Referenced in:</b>
    <ul>
@@ -2086,6 +2106,13 @@ Content-Type: application/reports+json
    <a href="https://infra.spec.whatwg.org/#ordered-set">https://infra.spec.whatwg.org/#ordered-set</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-ordered-set">5. Reporting Observers</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-serialize-json-to-bytes">
+   <a href="https://infra.spec.whatwg.org/#serialize-json-to-bytes">https://infra.spec.whatwg.org/#serialize-json-to-bytes</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-serialize-json-to-bytes">4.5. 
+    Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-">
@@ -2144,12 +2171,6 @@ Content-Type: application/reports+json
    <a href="https://url.spec.whatwg.org/#dom-url-host">https://url.spec.whatwg.org/#dom-url-host</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-url-host">3.1.2. The include_subdomains member</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url-object">
-   <a href="https://url.spec.whatwg.org/#concept-url-object">https://url.spec.whatwg.org/#concept-url-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url-object">9.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-origin">
@@ -2302,7 +2323,6 @@ Content-Type: application/reports+json
     <a data-link-type="biblio">[ECMA-262]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-sec-date-objects" style="color:initial">Date</span>
-     <li><span class="dfn-paneled" id="term-for-sec-json.stringify" style="color:initial">JSON.stringify()</span>
      <li><span class="dfn-paneled" id="term-for-sec-date-objects①" style="color:initial">date object</span>
      <li><span class="dfn-paneled" id="term-for-realm" style="color:initial">realm</span>
     </ul>
@@ -2310,6 +2330,7 @@ Content-Type: application/reports+json
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-concept-response-https-state" style="color:initial">HTTPS state</span>
+     <li><span class="dfn-paneled" id="term-for-concept-body" style="color:initial">body</span>
      <li><span class="dfn-paneled" id="term-for-concept-fetch" style="color:initial">fetch</span>
      <li><span class="dfn-paneled" id="term-for-concept-header" style="color:initial">header</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-header-list" style="color:initial">header list <small>(for response)</small></span>
@@ -2318,9 +2339,15 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-ok-status" style="color:initial">ok status</span>
      <li><span class="dfn-paneled" id="term-for-concept-request" style="color:initial">request</span>
      <li><span class="dfn-paneled" id="term-for-concept-response" style="color:initial">response</span>
+     <li><span class="dfn-paneled" id="term-for-concept-body-source" style="color:initial">source</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-url" style="color:initial">url</span>
      <li><span class="dfn-paneled" id="term-for-concept-header-value" style="color:initial">value</span>
      <li><span class="dfn-paneled" id="term-for-wait-for-a-response" style="color:initial">wait for a response</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[FileAPI]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-blob-url-entry-object" style="color:initial">object</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
@@ -2342,8 +2369,10 @@ Content-Type: application/reports+json
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-byte-sequence" style="color:initial">byte sequence</span>
      <li><span class="dfn-paneled" id="term-for-list" style="color:initial">list</span>
      <li><span class="dfn-paneled" id="term-for-ordered-set" style="color:initial">ordered set</span>
+     <li><span class="dfn-paneled" id="term-for-serialize-json-to-bytes" style="color:initial">serialize json to bytes</span>
     </ul>
    <li>
     <a data-link-type="biblio">[rfc2782]</a> defines the following terms:
@@ -2376,7 +2405,6 @@ Content-Type: application/reports+json
     <ul>
      <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">URL</span>
      <li><span class="dfn-paneled" id="term-for-dom-url-host" style="color:initial">host</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url-object" style="color:initial">object</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-origin" style="color:initial">origin of a url</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-password" style="color:initial">password</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-parser" style="color:initial">url parser</span>
@@ -2416,6 +2444,8 @@ Content-Type: application/reports+json
    <dd><a href="https://tc39.github.io/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.github.io/ecma262/">https://tc39.github.io/ecma262/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-fileapi">[FileAPI]
+   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 6 November 2018. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-http-jfv">[HTTP-JFV]
