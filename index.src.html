@@ -129,6 +129,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     text: session; url: dfn-session
     text: success; url: dfn-success
     text: trying; url: dfn-try
+spec: netinfo; urlPrefix: https://wicg.github.io/netinfo
+  type: dfn
+    text: saveData; url: savedata-attribute
 </pre>
 <pre class="biblio">
 {
@@ -651,15 +654,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
   optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
   and add it to <a>reporting cache</a>'s queue for future delivery.
-
-  1.  If |settings|'s <a>report count</a> contains an entry
-      with <a spec=infra>key</a> |type|, then increment that entry. Otherwise,
-      create an entry in |settings|'s <a>report count</a>
-      with <a spec=infra>key</a> |type| and <a spec=infra>value</a> 1.
-
-  2.  If |settings|'s <a>report count</a>[|type|] is greater than 100, return.
   
-  3.  Let |report| be a new <a>report</a> object with its values initialized as
+  1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
 
       :   [=report/body=]
@@ -675,22 +671,30 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   [=report/attempts=]
       ::  0
 
-  4.  If |url| was not provided by the caller, let |url| be |settings|'s
-      <a>creation URL</a>.
-
-  5.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
-      to `null`.
-
-  6.  Set |report|'s [=report/url=] to the result of executing the <a>URL
-      serializer</a> on |url| with the <em>exclude fragment flag</em> set.
-
-  7.  Append |report| to the <a>reporting cache</a>.
-
-  8.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+  2.  Let |environment| be |settings|'s <a>realm execution context</a>'s
       <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
       global environment</a>.
 
-  9.  Execute [[#notify-observers]] with |environment| and |report|.
+  3.  Execute [[#notify-observers]] with |environment| and |report|.
+
+  4.  If |settings|'s <a>report count</a> contains an entry
+      with <a spec=infra>key</a> |type|, then increment that entry. Otherwise,
+      create an entry in |settings|'s <a>report count</a>
+      with <a spec=infra>key</a> |type| and <a spec=infra>value</a> 1.
+
+  5.  If |settings|'s <a>report count</a>[|type|] is greater than 100 and the
+      current <a spec="netinfo">saveData</a> preference is true, return.
+
+  6.  If |url| was not provided by the caller, let |url| be |settings|'s
+      <a>creation URL</a>.
+
+  7.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
+      to `null`.
+
+  8.  Set |report|'s [=report/url=] to the result of executing the <a>URL
+      serializer</a> on |url| with the <em>exclude fragment flag</em> set.
+
+  9.  Append |report| to the <a>reporting cache</a>.
 
   Note: <a>reporting observers</a> can only observe reports from the
   same <a>environment settings object</a>.
