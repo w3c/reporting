@@ -120,9 +120,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     text: current browsing context; url: dfn-current-browsing-context
     text: WebDriver error; url: dfn-error
     text: WebDriver error code; url: dfn-error-code
-    text: extension command; url: dfn-extension-commands
-    text: extension command name; url: dfn-extension-command-name
-    text: extension command prefix; url: dfn-extension-command-prefix
+    text: extension command; url: dfn-extension-command
+    text: extension command uri template; url: dfn-extension-command-uri-template
     text: invalid argument; url: dfn-invalid-argument
     text: local end; url: dfn-local-end
     text: remote end steps; url: dfn-remote-end-steps
@@ -1464,13 +1463,11 @@ typedef sequence&lt;Report> ReportList;
     <tbody>
       <tr>
         <th>HTTP Method</th>
-        <th><a lt="extension command prefix">Prefix</a></th>
-        <th><a lt="extension command name">Name</a></th>
+        <th><a lt="extension command uri template">URI Template</a></th>
       </tr>
       <tr>
         <td>`POST`</td>
-        <td>`/session/{session id}/reporting`</td>
-        <td>`generate_test_report`</td>
+        <td>`/session/{session id}/reporting/generate_test_report`</td>
       </tr>
     </tbody>
   </table>
