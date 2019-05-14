@@ -724,17 +724,17 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   8.  Let |total weight| be the sum of the {{endpoint/weight}} value of each
       |endpoint| in |endpoints|.
 
-  9.  Let |weight| be a random number ≥ 0 and &lt; |total weight|.
+  9.  Let |weight| be a random number &ge; 0 and &le; |total weight|.
 
   10. For each |endpoint| in |endpoints|:
 
-      1.  If |weight| is less than |endpoint|'s {{endpoint/weight}}, return
-          |endpoint|.
+      1.  If |weight| is less than or equal to |endpoint|'s {{endpoint/weight}},
+          return |endpoint|.
 
       2.  Subtract |endpoint|'s {{endpoint/weight}} from |weight|.
 
   11. It should not be possible to fall through to here, since the random number
-      chosen earlier will be less than |total weight|.
+      chosen earlier will be less than or equal to |total weight|.
 
   <h3 id="send-reports" algorithm>
     Send reports
