@@ -85,11 +85,6 @@ spec: RFC2782; for: SRV; urlPrefix: https://tools.ietf.org/html/rfc2782
 spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
   type: grammar
     text: absolute-uri; url: section-4.3
-spec: RFC6797; urlPrefix: https://tools.ietf.org/html/rfc6797
-  type: dfn
-    url: section-8.2
-      text: superdomain match
-      text: congruent match
 spec: RFC8259; urlPrefix: https://tools.ietf.org/html/rfc8259
   type: dfn
     text: JSON text; url: section-2
@@ -250,10 +245,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   Each <a>endpoint group</a> has an
   <dfn for="endpoint group" export attribute>endpoints</dfn> list, which is a
   list of <a>endpoints</a>.
-
-  Each <a>endpoint group</a> has a
-  <dfn for="endpoint group" export attribute>subdomains</dfn> flag, which is
-  either "`include`" or "`exclude`".
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>ttl</dfn> representing the
@@ -432,14 +423,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   error. If no member named "`group`" is present in the object, the <a>endpoint
   group</a> will be given the {{endpoint group/name}} "`default`".
 
-  <h4 id="include-subdomains-member">The `include_subdomains` member</h4>
-
-  The OPTIONAL <dfn for="ReportTo">`include_subdomains`</dfn> member is a
-  boolean that enables this <a>endpoint group</a> for all subdomains of the
-  current <a spec="html">origin</a>'s {{URL/host}}.  If no member named
-  "`include_subdomains`" is present in the object, or its value is not "`true`",
-  the <a>endpoint group</a> will not be enabled for subdomains.
-
   <h4 id="max-age-member">The `max_age` member</h4>
 
   The REQUIRED <dfn for="ReportTo" export>`max_age`</dfn> member defines
@@ -588,10 +571,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
           :   {{endpoint group/name}}
           ::  |name|
-          :   {{endpoint group/subdomains}}
-          ::  "`include`" if |item| has a member named
-              "<a for="ReportTo">`include_subdomains`</a>" whose value is
-              `true`, "`exclude`" otherwise.
           :   {{endpoint group/ttl}}
           ::  |item|'s "<a for="ReportTo">`max_age`</a>" member's value.
           :   {{endpoint group/creation}}
@@ -769,28 +748,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
               2.  Skip to the next |report|.
 
-      4.  For each |parent origin| that is a <a>superdomain match</a>
-          for |origin| [[!RFC6797]]:
-
-          1.  Let |client| be the entry in the <a>reporting cache</a> for
-              |parent origin|.
-
-          2.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
-              {{client/endpoint-groups}} list whose {{endpoint group/name}} is
-              |report|'s [=report/group=] <b>and</b> whose {{endpoint
-              group/subdomains}} flag is "`include`":
-
-              1.  Let |endpoint| be the result of executing [[#choose-endpoint]]
-                  on |group|.
-
-              2.  If |endpoint| is an <a>endpoint</a>:
-
-                  1.  Append |report| to |endpoint map|'s list of reports for
-                      |endpoint|.
-
-                  2.  Skip to the next |report|.
-
-      5.  If we reach this step, the |report| did not match any <a>endpoint</a>
+      4.  If we reach this step, the |report| did not match any <a>endpoint</a>
           and the user agent MAY remove |report| from the <a>reporting cache</a>
           directly. Depending on load, the user agent MAY instead wait for
           [[#gc]] at some point in the future.
@@ -1406,7 +1364,6 @@ typedef sequence&lt;Report> ReportList;
           "hostname": "www.example.com",
           "port": 443,
           "effective-expiration-date": "2014-05-01T12:40:50Z"
-          "include-subdomains": false,
           "served-certificate-chain": [
             "-----BEGIN CERTIFICATE-----\n
             MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
@@ -1542,16 +1499,6 @@ typedef sequence&lt;Report> ReportList;
   than the status quo ability to track the same information from cooperative
   origins, and doesn't grant any new tracking ability above and beyond what's
   possible with `<img>` today.
-
-  <h3 id="subdomains">Subdomains</h3>
-
-  This specification allows any resource on a host to declare a set of reporting
-  endpoints for that host and each of its subdomains. This doesn't have privacy
-  implications in and of itself (beyond those noted in [[#clear-cache]]), as the
-  reporting endpoints themselves don't take any real action, as features will
-  need to opt-into using these reporting endpoints explicitly. Those features
-  certainly will have privacy implications, and should carefully consider
-  whether they should be enabled across origin boundaries.
 
   <h3 id="clear-cache">Clearing the reporting cache</h3>
 
