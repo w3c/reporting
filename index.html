@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version ee4d7efc3ed6155392d49e10a542e2351fd5792d" name="generator">
+  <meta content="Bikeshed version 08c4b0e94d147852f66673459784d3429bb3bda1" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="25202b92303a675da765365551cae6e64ca81bbd" name="document-revision">
+  <meta content="92404e0c20076fb510526cbf7cead66db9699d9a" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-05-14">14 May 2019</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-03">3 September 2019</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -276,9 +276,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <dd><a href="https://github.com/w3c/reporting/commits/master/index.src.html">https://github.com/w3c/reporting/commits/master/index.src.html</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="103120"><a class="p-name fn u-email email" href="mailto:dcreager@dcreager.net">Douglas Creager</a> (<span class="p-org org">GitHub</span>)
+     <dd class="editor p-author h-card vcard" data-editor-id="76841"><a class="p-name fn u-email email" href="mailto:iclelland@google.com">Ian Clelland</a> (<span class="p-org org">Google Inc.</span>)
+     <dd class="editor p-author h-card vcard" data-editor-id="56384"><a class="p-name fn u-email email" href="mailto:mkwst@google.com">Mike West</a> (<span class="p-org org">Google Inc.</span>)
+     <dt class="editor">Former Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="56102"><a class="p-name fn u-email email" href="mailto:igrigorik@google.com">Ilya Grigorik</a> (<span class="p-org org">Google Inc.</span>)
      <dd class="editor p-author h-card vcard" data-editor-id="99916"><a class="p-name fn u-email email" href="mailto:paulmeyer@google.com">Paul Meyer</a> (<span class="p-org org">Google Inc.</span>)
-     <dd class="editor p-author h-card vcard" data-editor-id="56384"><a class="p-name fn u-email email" href="mailto:mkwst@google.com">Mike West</a> (<span class="p-org org">Google Inc.</span>)
      <dt>Participate:
      <dd><a href="https://github.com/w3c/reporting/issues/new">File an issue</a> (<a href="https://github.com/w3c/reporting/issues">open issues</a>)
     </dl>
@@ -488,7 +490,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>Each <a data-link-type="dfn" href="#client" id="ref-for-client">client</a> has an <dfn class="dfn-paneled idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export id="dom-client-origin"><code>origin</code></dfn>,
   which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin">origin</a>.</p>
     <p>Each <a data-link-type="dfn" href="#client" id="ref-for-client①">client</a> has an <dfn class="dfn-paneled idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export id="dom-client-endpoint-groups"><code>endpoint-groups</code></dfn> list, which is a list
-  of <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group">endpoint groups</a>, each of which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name">name</a></code>.  (The algorithm in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a> guarantees
+  of <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group">endpoint groups</a>, each of which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name">name</a></code>.  (The algorithm in <a href="#process-header">§ 3.2 Process reporting endpoints for response to request</a> guarantees
   this by keeping the first entry in a <code>Report-To</code> header with a particular
   name.)</p>
     <h3 class="heading settled" data-level="2.2" id="concept-endpoint-groups"><span class="secno">2.2. </span><span class="content">Endpoint groups</span><a class="self-link" href="#concept-endpoint-groups"></a></h3>
@@ -526,7 +528,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   specified to be <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a data-link-type="dfn" href="#report" id="ref-for-report②">reports</a> of that type can be observed by a <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer">reporting
   observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</a>.</p>
-    <p class="note" role="note"><span>Note:</span> See <a href="#deprecation-report">§6.1 Deprecation</a> as an example <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a> definition.</p>
+    <p class="note" role="note"><span>Note:</span> See <a href="#deprecation-report">§ 6.1 Deprecation</a> as an example <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a> definition.</p>
     <h3 class="heading settled" data-level="2.5" id="concept-reports"><span class="secno">2.5. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report">report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
@@ -537,7 +539,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   is typically the address of the <code>Document</code> or <code>Worker</code> from which the report
   was generated.</p>
     <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from this serialized URL.
-  See <a href="#capability-urls">§10.1 Capability URLs</a>.</p>
+  See <a href="#capability-urls">§ 10.1 Capability URLs</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-user-agent">user agent</dfn>, which is
   the value of the <code>User-Agent</code> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> from which the report was generated.</p>
     <p class="note" role="note"><span>Note:</span> The <a data-link-type="dfn" href="#report-user-agent" id="ref-for-report-user-agent">user agent</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report⑧">report</a> represents the <code>User-Agent</code> sent by the browser for the page which generated the <a data-link-type="dfn" href="#report" id="ref-for-report⑨">report</a>.  This is potentially distinct from the <code>User-Agent</code> sent in the HTTP headers when uploading the report to a collector — for
@@ -577,7 +579,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   primary collectors (those with lower <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority②">priority</a></code> values) fail.</p>
     <p>Developers can assign each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> in a <a data-link-type="dfn" href="#failover-class" id="ref-for-failover-class">failover class</a> a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight">weight</a></code>, which determines how report traffic is balanced across
   the <a data-link-type="dfn" href="#failover-class" id="ref-for-failover-class①">failover class</a>.</p>
-    <p>The algorithm that implements these rules is described in <a href="#choose-endpoint">§4.3 Choose an endpoint from a group</a>.</p>
+    <p>The algorithm that implements these rules is described in <a href="#choose-endpoint">§ 4.3 Choose an endpoint from a group</a>.</p>
     <p class="note" role="note"><span>Note:</span> The <code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority③">priority</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-endpoint-weight" id="ref-for-dom-endpoint-weight①">weight</a></code> fields have the same
   semantics as the corresponding fields in a DNS <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#" id="termref-for-①">SRV record</a>.</p>
     <p class="note" role="note"><span>Note:</span> Failover and load balancing is a feature that would be generally useful
@@ -591,7 +593,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <h2 class="heading settled" data-level="3" id="endpoint-delivery"><span class="secno">3. </span><span class="content">Endpoint Delivery</span><a class="self-link" href="#endpoint-delivery"></a></h2>
     <p>A server MAY define a set of reporting endpoints for an origin it controls
   via the <a data-link-type="dfn" href="#report-to" id="ref-for-report-to②"><code>Report-To</code></a> HTTP response header field. This mechanism
-  is defined in <a href="#header">§3.1 The Report-To HTTP Response Header Field</a>, and its processing in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a>.</p>
+  is defined in <a href="#header">§ 3.1 The Report-To HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.2 Process reporting endpoints for response to request</a>.</p>
     <h3 class="heading settled" data-level="3.1" id="header"><span class="secno">3.1. </span><span class="content">The <code>Report-To</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report-to"><code>Report-To</code></dfn> HTTP response header field instructs the
   user agent to store reporting endpoints for an origin. The header is
@@ -602,7 +604,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>The header’s value is interpreted as a JSON-formatted array of objects
   without the outer <code>[</code> and <code>]</code>, as described in Section 4 of <a data-link-type="biblio" href="#biblio-http-jfv">[HTTP-JFV]</a>.</p>
     <p>Each object in the array defines an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⓪">endpoint group</a> to which reports may
-  be delivered, and will be parsed as defined in <a href="#process-header">§3.2 Process reporting endpoints for response to request</a>.</p>
+  be delivered, and will be parsed as defined in <a href="#process-header">§ 3.2 Process reporting endpoints for response to request</a>.</p>
     <p>The following subsections define the initial set of known members in each
   JSON object the header’s value defines. Future versions of this document may
   define additional such members, and user agents MUST ignore unknown members
@@ -826,12 +828,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <p>Let <var>environment</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#realm-execution-context" id="ref-for-realm-execution-context">realm execution context</a>’s <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm">realm</a>’s <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm①">ECMAScript
   global environment</a>.</p>
       <li data-md>
-       <p>Execute <a href="#notify-observers">§5.2 Notify reporting observers on environment with report</a> with <var>environment</var> and <var>report</var>.</p>
+       <p>Execute <a href="#notify-observers">§ 5.2 Notify reporting observers on environment with report</a> with <var>environment</var> and <var>report</var>.</p>
      </ol>
      <p class="note" role="note"><span>Note:</span> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer①">reporting observers</a> can only observe reports from the
   same <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object①">environment settings object</a>.</p>
      <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from the serialized URL
-  in the report. See <a href="#capability-urls">§10.1 Capability URLs</a>.</p>
+  in the report. See <a href="#capability-urls">§ 10.1 Capability URLs</a>.</p>
      <p class="note" role="note"><span>Note:</span> The user agent MAY reject reports for any reason. This API does not
   guarantee delivery of arbitrary amounts of data, for instance.</p>
      <p class="note" role="note"><span>Note:</span> Non user agent clients (with no JavaScript engine) should not interact
@@ -846,7 +848,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li data-md>
        <p>If <var>group</var> is <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a>, return <code>null</code>.</p>
        <p class="note" role="note"><span>Note:</span> In this case, the user agent MAY remove <var>group</var> from its <a data-link-type="dfn" href="#client" id="ref-for-client⑤">client</a>, or it may wait and collect garbage <i lang="fr">en
-  masse</i> at some point in the future as described in <a href="#gc">§7.2 Garbage Collection</a>.</p>
+  masse</i> at some point in the future as described in <a href="#gc">§ 7.2 Garbage Collection</a>.</p>
       <li data-md>
        <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
       <li data-md>
@@ -895,7 +897,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
          <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②②">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group①">group</a>:</p>
          <ol>
           <li data-md>
-           <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.3 Choose an endpoint from a group</a> on <var>group</var>.</p>
+           <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 4.3 Choose an endpoint from a group</a> on <var>group</var>.</p>
           <li data-md>
            <p>If <var>endpoint</var> is a not <code>null</code>:</p>
            <ol>
@@ -914,7 +916,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
            <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑦">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-group" id="ref-for-report-group②">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
            <ol>
             <li data-md>
-             <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§4.3 Choose an endpoint from a group</a> on <var>group</var>.</p>
+             <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 4.3 Choose an endpoint from a group</a> on <var>group</var>.</p>
             <li data-md>
              <p>If <var>endpoint</var> is an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a>:</p>
              <ol>
@@ -926,7 +928,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
            </ol>
          </ol>
         <li data-md>
-         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§7.2 Garbage Collection</a> at some point in the future.</p>
+         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§ 7.2 Garbage Collection</a> at some point in the future.</p>
        </ol>
       <li data-md>
        <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>:</p>
@@ -947,7 +949,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   execute the following steps asynchronously:</p>
          <ol>
           <li data-md>
-           <p>Let <var>result</var> be the result of executing <a href="#try-delivery">§4.5 Attempt to deliver reports to endpoint</a> on <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
+           <p>Let <var>result</var> be the result of executing <a href="#try-delivery">§ 4.5 Attempt to deliver reports to endpoint</a> on <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
           <li data-md>
            <p>If <var>result</var> is "<code>Success</code>":</p>
            <ol>
@@ -1021,7 +1023,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
          </dl>
          <p class="note" role="note"><span>Note:</span> Client clocks are unreliable and subject to skew. We therefore
   deliver an <code>age</code> attribute rather than an absolute timestamp. See
-  also <a href="#fingerprinting-clock-skew">§11.2 Clock Skew</a></p>
+  also <a href="#fingerprinting-clock-skew">§ 11.2 Clock Skew</a></p>
         <li data-md>
          <p>Increment <var>report</var>’s <a data-link-type="dfn" href="#report-attempts" id="ref-for-report-attempts①">attempts</a>.</p>
         <li data-md>
@@ -1168,7 +1170,7 @@ queue</dfn>, which is initially empty.</p>
       <li data-md>
        <p>Set <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered②">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options②">option</a> to false.</p>
       <li data-md>
-       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>, execute <a href="#add-report">§5.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context
+       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>, execute <a href="#add-report">§ 5.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context
  object</a>.</p>
      </ol>
      <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-disconnect"><code>disconnect()</code></dfn> method,
@@ -1195,7 +1197,7 @@ queue</dfn>, which is initially empty.</p>
      <p>This algorithm makes <var>report</var>’s contents available to any <a data-link-type="dfn" href="#registered" id="ref-for-registered①">registered</a> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑥">reporting observers</a> on the provided <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑧">ECMAScript global environment</a> <var>environment</var>.</p>
      <ol>
       <li data-md>
-       <p>For each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑤">ReportingObserver</a></code> <var>observer</var> <a data-link-type="dfn" href="#registered" id="ref-for-registered②">registered</a> with <var>environment</var>, execute <a href="#add-report">§5.3 Add report to observer</a> on <var>report</var> and <var>observer</var>.</p>
+       <p>For each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑤">ReportingObserver</a></code> <var>observer</var> <a data-link-type="dfn" href="#registered" id="ref-for-registered②">registered</a> with <var>environment</var>, execute <a href="#add-report">§ 5.3 Add report to observer</a> on <var>report</var> and <var>observer</var>.</p>
       <li data-md>
        <p>Append <var>report</var> to the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer②">report buffer</a> associated with <var>environment</var>.</p>
       <li data-md>
@@ -1221,7 +1223,7 @@ queue</dfn>, which is initially empty.</p>
       <li data-md>
        <p>Append <var>r</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue③">report queue</a>.</p>
       <li data-md>
-       <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue④">report queue</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a href="#invoke-observers">§5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting
+       <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue④">report queue</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a href="#invoke-observers">§ 5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting
  observer list</a> of the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑨">ECMAScript global
  environment</a> associated with <var>observer</var>.</p>
      </ol>
@@ -1254,7 +1256,7 @@ queue</dfn>, which is initially empty.</p>
      <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports①">Deprecation reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers②">visible to <code>ReportingObserver</code>s</a>.</p>
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="deprecationreportbody"><code><c- g>DeprecationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-deprecationreportbody-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-deprecationreportbody-id"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects"><c- b>Date</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="Date?" id="dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code><a class="self-link" href="#dom-deprecationreportbody-anticipatedremoval"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects"><c- n>Date</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="Date?" id="dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code><a class="self-link" href="#dom-deprecationreportbody-anticipatedremoval"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-deprecationreportbody-message"><code><c- g>message</c-></code><a class="self-link" href="#dom-deprecationreportbody-message"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-deprecationreportbody-sourcefile"><code><c- g>sourceFile</c-></code><a class="self-link" href="#dom-deprecationreportbody-sourcefile"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="unsigned long?" id="dom-deprecationreportbody-linenumber"><code><c- g>lineNumber</c-></code><a class="self-link" href="#dom-deprecationreportbody-linenumber"></a></dfn>;
@@ -1559,7 +1561,7 @@ Content-Type: application/reports+json
       <li data-md>
        <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a>.</p>
       <li data-md>
-       <p>Execute <a href="#queue-report">§4.2 Queue data as type for endpoint group on settings</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
+       <p>Execute <a href="#queue-report">§ 4.2 Queue data as type for endpoint group on settings</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
       <li data-md>
        <p>Return <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success" id="ref-for-dfn-success">success</a> with data null.</p>
      </ol>
@@ -1599,7 +1601,7 @@ Content-Type: application/reports+json
      <h3 class="heading settled" data-level="11.4" id="subdomains"><span class="secno">11.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
      <p>This specification allows any resource on a host to declare a set of reporting
   endpoints for that host and each of its subdomains. This doesn’t have privacy
-  implications in and of itself (beyond those noted in <a href="#clear-cache">§11.5 Clearing the reporting cache</a>), as the
+  implications in and of itself (beyond those noted in <a href="#clear-cache">§ 11.5 Clearing the reporting cache</a>), as the
   reporting endpoints themselves don’t take any real action, as features will
   need to opt-into using these reporting endpoints explicitly. Those features
   certainly will have privacy implications, and should carefully consider
@@ -1652,7 +1654,7 @@ Content-Type: application/reports+json
        <p>W3C</p>
       <dt data-md>Specification document
       <dd data-md>
-       <p>This specification (see <a href="#header">§3.1 The Report-To HTTP Response Header Field</a>)</p>
+       <p>This specification (see <a href="#header">§ 3.1 The Report-To HTTP Response Header Field</a>)</p>
      </dl>
      <h3 class="heading settled" data-level="12.2" id="media-type-registration"><span class="secno">12.2. </span><span class="content">The <code>application/reports+json</code> Media Type</span><a class="self-link" href="#media-type-registration"></a></h3>
      <dl>
@@ -1673,13 +1675,13 @@ Content-Type: application/reports+json
        <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc8259">[RFC8259]</a>.</p>
       <dt data-md>Security considerations
       <dd data-md>
-       <p>See <a href="#security">§10 Security Considerations</a>.</p>
+       <p>See <a href="#security">§ 10 Security Considerations</a>.</p>
       <dt data-md>Interoperability considerations
       <dd data-md>
        <p>This document specifies the format of conforming messages and the interpretation thereof.</p>
       <dt data-md>Published specification
       <dd data-md>
-       <p><a href="#media-type">§4.1 Media Type</a></p>
+       <p><a href="#media-type">§ 4.1 Media Type</a></p>
       <dt data-md>Applications that use this media type
       <dt data-md>Fragment identifier considerations
       <dt data-md>Additional information
@@ -2437,7 +2439,7 @@ Content-Type: application/reports+json
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fileapi">[FileAPI]
-   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 6 November 2018. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
+   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 31 May 2019. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-http-jfv">[HTTP-JFV]
@@ -2453,7 +2455,7 @@ Content-Type: application/reports+json
    <dt id="biblio-rfc6797">[RFC6797]
    <dd>J. Hodges; C. Jackson; A. Barth. <a href="https://tools.ietf.org/html/rfc6797">HTTP Strict Transport Security (HSTS)</a>. November 2012. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc6797">https://tools.ietf.org/html/rfc6797</a>
    <dt id="biblio-rfc7231">[RFC7231]
-   <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://tools.ietf.org/html/rfc7231">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7231">https://tools.ietf.org/html/rfc7231</a>
+   <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc7231.html">Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a>. June 2014. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc7231.html">https://httpwg.org/specs/rfc7231.html</a>
    <dt id="biblio-rfc8259">[RFC8259]
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc8259">The JavaScript Object Notation (JSON) Data Interchange Format</a>. December 2017. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc8259">https://tools.ietf.org/html/rfc8259</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
@@ -2504,7 +2506,7 @@ Content-Type: application/reports+json
 
 <c- b>interface</c-> <a href="#deprecationreportbody"><code><c- g>DeprecationReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-deprecationreportbody-id"><code><c- g>id</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects②"><c- b>Date</c-></a>? <a data-readonly data-type="Date?" href="#dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects②"><c- n>Date</c-></a>? <a data-readonly data-type="Date?" href="#dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-deprecationreportbody-message"><code><c- g>message</c-></code></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-deprecationreportbody-sourcefile"><code><c- g>sourceFile</c-></code></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long④"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-deprecationreportbody-linenumber"><code><c- g>lineNumber</c-></code></a>;
