@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 08c4b0e94d147852f66673459784d3429bb3bda1" name="generator">
+  <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="92404e0c20076fb510526cbf7cead66db9699d9a" name="document-revision">
+  <meta content="8473238c58320fb6435759d23d35685f6e291d0a" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-03">3 September 2019</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-16">16 September 2019</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1114,8 +1114,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body"><c- g>body</c-></a>;
 };
 
-[<a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver"><c- g>Constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/ReportingObserver(callback, options)" data-dfn-type="argument" data-export id="dom-reportingobserver-reportingobserver-callback-options-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-reportingobserver-callback-options-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/ReportingObserver(callback, options)" data-dfn-type="argument" data-export id="dom-reportingobserver-reportingobserver-callback-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-reportingobserver-callback-options-options"></a></dfn>)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportingobserver"><code><c- g>ReportingObserver</c-></code></dfn> {
+  <c- b>constructor</c->(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-options"></a></dfn> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords"><c- g>takeRecords</c-></a>();
@@ -1144,7 +1144,7 @@ queue</dfn>, which is initially empty.</p>
      </ul>
      <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
-     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
+     <p>The <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code><a class="self-link" href="#dom-reportingobserver-reportingobserver"></a></dfn> constructor, when
   invoked, must run these steps:</p>
      <ol>
       <li data-md>
@@ -2439,7 +2439,7 @@ Content-Type: application/reports+json
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fileapi">[FileAPI]
-   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 31 May 2019. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
+   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 11 September 2019. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-http-jfv">[HTTP-JFV]
@@ -2488,8 +2488,8 @@ Content-Type: application/reports+json
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody④"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body②"><c- g>body</c-></a>;
 };
 
-[<a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver①"><c- g>Constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-reportingobserver-callback-options-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-reportingobserver-callback-options-options"><code><c- g>options</c-></code></a>)]
 <c- b>interface</c-> <a href="#reportingobserver"><code><c- g>ReportingObserver</c-></code></a> {
+  <c- b>constructor</c->(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-options"><code><c- g>options</c-></code></a> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe①"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect①"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist②"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords①"><c- g>takeRecords</c-></a>();
@@ -3090,12 +3090,6 @@ Content-Type: application/reports+json
     Add report to observer </a> <a href="#ref-for-reportingobserver-report-queue③">(2)</a> <a href="#ref-for-reportingobserver-report-queue④">(3)</a>
     <li><a href="#ref-for-reportingobserver-report-queue⑤">5.4. 
     Invoke reporting observers with notify list </a> <a href="#ref-for-reportingobserver-report-queue⑥">(2)</a> <a href="#ref-for-reportingobserver-report-queue⑦">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserver-reportingobserver">
-   <b><a href="#dom-reportingobserver-reportingobserver">#dom-reportingobserver-reportingobserver</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserver-reportingobserver">5.1. Interface ReportingObserver</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-reportingobserver-observe">
