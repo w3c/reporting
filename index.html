@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version cb5a17652cb33dffd20b8b6a876bb811c1f749a9" name="generator">
+  <meta content="Bikeshed version eff3128ffb04502efdde84883f15c8da06b5b62a" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="7f3d587eb47a2eeed21f7836babb38c8b5dbd363" name="document-revision">
+  <meta content="2bd8ce024912ffc6b2a3a958afd477289429eb3b" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1118,7 +1118,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=<c- n>Window</c->]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportingobserver"><code><c- g>ReportingObserver</c-></code></dfn> {
-  <c- b>constructor</c->(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-options"></a></dfn> = {});
+  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver"><c- b>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-options"></a></dfn> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords"><c- g>takeRecords</c-></a>();
@@ -1147,7 +1147,7 @@ queue</dfn>, which is initially empty.</p>
      </ul>
      <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
-     <p>The <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code><a class="self-link" href="#dom-reportingobserver-reportingobserver"></a></dfn> constructor, when
+     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
   invoked, must run these steps:</p>
      <ol>
       <li data-md>
@@ -1173,8 +1173,7 @@ queue</dfn>, which is initially empty.</p>
       <li data-md>
        <p>Set <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object③">context object</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered②">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options②">option</a> to false.</p>
       <li data-md>
-       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>, execute <a href="#add-report">§ 5.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context
- object</a>.</p>
+       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to execute <a href="#add-report">§ 5.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context object</a>.</p>
      </ol>
      <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-disconnect"><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:</p>
@@ -1226,7 +1225,7 @@ queue</dfn>, which is initially empty.</p>
       <li data-md>
        <p>Append <var>r</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue③">report queue</a>.</p>
       <li data-md>
-       <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue④">report queue</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a href="#invoke-observers">§ 5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting
+       <p>If the size of <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue④">report queue</a> is 1, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task②">Queue a task</a> to <a href="#invoke-observers">§ 5.4 Invoke reporting observers with notify list</a> with a copy of the <a data-link-type="dfn" href="#registered-reporting-observer-list" id="ref-for-registered-reporting-observer-list③">registered reporting
  observer list</a> of the <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑨">ECMAScript global
  environment</a> associated with <var>observer</var>.</p>
      </ol>
@@ -2072,7 +2071,8 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-queue-a-task">4.5. 
     Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-queue-a-task①">5.3. 
+    <li><a href="#ref-for-queue-a-task①">5.1. Interface ReportingObserver</a>
+    <li><a href="#ref-for-queue-a-task②">5.3. 
     Add report to observer </a>
    </ul>
   </aside>
@@ -2508,7 +2508,7 @@ Content-Type: application/reports+json
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
 <c- b>interface</c-> <a href="#reportingobserver"><code><c- g>ReportingObserver</c-></code></a> {
-  <c- b>constructor</c->(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-options"><code><c- g>options</c-></code></a> = {});
+  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver①"><c- b>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-options"><code><c- g>options</c-></code></a> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe①"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect①"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist②"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords①"><c- g>takeRecords</c-></a>();
@@ -3112,6 +3112,12 @@ Content-Type: application/reports+json
     Add report to observer </a> <a href="#ref-for-reportingobserver-report-queue③">(2)</a> <a href="#ref-for-reportingobserver-report-queue④">(3)</a>
     <li><a href="#ref-for-reportingobserver-report-queue⑤">5.4. 
     Invoke reporting observers with notify list </a> <a href="#ref-for-reportingobserver-report-queue⑥">(2)</a> <a href="#ref-for-reportingobserver-report-queue⑦">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-reportingobserver-reportingobserver">
+   <b><a href="#dom-reportingobserver-reportingobserver">#dom-reportingobserver-reportingobserver</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-reportingobserver-reportingobserver">5.1. Interface ReportingObserver</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-reportingobserver-observe">
