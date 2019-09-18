@@ -965,15 +965,18 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
 
   <pre class="idl">
+[Exposed=Window]
 interface ReportBody {
 };
 
+[Exposed=Window]
 interface Report {
   readonly attribute DOMString type;
   readonly attribute DOMString url;
   readonly attribute ReportBody? body;
 };
 
+[Exposed=Window]
 interface ReportingObserver {
   constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options = {});
   void observe();
@@ -1137,6 +1140,7 @@ typedef sequence&lt;Report> ReportList;
   <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
+    [Exposed=Window]
     interface DeprecationReportBody : ReportBody {
       readonly attribute DOMString id;
       readonly attribute Date? anticipatedRemoval;
@@ -1218,6 +1222,7 @@ typedef sequence&lt;Report> ReportList;
   <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
+    [Exposed=Window]
     interface InterventionReportBody : ReportBody {
       readonly attribute DOMString id;
       readonly attribute DOMString message;
@@ -1285,6 +1290,7 @@ typedef sequence&lt;Report> ReportList;
   <a>Crash reports</a> have the <a>report type</a> "crash".
 
   <pre class="idl">
+    [Exposed=Window]
     interface CrashReportBody : ReportBody {
       readonly attribute DOMString? reason;
     };
