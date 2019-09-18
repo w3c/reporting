@@ -1034,8 +1034,8 @@ typedef sequence&lt;Report> ReportList;
   4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
 
   5. For each |report| in the <a>report buffer</a> associated with
-     |environment|, execute [[#add-report]] with |report| and the <a>context
-     object</a>.
+     |environment|, <a>queue a task</a> to execute [[#add-report]] with |report|
+     and the <a>context object</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
