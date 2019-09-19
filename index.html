@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version eff3128ffb04502efdde84883f15c8da06b5b62a" name="generator">
+  <meta content="Bikeshed version 006238b6a4ecb490226e966221972e24832edfd7" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="2bd8ce024912ffc6b2a3a958afd477289429eb3b" name="document-revision">
+  <meta content="20e5544f8ff43da3145b12810b2466a2226ae6cb" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-18">18 September 2019</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-09-19">19 September 2019</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1105,20 +1105,20 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p class="note" role="note"><span>Note:</span> Reporting observers are only relevant for user agents with
   JavaScript engines.</p>
      <h3 class="heading settled" data-level="5.1" id="interface-reporting-observer"><span class="secno">5.1. </span><span class="content">Interface <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver①">ReportingObserver</a></code></span><a class="self-link" href="#interface-reporting-observer"></a></h3>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportbody"><code><c- g>ReportBody</c-></code></dfn> {
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#dom-report" id="ref-for-dom-report"><c- g>Report</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type"><c- g>type</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url"><c- g>url</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body"><c- g>body</c-></a>;
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportingobserver"><code><c- g>ReportingObserver</c-></code></dfn> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver"><c- b>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="argument" data-export id="dom-reportingobserver-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-options"></a></dfn> = {});
+  <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export data-lt="ReportingObserver(callback, options)|constructor(callback, options)|ReportingObserver(callback)|constructor(callback)" id="dom-reportingobserver-reportingobserver"><code><c- g>constructor</c-></code><a class="self-link" href="#dom-reportingobserver-reportingobserver"></a></dfn>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/constructor(callback, options), ReportingObserver/constructor(callback)" data-dfn-type="argument" data-export id="dom-reportingobserver-constructor-callback-options-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-constructor-callback-options-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/constructor(callback, options), ReportingObserver/constructor(callback)" data-dfn-type="argument" data-export id="dom-reportingobserver-constructor-callback-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-constructor-callback-options-options"></a></dfn> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords"><c- g>takeRecords</c-></a>();
@@ -1147,7 +1147,7 @@ queue</dfn>, which is initially empty.</p>
      </ul>
      <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
-     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
+     <p>The <dfn class="idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)" id="dom-reportingobserver-reportingobserver-callback-options"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code><a class="self-link" href="#dom-reportingobserver-reportingobserver-callback-options"></a></dfn> constructor, when
   invoked, must run these steps:</p>
      <ol>
       <li data-md>
@@ -1256,7 +1256,7 @@ queue</dfn>, which is initially empty.</p>
   used which is expected to stop working in a future update to the browser.</p>
      <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports">Deprecation reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a> "deprecation".</p>
      <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports①">Deprecation reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers②">visible to <code>ReportingObserver</code>s</a>.</p>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="deprecationreportbody"><code><c- g>DeprecationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-deprecationreportbody-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-deprecationreportbody-id"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects"><c- n>Date</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="Date?" id="dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code><a class="self-link" href="#dom-deprecationreportbody-anticipatedremoval"></a></dfn>;
@@ -1326,7 +1326,7 @@ was first used, or null otherwise.</p>
   for <a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports③">deprecation reports</a>, except for the absence of <a data-link-type="dfn" href="#deprecationreportbody-anticipatedremoval" id="ref-for-deprecationreportbody-anticipatedremoval">anticipatedRemoval</a>.</p>
      <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports">Intervention reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑤">report type</a> "intervention".</p>
      <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports①">Intervention reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers③">visible to <code>ReportingObserver</code>s</a>.</p>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="interventionreportbody"><code><c- g>InterventionReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody②"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-interventionreportbody-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-interventionreportbody-id"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-interventionreportbody-message"><code><c- g>message</c-></code><a class="self-link" href="#dom-interventionreportbody-message"></a></dfn>;
@@ -1385,7 +1385,7 @@ behavior (which prompted the intervention), or null otherwise.</p>
   for a unique identifier (which can be interpreted by the browser vendor), and
   optionally the reason for the crash (such as "oom").</p>
      <p><a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports">Crash reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑥">report type</a> "crash".</p>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="crashreportbody"><code><c- g>CrashReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-crashreportbody-reason"><code><c- g>reason</c-></code><a class="self-link" href="#dom-crashreportbody-reason"></a></dfn>;
 };
@@ -1742,6 +1742,8 @@ Content-Type: application/reports+json
      <li><a href="#deprecationreportbody-columnnumber">dfn for DeprecationReportBody</a><span>, in §6.1</span>
      <li><a href="#interventionreportbody-columnnumber">dfn for InterventionReportBody</a><span>, in §6.2</span>
     </ul>
+   <li><a href="#dom-reportingobserver-reportingobserver">constructor(callback)</a><span>, in §5.1</span>
+   <li><a href="#dom-reportingobserver-reportingobserver">constructor(callback, options)</a><span>, in §5.1</span>
    <li><a href="#crashreportbody">CrashReportBody</a><span>, in §6.3</span>
    <li><a href="#crash-reports">Crash reports</a><span>, in §6.3</span>
    <li><a href="#dom-endpoint-group-creation">creation</a><span>, in §2.2</span>
@@ -1825,7 +1827,13 @@ Content-Type: application/reports+json
    <li><a href="#reportingobserver">ReportingObserver</a><span>, in §5.1</span>
    <li><a href="#reporting-observer">reporting observer</a><span>, in §5</span>
    <li><a href="#callbackdef-reportingobservercallback">ReportingObserverCallback</a><span>, in §5.1</span>
-   <li><a href="#dom-reportingobserver-reportingobserver">ReportingObserver(callback, options)</a><span>, in §5.1</span>
+   <li><a href="#dom-reportingobserver-reportingobserver">ReportingObserver(callback)</a><span>, in §5.1</span>
+   <li>
+    ReportingObserver(callback, options)
+    <ul>
+     <li><a href="#dom-reportingobserver-reportingobserver-callback-options">constructor for ReportingObserver</a><span>, in §5.1</span>
+     <li><a href="#dom-reportingobserver-reportingobserver">method for ReportingObserver</a><span>, in §5.1</span>
+    </ul>
    <li><a href="#dictdef-reportingobserveroptions">ReportingObserverOptions</a><span>, in §5.1</span>
    <li><a href="#typedefdef-reportlist">ReportList</a><span>, in §5.1</span>
    <li><a href="#reportingobserver-report-queue">report queue</a><span>, in §5.1</span>
@@ -2495,20 +2503,20 @@ Content-Type: application/reports+json
    <dd>C. Evans; C. Palmer; R. Sleevi. <a href="https://tools.ietf.org/html/rfc7469">Public Key Pinning Extension for HTTP</a>. April 2015. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7469">https://tools.ietf.org/html/rfc7469</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑥"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑥"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#reportbody"><code><c- g>ReportBody</c-></code></a> {
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#dom-report" id="ref-for-dom-report⑥"><c- g>Report</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①③"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②"><c- g>type</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url②"><c- g>url</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody④"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body②"><c- g>body</c-></a>;
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#reportingobserver"><code><c- g>ReportingObserver</c-></code></a> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver①"><c- b>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-options"><code><c- g>options</c-></code></a> = {});
+  <a href="#dom-reportingobserver-reportingobserver"><code><c- g>constructor</c-></code></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-constructor-callback-options-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-constructor-callback-options-options"><code><c- g>options</c-></code></a> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe①"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect①"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist②"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords①"><c- g>takeRecords</c-></a>();
@@ -2523,7 +2531,7 @@ Content-Type: application/reports+json
 
 <c- b>typedef</c-> <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②①"><c- n>Report</c-></a>> <a href="#typedefdef-reportlist"><code><c- g>ReportList</c-></code></a>;
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#deprecationreportbody"><code><c- g>DeprecationReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-deprecationreportbody-id"><code><c- g>id</c-></code></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects②"><c- n>Date</c-></a>? <a data-readonly data-type="Date?" href="#dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code></a>;
@@ -2533,7 +2541,7 @@ Content-Type: application/reports+json
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long①①"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-deprecationreportbody-columnnumber"><code><c- g>columnNumber</c-></code></a>;
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#interventionreportbody"><code><c- g>InterventionReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody②①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-interventionreportbody-id"><code><c- g>id</c-></code></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-interventionreportbody-message"><code><c- g>message</c-></code></a>;
@@ -2542,7 +2550,7 @@ Content-Type: application/reports+json
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long③①"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-interventionreportbody-columnnumber"><code><c- g>columnNumber</c-></code></a>;
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#crashreportbody"><code><c- g>CrashReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③①"><c- n>ReportBody</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-crashreportbody-reason"><code><c- g>reason</c-></code></a>;
 };
@@ -3112,12 +3120,6 @@ Content-Type: application/reports+json
     Add report to observer </a> <a href="#ref-for-reportingobserver-report-queue③">(2)</a> <a href="#ref-for-reportingobserver-report-queue④">(3)</a>
     <li><a href="#ref-for-reportingobserver-report-queue⑤">5.4. 
     Invoke reporting observers with notify list </a> <a href="#ref-for-reportingobserver-report-queue⑥">(2)</a> <a href="#ref-for-reportingobserver-report-queue⑦">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserver-reportingobserver">
-   <b><a href="#dom-reportingobserver-reportingobserver">#dom-reportingobserver-reportingobserver</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserver-reportingobserver">5.1. Interface ReportingObserver</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-reportingobserver-observe">
