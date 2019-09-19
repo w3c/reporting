@@ -119,11 +119,13 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
+    text: handle any user prompts; url: dfn-handle-any-user-prompts
     text: WebDriver error; url: dfn-error
     text: WebDriver error code; url: dfn-error-code
     text: extension command; url: dfn-extension-command
     text: extension command uri template; url: dfn-extension-command-uri-template
     text: invalid argument; url: dfn-invalid-argument
+    text: no such window; url: dfn-no-such-window
     text: local end; url: dfn-local-end
     text: remote end steps; url: dfn-remote-end-steps
     text: session; url: dfn-session
@@ -1490,20 +1492,27 @@ typedef sequence&lt;Report> ReportList;
   3. If |message| is not present, return a <a>WebDriver error</a>
      with <a>WebDriver error code</a> <a>invalid argument</a>.
 
-  4. Let |group| be |parameters|'s {{GenerateTestReportParameters/group}}
+  4. If the <a>current browsing context</a> is no longer open, return a
+     <a>WebDriver error</a> with <a>WebDriver error code</a> <a>no such
+     window</a>.
+
+  5. <a>Handle any user prompts</a> and return its value if it is a <a>WebDriver
+     error</a>.
+
+  6. Let |group| be |parameters|'s {{GenerateTestReportParameters/group}}
      property.
 
-  5. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
+  7. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
      containing a single string field, |body_message|.
 
-  6. Set |body_message| to |message|.
+  8. Set |body_message| to |message|.
 
-  7. Let |settings| be the <a>environment settings object</a> of the
+  9. Let |settings| be the <a>environment settings object</a> of the
      <a>current browsing context</a>'s <a>active document</a>.
 
-  8. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
+  10. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
 
-  9. Return <a>success</a> with data null.
+  11. Return <a>success</a> with data null.
 </section>
 
 <section>
