@@ -969,6 +969,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <pre class="idl">
 [Exposed=(Window,Worker)]
 interface ReportBody {
+  [Default] object toJSON();
 };
 
 [Exposed=(Window,Worker)]
@@ -1144,6 +1145,7 @@ typedef sequence&lt;Report> ReportList;
   <pre class="idl">
     [Exposed=(Window,Worker)]
     interface DeprecationReportBody : ReportBody {
+      [Default] object toJSON();
       readonly attribute DOMString id;
       readonly attribute Date? anticipatedRemoval;
       readonly attribute DOMString message;
@@ -1226,6 +1228,7 @@ typedef sequence&lt;Report> ReportList;
   <pre class="idl">
     [Exposed=(Window,Worker)]
     interface InterventionReportBody : ReportBody {
+      [Default] object toJSON();
       readonly attribute DOMString id;
       readonly attribute DOMString message;
       readonly attribute DOMString? sourceFile;
@@ -1294,6 +1297,7 @@ typedef sequence&lt;Report> ReportList;
   <pre class="idl">
     [Exposed=(Window,Worker)]
     interface CrashReportBody : ReportBody {
+      [Default] object toJSON();
       readonly attribute DOMString? reason;
     };
   </pre>
