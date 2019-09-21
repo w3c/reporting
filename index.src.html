@@ -554,7 +554,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
           1.  If |endpoint item| has no member named "<a
               for="ReportTo">`url`</a>", or that member's value is not a
-              string, skip to the next |endpoint item|.
+              string, or if that value is not an <a>absolute-URL string</a> or a
+              <a>path-absolute-URL string</a>, skip to the next |endpoint item|.
 
           2.  If |endpoint item| has a member named "<a
               for="ReportTo">`priority`</a>", whose value is not a non-negative
@@ -570,7 +571,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
               :   {{endpoint/url}}
               ::  The result of executing the <a>URL parser</a> on
                   |endpoint item|'s "<a for="ReportTo">`url`</a>" member's
-                  value.
+                  value, with <a spec="url">base URL</a> set to |response|'s <a
+                  for="response" attribute>url</a>.
               :   {{endpoint/priority}}
               ::  The value of the |endpoint item|'s "<a
                   for="ReportTo">`priority`</a>" member, if present; `1`
