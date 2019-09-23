@@ -162,13 +162,14 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   for a report to be dropped on the floor if things go badly.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
-  up groups of <a>endpoints</a>, using a failover and load-balancing mechanism
-  inspired by the DNS <a>SRV record</a>.  The user agent will do its best to
-  deliver a particular report to <strong>at most one</strong> endpoint in a
-  group.  Endpoints can be assigned weights to distribute load, with each
-  endpoint receiving a specified fraction of reporting traffic.  Endpoints can
-  be assigned priorities, allowing developers to set up fallback collectors that
-  are only tried when uploads to primary collectors fail.
+  up groups of <a data-lt="endpoint">endpoints</a>, using a failover and
+  load-balancing mechanism inspired by the DNS <a>SRV record</a>.  The user
+  agent will do its best to deliver a particular report to <strong>at most
+  one</strong> endpoint in a group.  Endpoints can be assigned weights to
+  distribute load, with each endpoint receiving a specified fraction of
+  reporting traffic.  Endpoints can be assigned priorities, allowing developers
+  to set up fallback collectors that are only tried when uploads to primary
+  collectors fail.
 
   <h3 id="examples">Examples</h3>
 
@@ -229,7 +230,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h3 id="concept-client">Clients</h3>
 
   A <dfn export>client</dfn> represents a particular origin's relationship to
-  a set of <a>endpoints</a>.
+  a set of <a data-lt="endpoint">endpoints</a>.
 
   Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
   which is an <a spec="html">origin</a>.
@@ -243,8 +244,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <h3 id="concept-endpoint-groups">Endpoint groups</h3>
 
-  An <dfn export>endpoint group</dfn> is a set of <a>endpoints</a> that will be
-  used together for backup and failover purposes.
+  An <dfn export>endpoint group</dfn> is a set of <a
+  data-lt="endpoint">endpoints</a> that will be used together for backup and
+  failover purposes.
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>name</dfn>, which is an ASCII
@@ -252,7 +254,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Each <a>endpoint group</a> has an
   <dfn for="endpoint group" export attribute>endpoints</dfn> list, which is a
-  list of <a>endpoints</a>.
+  list of <a data-lt="endpoint">endpoints</a>.
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>subdomains</dfn> flag, which is
@@ -374,11 +376,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <h3 id="concept-failover-load-balancing">Failover and load balancing</h3>
 
-  The <a>endpoints</a> in an <a>endpoint group</a> that all have the same
-  {{endpoint/priority}} form a <dfn export>failover class</dfn>.  Failover
-  classes allow the developer to provide backup collectors (those with higher
-  {{endpoint/priority}} values) that will only receive reports if **all** of the
-  primary collectors (those with lower {{endpoint/priority}} values) fail.
+  The <a data-lt="endpoint">endpoints</a> in an <a>endpoint group</a> that all
+  have the same {{endpoint/priority}} form a <dfn export>failover class</dfn>.
+  Failover classes allow the developer to provide backup collectors (those with
+  higher {{endpoint/priority}} values) that will only receive reports if **all**
+  of the primary collectors (those with lower {{endpoint/priority}} values)
+  fail.
 
   Developers can assign each <a>endpoint</a> in a <a>failover class</a> a
   {{endpoint/weight}}, which determines how report traffic is balanced across
@@ -457,8 +460,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the
   list of
-  <a>endpoints</a> that belong to this <a>endpoint group</a>. The member's value
-  MUST be an array of JSON objects.
+  <a data-lt="endpoint">endpoints</a> that belong to this <a>endpoint group</a>.
+  The member's value MUST be an array of JSON objects.
 
   The following subsections define the initial set of known members in each
   JSON object in the array. Future versions of this document may define
@@ -499,9 +502,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   </h3>
 
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
-  algorithm extracts a list of <a>endpoints</a> and <a>endpoint groups</a> for
-  the request's <a spec="html">origin</a>, and updates the <a>reporting
-  cache</a> accordingly.
+  algorithm extracts a list of <a data-lt="endpoint">endpoints</a> and
+  <a>endpoint groups</a> for the request's <a spec="html">origin</a>, and
+  updates the <a>reporting cache</a> accordingly.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
@@ -703,7 +706,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
   eligible <a>endpoint</a> from the group, if there is one, taking into account
-  the {{endpoint/priority}} and {{endpoint/weight}} of the <a>endpoints</a>.
+  the {{endpoint/priority}} and {{endpoint/weight}} of the <a
+  data-lt="endpoint">endpoints</a>.
 
   1.  If |group| is <a for="endpoint group">expired</a>, return `null`.
 
@@ -1368,13 +1372,13 @@ typedef sequence&lt;Report> ReportList;
   <h3 id="gc">Garbage Collection</h3>
 
   Periodically, the user agent SHOULD walk through the cached <a>reports</a>
-  and <a>endpoints</a>, and discard those that are no longer relevant. These
-  include:
+  and <a data-lt="endpoint">endpoints</a>, and discard those that are no longer
+  relevant. These include:
 
   *   <a>endpoint groups</a> which are <a for="endpoint group">expired</a>
   *   <a>endpoint groups</a> which have not been used in some arbitrary period
       of time (perhaps a ~week?)
-  *   <a>endpoints</a> whose {{endpoint/failures}} exceed
+  *   <a data-lt="endpoint">endpoints</a> whose {{endpoint/failures}} exceed
       some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> whose [=report/attempts=] exceed
       some user-agent-defined threshold (~5 seems reasonable)
