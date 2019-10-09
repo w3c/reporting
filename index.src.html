@@ -4,10 +4,11 @@ Status: ED
 ED: https://w3c.github.io/reporting/
 Shortname: reporting
 Group: webperf
-Editor: Douglas Creager 103120, Google Inc., dcreager@google.com
-Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.com
-Editor: Paul Meyer 99916, Google Inc., paulmeyer@google.com
+Editor: Douglas Creager 103120, GitHub, dcreager@dcreager.net
+Editor: Ian Clelland 76841, Google Inc., iclelland@google.com
 Editor: Mike West 56384, Google Inc., mkwst@google.com
+Former Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.com
+Former Editor: Paul Meyer 99916, Google Inc., paulmeyer@google.com
 Abstract:
   This document defines a generic reporting framework which allows web
   developers to associate a set of named reporting endpoints with an origin.
@@ -26,9 +27,6 @@ spec: CSP; urlPrefix: https://w3c.github.io/webappsec-csp/
   type: dfn
     text: Content-Security-Policy
     text: reports directive; url: directives-reporting
-spec: ECMA-262; urlPrefix: http://www.ecma-international.org/ecma-262/6.0/
-  type: method
-    text: JSON.stringify(); url: sec-json.stringify
 spec: FETCH; urlPrefix: https://fetch.spec.whatwg.org/
   type: dfn
     text: navigation request
@@ -121,12 +119,13 @@ spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
+    text: handle any user prompts; url: dfn-handle-any-user-prompts
     text: WebDriver error; url: dfn-error
     text: WebDriver error code; url: dfn-error-code
-    text: extension command; url: dfn-extension-commands
-    text: extension command name; url: dfn-extension-command-name
-    text: extension command prefix; url: dfn-extension-command-prefix
+    text: extension command; url: dfn-extension-command
+    text: extension command uri template; url: dfn-extension-command-uri-template
     text: invalid argument; url: dfn-invalid-argument
+    text: no such window; url: dfn-no-such-window
     text: local end; url: dfn-local-end
     text: remote end steps; url: dfn-remote-end-steps
     text: session; url: dfn-session
@@ -163,13 +162,14 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   for a report to be dropped on the floor if things go badly.
 
   Reporting can generate a good deal of traffic, so we allow developers to set
-  up groups of <a>endpoints</a>, using a failover and load-balancing mechanism
-  inspired by the DNS <a>SRV record</a>.  The user agent will do its best to
-  deliver a particular report to <strong>at most one</strong> endpoint in a
-  group.  Endpoints can be assigned weights to distribute load, with each
-  endpoint receiving a specified fraction of reporting traffic.  Endpoints can
-  be assigned priorities, allowing developers to set up fallback collectors that
-  are only tried when uploads to primary collectors fail.
+  up groups of <a data-lt="endpoint">endpoints</a>, using a failover and
+  load-balancing mechanism inspired by the DNS <a>SRV record</a>.  The user
+  agent will do its best to deliver a particular report to <strong>at most
+  one</strong> endpoint in a group.  Endpoints can be assigned weights to
+  distribute load, with each endpoint receiving a specified fraction of
+  reporting traffic.  Endpoints can be assigned priorities, allowing developers
+  to set up fallback collectors that are only tried when uploads to primary
+  collectors fail.
 
   <h3 id="examples">Examples</h3>
 
@@ -190,7 +190,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     And the following headers, which direct CSP and HPKP reports to that group:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=endpoint-1
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a> endpoint-1
       <a>Public-Key-Pins</a>: ...; report-to=endpoint-1
     </pre>
   </div>
@@ -202,12 +202,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: { "<a for="ReportTo">url</a>": "https://example.com/csp-reports",
-                   "<a for="ReportTo">group</a>": "csp-endpoint",
-                   "<a for="ReportTo">max_age</a>": 10886400 },
-                 { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports",
-                   "<a for="ReportTo">group</a>": "hpkp-endpoint",
-                   "<a for="ReportTo">max_age</a>": 10886400 }
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp-endpoint",
                    "<a for="ReportTo">max_age</a>": 10886400,
                    "<a for="ReportTo">endpoints</a>": [
@@ -224,7 +218,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     endpoint:
 
     <pre>
-      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a>=csp-endpoint
+      <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a> csp-endpoint
       <a>Public-Key-Pins</a>: ...; report-to=hpkp-endpoint
     </pre>
   </div>
@@ -236,7 +230,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h3 id="concept-client">Clients</h3>
 
   A <dfn export>client</dfn> represents a particular origin's relationship to
-  a set of <a>endpoints</a>.
+  a set of <a data-lt="endpoint">endpoints</a>.
 
   Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
   which is an <a spec="html">origin</a>.
@@ -250,8 +244,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <h3 id="concept-endpoint-groups">Endpoint groups</h3>
 
-  An <dfn export>endpoint group</dfn> is a set of <a>endpoints</a> that will be
-  used together for backup and failover purposes.
+  An <dfn export>endpoint group</dfn> is a set of <a
+  data-lt="endpoint">endpoints</a> that will be used together for backup and
+  failover purposes.
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>name</dfn>, which is an ASCII
@@ -259,7 +254,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Each <a>endpoint group</a> has an
   <dfn for="endpoint group" export attribute>endpoints</dfn> list, which is a
-  list of <a>endpoints</a>.
+  list of <a data-lt="endpoint">endpoints</a>.
 
   Each <a>endpoint group</a> has a
   <dfn for="endpoint group" export attribute>subdomains</dfn> flag, which is
@@ -381,11 +376,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   <h3 id="concept-failover-load-balancing">Failover and load balancing</h3>
 
-  The <a>endpoints</a> in an <a>endpoint group</a> that all have the same
-  {{endpoint/priority}} form a <dfn export>failover class</dfn>.  Failover
-  classes allow the developer to provide backup collectors (those with higher
-  {{endpoint/priority}} values) that will only receive reports if **all** of the
-  primary collectors (those with lower {{endpoint/priority}} values) fail.
+  The <a data-lt="endpoint">endpoints</a> in an <a>endpoint group</a> that all
+  have the same {{endpoint/priority}} form a <dfn export>failover class</dfn>.
+  Failover classes allow the developer to provide backup collectors (those with
+  higher {{endpoint/priority}} values) that will only receive reports if **all**
+  of the primary collectors (those with lower {{endpoint/priority}} values)
+  fail.
 
   Developers can assign each <a>endpoint</a> in a <a>failover class</a> a
   {{endpoint/weight}}, which determines how report traffic is balanced across
@@ -423,8 +419,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
                 ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
   </pre>
 
-  The header's value is interpreted as an array of JSON objects, as described in
-  Section 4 of [[HTTP-JFV]].
+  The header's value is interpreted as a JSON-formatted array of objects
+  without the outer `[` and `]`, as described in Section 4 of [[HTTP-JFV]].
 
   Each object in the array defines an <a>endpoint group</a> to which reports may
   be delivered, and will be parsed as defined in [[#process-header]].
@@ -464,8 +460,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the
   list of
-  <a>endpoints</a> that belong to this <a>endpoint group</a>. The member's value
-  MUST be an array of JSON objects.
+  <a data-lt="endpoint">endpoints</a> that belong to this <a>endpoint group</a>.
+  The member's value MUST be an array of JSON objects.
 
   The following subsections define the initial set of known members in each
   JSON object in the array. Future versions of this document may define
@@ -506,9 +502,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   </h3>
 
   Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
-  algorithm extracts a list of <a>endpoints</a> and <a>endpoint groups</a> for
-  the request's <a spec="html">origin</a>, and updates the <a>reporting
-  cache</a> accordingly.
+  algorithm extracts a list of <a data-lt="endpoint">endpoints</a> and
+  <a>endpoint groups</a> for the request's <a spec="html">origin</a>, and
+  updates the <a>reporting cache</a> accordingly.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
   [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
@@ -561,7 +557,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
           1.  If |endpoint item| has no member named "<a
               for="ReportTo">`url`</a>", or that member's value is not a
-              string, skip to the next |endpoint item|.
+              string, or if that value is not an <a>absolute-URL string</a> or a
+              <a>path-absolute-URL string</a>, skip to the next |endpoint item|.
 
           2.  If |endpoint item| has a member named "<a
               for="ReportTo">`priority`</a>", whose value is not a non-negative
@@ -577,7 +574,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
               :   {{endpoint/url}}
               ::  The result of executing the <a>URL parser</a> on
                   |endpoint item|'s "<a for="ReportTo">`url`</a>" member's
-                  value.
+                  value, with <a spec="url">base URL</a> set to |response|'s <a
+                  for="response" attribute>url</a>.
               :   {{endpoint/priority}}
               ::  The value of the |endpoint item|'s "<a
                   for="ReportTo">`priority`</a>" member, if present; `1`
@@ -708,7 +706,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
   eligible <a>endpoint</a> from the group, if there is one, taking into account
-  the {{endpoint/priority}} and {{endpoint/weight}} of the <a>endpoints</a>.
+  the {{endpoint/priority}} and {{endpoint/weight}} of the <a
+  data-lt="endpoint">endpoints</a>.
 
   1.  If |group| is <a for="endpoint group">expired</a>, return `null`.
 
@@ -734,17 +733,17 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   8.  Let |total weight| be the sum of the {{endpoint/weight}} value of each
       |endpoint| in |endpoints|.
 
-  9.  Let |weight| be a random number ≥ 0 and &lt; |total weight|.
+  9.  Let |weight| be a random number &ge; 0 and &le; |total weight|.
 
   10. For each |endpoint| in |endpoints|:
 
-      1.  If |weight| is less than |endpoint|'s {{endpoint/weight}}, return
-          |endpoint|.
+      1.  If |weight| is less than or equal to |endpoint|'s {{endpoint/weight}},
+          return |endpoint|.
 
       2.  Subtract |endpoint|'s {{endpoint/weight}} from |weight|.
 
   11. It should not be possible to fall through to here, since the random number
-      chosen earlier will be less than |total weight|.
+      chosen earlier will be less than or equal to |total weight|.
 
   <h3 id="send-reports" algorithm>
     Send reports
@@ -912,14 +911,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  `null`
       :   `window`
       ::  "`no-window`"
-      :   `skip-service-worker` flag
-      ::  Set.
+      :   `service-worker mode`
+      ::  "`none`"
       :   `initiator`
       ::  ""
       :   `destination`
       ::  "`report`"
-      :   `destination`
-      ::  ""
       :   `mode`
       ::  "`cors`"
       :   `unsafe-request` flag
@@ -927,8 +924,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   `credentials`
       ::  "`include`"
       :   `body`
-      ::  The string resulting from executing the {{JSON.stringify()}} algorithm
-          on |collection| [[!ECMA-262]]
+      ::  A [=/body=] whose [=body/source=] is the [=byte sequence=] resulting
+          from executing [=serialize JSON to bytes=] on |collection|.
 
   4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
@@ -976,17 +973,20 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
 
   <pre class="idl">
+[Exposed=(Window,Worker)]
 interface ReportBody {
 };
 
+[Exposed=(Window,Worker)]
 interface Report {
   readonly attribute DOMString type;
   readonly attribute DOMString url;
   readonly attribute ReportBody? body;
 };
 
-[Constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options)]
+[Exposed=(Window,Worker)]
 interface ReportingObserver {
+  constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options = {});
   void observe();
   void disconnect();
   ReportList takeRecords();
@@ -1045,8 +1045,8 @@ typedef sequence&lt;Report> ReportList;
   4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
 
   5. For each |report| in the <a>report buffer</a> associated with
-     |environment|, execute [[#add-report]] with |report| and the <a>context
-     object</a>.
+     |environment|, <a>queue a task</a> to execute [[#add-report]] with |report|
+     and the <a>context object</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
@@ -1079,8 +1079,11 @@ typedef sequence&lt;Report> ReportList;
 
   2. Append |report| to the <a>report buffer</a> associated with |environment|.
 
-  3. If the <a>report buffer</a> now contains more than 100 reports, remove the
-     item at the beginning of the <a>report buffer</a>.
+  3. Let |type| be |report|'s <a>type</a>.
+
+  4. If the <a>report buffer</a> now contains more than 100 reports
+     with <a>type</a> equal to |type|, remove the earliest item with <a>type</a>
+     equal to |type| in the <a>report buffer</a>.
 
   <h3 id="add-report" algorithm>
     Add |report| to |observer|
@@ -1145,6 +1148,7 @@ typedef sequence&lt;Report> ReportList;
   <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
+    [Exposed=(Window,Worker)]
     interface DeprecationReportBody : ReportBody {
       readonly attribute DOMString id;
       readonly attribute Date? anticipatedRemoval;
@@ -1196,7 +1200,7 @@ typedef sequence&lt;Report> ReportList;
     "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
     "body": {
       "id": "websql",
-      "anticipatedRemoval": "1/1/2020",
+      "anticipatedRemoval": "2020-01-01",
       "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
       "sourceFile": "https://example.com/index.js",
       "lineNumber": 1234,
@@ -1205,6 +1209,12 @@ typedef sequence&lt;Report> ReportList;
   }
   </pre>
   </div>
+
+  Note: Deprecation reports are always delivered to the <a>endpoint group</a>
+  named <code>default</code>; there is currently no way to override this.  If
+  you want to receive other kinds of reports, but not deprecation reports, make
+  sure to use a different name for the endpoint group that you choose for those
+  reports.
 
   <h3 id="intervention-report">Intervention</h3>
 
@@ -1220,6 +1230,7 @@ typedef sequence&lt;Report> ReportList;
   <code>ReportingObserver</code>s</a>.
 
   <pre class="idl">
+    [Exposed=(Window,Worker)]
     interface InterventionReportBody : ReportBody {
       readonly attribute DOMString id;
       readonly attribute DOMString message;
@@ -1270,6 +1281,12 @@ typedef sequence&lt;Report> ReportList;
   </pre>
   </div>
 
+  Note: Intervention reports are always delivered to the <a>endpoint group</a>
+  named <code>default</code>; there is currently no way to override this.  If
+  you want to receive other kinds of reports, but not intervention reports, make
+  sure to use a different name for the endpoint group that you choose for those
+  reports.
+
   <h3 id="crash-report">Crash</h3>
 
   <dfn>Crash reports</dfn> indicate that the user was unable to continue using
@@ -1280,27 +1297,36 @@ typedef sequence&lt;Report> ReportList;
 
   <a>Crash reports</a> have the <a>report type</a> "crash".
 
-  <a>Crash reports</a> are <a>visible to <code>ReportingObserver</code>s</a>.
-
   <pre class="idl">
+    [Exposed=(Window,Worker)]
     interface CrashReportBody : ReportBody {
-      readonly attribute DOMString crashId;
       readonly attribute DOMString? reason;
     };
   </pre>
 
   An <a>crash report</a>'s [=report/body=], represented in JavaScript by
-  {{CrashReportBody}}, contains the following fields:
-
-    - <dfn for="CrashReportBody">crashId</dfn>: An implementation-defined unique
-      identifier (100 character maximum string). This identifier will not be
-      meaningful to developers directly, but it can potentially be supplied to
-      the browser vendor for more details.
+  {{CrashReportBody}}, contains the following field:
 
     - <dfn for="CrashReportBody">reason</dfn>: A more specific classification of
-      the type of crash that occured. Currently, the only valid
-      [=CrashReportBody/reason=] is "oom" (omitted otherwise), indicating an
-      out-of-memory crash.
+      the type of crash that occured, if known, or omitted otherwise. The
+      valid <a>reason</a> strings are shown below.
+
+  <table border=1 cellpadding=5px style="border-collapse: collapse;">
+    <tbody>
+      <tr>
+        <th><a>Reason</a></th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>oom</td>
+        <td>The page ran out of memory.</td>
+      </tr>
+      <tr>
+        <td>unresponsive</td>
+        <td>The page was killed due to being unresponsive.</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="example">
   <pre>
@@ -1310,12 +1336,16 @@ typedef sequence&lt;Report> ReportList;
     "url": "https://example.com/",
     "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
     "body": {
-      "crashId": "30437694edfeae5b",
       "reason": "oom"
     }
   }
   </pre>
   </div>
+
+  Note: Crash reports are always delivered to the <a>endpoint group</a> named
+  <code>default</code>; there is currently no way to override this.  If you want
+  to receive other kinds of reports, but not crash reports, make sure to use a
+  different name for the endpoint group that you choose for those reports.
 </section>
 
 <section>
@@ -1342,13 +1372,13 @@ typedef sequence&lt;Report> ReportList;
   <h3 id="gc">Garbage Collection</h3>
 
   Periodically, the user agent SHOULD walk through the cached <a>reports</a>
-  and <a>endpoints</a>, and discard those that are no longer relevant. These
-  include:
+  and <a data-lt="endpoint">endpoints</a>, and discard those that are no longer
+  relevant. These include:
 
   *   <a>endpoint groups</a> which are <a for="endpoint group">expired</a>
   *   <a>endpoint groups</a> which have not been used in some arbitrary period
       of time (perhaps a ~week?)
-  *   <a>endpoints</a> whose {{endpoint/failures}} exceed
+  *   <a data-lt="endpoint">endpoints</a> whose {{endpoint/failures}} exceed
       some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> whose [=report/attempts=] exceed
       some user-agent-defined threshold (~5 seems reasonable)
@@ -1440,7 +1470,7 @@ typedef sequence&lt;Report> ReportList;
   <pre class='idl'>
     dictionary GenerateTestReportParameters {
       required DOMString message;
-      DOMString group;
+      DOMString group = "default";
     };
   </pre>
 
@@ -1448,13 +1478,11 @@ typedef sequence&lt;Report> ReportList;
     <tbody>
       <tr>
         <th>HTTP Method</th>
-        <th><a lt="extension command prefix">Prefix</a></th>
-        <th><a lt="extension command name">Name</a></th>
+        <th><a lt="extension command uri template">URI Template</a></th>
       </tr>
       <tr>
         <td>`POST`</td>
-        <td>`/session/{session id}/reporting`</td>
-        <td>`generate_test_report`</td>
+        <td>`/session/{session id}/reporting/generate_test_report`</td>
       </tr>
     </tbody>
   </table>
@@ -1467,25 +1495,30 @@ typedef sequence&lt;Report> ReportList;
   2. Let |message| be the result of <a>trying</a> to get |parameters|'s
      {{GenerateTestReportParameters/message}} property.
 
-  3. If |message| is null, return a <a>WebDriver error</a> with <a>WebDriver
-     error code</a> <a>invalid argument</a>.
+  3. If |message| is not present, return a <a>WebDriver error</a>
+     with <a>WebDriver error code</a> <a>invalid argument</a>.
 
-  4. Let |group| be the result of <a>trying</a> to get |parameters|'s
-     {{GenerateTestReportParameters/group}} property.
+  4. If the <a>current browsing context</a> is no longer open, return a
+     <a>WebDriver error</a> with <a>WebDriver error code</a> <a>no such
+     window</a>.
 
-  5. If |group| is null, set |group| to "default".
+  5. <a>Handle any user prompts</a> and return its value if it is a <a>WebDriver
+     error</a>.
 
-  6. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
+  6. Let |group| be |parameters|'s {{GenerateTestReportParameters/group}}
+     property.
+
+  7. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
      containing a single string field, |body_message|.
 
-  7. Set |body_message| to |message|.
+  8. Set |body_message| to |message|.
 
-  8. Let |settings| be the <a>environment settings object</a> of the
+  9. Let |settings| be the <a>environment settings object</a> of the
      <a>current browsing context</a>'s <a>active document</a>.
 
-  9. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
+  10. Execute [[#queue-report]] with |body|, "test", |group|, and |settings|.
 
-  10. Return <a>success</a> with data null.
+  11. Return <a>success</a> with data null.
 </section>
 
 <section>

@@ -1,5 +1,8 @@
- {
-    "group":      ["45211"]
-,   "contacts":   ["plehegar"]
-,   "shortName":  "reporting"
+{
+  "group": 45211,
+  "contacts": [
+    "plehegar"
+  ],
+  "shortName": "reporting",
+  "repo-type": "rec-track"
 }
