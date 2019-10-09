@@ -81,7 +81,7 @@ An [intervention](https://github.com/WICG/interventions/blob/master/README.md) o
 ```
 
 ### Crashes ###
-A crash report indicates that the user was unable to continue using the page because the browser (or one of its processes necessary for the page) crashed.  For security reasons, no details of the crash are communicated except (optionally) the type of crash (such as "oom") and a unique identifier which can be supplied to the browser vendor. 
+A crash report indicates that the user was unable to continue using the page because the browser (or one of its processes necessary for the page) crashed.  For privacy and security reasons, no details of the crash are communicated except (optionally) the type of crash (such as "oom").
 
 ```json
 {
@@ -89,14 +89,12 @@ A crash report indicates that the user was unable to continue using the page bec
   "age": 10,
   "url": "https://example.com/",
   "body": {
-    "crashId": "c2dd3217-24f5-4bee-b74d-99bd055e7edb",
     "reason": "oom"
   }
 }
 ```
 
 The report has the following properties:
-- `crashId`: A unique identifier. This identifier will not be meaningful to developers directly, but it can potentially be supplied to the browser vendor for more details.
 - `reason`: A more specific classification of the type of crash that occured. Currently, the only valid type is "oom" (omitted otherwise), indicating an out-of-memory crash.
 
 ## ReportingObserver - Observing reports from JavaScript
