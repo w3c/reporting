@@ -63,19 +63,14 @@ spec: URL; urlPrefix: https://url.spec.whatwg.org/
       text: username; url: concept-url-username
       text: password; url: concept-url-password
 spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
-  urlPrefix: infrastructure.html
-    type: dfn
-      text: ASCII case-insensitive
   urlPrefix: webappapis.html
     type: dfn
-      text: global object
       text: environment settings object
       text: creation URL
       text: queue a task
   urlPrefix: browsers.html
     type: dfn
       text: origin
-      text: top-level browsing context
   urlPrefix: system-state.html
     type: dfn
       text: navigator.userAgent; url: dom-navigator-useragent
@@ -83,14 +78,10 @@ spec: RFC2782; for: SRV; urlPrefix: https://tools.ietf.org/html/rfc2782
   type: dfn
     text: SRV record; url:
     text: target selection algorithm; url: page-4
-spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
-  type: grammar
-    text: absolute-uri; url: section-4.3
 spec: RFC6797; urlPrefix: https://tools.ietf.org/html/rfc6797
   type: dfn
     url: section-8.2
       text: superdomain match
-      text: congruent match
 spec: RFC8259; urlPrefix: https://tools.ietf.org/html/rfc8259
   type: dfn
     text: JSON text; url: section-2
@@ -101,9 +92,6 @@ spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
     text: token; url: section-3.2.6
     text: quoted-string; url: section-3.2.6
     text: #rule; url: section-7
-spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234
-  type: grammar
-    text: delta-seconds; url: section-1.2.1
 spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   type: dfn
     text: Public-Key-Pins; url: section-2.1
@@ -113,9 +101,6 @@ spec: HTTP-JFV; urlPrefix: https://tools.ietf.org/html/draft-reschke-http-jfv
 spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   type: dfn
     text: Realm
-    text: Date object; url: sec-date-objects
-  type: interface
-    text: Date; url: sec-date-objects
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
@@ -309,8 +294,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   that <a>reports</a> of that type can be observed by a <a>reporting
   observer</a>. By default, <a>report types</a> are not <a>visible to
   <code>ReportingObserver</code>s</a>.
-
-  Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
 
   <h3 id="concept-reports">Reports</h3>
 
