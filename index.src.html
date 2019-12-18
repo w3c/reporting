@@ -146,7 +146,20 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 <section>
   <h2 id="intro">Introduction</h2>
 
-  [INTRODUCTION GOES HERE]
+  This document provides three pieces of infrastructure for generic reporting,
+  which may be used or extended by other specifications:
+
+  1. A generic framework for defining report types and reporting endpoints, and
+     a document format for sending reports to endpoints over HTTP.
+
+  2. A specific mechanism for configuring reporting endpoints in a document, and
+     for delivering reports whose lifetime is tied to that document.
+
+  3. A JavaScript interface for observing reports generated within a document.
+
+  Other specifications may extend or make use of these pieces, for instance by
+  defining concrete report types, or alternative configuration or delivery
+  mechanisms for non-document-based reports.
 
   <h3 id="guarantees">Guarantees</h3>
 
@@ -180,7 +193,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
     <pre>
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "endpoint-1",
-                   "<a for="ReportTo">max_age</a>": 10886400,
                    "<a>endpoints</a>": [
                      { "<a for="ReportTo">url</a>": "https://example.com/reports", "<a for="ReportTo">priority</a>": 1 },
                      { "<a for="ReportTo">url</a>": "https://backup.com/reports", "<a for="ReportTo">priority</a>": 2 }
@@ -203,19 +215,17 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
     <pre>
       <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp-endpoint",
-                   "<a for="ReportTo">max_age</a>": 10886400,
                    "<a for="ReportTo">endpoints</a>": [
                      { "<a for="ReportTo">url</a>": "https://example.com/csp-reports" }
                    ] },
                  { "<a for="ReportTo">group</a>": "hpkp-endpoint",
-                   "<a for="ReportTo">max_age</a>": 10886400,
                    "<a for="ReportTo">endpoints</a>": [
                      { "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports" }
                    ] }
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
-    endpoint:
+    endpoints:
 
     <pre>
       <a>Content-Security-Policy</a>: ...; <a lt="reports directive">report-to</a> csp-endpoint
@@ -225,24 +235,16 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 </section>
 
 <section>
-  <h2 id="concept">Concepts</h2>
+  <h2 id="generic-reporting">Generic Reporting Framework</h2>
 
-  <h3 id="concept-client">Clients</h3>
+  <p class="informative">
+  This section defines the generic concepts of reports and endpoints, and how
+  reports are serialized into the <a
+  href="#media-type">`application/reports+json`</a> format.</p>
 
-  A <dfn export>client</dfn> represents a particular origin's relationship to
-  a set of <a data-lt="endpoint">endpoints</a>.
+  <h3 id="concept">Concepts</h3>
 
-  Each <a>client</a> has an <dfn for="client" export attribute>origin</dfn>,
-  which is an <a spec="html">origin</a>.
-
-  Each <a>client</a> has an
-  <dfn for="client" export attribute>endpoint-groups</dfn> list, which is a list
-  of <a>endpoint groups</a>, each of which MUST have a distinct
-  {{endpoint group/name}}.  (The algorithm in [[#process-header]] guarantees
-  this by keeping the first entry in a `Report-To` header with a particular
-  name.)
-
-  <h3 id="concept-endpoint-groups">Endpoint groups</h3>
+  <h4 id="concept-endpoint-groups">Endpoint groups</h4>
 
   An <dfn export>endpoint group</dfn> is a set of <a
   data-lt="endpoint">endpoints</a> that will be used together for backup and
@@ -256,24 +258,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <dfn for="endpoint group" export attribute>endpoints</dfn> list, which is a
   list of <a data-lt="endpoint">endpoints</a>.
 
-  Each <a>endpoint group</a> has a
-  <dfn for="endpoint group" export attribute>subdomains</dfn> flag, which is
-  either "`include`" or "`exclude`".
-
-  Each <a>endpoint group</a> has a
-  <dfn for="endpoint group" export attribute>ttl</dfn> representing the
-  number of seconds the group remains valid for an <a spec="html">origin</a>.
-
-  Each <a>endpoint group</a> has a
-  <dfn for="endpoint group" export attribute>creation</dfn> which is the
-  timestamp at which the group was added to an <a spec="html">origin</a>.
-
-  An <a>endpoint group</a> is
-  <dfn for="endpoint group" id="endpoint-group-expired">expired</dfn> if its
-  {{endpoint group/creation}} plus its {{endpoint group/ttl}} represents a time
-  in the past.
-
-  <h3 id="concept-endpoints">Endpoints</h3>
+  <h4 id="concept-endpoints">Endpoints</h4>
 
   An <dfn export>endpoint</dfn> is location to which <a>reports</a> for a
   particular <a spec="html">origin</a> may be sent.
@@ -299,10 +284,10 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   An <a>endpoint</a> is <dfn for="endpoint">pending</dfn> if its
   {{endpoint/retry_after}} is not `null`, and represents a time in the future.
 
-  <h3 id="concept-report-type">Report Type</h3>
+  <h4 id="concept-report-type">Report Type</h4>
 
-  A <dfn export>report type</dfn> is a non-empty string that specifies the set of data
-  that is contained in the [=report/body=] of a <a>report</a>.
+  A <dfn export>report type</dfn> is a non-empty string that specifies the set
+  of data that is contained in the [=report/body=] of a <a>report</a>.
 
   When a <a>report type</a> is defined (in this spec or others), it can be
   specified to be <dfn>visible to <code>ReportingObserver</code>s</dfn>, meaning
@@ -312,7 +297,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
 
-  <h3 id="concept-reports">Reports</h3>
+  <h4 id="concept-reports">Reports</h4>
 
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.
@@ -342,8 +327,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   Each <a>report</a> has a <dfn for="report" export>group</dfn>,
   which is a string representing the {{endpoint group/name}} of the
-  <a spec="html">origin</a>'s <a>endpoint group</a> that the report will be sent
-  to.
+  <a>document</a>'s <a>endpoint group</a> that the report will be sent to.
 
   Each <a>report</a> has a <dfn for="report" id="report-reporttype"
   export>type</dfn>, which is a <a>report type</a>.
@@ -356,25 +340,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   counter, which is a non-negative integer representing the number of times the
   user agent attempted to deliver the report.
 
-  <h3 id="concept-storage">Storage</h3>
-
-  A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
-  is a storage mechanism that maintains a set of <a>endpoint groups</a> that
-  websites have instructed the user agent to associate with their
-  <a spec="html">origins</a>, and a set of <a>reports</a> which are queued for
-  delivery.
-
-  This storage mechanism is opaque, vendor-specific, and not exposed to the
-  web, but it MUST provide the following methods which will be used in the
-  algorithms this document defines:
-
-  1.  Insert, update, and remove <a>clients</a>.
-  2.  Enqueue and dequeue <a>reports</a> for delivery.
-  3.  Retrieve a list of <a>client</a> objects for an <a spec="html">origin</a>.
-  4.  Retrieve a list of queued <a>report</a> objects.
-  5.  Clear the cache.
-
-  <h3 id="concept-failover-load-balancing">Failover and load balancing</h3>
+  <h4 id="concept-failover-load-balancing">Failover and load balancing</h4>
 
   The <a data-lt="endpoint">endpoints</a> in an <a>endpoint group</a> that all
   have the same {{endpoint/priority}} form a <dfn export>failover class</dfn>.
@@ -399,19 +365,169 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   Fetch API adds native support for failover and load balancing of requests, a
   future version of the Reporting API will be updated to use it instead of this
   bespoke mechanism.
+
+  <h3 id="media-type">Media Type</h3>
+
+  The media type used when POSTing reports to a specified endpoint is
+  `application/reports+json`.
+
+  <h3 id="queue-report" algorithm>
+    Queue |data| as |type| for |endpoint group| on |settings|
+  </h3>
+
+  Given a serializable object (|data|), a string (|type|), another string
+  (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
+  optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
+  which can be queued for future delivery.
+
+  1.  Let |report| be a new <a>report</a> object with its values initialized as
+      follows:
+
+      :   [=report/body=]
+      ::  |data|
+      :   [=report/user agent=]
+      ::  The current value of <a><code>navigator.userAgent</code></a>
+      :   [=report/group=]
+      ::  |endpoint group|
+      :   [=report/type=]
+      ::  |type|
+      :   [=report/timestamp=]
+      ::  The current timestamp.
+      :   [=report/attempts=]
+      ::  0
+
+  2.  If |url| was not provided by the caller, let |url| be |settings|'s
+      <a>creation URL</a>.
+
+  3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
+      to `null`.
+
+  4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
+      serializer</a> on |url| with the <em>exclude fragment flag</em> set.
+
+  5.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
+      global environment</a>.
+
+  6.  Execute [[#notify-observers]] with |environment| and |report|.
+
+  7.  Return |report|.
+
+  Note: <a>reporting observers</a> can only observe reports from the
+  same <a>environment settings object</a>.
+
+  Note: We strip the username, password, and fragment from the serialized URL
+  in the report. See [[#capability-urls]].
+
+  Note: The user agent MAY reject reports for any reason. This API does not
+  guarantee delivery of arbitrary amounts of data, for instance.
+
+  Note: Non user agent clients (with no JavaScript engine) should not interact
+  with <a>reporting observers</a>, and thus should return in step 6.
+
+  <h3 id="choose-endpoint">
+    Choose an |endpoint| from a |group|
+  </h3>
+
+  Note: This algorithm is the same as the <a for="SRV">target selection
+    algorithm</a> used for DNS <a>SRV records</a>.
+
+  Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
+  eligible <a>endpoint</a> from the group, if there is one, taking into account
+  the {{endpoint/priority}} and {{endpoint/weight}} of the <a
+  data-lt="endpoint">endpoints</a>.
+
+  1.  Let |endpoints| be a copy of |group|'s {{endpoint group/endpoints}} list.
+
+  2.  Remove every |endpoint| from |endpoints| that is
+      <a for="endpoint">pending</a>.
+
+  3.  If |endpoints| is empty, return `null`.
+
+  4.  Let |priority| be the minimum {{endpoint/priority}} value of each
+      |endpoint| in |endpoints|.
+
+  5.  Remove every |endpoint| from |endpoints| whose {{endpoint/priority}} value
+      is not equal to |priority|.
+
+  6.  If |endpoints| is empty, return `null`.
+
+  7.  Let |total weight| be the sum of the {{endpoint/weight}} value of each
+      |endpoint| in |endpoints|.
+
+  8.  Let |weight| be a random number &ge; 0 and &le; |total weight|.
+
+  9.  For each |endpoint| in |endpoints|:
+
+      1.  If |weight| is less than or equal to |endpoint|'s {{endpoint/weight}},
+          return |endpoint|.
+
+      2.  Subtract |endpoint|'s {{endpoint/weight}} from |weight|.
+
+  10. It should not be possible to fall through to here, since the random number
+      chosen earlier will be less than or equal to |total weight|.
+
+  <h3 id="serialize-reports" algorithm>Serialize Reports</h3>
+
+  To <dfn>serialize a list of |reports| to JSON</dfn>,
+
+  1.  Let |collection| be a new ECMAScript `Array` object [[!ECMA-262]].
+
+  2.  For each |report| in |reports|:
+
+      1.  Let |data| be a new ECMAScript `Object` with the following properties
+          [[!ECMA-262]]:
+
+          :   `age`
+          ::  The number of milliseconds between |report|'s [=report/timestamp=]
+              and the current time.
+          :   `type`
+          ::  |report|'s [=report/type=]
+          :   `url`
+          ::  |report|'s [=report/url=]
+          :   `user_agent`
+          ::  |report|'s [=report/user agent=]
+          :   `body`
+          ::  |report|'s [=report/body=]
+
+          Note: Client clocks are unreliable and subject to skew. We therefore
+          deliver an `age` attribute rather than an absolute timestamp. See
+          also [[#fingerprinting-clock-skew]]
+
+      2.  Increment |report|'s [=report/attempts=].
+
+      3.  Append |data| to |collection|.
+
+  3. Return the [=byte sequence=] resulting from executing [=serialize JSON to
+     bytes=] on |collection|.
 </section>
 
 <section>
-  <h2 id="endpoint-delivery">Endpoint Delivery</h2>
+  <h2 id="document-reporting">Document Centered Reporting</h2>
 
-  A server MAY define a set of reporting endpoints for an origin it controls
+  This section defines the mechanism for configuring reporting endpoints for
+  reports generated by actions in a document. Such reports have a lifetime which
+  is tied to the document where they generated.
+
+  <h3 id="document-configuration">Document configuration</h3>
+
+  Each <a>document</a> has an <dfn for="document" export
+  attribute>endpoint-groups</dfn> list, which is a list of <a>endpoint
+  groups</a>, each of which MUST have a distinct {{endpoint group/name}}.
+  (The algorithm in [[#process-header]] guarantees this by keeping the first
+  entry in a `Report-To` header with a particular name.)
+
+  A server MAY define a set of reporting endpoints for a resource it returns,
   via the <a>`Report-To`</a> HTTP response header field. This mechanism
   is defined in [[#header]], and its processing in [[#process-header]].
 
+  Each <a>document</a> has an <dfn for="document" export attribute>reports</dfn>
+  list, which is a list of <a>reports</a>.
+
   <h3 id="header">The `Report-To` HTTP Response Header Field</h3>
 
-  The <dfn export>`Report-To`</dfn> HTTP response header field instructs the
-  user agent to store reporting endpoints for an origin. The header is
+  The value of the <dfn export>`Report-To`</dfn> HTTP response header field is
+  used to construct the reporting configuration for a resource. The header is
   represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
@@ -438,35 +554,16 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   error. If no member named "`group`" is present in the object, the <a>endpoint
   group</a> will be given the {{endpoint group/name}} "`default`".
 
-  <h4 id="include-subdomains-member">The `include_subdomains` member</h4>
-
-  The OPTIONAL <dfn for="ReportTo">`include_subdomains`</dfn> member is a
-  boolean that enables this <a>endpoint group</a> for all subdomains of the
-  current <a spec="html">origin</a>'s {{URL/host}}.  If no member named
-  "`include_subdomains`" is present in the object, or its value is not "`true`",
-  the <a>endpoint group</a> will not be enabled for subdomains.
-
-  <h4 id="max-age-member">The `max_age` member</h4>
-
-  The REQUIRED <dfn for="ReportTo" export>`max_age`</dfn> member defines
-  the <a>endpoint group</a>'s lifetime, as a non-negative integer number of
-  seconds. The member's value MUST be a non-negative number; any other type will
-  result in a parse error.
-
-  A value of "`0`" will cause the <a>endpoint group</a> to be removed from the
-  user agent's <a>reporting cache</a>.
-
   <h4 id="endpoints-member">The `endpoints` member</h4>
 
   The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the
-  list of
-  <a data-lt="endpoint">endpoints</a> that belong to this <a>endpoint group</a>.
-  The member's value MUST be an array of JSON objects.
+  list of <a data-lt="endpoint">endpoints</a> that belong to this <a>endpoint
+  group</a>. The member's value MUST be an array of JSON objects.
 
-  The following subsections define the initial set of known members in each
-  JSON object in the array. Future versions of this document may define
-  additional such members, and user agents MUST ignore unknown members when
-  parsing the elements of the array.
+  The following subsections define the initial set of known members in each JSON
+  object in the array. Future versions of this document may define additional
+  such members, and user agents MUST ignore unknown members when parsing the
+  elements of the array.
 
   <!--
   Note: If a group resolves to multiple <a>endpoints</a>, the user agent will
@@ -498,17 +595,14 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   type will result in a parse error.
 
   <h3 id="process-header" algorithm>
-    Process reporting endpoints for |response| to |request|
+    Process reporting endpoints for |response|
   </h3>
 
-  Given a <a>response</a> (|response|) and a <a>request</a> (|request|), this
-  algorithm extracts a list of <a data-lt="endpoint">endpoints</a> and
-  <a>endpoint groups</a> for the request's <a spec="html">origin</a>, and
-  updates the <a>reporting cache</a> accordingly.
+  Given a <a>response</a> (|response|), this algorithm extracts and returns a
+  list of <a>endpoint groups</a>.
 
   Note: This algorithm is called from around step 13 of <a>main fetch</a>
-  [[FETCH]], and only updates the <a>reporting cache</a> if the |response|
-  has been delivered securely.
+  [[FETCH]].
 
   ISSUE: Fetch monkey patching. Talk to Anne.
 
@@ -523,36 +617,30 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
           "<a>`Report-To`</a>".
 
-  2.  Let |origin| be the <a lt="origin of a url">origin</a> of |response|'s
-      <a for="response" attribute>url</a>.
-
-  3.  Let |header| be the <a for="header" attribute>value</a> of the
+  2.  Let |header| be the <a for="header" attribute>value</a> of the
       <a>header</a> in |response|'s <a for="response" attribute>header list</a>
       whose name is "<a>`Report-To`</a>".
 
-  4.  Let |list| be the result of executing the algorithm defined in Section 4
+  3.  Let |list| be the result of executing the algorithm defined in Section 4
       of [[HTTP-JFV]] on |header|. If that algorithm results in an error, abort
       these steps.
 
-  5.  Let |groups| be an empty list.
+  4.  Let |groups| be an empty list.
 
-  6.  For each |item| in |list|:
+  5.  For each |item| in |list|:
 
-      1.  If |item| has no member named "<a for="ReportTo">`max_age`</a>", or
-          that member's value is not a number, skip to the next |item|.
-
-      2.  If |item| has no member named "<a>`endpoints`</a>", or that member's
+      1.  If |item| has no member named "<a>`endpoints`</a>", or that member's
           value is not an array, skip to the next |item|.
 
-      3.  Let |name| be |item|'s "<a for="ReportTo">`group`</a>" member's value
+      2.  Let |name| be |item|'s "<a for="ReportTo">`group`</a>" member's value
           if present, and "`default`" otherwise.
 
-      4.  If there is already an <a>endpoint group</a> in |groups| whose
+      3.  If there is already an <a>endpoint group</a> in |groups| whose
           {{endpoint group/name}} is |name|, skip to the next |item|.
 
-      5.  Let |endpoints| be an empty list.
+      4.  Let |endpoints| be an empty list.
 
-      6.  For each |endpoint item| in the value of |item|'s "<a
+      5.  For each |endpoint item| in the value of |item|'s "<a
           for="ReportTo">`endpoints`</a>" member:
 
           1.  If |endpoint item| has no member named "<a
@@ -591,225 +679,84 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
           5.  Add |endpoint| to |endpoints|.
 
-      7.  Let |group| be a new <a>endpoint group</a> whose properties are
+      6.  Let |group| be a new <a>endpoint group</a> whose properties are
           set as follows:
 
           :   {{endpoint group/name}}
           ::  |name|
-          :   {{endpoint group/subdomains}}
-          ::  "`include`" if |item| has a member named
-              "<a for="ReportTo">`include_subdomains`</a>" whose value is
-              `true`, "`exclude`" otherwise.
-          :   {{endpoint group/ttl}}
-          ::  |item|'s "<a for="ReportTo">`max_age`</a>" member's value.
-          :   {{endpoint group/creation}}
-          ::  The current timestamp
           :   {{endpoint group/endpoints}}
           ::  |endpoints|
 
-      8.  Add |group| to |groups|.
+      7.  Add |group| to |groups|.
 
-  7.  Let |client| be a new <a>client</a> whose properties are set as follows:
+  6. Return |groups|.
 
-      :   {{client/origin}}
-      ::  |origin|
-      :   {{client/endpoint-groups}}
-      ::  |groups|
+  <h3 id="report-generation">Report Generation</h3>
 
-  8.  If there is already an entry in the <a>reporting cache</a> for
-      <a spec="html">origin</a>, replace it with |client|.  Otherwise, insert
-      |client| into the <a>reporting cache</a> for <a spec="html">origin</a>.
+  <h4 id="generate-report" export algorithm>Generate report of |type| with
+  |data|</h4>
 
+  When the user agent is to <dfn>generate a report</dfn> for a <a>Document</a>
+  (|document|), given a string (|type|), another string (|endpoint group|), and
+  a serializable object (|data|), it must run the following steps:
 
-<!-- Big Text: Reporting -->
-<section>
-  <h2 id="report-delivery">Report Delivery</h2>
+  Note: The caller is responsible for determining the correct endpoint group
+  for the report. The exact endpoint will be determined later, when reports are
+  sent by [[#send-reports]].
 
-  Over time, various features will queue up a list of <a>reports</a> in the
-  user agent's <a>reporting cache</a>. The user agent will periodically grab
-  the list of currently pending reports, and deliver them to the associated
-  endpoints. This document does not define a schedule for the user agent to
-  follow, and assumes that the user agent will have enough contextual
-  information to deliver reports in a timely manner, balanced against impacting
-  a user's experience.
+  1.  Let |settings| be |document|'s [=environment settings object=].
+
+  2.  Let |report| be the result of running [[#queue-report]] with |data|,
+      |type|, |endpoint group| and |settings|.</a>
+
+  3. Append |report| to |document|'s [=reports=].
+
+  <h3 id="report-delivery">Report Delivery</h3>
+
+  Over time, various features will queue up a list of <a>reports</a> for a
+  document. The user agent will periodically grab the list of currently queued
+  reports, and deliver them to the associated endpoints. This document does not
+  define a schedule for the user agent to follow, and assumes that the user
+  agent will have enough contextual information to deliver reports in a timely
+  manner, balanced against impacting a user's experience.
 
   That said, a user agent SHOULD make a effort to deliver reports as soon as
   possible after queuing, as a report's data might be significantly more useful
   in the period directly after its generation than it would be a day or a week
   later.
 
-  <h3 id="media-type">Media Type</h3>
+  <h4 id="send-reports" algorithm>Send reports</h4>
 
-  The media type used when POSTing reports to a specified endpoint is
-  `application/reports+json`.
+  A user agent sends a list of <a>reports</a> (|reports|) for a <a>document</a>
+  (|document|) by executing the following steps:
 
-  <h3 id="queue-report" algorithm>
-    Queue |data| as |type| for |endpoint group| on |settings|
-  </h3>
-
-  Given a serializable object (|data|), a string (|type|), another string
-  (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
-  optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
-  and add it to <a>reporting cache</a>'s queue for future delivery.
-
-  1.  Let |report| be a new <a>report</a> object with its values initialized as
-      follows:
-
-      :   [=report/body=]
-      ::  |data|
-      :   [=report/user agent=]
-      ::  The current value of <a><code>navigator.userAgent</code></a>
-      :   [=report/group=]
-      ::  |endpoint group|
-      :   [=report/type=]
-      ::  |type|
-      :   [=report/timestamp=]
-      ::  The current timestamp.
-      :   [=report/attempts=]
-      ::  0
-
-  2.  If |url| was not provided by the caller, let |url| be |settings|'s
-      <a>creation URL</a>.
-
-  3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
-      to `null`.
-
-  4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
-      serializer</a> on |url| with the <em>exclude fragment flag</em> set.
-
-  5.  Append |report| to the <a>reporting cache</a>.
-
-  6.  Let |environment| be |settings|'s <a>realm execution context</a>'s
-      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
-      global environment</a>.
-
-  7.  Execute [[#notify-observers]] with |environment| and |report|.
-
-  Note: <a>reporting observers</a> can only observe reports from the
-  same <a>environment settings object</a>.
-
-  Note: We strip the username, password, and fragment from the serialized URL
-  in the report. See [[#capability-urls]].
-
-  Note: The user agent MAY reject reports for any reason. This API does not
-  guarantee delivery of arbitrary amounts of data, for instance.
-
-  Note: Non user agent clients (with no JavaScript engine) should not interact
-  with <a>reporting observers</a>, and thus should return in step 6.
-
-  <h3 id="choose-endpoint">
-    Choose an |endpoint| from a |group|
-  </h3>
-
-  Note: This algorithm is the same as the <a for="SRV">target selection
-    algorithm</a> used for DNS <a>SRV records</a>.
-
-  Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
-  eligible <a>endpoint</a> from the group, if there is one, taking into account
-  the {{endpoint/priority}} and {{endpoint/weight}} of the <a
-  data-lt="endpoint">endpoints</a>.
-
-  1.  If |group| is <a for="endpoint group">expired</a>, return `null`.
-
-      Note: In this case, the user agent MAY remove |group| from its
-      <a>client</a>, or it may wait and collect garbage <i lang="fr">en
-      masse</i> at some point in the future as described in [[#gc]].
-
-  2.  Let |endpoints| be a copy of |group|'s {{endpoint group/endpoints}} list.
-
-  3.  Remove every |endpoint| from |endpoints| that is
-      <a for="endpoint">pending</a>.
-
-  4.  If |endpoints| is empty, return `null`.
-
-  5.  Let |priority| be the minimum {{endpoint/priority}} value of each
-      |endpoint| in |endpoints|.
-
-  6.  Remove every |endpoint| from |endpoints| whose {{endpoint/priority}} value
-      is not equal to |priority|.
-
-  7.  If |endpoints| is empty, return `null`.
-
-  8.  Let |total weight| be the sum of the {{endpoint/weight}} value of each
-      |endpoint| in |endpoints|.
-
-  9.  Let |weight| be a random number &ge; 0 and &le; |total weight|.
-
-  10. For each |endpoint| in |endpoints|:
-
-      1.  If |weight| is less than or equal to |endpoint|'s {{endpoint/weight}},
-          return |endpoint|.
-
-      2.  Subtract |endpoint|'s {{endpoint/weight}} from |weight|.
-
-  11. It should not be possible to fall through to here, since the random number
-      chosen earlier will be less than or equal to |total weight|.
-
-  <h3 id="send-reports" algorithm>
-    Send reports
-  </h3>
-
-  A user agent sends reports by executing the following steps:
-
-  1.  Let |reports| be a copy of the list of queued <a>report</a> objects in
-      <a>reporting cache</a>.
-
-  2.  Let |endpoint map| be an empty map of <a>endpoint</a> objects to lists of
+  1.  Let |endpoint map| be an empty map of <a>endpoint</a> objects to lists of
       <a>report</a> objects.
 
-  3.  For each |report| in |reports|:
+  2.  For each |report| in |reports|:
 
       1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
 
-      2.  Let |client| be the entry in the <a>reporting cache</a> for
-          |origin|.
-
-      3.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
-          {{client/endpoint-groups}} list whose {{endpoint group/name}} is
+      2.  If there exists an <a>endpoint group</a> (|group|) in |document|'s
+          {{document/endpoint-groups}} list whose {{endpoint group/name}} is
           |report|'s [=report/group=]:
 
           1.  Let |endpoint| be the result of executing [[#choose-endpoint]] on
               |group|.
 
-          2.  If |endpoint| is a not `null`:
+          2.  If |endpoint| is not `null`:
 
               1.  Append |report| to |endpoint map|'s list of reports for
                   |endpoint|.
 
-              2.  Skip to the next |report|.
+          3. Otherwise, remove |report| from |reports|.
 
-      4.  For each |parent origin| that is a <a>superdomain match</a>
-          for |origin| [[!RFC6797]]:
-
-          1.  Let |client| be the entry in the <a>reporting cache</a> for
-              |parent origin|.
-
-          2.  If there exists an <a>endpoint group</a> (|group|) in |client|'s
-              {{client/endpoint-groups}} list whose {{endpoint group/name}} is
-              |report|'s [=report/group=] <b>and</b> whose {{endpoint
-              group/subdomains}} flag is "`include`":
-
-              1.  Let |endpoint| be the result of executing [[#choose-endpoint]]
-                  on |group|.
-
-              2.  If |endpoint| is an <a>endpoint</a>:
-
-                  1.  Append |report| to |endpoint map|'s list of reports for
-                      |endpoint|.
-
-                  2.  Skip to the next |report|.
-
-      5.  If we reach this step, the |report| did not match any <a>endpoint</a>
-          and the user agent MAY remove |report| from the <a>reporting cache</a>
-          directly. Depending on load, the user agent MAY instead wait for
-          [[#gc]] at some point in the future.
-
-  4.  For each (|endpoint|, |reports|) pair in |endpoint map|:
+  3.  For each (|endpoint|, |report list|) pair in |endpoint map|:
 
       1.  Let |origin map| be an empty map of <a spec="html">origins</a> to
           lists of <a>report</a> objects.
 
-      2.  For each |report| in |reports|:
+      2.  For each |report| in |report list|:
 
           1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
 
@@ -826,14 +773,13 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
               1.  Set |endpoint|'s {{endpoint/failures}} to 0, and its
                   {{endpoint/retry_after}} to `null`.
 
-              2.  Remove each <a>report</a> in |reports| from the <a>reporting
-                  cache</a>.
+              2.  Remove each <a>report</a> from |reports|.
 
               Otherwise, if |result| is "`Remove Endpoint`":
 
-              1.  Remove |endpoint| from the reporting cache.
+              1.  Remove |endpoint| from |document|'s endpoint group list.
 
-                  Note: |reports| remain in the reporting cache for potential
+                  Note: |reports| remain in the report list for potential
                   delivery to other endpoints.
 
               Otherwise (if |result| is "`Failure`"):
@@ -859,9 +805,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   are only removed from the cache when they're successfully delivered, skipped
   reports will simply be delivered later.
 
-  <h3 id="try-delivery" algorithm>
+  <h4 id="try-delivery" algorithm>
     Attempt to deliver |reports| to |endpoint|
-  </h3>
+  </h4>
 
   Given an <a>endpoint</a> (|endpoint|), an <a spec="html">origin</a>
   (|origin|), and a list of <a>reports</a> (|reports|), this algorithm will
@@ -870,34 +816,11 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   endpoint explicitly removes itself as a reporting endpoint by sending a 410
   response, and "`Failure`" otherwise.
 
-  1.  Let |collection| be a new ECMAScript `Array` object [[!ECMA-262]].
 
-  2.  For each |report| in |reports|:
+  1.  Let |body| be the result of executing [=serialize a list of reports to
+      JSON=] on |reports|.
 
-      1.  Let |data| be a new ECMAScript `Object` with the following properties
-          [[!ECMA-262]]:
-
-          :   `age`
-          ::  The number of milliseconds between |report|'s [=report/timestamp=]
-              and the current time.
-          :   `type`
-          ::  |report|'s [=report/type=]
-          :   `url`
-          ::  |report|'s [=report/url=]
-          :   `user_agent`
-          ::  |report|'s [=report/user agent=]
-          :   `body`
-          ::  |report|'s [=report/body=]
-
-          Note: Client clocks are unreliable and subject to skew. We therefore
-          deliver an `age` attribute rather than an absolute timestamp. See
-          also [[#fingerprinting-clock-skew]]
-
-      2.  Increment |report|'s [=report/attempts=].
-
-      3.  Append |data| to |collection|.
-
-  3.  Let |request| be a new <a>request</a> with the following properties
+  2.  Let |request| be a new <a>request</a> with the following properties
       [[FETCH]]:
 
       :   `url`
@@ -924,8 +847,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       :   `credentials`
       ::  "`include`"
       :   `body`
-      ::  A [=/body=] whose [=body/source=] is the [=byte sequence=] resulting
-          from executing [=serialize JSON to bytes=] on |collection|.
+      ::  A [=/body=] whose [=body/source=] is |body|.
 
   4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
@@ -1380,9 +1302,6 @@ typedef sequence&lt;Report> ReportList;
   and <a data-lt="endpoint">endpoints</a>, and discard those that are no longer
   relevant. These include:
 
-  *   <a>endpoint groups</a> which are <a for="endpoint group">expired</a>
-  *   <a>endpoint groups</a> which have not been used in some arbitrary period
-      of time (perhaps a ~week?)
   *   <a data-lt="endpoint">endpoints</a> whose {{endpoint/failures}} exceed
       some user-agent-defined threshold (~5 seems reasonable)
   *   <a>reports</a> whose [=report/attempts=] exceed
@@ -1426,7 +1345,6 @@ typedef sequence&lt;Report> ReportList;
           "hostname": "www.example.com",
           "port": 443,
           "effective-expiration-date": "2014-05-01T12:40:50Z"
-          "include-subdomains": false,
           "served-certificate-chain": [
             "-----BEGIN CERTIFICATE-----\n
             MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
@@ -1544,10 +1462,14 @@ typedef sequence&lt;Report> ReportList;
 
   <h3 id="network-leakage">Network Leakage</h3>
 
-  Because this reporting mechanism is out-of-band, and doesn't rely on a page
-  being open, it's entirely possible for a report generated while a user is on
-  one network to be sent while the user is on another network, even if they
-  don't explicitly open the page from which the report was sent.
+  Because there is a delay between a page being loaded and a report being
+  generated and sent, it's entirely possible for a report generated while a user
+  is on one network to be sent while the user is on another network.
+
+  This behaviour is limited to the lifetime of the document which generated the
+  reports, though, and such a document could be generating traffic on the new
+  network through other means in any case, even after the document is closed,
+  through mechanisms such as `navigator.sendBeacon`.
 
   ISSUE(w3c/BackgroundSync#107): Consider mitigations. For example, we could
   drop reports if we change from one network to another.
@@ -1569,26 +1491,6 @@ typedef sequence&lt;Report> ReportList;
   than the status quo ability to track the same information from cooperative
   origins, and doesn't grant any new tracking ability above and beyond what's
   possible with `<img>` today.
-
-  <h3 id="subdomains">Subdomains</h3>
-
-  This specification allows any resource on a host to declare a set of reporting
-  endpoints for that host and each of its subdomains. This doesn't have privacy
-  implications in and of itself (beyond those noted in [[#clear-cache]]), as the
-  reporting endpoints themselves don't take any real action, as features will
-  need to opt-into using these reporting endpoints explicitly. Those features
-  certainly will have privacy implications, and should carefully consider
-  whether they should be enabled across origin boundaries.
-
-  <h3 id="clear-cache">Clearing the reporting cache</h3>
-
-  A user agent's <a>reporting cache</a> contains data about a user's activity
-  on the web, and user agents ought to handle this data carefully. In
-  particular, if a user agent gives users the ability to clear their site data,
-  browsing history, browsing cache, or similar, the user agent MUST also clear
-  the <a>reporting cache</a>. Note that this includes both the pending reports
-  themselves, as well as the endpoints to which they would be sent. Both MUST
-  be cleared.
 
   <h3 id="disable">Disabling Reporting</h3>
 
