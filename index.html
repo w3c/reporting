@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 47da574d087224b1f2154c030537253784334f71" name="generator">
+  <meta content="Bikeshed version 6a4c097ae8b731ee02752a258e8ac5ffbb752299" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="501e31ff78900066a62828d1962f76ac508ce406" name="document-revision">
+  <meta content="1b1a4750a0f0323ae1b4048d3a5f11ac6ebd4910" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2019-12-09">9 December 2019</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-08">8 January 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -286,7 +286,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2019 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2020 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -365,44 +365,37 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li><a href="#invoke-observers"><span class="secno">5.4</span> <span class="content"> Invoke reporting observers with <var>notify list</var> </span></a>
      </ol>
     <li>
-     <a href="#report-types"><span class="secno">6</span> <span class="content">Report Types</span></a>
+     <a href="#implementation"><span class="secno">6</span> <span class="content">Implementation Considerations</span></a>
      <ol class="toc">
-      <li><a href="#deprecation-report"><span class="secno">6.1</span> <span class="content">Deprecation</span></a>
-      <li><a href="#intervention-report"><span class="secno">6.2</span> <span class="content">Intervention</span></a>
-      <li><a href="#crash-report"><span class="secno">6.3</span> <span class="content">Crash</span></a>
+      <li><a href="#delivery"><span class="secno">6.1</span> <span class="content">Delivery</span></a>
+      <li><a href="#gc"><span class="secno">6.2</span> <span class="content">Garbage Collection</span></a>
+     </ol>
+    <li><a href="#sample-reports"><span class="secno">7</span> <span class="content">Sample Reports</span></a>
+    <li>
+     <a href="#automation"><span class="secno">8</span> <span class="content">Automation</span></a>
+     <ol class="toc">
+      <li><a href="#generate-test-report-command"><span class="secno">8.1</span> <span class="content">Generate Test Report</span></a>
      </ol>
     <li>
-     <a href="#implementation"><span class="secno">7</span> <span class="content">Implementation Considerations</span></a>
+     <a href="#security"><span class="secno">9</span> <span class="content">Security Considerations</span></a>
      <ol class="toc">
-      <li><a href="#delivery"><span class="secno">7.1</span> <span class="content">Delivery</span></a>
-      <li><a href="#gc"><span class="secno">7.2</span> <span class="content">Garbage Collection</span></a>
-     </ol>
-    <li><a href="#sample-reports"><span class="secno">8</span> <span class="content">Sample Reports</span></a>
-    <li>
-     <a href="#automation"><span class="secno">9</span> <span class="content">Automation</span></a>
-     <ol class="toc">
-      <li><a href="#generate-test-report-command"><span class="secno">9.1</span> <span class="content">Generate Test Report</span></a>
+      <li><a href="#capability-urls"><span class="secno">9.1</span> <span class="content">Capability URLs</span></a>
      </ol>
     <li>
-     <a href="#security"><span class="secno">10</span> <span class="content">Security Considerations</span></a>
+     <a href="#privacy"><span class="secno">10</span> <span class="content">Privacy Considerations</span></a>
      <ol class="toc">
-      <li><a href="#capability-urls"><span class="secno">10.1</span> <span class="content">Capability URLs</span></a>
+      <li><a href="#network-leakage"><span class="secno">10.1</span> <span class="content">Network Leakage</span></a>
+      <li><a href="#fingerprinting-clock-skew"><span class="secno">10.2</span> <span class="content">Clock Skew</span></a>
+      <li><a href="#correlation"><span class="secno">10.3</span> <span class="content">Cross-origin correlation</span></a>
+      <li><a href="#subdomains"><span class="secno">10.4</span> <span class="content">Subdomains</span></a>
+      <li><a href="#clear-cache"><span class="secno">10.5</span> <span class="content">Clearing the reporting cache</span></a>
+      <li><a href="#disable"><span class="secno">10.6</span> <span class="content">Disabling Reporting</span></a>
      </ol>
     <li>
-     <a href="#privacy"><span class="secno">11</span> <span class="content">Privacy Considerations</span></a>
+     <a href="#iana-considerations"><span class="secno">11</span> <span class="content">IANA Considerations</span></a>
      <ol class="toc">
-      <li><a href="#network-leakage"><span class="secno">11.1</span> <span class="content">Network Leakage</span></a>
-      <li><a href="#fingerprinting-clock-skew"><span class="secno">11.2</span> <span class="content">Clock Skew</span></a>
-      <li><a href="#correlation"><span class="secno">11.3</span> <span class="content">Cross-origin correlation</span></a>
-      <li><a href="#subdomains"><span class="secno">11.4</span> <span class="content">Subdomains</span></a>
-      <li><a href="#clear-cache"><span class="secno">11.5</span> <span class="content">Clearing the reporting cache</span></a>
-      <li><a href="#disable"><span class="secno">11.6</span> <span class="content">Disabling Reporting</span></a>
-     </ol>
-    <li>
-     <a href="#iana-considerations"><span class="secno">12</span> <span class="content">IANA Considerations</span></a>
-     <ol class="toc">
-      <li><a href="#header-field-registration"><span class="secno">12.1</span> <span class="content">The <code>Report-To</code> Header</span></a>
-      <li><a href="#media-type-registration"><span class="secno">12.2</span> <span class="content">The <code>application/reports+json</code> Media Type</span></a>
+      <li><a href="#header-field-registration"><span class="secno">11.1</span> <span class="content">The <code>Report-To</code> Header</span></a>
+      <li><a href="#media-type-registration"><span class="secno">11.2</span> <span class="content">The <code>application/reports+json</code> Media Type</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -529,7 +522,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   specified to be <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a data-link-type="dfn" href="#report" id="ref-for-report②">reports</a> of that type can be observed by a <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer">reporting
   observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</a>.</p>
-    <p class="note" role="note"><span>Note:</span> See <a href="#deprecation-report">§ 6.1 Deprecation</a> as an example <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a> definition.</p>
     <h3 class="heading settled" data-level="2.5" id="concept-reports"><span class="secno">2.5. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report">report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
@@ -540,7 +532,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   is typically the address of the <code>Document</code> or <code>Worker</code> from which the report
   was generated.</p>
     <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from this serialized URL.
-  See <a href="#capability-urls">§ 10.1 Capability URLs</a>.</p>
+  See <a href="#capability-urls">§ 9.1 Capability URLs</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-user-agent">user agent</dfn>, which is
   the value of the <code>User-Agent</code> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> from which the report was generated.</p>
     <p class="note" role="note"><span>Note:</span> The <a data-link-type="dfn" href="#report-user-agent" id="ref-for-report-user-agent">user agent</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report⑧">report</a> represents the <code>User-Agent</code> sent by the browser for the page which generated the <a data-link-type="dfn" href="#report" id="ref-for-report⑨">report</a>.  This is potentially distinct from the <code>User-Agent</code> sent in the HTTP headers when uploading the report to a collector — for
@@ -548,7 +540,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①⓪">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-group">group</dfn>,
   which is a string representing the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name①">name</a></code> of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a>’s <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑦">endpoint group</a> that the report will be sent
   to.</p>
-    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①①">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-reporttype">type</dfn>, which is a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type③">report type</a>.</p>
+    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①①">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-reporttype">type</dfn>, which is a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①②">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-timestamp">timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.</p>
@@ -835,7 +827,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <p class="note" role="note"><span>Note:</span> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer①">reporting observers</a> can only observe reports from the
   same <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object①">environment settings object</a>.</p>
      <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from the serialized URL
-  in the report. See <a href="#capability-urls">§ 10.1 Capability URLs</a>.</p>
+  in the report. See <a href="#capability-urls">§ 9.1 Capability URLs</a>.</p>
      <p class="note" role="note"><span>Note:</span> The user agent MAY reject reports for any reason. This API does not
   guarantee delivery of arbitrary amounts of data, for instance.</p>
      <p class="note" role="note"><span>Note:</span> Non user agent clients (with no JavaScript engine) should not interact
@@ -850,7 +842,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <li data-md>
        <p>If <var>group</var> is <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a>, return <code>null</code>.</p>
        <p class="note" role="note"><span>Note:</span> In this case, the user agent MAY remove <var>group</var> from its <a data-link-type="dfn" href="#client" id="ref-for-client⑤">client</a>, or it may wait and collect garbage <i lang="fr">en
-  masse</i> at some point in the future as described in <a href="#gc">§ 7.2 Garbage Collection</a>.</p>
+  masse</i> at some point in the future as described in <a href="#gc">§ 6.2 Garbage Collection</a>.</p>
       <li data-md>
        <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
       <li data-md>
@@ -930,7 +922,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
            </ol>
          </ol>
         <li data-md>
-         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②②">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§ 7.2 Garbage Collection</a> at some point in the future.</p>
+         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②②">endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting cache</a> directly. Depending on load, the user agent MAY instead wait for <a href="#gc">§ 6.2 Garbage Collection</a> at some point in the future.</p>
        </ol>
       <li data-md>
        <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>:</p>
@@ -1025,7 +1017,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
          </dl>
          <p class="note" role="note"><span>Note:</span> Client clocks are unreliable and subject to skew. We therefore
   deliver an <code>age</code> attribute rather than an absolute timestamp. See
-  also <a href="#fingerprinting-clock-skew">§ 11.2 Clock Skew</a></p>
+  also <a href="#fingerprinting-clock-skew">§ 10.2 Clock Skew</a></p>
         <li data-md>
          <p>Increment <var>report</var>’s <a data-link-type="dfn" href="#report-attempts" id="ref-for-report-attempts①">attempts</a>.</p>
         <li data-md>
@@ -1254,188 +1246,8 @@ queue</dfn>, which is initially empty.</p>
      </ol>
     </section>
     <section>
-     <h2 class="heading settled" data-level="6" id="report-types"><span class="secno">6. </span><span class="content">Report Types</span><a class="self-link" href="#report-types"></a></h2>
-     <h3 class="heading settled" data-level="6.1" id="deprecation-report"><span class="secno">6.1. </span><span class="content">Deprecation</span><a class="self-link" href="#deprecation-report"></a></h3>
-     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="deprecation-reports">Deprecation reports</dfn> indicate that a browser API or feature has been
-  used which is expected to stop working in a future update to the browser.</p>
-     <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports">Deprecation reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type④">report type</a> "deprecation".</p>
-     <p><a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports①">Deprecation reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers②">visible to <code>ReportingObserver</code>s</a>.</p>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="deprecationreportbody"><code><c- g>DeprecationReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①"><c- n>ReportBody</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default②"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object②"><c- b>object</c-></a> <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="method" data-export data-lt="toJSON()" id="dom-deprecationreportbody-tojson"><code><c- g>toJSON</c-></code><a class="self-link" href="#dom-deprecationreportbody-tojson"></a></dfn>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-deprecationreportbody-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-deprecationreportbody-id"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects"><c- n>Date</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="Date?" id="dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code><a class="self-link" href="#dom-deprecationreportbody-anticipatedremoval"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-deprecationreportbody-message"><code><c- g>message</c-></code><a class="self-link" href="#dom-deprecationreportbody-message"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-deprecationreportbody-sourcefile"><code><c- g>sourceFile</c-></code><a class="self-link" href="#dom-deprecationreportbody-sourcefile"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="unsigned long?" id="dom-deprecationreportbody-linenumber"><code><c- g>lineNumber</c-></code><a class="self-link" href="#dom-deprecationreportbody-linenumber"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long①"><c- b>unsigned</c-> <c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="DeprecationReportBody" data-dfn-type="attribute" data-export data-readonly data-type="unsigned long?" id="dom-deprecationreportbody-columnnumber"><code><c- g>columnNumber</c-></code><a class="self-link" href="#dom-deprecationreportbody-columnnumber"></a></dfn>;
-};
-</pre>
-     <p>A <a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports②">deprecation report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#deprecationreportbody" id="ref-for-deprecationreportbody">DeprecationReportBody</a></code>, contains the following fields:</p>
-     <ul>
-      <li data-md>
-       <p><dfn class="dfn-paneled" data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport id="deprecationreportbody-id">id</dfn>: an implementation-defined
-string identifying the feature or API that will be removed. This string
-can be used for grouping and counting related reports.</p>
-      <li data-md>
-       <p><dfn class="dfn-paneled" data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport id="deprecationreportbody-anticipatedremoval">anticipatedRemoval</dfn>: A
-JavaScript <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects①">Date object</a> (rendered as an ISO 8601 string) indicating
-roughly when the browser version without the specified API will be
-generally available (excluding "beta" or other pre-release channels). This
-value should be used to sort or prioritize warnings. If unknown, this
-field should be null, and the deprecation should be considered low
-priority (removal may not actually occur).</p>
-      <li data-md>
-       <p><dfn data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport id="deprecationreportbody-message">message<a class="self-link" href="#deprecationreportbody-message"></a></dfn>: A human-readable string
-with details typically matching what would be displayed on the developer
-console. The message is not guaranteed to be unique for a given <a data-link-type="dfn" href="#deprecationreportbody-id" id="ref-for-deprecationreportbody-id">id</a> (eg. it may contain additional context on how
-the API was used).</p>
-      <li data-md>
-       <p><dfn class="dfn-paneled" data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport id="deprecationreportbody-sourcefile">sourceFile</dfn>: If known, the file
-which first used the indicated API, or null otherwise.</p>
-      <li data-md>
-       <p><dfn data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport id="deprecationreportbody-linenumber">lineNumber<a class="self-link" href="#deprecationreportbody-linenumber"></a></dfn>: If known, the line
-number in <a data-link-type="dfn" href="#deprecationreportbody-sourcefile" id="ref-for-deprecationreportbody-sourcefile">sourceFile</a> where the indicated API
-was first used, or null otherwise.</p>
-      <li data-md>
-       <p><dfn data-dfn-for="DeprecationReportBody" data-dfn-type="dfn" data-noexport id="deprecationreportbody-columnnumber">columnNumber<a class="self-link" href="#deprecationreportbody-columnnumber"></a></dfn>: If known, the column
-number in <a data-link-type="dfn" href="#deprecationreportbody-sourcefile" id="ref-for-deprecationreportbody-sourcefile①">sourceFile</a> where the indicated API
-was first used, or null otherwise.</p>
-     </ul>
-     <div class="example" id="example-21e2d71e">
-      <a class="self-link" href="#example-21e2d71e"></a> 
-<pre>{
-  "type": "deprecation",
-  "age": 27,
-  "url": "https://example.com/",
-  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
-  "body": {
-    "id": "websql",
-    "anticipatedRemoval": "2020-01-01",
-    "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
-    "sourceFile": "https://example.com/index.js",
-    "lineNumber": 1234,
-    "columnNumber": 42
-  }
-}
-</pre>
-     </div>
-     <p class="note" role="note"><span>Note:</span> Deprecation reports are always delivered to the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> named <code>default</code>; there is currently no way to override this.  If
-  you want to receive other kinds of reports, but not deprecation reports, make
-  sure to use a different name for the endpoint group that you choose for those
-  reports.</p>
-     <h3 class="heading settled" data-level="6.2" id="intervention-report"><span class="secno">6.2. </span><span class="content">Intervention</span><a class="self-link" href="#intervention-report"></a></h3>
-     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="intervention-reports">Intervention reports</dfn> indicate that a user agent has decided not to
-  honor a request made by the application (e.g. for security, performance or
-  user annoyance reasons). Note that the report properties are the same as those
-  for <a data-link-type="dfn" href="#deprecation-reports" id="ref-for-deprecation-reports③">deprecation reports</a>, except for the absence of <a data-link-type="dfn" href="#deprecationreportbody-anticipatedremoval" id="ref-for-deprecationreportbody-anticipatedremoval">anticipatedRemoval</a>.</p>
-     <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports">Intervention reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑤">report type</a> "intervention".</p>
-     <p><a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports①">Intervention reports</a> are <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers③">visible to <code>ReportingObserver</code>s</a>.</p>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="interventionreportbody"><code><c- g>InterventionReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody②"><c- n>ReportBody</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default③"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object③"><c- b>object</c-></a> <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="method" data-export data-lt="toJSON()" id="dom-interventionreportbody-tojson"><code><c- g>toJSON</c-></code><a class="self-link" href="#dom-interventionreportbody-tojson"></a></dfn>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-interventionreportbody-id"><code><c- g>id</c-></code><a class="self-link" href="#dom-interventionreportbody-id"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString" id="dom-interventionreportbody-message"><code><c- g>message</c-></code><a class="self-link" href="#dom-interventionreportbody-message"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-interventionreportbody-sourcefile"><code><c- g>sourceFile</c-></code><a class="self-link" href="#dom-interventionreportbody-sourcefile"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②"><c- b>unsigned</c-> <c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="unsigned long?" id="dom-interventionreportbody-linenumber"><code><c- g>lineNumber</c-></code><a class="self-link" href="#dom-interventionreportbody-linenumber"></a></dfn>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long③"><c- b>unsigned</c-> <c- b>long</c-></a>? <dfn class="idl-code" data-dfn-for="InterventionReportBody" data-dfn-type="attribute" data-export data-readonly data-type="unsigned long?" id="dom-interventionreportbody-columnnumber"><code><c- g>columnNumber</c-></code><a class="self-link" href="#dom-interventionreportbody-columnnumber"></a></dfn>;
-};
-</pre>
-     <p>An <a data-link-type="dfn" href="#intervention-reports" id="ref-for-intervention-reports②">intervention report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑦">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#interventionreportbody" id="ref-for-interventionreportbody">InterventionReportBody</a></code>, contains the following fields:</p>
-     <ul>
-      <li data-md>
-       <p><dfn class="dfn-paneled" data-dfn-for="InterventionReportBody" data-dfn-type="dfn" data-noexport id="interventionreportbody-id">id</dfn>: an implementation-defined
-string identifying the specific intervention that occurred. This string
-can be used for grouping and counting related reports.</p>
-      <li data-md>
-       <p><dfn data-dfn-for="InterventionReportBody" data-dfn-type="dfn" data-noexport id="interventionreportbody-message">message<a class="self-link" href="#interventionreportbody-message"></a></dfn>: A human-readable string
-with details typically matching what would be displayed on the developer
-console. The message is not guaranteed to be unique for a given <a data-link-type="dfn" href="#interventionreportbody-id" id="ref-for-interventionreportbody-id">id</a> (e.g. it may contain additional context on
-what led to the intervention).</p>
-      <li data-md>
-       <p><dfn class="dfn-paneled" data-dfn-for="InterventionReportBody" data-dfn-type="dfn" data-noexport id="interventionreportbody-sourcefile">sourceFile</dfn>: If known, the file
-which first used the indicated API, or null otherwise.</p>
-      <li data-md>
-       <p><dfn data-dfn-for="InterventionReportBody" data-dfn-type="dfn" data-noexport id="interventionreportbody-linenumber">lineNumber<a class="self-link" href="#interventionreportbody-linenumber"></a></dfn>: If known, the line
-number in <a data-link-type="dfn" href="#interventionreportbody-sourcefile" id="ref-for-interventionreportbody-sourcefile">sourceFile</a> of the offending behavior
-(which prompted the intervention), or null otherwise.</p>
-      <li data-md>
-       <p><dfn data-dfn-for="InterventionReportBody" data-dfn-type="dfn" data-noexport id="interventionreportbody-columnnumber">columnNumber<a class="self-link" href="#interventionreportbody-columnnumber"></a></dfn>: If known, the
-column number in <a data-link-type="dfn" href="#interventionreportbody-sourcefile" id="ref-for-interventionreportbody-sourcefile①">sourceFile</a> of the offending
-behavior (which prompted the intervention), or null otherwise.</p>
-     </ul>
-     <div class="example" id="example-44d3ca21">
-      <a class="self-link" href="#example-44d3ca21"></a> 
-<pre>{
-  "type": "intervention",
-  "age": 27,
-  "url": "https://example.com/",
-  "body": {
-    "id": "audio-no-gesture",
-    "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
-    "sourceFile": "https://example.com/index.js",
-    "lineNumber": 1234,
-    "columnNumber": 42
-  }
-}
-</pre>
-     </div>
-     <p class="note" role="note"><span>Note:</span> Intervention reports are always delivered to the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> named <code>default</code>; there is currently no way to override this.  If
-  you want to receive other kinds of reports, but not intervention reports, make
-  sure to use a different name for the endpoint group that you choose for those
-  reports.</p>
-     <h3 class="heading settled" data-level="6.3" id="crash-report"><span class="secno">6.3. </span><span class="content">Crash</span><a class="self-link" href="#crash-report"></a></h3>
-     <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="crash-reports">Crash reports</dfn> indicate that the user was unable to continue using
-  the page because the browser (or one of its processes necessary for the page)
-  crashed. For security reasons, no details of the crash are communicated except
-  for a unique identifier (which can be interpreted by the browser vendor), and
-  optionally the reason for the crash (such as "oom").</p>
-     <p><a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports">Crash reports</a> have the <a data-link-type="dfn" href="#report-type" id="ref-for-report-type⑥">report type</a> "crash".</p>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="crashreportbody"><code><c- g>CrashReportBody</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③"><c- n>ReportBody</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default④"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object④"><c- b>object</c-></a> <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="method" data-export data-lt="toJSON()" id="dom-crashreportbody-tojson"><code><c- g>toJSON</c-></code><a class="self-link" href="#dom-crashreportbody-tojson"></a></dfn>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨"><c- b>DOMString</c-></a>? <dfn class="idl-code" data-dfn-for="CrashReportBody" data-dfn-type="attribute" data-export data-readonly data-type="DOMString?" id="dom-crashreportbody-reason"><code><c- g>reason</c-></code><a class="self-link" href="#dom-crashreportbody-reason"></a></dfn>;
-};
-</pre>
-     <p>An <a data-link-type="dfn" href="#crash-reports" id="ref-for-crash-reports①">crash report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑧">body</a>, represented in JavaScript by <code class="idl"><a data-link-type="idl" href="#crashreportbody" id="ref-for-crashreportbody">CrashReportBody</a></code>, contains the following field:</p>
-     <ul>
-      <li data-md>
-       <p><dfn class="dfn-paneled" data-dfn-for="CrashReportBody" data-dfn-type="dfn" data-noexport id="crashreportbody-reason">reason</dfn>: A more specific classification of
-the type of crash that occured, if known, or omitted otherwise. The
-valid <a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashreportbody-reason">reason</a> strings are shown below.</p>
-     </ul>
-     <table border="1" cellpadding="5px" style="border-collapse: collapse;">
-      <tbody>
-       <tr>
-        <th><a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashreportbody-reason①">Reason</a>
-        <th>Description
-       <tr>
-        <td>oom
-        <td>The page ran out of memory.
-       <tr>
-        <td>unresponsive
-        <td>The page was killed due to being unresponsive.
-     </table>
-     <div class="example" id="example-87d4de2a">
-      <a class="self-link" href="#example-87d4de2a"></a> 
-<pre>{
-  "type": "crash",
-  "age": 42,
-  "url": "https://example.com/",
-  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
-  "body": {
-    "reason": "oom"
-  }
-}
-</pre>
-     </div>
-     <p class="note" role="note"><span>Note:</span> Crash reports are always delivered to the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑥">endpoint group</a> named <code>default</code>; there is currently no way to override this.  If you want
-  to receive other kinds of reports, but not crash reports, make sure to use a
-  different name for the endpoint group that you choose for those reports.</p>
-    </section>
-    <section>
-     <h2 class="heading settled" data-level="7" id="implementation"><span class="secno">7. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation"></a></h2>
-     <h3 class="heading settled" data-level="7.1" id="delivery"><span class="secno">7.1. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h3>
+     <h2 class="heading settled" data-level="6" id="implementation"><span class="secno">6. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation"></a></h2>
+     <h3 class="heading settled" data-level="6.1" id="delivery"><span class="secno">6.1. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h3>
      <p>The user agent SHOULD attempt to deliver reports as soon as possible to
   provide feedback to developers as quickly as possible. However, when this
   desire is balanced against the impact on the user, the user wins. With that
@@ -1448,14 +1260,14 @@ valid <a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashre
   is on a fast, cheap network in order to prevent unnecessary data cost.</p>
      <p>The user agent MAY choose to prioritize reports from particular origins over
   others (perhaps those that the user visits most often?)</p>
-     <h3 class="heading settled" data-level="7.2" id="gc"><span class="secno">7.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
+     <h3 class="heading settled" data-level="6.2" id="gc"><span class="secno">6.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
      <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report" id="ref-for-report②⑨">reports</a> and <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②④">endpoints</a>, and discard those that are no longer
   relevant. These include:</p>
      <ul>
       <li data-md>
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑦">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired①">expired</a></p>
+       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired①">expired</a></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑧">endpoint groups</a> which have not been used in some arbitrary period
+       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint groups</a> which have not been used in some arbitrary period
   of time (perhaps a ~week?)</p>
       <li data-md>
        <p><a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②⑤">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed
@@ -1471,7 +1283,7 @@ valid <a data-link-type="dfn" href="#crashreportbody-reason" id="ref-for-crashre
   removed from the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer⑤">report buffer</a> of any <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑦">reporting observer</a>.</p>
     </section>
     <section>
-     <h2 class="heading settled" data-level="8" id="sample-reports"><span class="secno">8. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
+     <h2 class="heading settled" data-level="7" id="sample-reports"><span class="secno">7. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
      <div class="example" id="example-76ba69fd">
       <a class="self-link" href="#example-76ba69fd"></a> 
 <pre>POST / HTTP/1.1
@@ -1532,17 +1344,17 @@ Content-Type: application/reports+json
      </div>
     </section>
     <section>
-     <h2 class="heading settled" data-level="9" id="automation"><span class="secno">9. </span><span class="content">Automation</span><a class="self-link" href="#automation"></a></h2>
+     <h2 class="heading settled" data-level="8" id="automation"><span class="secno">8. </span><span class="content">Automation</span><a class="self-link" href="#automation"></a></h2>
      <p>For the purposes of user-agent automation and application testing, this
   document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver">[WebDriver]</a> specification.</p>
-     <h3 class="heading settled" data-level="9.1" id="generate-test-report-command"><span class="secno">9.1. </span><span class="content">Generate Test Report</span><a class="self-link" href="#generate-test-report-command"></a></h3>
+     <h3 class="heading settled" data-level="8.1" id="generate-test-report-command"><span class="secno">8.1. </span><span class="content">Generate Test Report</span><a class="self-link" href="#generate-test-report-command"></a></h3>
      <p>The <dfn data-dfn-type="dfn" data-noexport id="generate-test-report">Generate Test Report<a class="self-link" href="#generate-test-report"></a></dfn> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command" id="ref-for-dfn-extension-command①">extension command</a> simulates the
   generation of a <a data-link-type="dfn" href="#report" id="ref-for-report③④">report</a> for the purposes of testing. This report will be
   observed by any <a data-link-type="dfn" href="#registered" id="ref-for-registered③">registered</a> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑧">reporting observers</a>.</p>
      <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command" id="ref-for-dfn-extension-command②">extension command</a> is defined as follows:</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="idl-code" data-dfn-type="dictionary" data-export id="dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code><a class="self-link" href="#dictdef-generatetestreportparameters"></a></dfn> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①⓪"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-message"><code><c- g>message</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;default&quot;" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn> = "default";
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-message"><code><c- g>message</c-></code></dfn>;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;default&quot;" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn> = "default";
 };
 </pre>
      <table style="border-spacing: 20px 0px;">
@@ -1585,46 +1397,46 @@ Content-Type: application/reports+json
      </ol>
     </section>
     <section>
-     <h2 class="heading settled" data-level="10" id="security"><span class="secno">10. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
-     <h3 class="heading settled" data-level="10.1" id="capability-urls"><span class="secno">10.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
+     <h2 class="heading settled" data-level="9" id="security"><span class="secno">9. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
+     <h3 class="heading settled" data-level="9.1" id="capability-urls"><span class="secno">9.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
      <p>Some URLs are valuable in and of themselves. To mitigate the possibility
   that such URLs will be leaked via this reporting mechanism, we strip out
   credential information and fragment data from the URL we store as a <a data-link-type="dfn" href="#report" id="ref-for-report③⑤">report</a>’s originator. It is still possible, however, for a feature
-  to unintentionally leak such data via a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑨">body</a>. Implementers
+  to unintentionally leak such data via a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a>. Implementers
   SHOULD ensure that URLs contained in a report’s body are similarly stripped.</p>
     </section>
     <section>
-     <h2 class="heading settled" data-level="11" id="privacy"><span class="secno">11. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
-     <h3 class="heading settled" data-level="11.1" id="network-leakage"><span class="secno">11.1. </span><span class="content">Network Leakage</span><a class="self-link" href="#network-leakage"></a></h3>
+     <h2 class="heading settled" data-level="10" id="privacy"><span class="secno">10. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
+     <h3 class="heading settled" data-level="10.1" id="network-leakage"><span class="secno">10.1. </span><span class="content">Network Leakage</span><a class="self-link" href="#network-leakage"></a></h3>
      <p>Because this reporting mechanism is out-of-band, and doesn’t rely on a page
   being open, it’s entirely possible for a report generated while a user is on
   one network to be sent while the user is on another network, even if they
   don’t explicitly open the page from which the report was sent.</p>
      <p class="issue" id="issue-acba119f"><a class="self-link" href="#issue-acba119f"></a> Consider mitigations. For example, we could
   drop reports if we change from one network to another. <a href="https://github.com/w3c/BackgroundSync/issues/107">&lt;https://github.com/w3c/BackgroundSync/issues/107></a></p>
-     <h3 class="heading settled" data-level="11.2" id="fingerprinting-clock-skew"><span class="secno">11.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
+     <h3 class="heading settled" data-level="10.2" id="fingerprinting-clock-skew"><span class="secno">10.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
      <p>Each report is delivered along with an <code>age</code> property, rather than the
   timestamp at which it was generated. We do this because each user’s local
   clock will be skewed from the clock on the server by an arbitrary amount.
   The difference between the time the report was generated and the time it
   was sent will be stable, regardless of clock skew, and we can avoid the
   fingerprinting risk of exposing the clock skew via this API.</p>
-     <h3 class="heading settled" data-level="11.3" id="correlation"><span class="secno">11.3. </span><span class="content">Cross-origin correlation</span><a class="self-link" href="#correlation"></a></h3>
+     <h3 class="heading settled" data-level="10.3" id="correlation"><span class="secno">10.3. </span><span class="content">Cross-origin correlation</span><a class="self-link" href="#correlation"></a></h3>
      <p>If multiple origins all use the same reporting endpoint, that endpoint may
   learn that a particular user has interacted with a certain set of websites,
   as it will receive origin-tagged reports from each. This doesn’t seem worse
   than the status quo ability to track the same information from cooperative
   origins, and doesn’t grant any new tracking ability above and beyond what’s
   possible with <code>&lt;img></code> today.</p>
-     <h3 class="heading settled" data-level="11.4" id="subdomains"><span class="secno">11.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
+     <h3 class="heading settled" data-level="10.4" id="subdomains"><span class="secno">10.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
      <p>This specification allows any resource on a host to declare a set of reporting
   endpoints for that host and each of its subdomains. This doesn’t have privacy
-  implications in and of itself (beyond those noted in <a href="#clear-cache">§ 11.5 Clearing the reporting cache</a>), as the
+  implications in and of itself (beyond those noted in <a href="#clear-cache">§ 10.5 Clearing the reporting cache</a>), as the
   reporting endpoints themselves don’t take any real action, as features will
   need to opt-into using these reporting endpoints explicitly. Those features
   certainly will have privacy implications, and should carefully consider
   whether they should be enabled across origin boundaries.</p>
-     <h3 class="heading settled" data-level="11.5" id="clear-cache"><span class="secno">11.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
+     <h3 class="heading settled" data-level="10.5" id="clear-cache"><span class="secno">10.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
      <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①③">reporting cache</a> contains data about a user’s activity
   on the web, and user agents ought to handle this data carefully. In
   particular, if a user agent gives users the ability to clear their site data,
@@ -1632,7 +1444,7 @@ Content-Type: application/reports+json
   the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①④">reporting cache</a>. Note that this includes both the pending reports
   themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.</p>
-     <h3 class="heading settled" data-level="11.6" id="disable"><span class="secno">11.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
+     <h3 class="heading settled" data-level="10.6" id="disable"><span class="secno">10.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
      <p>Reporting is, to some extent, a question of commons. In the aggregate, it
   seems useful for everyone for reports to be delivered. There is direct benefit
   to developers, as they can fix bugs, which means there’s indirect benefit to
@@ -1653,8 +1465,8 @@ Content-Type: application/reports+json
   to maintain the priority of constituencies espoused in <a data-link-type="biblio" href="#biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
     </section>
     <section>
-     <h2 class="heading settled" data-level="12" id="iana-considerations"><span class="secno">12. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
-     <h3 class="heading settled" data-level="12.1" id="header-field-registration"><span class="secno">12.1. </span><span class="content">The <code>Report-To</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
+     <h2 class="heading settled" data-level="11" id="iana-considerations"><span class="secno">11. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
+     <h3 class="heading settled" data-level="11.1" id="header-field-registration"><span class="secno">11.1. </span><span class="content">The <code>Report-To</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
      <p>The permanent message header field registry should be updated
   with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
      <dl>
@@ -1674,7 +1486,7 @@ Content-Type: application/reports+json
       <dd data-md>
        <p>This specification (see <a href="#header">§ 3.1 The Report-To HTTP Response Header Field</a>)</p>
      </dl>
-     <h3 class="heading settled" data-level="12.2" id="media-type-registration"><span class="secno">12.2. </span><span class="content">The <code>application/reports+json</code> Media Type</span><a class="self-link" href="#media-type-registration"></a></h3>
+     <h3 class="heading settled" data-level="11.2" id="media-type-registration"><span class="secno">11.2. </span><span class="content">The <code>application/reports+json</code> Media Type</span><a class="self-link" href="#media-type-registration"></a></h3>
      <dl>
       <dt data-md>Type name
       <dd data-md>
@@ -1693,7 +1505,7 @@ Content-Type: application/reports+json
        <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc8259">[RFC8259]</a>.</p>
       <dt data-md>Security considerations
       <dd data-md>
-       <p>See <a href="#security">§ 10 Security Considerations</a>.</p>
+       <p>See <a href="#security">§ 9 Security Considerations</a>.</p>
       <dt data-md>Interoperability considerations
       <dd data-md>
        <p>This document specifies the format of conforming messages and the interpretation thereof.</p>
@@ -1731,12 +1543,6 @@ Content-Type: application/reports+json
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li>
-    anticipatedRemoval
-    <ul>
-     <li><a href="#dom-deprecationreportbody-anticipatedremoval">attribute for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#deprecationreportbody-anticipatedremoval">dfn for DeprecationReportBody</a><span>, in §6.1</span>
-    </ul>
    <li><a href="#report-attempts">attempts</a><span>, in §2.5</span>
    <li>
     body
@@ -1747,21 +1553,9 @@ Content-Type: application/reports+json
    <li><a href="#dom-reportingobserveroptions-buffered">buffered</a><span>, in §5.1</span>
    <li><a href="#reportingobserver-callback">callback</a><span>, in §5.1</span>
    <li><a href="#client">client</a><span>, in §2.1</span>
-   <li>
-    columnNumber
-    <ul>
-     <li><a href="#dom-deprecationreportbody-columnnumber">attribute for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#dom-interventionreportbody-columnnumber">attribute for InterventionReportBody</a><span>, in §6.2</span>
-     <li><a href="#deprecationreportbody-columnnumber">dfn for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#interventionreportbody-columnnumber">dfn for InterventionReportBody</a><span>, in §6.2</span>
-    </ul>
    <li><a href="#dom-reportingobserver-reportingobserver">constructor(callback)</a><span>, in §5.1</span>
    <li><a href="#dom-reportingobserver-reportingobserver">constructor(callback, options)</a><span>, in §5.1</span>
-   <li><a href="#crashreportbody">CrashReportBody</a><span>, in §6.3</span>
-   <li><a href="#crash-reports">Crash reports</a><span>, in §6.3</span>
    <li><a href="#dom-endpoint-group-creation">creation</a><span>, in §2.2</span>
-   <li><a href="#deprecationreportbody">DeprecationReportBody</a><span>, in §6.1</span>
-   <li><a href="#deprecation-reports">Deprecation reports</a><span>, in §6.1</span>
    <li><a href="#dom-reportingobserver-disconnect">disconnect()</a><span>, in §5.1</span>
    <li><a href="#endpoint">endpoint</a><span>, in §2.3</span>
    <li><a href="#endpoint-group">endpoint group</a><span>, in §2.2</span>
@@ -1775,44 +1569,18 @@ Content-Type: application/reports+json
    <li><a href="#endpoint-group-expired">expired</a><span>, in §2.2</span>
    <li><a href="#failover-class">failover class</a><span>, in §2.7</span>
    <li><a href="#dom-endpoint-failures">failures</a><span>, in §2.3</span>
-   <li><a href="#generate-test-report">Generate Test Report</a><span>, in §9.1</span>
-   <li><a href="#dictdef-generatetestreportparameters">GenerateTestReportParameters</a><span>, in §9.1</span>
+   <li><a href="#generate-test-report">Generate Test Report</a><span>, in §8.1</span>
+   <li><a href="#dictdef-generatetestreportparameters">GenerateTestReportParameters</a><span>, in §8.1</span>
    <li>
     group
     <ul>
      <li><a href="#reportto-group">dfn for ReportTo</a><span>, in §3.1.1</span>
      <li><a href="#report-group">dfn for report</a><span>, in §2.5</span>
-     <li><a href="#dom-generatetestreportparameters-group">dict-member for GenerateTestReportParameters</a><span>, in §9.1</span>
-    </ul>
-   <li>
-    id
-    <ul>
-     <li><a href="#dom-deprecationreportbody-id">attribute for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#dom-interventionreportbody-id">attribute for InterventionReportBody</a><span>, in §6.2</span>
-     <li><a href="#deprecationreportbody-id">dfn for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#interventionreportbody-id">dfn for InterventionReportBody</a><span>, in §6.2</span>
+     <li><a href="#dom-generatetestreportparameters-group">dict-member for GenerateTestReportParameters</a><span>, in §8.1</span>
     </ul>
    <li><a href="#reportto-include_subdomains">include_subdomains</a><span>, in §3.1.2</span>
-   <li><a href="#interventionreportbody">InterventionReportBody</a><span>, in §6.2</span>
-   <li><a href="#intervention-reports">Intervention reports</a><span>, in §6.2</span>
-   <li>
-    lineNumber
-    <ul>
-     <li><a href="#dom-deprecationreportbody-linenumber">attribute for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#dom-interventionreportbody-linenumber">attribute for InterventionReportBody</a><span>, in §6.2</span>
-     <li><a href="#deprecationreportbody-linenumber">dfn for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#interventionreportbody-linenumber">dfn for InterventionReportBody</a><span>, in §6.2</span>
-    </ul>
    <li><a href="#reportto-max_age">max_age</a><span>, in §3.1.3</span>
-   <li>
-    message
-    <ul>
-     <li><a href="#dom-deprecationreportbody-message">attribute for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#dom-interventionreportbody-message">attribute for InterventionReportBody</a><span>, in §6.2</span>
-     <li><a href="#deprecationreportbody-message">dfn for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#interventionreportbody-message">dfn for InterventionReportBody</a><span>, in §6.2</span>
-     <li><a href="#dom-generatetestreportparameters-message">dict-member for GenerateTestReportParameters</a><span>, in §9.1</span>
-    </ul>
+   <li><a href="#dom-generatetestreportparameters-message">message</a><span>, in §8.1</span>
    <li><a href="#dom-endpoint-group-name">name</a><span>, in §2.2</span>
    <li><a href="#dom-reportingobserver-observe">observe()</a><span>, in §5.1</span>
    <li><a href="#reportingobserver-options">options</a><span>, in §5.1</span>
@@ -1823,12 +1591,6 @@ Content-Type: application/reports+json
     <ul>
      <li><a href="#dom-endpoint-priority">attribute for endpoint</a><span>, in §2.3</span>
      <li><a href="#reportto-priority">dfn for ReportTo</a><span>, in §3.1.6</span>
-    </ul>
-   <li>
-    reason
-    <ul>
-     <li><a href="#dom-crashreportbody-reason">attribute for CrashReportBody</a><span>, in §6.3</span>
-     <li><a href="#crashreportbody-reason">dfn for CrashReportBody</a><span>, in §6.3</span>
     </ul>
    <li><a href="#registered">registered</a><span>, in §5</span>
    <li><a href="#registered-reporting-observer-list">registered reporting observer list</a><span>, in §5</span>
@@ -1848,23 +1610,12 @@ Content-Type: application/reports+json
    <li><a href="#report-to">Report-To</a><span>, in §3.1</span>
    <li><a href="#report-type">report type</a><span>, in §2.4</span>
    <li><a href="#dom-endpoint-retry_after">retry_after</a><span>, in §2.3</span>
-   <li>
-    sourceFile
-    <ul>
-     <li><a href="#dom-deprecationreportbody-sourcefile">attribute for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#dom-interventionreportbody-sourcefile">attribute for InterventionReportBody</a><span>, in §6.2</span>
-     <li><a href="#deprecationreportbody-sourcefile">dfn for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#interventionreportbody-sourcefile">dfn for InterventionReportBody</a><span>, in §6.2</span>
-    </ul>
    <li><a href="#dom-endpoint-group-subdomains">subdomains</a><span>, in §2.2</span>
    <li><a href="#dom-reportingobserver-takerecords">takeRecords()</a><span>, in §5.1</span>
    <li><a href="#report-timestamp">timestamp</a><span>, in §2.5</span>
    <li>
     toJSON()
     <ul>
-     <li><a href="#dom-crashreportbody-tojson">method for CrashReportBody</a><span>, in §6.3</span>
-     <li><a href="#dom-deprecationreportbody-tojson">method for DeprecationReportBody</a><span>, in §6.1</span>
-     <li><a href="#dom-interventionreportbody-tojson">method for InterventionReportBody</a><span>, in §6.2</span>
      <li><a href="#dom-report-tojson">method for Report</a><span>, in §5.1</span>
      <li><a href="#dom-reportbody-tojson">method for ReportBody</a><span>, in §5.1</span>
     </ul>
@@ -1909,18 +1660,6 @@ Content-Type: application/reports+json
    <a href="https://dom.spec.whatwg.org/#context-object">https://dom.spec.whatwg.org/#context-object</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-context-object">5.1. Interface ReportingObserver</a> <a href="#ref-for-context-object①">(2)</a> <a href="#ref-for-context-object②">(3)</a> <a href="#ref-for-context-object③">(4)</a> <a href="#ref-for-context-object④">(5)</a> <a href="#ref-for-context-object⑤">(6)</a> <a href="#ref-for-context-object⑥">(7)</a> <a href="#ref-for-context-object⑦">(8)</a> <a href="#ref-for-context-object⑧">(9)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-sec-date-objects">
-   <a href="https://tc39.github.io/ecma262/#sec-date-objects">https://tc39.github.io/ecma262/#sec-date-objects</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-sec-date-objects">6.1. Deprecation</a> <a href="#ref-for-sec-date-objects①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-sec-date-objects">
-   <a href="https://tc39.github.io/ecma262/#sec-date-objects">https://tc39.github.io/ecma262/#sec-date-objects</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-sec-date-objects">6.1. Deprecation</a> <a href="#ref-for-sec-date-objects①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-realm">
@@ -2043,13 +1782,13 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-blob-url-entry-object">
    <a href="https://w3c.github.io/FileAPI/#blob-url-entry-object">https://w3c.github.io/FileAPI/#blob-url-entry-object</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-blob-url-entry-object">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-blob-url-entry-object">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-active-document">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#active-document">https://html.spec.whatwg.org/multipage/browsers.html#active-document</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-active-document">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-active-document">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-creation-url">
@@ -2064,7 +1803,7 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-environment-settings-object">4.2. 
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-environment-settings-object①">(2)</a>
-    <li><a href="#ref-for-environment-settings-object②">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-environment-settings-object②">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-navigator-useragent">
@@ -2180,7 +1919,7 @@ Content-Type: application/reports+json
    <a href="https://tools.ietf.org/html/rfc8259#section-2">https://tools.ietf.org/html/rfc8259#section-2</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-section-2">2.5. Reports</a>
-    <li><a href="#ref-for-section-2②">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-section-2②">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
@@ -2264,96 +2003,87 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-dfn-current-browsing-context">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-current-browsing-context">9.1. Generate Test Report</a> <a href="#ref-for-dfn-current-browsing-context①">(2)</a>
+    <li><a href="#ref-for-dfn-current-browsing-context">8.1. Generate Test Report</a> <a href="#ref-for-dfn-current-browsing-context①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-extension-command">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-extension-command">9. Automation</a>
-    <li><a href="#ref-for-dfn-extension-command①">9.1. Generate Test Report</a> <a href="#ref-for-dfn-extension-command②">(2)</a>
+    <li><a href="#ref-for-dfn-extension-command">8. Automation</a>
+    <li><a href="#ref-for-dfn-extension-command①">8.1. Generate Test Report</a> <a href="#ref-for-dfn-extension-command②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-extension-command-uri-template">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-uri-template">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-uri-template</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-extension-command-uri-template">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dfn-extension-command-uri-template">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-handle-any-user-prompts">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-handle-any-user-prompts">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-handle-any-user-prompts</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-handle-any-user-prompts">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dfn-handle-any-user-prompts">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-invalid-argument">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-invalid-argument">9.1. Generate Test Report</a> <a href="#ref-for-dfn-invalid-argument①">(2)</a>
+    <li><a href="#ref-for-dfn-invalid-argument">8.1. Generate Test Report</a> <a href="#ref-for-dfn-invalid-argument①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-no-such-window">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-no-such-window">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-no-such-window</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-no-such-window">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dfn-no-such-window">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-remote-end-steps">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-remote-end-steps">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dfn-remote-end-steps">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-success">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-success">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dfn-success">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-try">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-try">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dfn-try">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-error">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-error">9.1. Generate Test Report</a> <a href="#ref-for-dfn-error①">(2)</a> <a href="#ref-for-dfn-error②">(3)</a> <a href="#ref-for-dfn-error③">(4)</a>
+    <li><a href="#ref-for-dfn-error">8.1. Generate Test Report</a> <a href="#ref-for-dfn-error①">(2)</a> <a href="#ref-for-dfn-error②">(3)</a> <a href="#ref-for-dfn-error③">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-error-code">
    <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-error-code">9.1. Generate Test Report</a> <a href="#ref-for-dfn-error-code①">(2)</a> <a href="#ref-for-dfn-error-code②">(3)</a>
+    <li><a href="#ref-for-dfn-error-code">8.1. Generate Test Report</a> <a href="#ref-for-dfn-error-code①">(2)</a> <a href="#ref-for-dfn-error-code②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
    <a href="https://heycam.github.io/webidl/#idl-DOMString">https://heycam.github.io/webidl/#idl-DOMString</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMString">5.1. Interface ReportingObserver</a> <a href="#ref-for-idl-DOMString①">(2)</a> <a href="#ref-for-idl-DOMString②">(3)</a>
-    <li><a href="#ref-for-idl-DOMString③">6.1. Deprecation</a> <a href="#ref-for-idl-DOMString④">(2)</a> <a href="#ref-for-idl-DOMString⑤">(3)</a>
-    <li><a href="#ref-for-idl-DOMString⑥">6.2. Intervention</a> <a href="#ref-for-idl-DOMString⑦">(2)</a> <a href="#ref-for-idl-DOMString⑧">(3)</a>
-    <li><a href="#ref-for-idl-DOMString⑨">6.3. Crash</a>
-    <li><a href="#ref-for-idl-DOMString①⓪">9.1. Generate Test Report</a> <a href="#ref-for-idl-DOMString①①">(2)</a>
+    <li><a href="#ref-for-idl-DOMString③">8.1. Generate Test Report</a> <a href="#ref-for-idl-DOMString④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-Default">
    <a href="https://heycam.github.io/webidl/#Default">https://heycam.github.io/webidl/#Default</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-Default">5.1. Interface ReportingObserver</a> <a href="#ref-for-Default①">(2)</a>
-    <li><a href="#ref-for-Default②">6.1. Deprecation</a>
-    <li><a href="#ref-for-Default③">6.2. Intervention</a>
-    <li><a href="#ref-for-Default④">6.3. Crash</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-Exposed">
    <a href="https://heycam.github.io/webidl/#Exposed">https://heycam.github.io/webidl/#Exposed</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-Exposed">5.1. Interface ReportingObserver</a> <a href="#ref-for-Exposed①">(2)</a> <a href="#ref-for-Exposed②">(3)</a>
-    <li><a href="#ref-for-Exposed③">6.1. Deprecation</a>
-    <li><a href="#ref-for-Exposed④">6.2. Intervention</a>
-    <li><a href="#ref-for-Exposed⑤">6.3. Crash</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-boolean">
@@ -2380,16 +2110,6 @@ Content-Type: application/reports+json
    <a href="https://heycam.github.io/webidl/#idl-object">https://heycam.github.io/webidl/#idl-object</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-object">5.1. Interface ReportingObserver</a> <a href="#ref-for-idl-object①">(2)</a>
-    <li><a href="#ref-for-idl-object②">6.1. Deprecation</a>
-    <li><a href="#ref-for-idl-object③">6.2. Intervention</a>
-    <li><a href="#ref-for-idl-object④">6.3. Crash</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-unsigned-long">
-   <a href="https://heycam.github.io/webidl/#idl-unsigned-long">https://heycam.github.io/webidl/#idl-unsigned-long</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-idl-unsigned-long">6.1. Deprecation</a> <a href="#ref-for-idl-unsigned-long①">(2)</a>
-    <li><a href="#ref-for-idl-unsigned-long②">6.2. Intervention</a> <a href="#ref-for-idl-unsigned-long③">(2)</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2408,8 +2128,6 @@ Content-Type: application/reports+json
    <li>
     <a data-link-type="biblio">[ECMA-262]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-sec-date-objects" style="color:initial">Date</span>
-     <li><span class="dfn-paneled" id="term-for-sec-date-objects①" style="color:initial">date object</span>
      <li><span class="dfn-paneled" id="term-for-realm" style="color:initial">realm</span>
     </ul>
    <li>
@@ -2525,7 +2243,6 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-dfn-callback-this-value" style="color:initial">callback this value</span>
      <li><span class="dfn-paneled" id="term-for-invoke-a-callback-function" style="color:initial">invoke</span>
      <li><span class="dfn-paneled" id="term-for-idl-object" style="color:initial">object</span>
-     <li><span class="dfn-paneled" id="term-for-idl-unsigned-long" style="color:initial">unsigned long</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2578,17 +2295,17 @@ Content-Type: application/reports+json
    <dd>C. Evans; C. Palmer; R. Sleevi. <a href="https://tools.ietf.org/html/rfc7469">Public Key Pinning Extension for HTTP</a>. April 2015. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc7469">https://tools.ietf.org/html/rfc7469</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑥"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#reportbody"><code><c- g>ReportBody</c-></code></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default⑤"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object⑤"><c- b>object</c-></a> <a href="#dom-reportbody-tojson"><code><c- g>toJSON</c-></code></a>();
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default②"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object②"><c- b>object</c-></a> <a href="#dom-reportbody-tojson"><code><c- g>toJSON</c-></code></a>();
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#dom-report" id="ref-for-dom-report⑥"><c- g>Report</c-></a> {
   [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default①①"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object①①"><c- b>object</c-></a> <a href="#dom-report-tojson"><code><c- g>toJSON</c-></code></a>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①③"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②"><c- g>type</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①②"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url②"><c- g>url</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody④"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body②"><c- g>body</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-type" id="ref-for-dom-report-type②"><c- g>type</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="DOMString" href="#dom-report-url" id="ref-for-dom-report-url②"><c- g>url</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①"><c- n>ReportBody</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="ReportBody?" href="#dom-report-body" id="ref-for-dom-report-body②"><c- g>body</c-></a>;
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
@@ -2608,36 +2325,9 @@ Content-Type: application/reports+json
 
 <c- b>typedef</c-> <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②①"><c- n>Report</c-></a>> <a href="#typedefdef-reportlist"><code><c- g>ReportList</c-></code></a>;
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
-<c- b>interface</c-> <a href="#deprecationreportbody"><code><c- g>DeprecationReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody①①"><c- n>ReportBody</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default②①"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object②①"><c- b>object</c-></a> <a href="#dom-deprecationreportbody-tojson"><code><c- g>toJSON</c-></code></a>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-deprecationreportbody-id"><code><c- g>id</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://tc39.github.io/ecma262/#sec-date-objects" id="ref-for-sec-date-objects②"><c- n>Date</c-></a>? <a data-readonly data-type="Date?" href="#dom-deprecationreportbody-anticipatedremoval"><code><c- g>anticipatedRemoval</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-deprecationreportbody-message"><code><c- g>message</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-deprecationreportbody-sourcefile"><code><c- g>sourceFile</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long④"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-deprecationreportbody-linenumber"><code><c- g>lineNumber</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long①①"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-deprecationreportbody-columnnumber"><code><c- g>columnNumber</c-></code></a>;
-};
-
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
-<c- b>interface</c-> <a href="#interventionreportbody"><code><c- g>InterventionReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody②①"><c- n>ReportBody</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default③①"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object③①"><c- b>object</c-></a> <a href="#dom-interventionreportbody-tojson"><code><c- g>toJSON</c-></code></a>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-interventionreportbody-id"><code><c- g>id</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><c- b>DOMString</c-></a> <a data-readonly data-type="DOMString" href="#dom-interventionreportbody-message"><code><c- g>message</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-interventionreportbody-sourcefile"><code><c- g>sourceFile</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②①"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-interventionreportbody-linenumber"><code><c- g>lineNumber</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long③①"><c- b>unsigned</c-> <c- b>long</c-></a>? <a data-readonly data-type="unsigned long?" href="#dom-interventionreportbody-columnnumber"><code><c- g>columnNumber</c-></code></a>;
-};
-
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
-<c- b>interface</c-> <a href="#crashreportbody"><code><c- g>CrashReportBody</c-></code></a> : <a class="n" data-link-type="idl-name" href="#reportbody" id="ref-for-reportbody③①"><c- n>ReportBody</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Default" id="ref-for-Default④①"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-object" id="ref-for-idl-object④①"><c- b>object</c-></a> <a href="#dom-crashreportbody-tojson"><code><c- g>toJSON</c-></code></a>();
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑨①"><c- b>DOMString</c-></a>? <a data-readonly data-type="DOMString?" href="#dom-crashreportbody-reason"><code><c- g>reason</c-></code></a>;
-};
-
 <c- b>dictionary</c-> <a href="#dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code></a> {
-  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①⓪①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-generatetestreportparameters-message"><code><c- g>message</c-></code></a>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①①"><c- b>DOMString</c-></a> <a data-default="&quot;default&quot;" data-type="DOMString " href="#dom-generatetestreportparameters-group"><code><c- g>group</c-></code></a> = "default";
+  <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a> <a data-type="DOMString " href="#dom-generatetestreportparameters-message"><code><c- g>message</c-></code></a>;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a> <a data-default="&quot;default&quot;" data-type="DOMString " href="#dom-generatetestreportparameters-group"><code><c- g>group</c-></code></a> = "default";
 };
 
 </pre>
@@ -2696,10 +2386,7 @@ Content-Type: application/reports+json
     Choose an endpoint from a group </a>
     <li><a href="#ref-for-endpoint-group②②">4.4. 
     Send reports </a> <a href="#ref-for-endpoint-group②③">(2)</a>
-    <li><a href="#ref-for-endpoint-group②④">6.1. Deprecation</a>
-    <li><a href="#ref-for-endpoint-group②⑤">6.2. Intervention</a>
-    <li><a href="#ref-for-endpoint-group②⑥">6.3. Crash</a>
-    <li><a href="#ref-for-endpoint-group②⑦">7.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②⑧">(2)</a>
+    <li><a href="#ref-for-endpoint-group②④">6.2. Garbage Collection</a> <a href="#ref-for-endpoint-group②⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-group-name">
@@ -2753,7 +2440,7 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-endpoint-group-expired">4.3. 
     Choose an endpoint from a group </a>
-    <li><a href="#ref-for-endpoint-group-expired①">7.2. Garbage Collection</a>
+    <li><a href="#ref-for-endpoint-group-expired①">6.2. Garbage Collection</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="endpoint">
@@ -2776,7 +2463,7 @@ Content-Type: application/reports+json
     Send reports </a> <a href="#ref-for-endpoint②①">(2)</a> <a href="#ref-for-endpoint②②">(3)</a>
     <li><a href="#ref-for-endpoint②③">4.5. 
     Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-endpoint②④">7.2. Garbage Collection</a> <a href="#ref-for-endpoint②⑤">(2)</a>
+    <li><a href="#ref-for-endpoint②④">6.2. Garbage Collection</a> <a href="#ref-for-endpoint②⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-url">
@@ -2815,7 +2502,7 @@ Content-Type: application/reports+json
     Process reporting endpoints for response to request </a>
     <li><a href="#ref-for-dom-endpoint-failures①">4.4. 
     Send reports </a> <a href="#ref-for-dom-endpoint-failures②">(2)</a>
-    <li><a href="#ref-for-dom-endpoint-failures③">7.2. Garbage Collection</a>
+    <li><a href="#ref-for-dom-endpoint-failures③">6.2. Garbage Collection</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-retry_after">
@@ -2838,11 +2525,8 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="report-type">
    <b><a href="#report-type">#report-type</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-type">2.4. Report Type</a> <a href="#ref-for-report-type①">(2)</a> <a href="#ref-for-report-type②">(3)</a>
-    <li><a href="#ref-for-report-type③">2.5. Reports</a>
-    <li><a href="#ref-for-report-type④">6.1. Deprecation</a>
-    <li><a href="#ref-for-report-type⑤">6.2. Intervention</a>
-    <li><a href="#ref-for-report-type⑥">6.3. Crash</a>
+    <li><a href="#ref-for-report-type">2.4. Report Type</a> <a href="#ref-for-report-type①">(2)</a>
+    <li><a href="#ref-for-report-type②">2.5. Reports</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="visible-to-reportingobservers">
@@ -2851,8 +2535,6 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-visible-to-reportingobservers">2.4. Report Type</a>
     <li><a href="#ref-for-visible-to-reportingobservers①">5.3. 
     Add report to observer </a>
-    <li><a href="#ref-for-visible-to-reportingobservers②">6.1. Deprecation</a>
-    <li><a href="#ref-for-visible-to-reportingobservers③">6.2. Intervention</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report">
@@ -2873,9 +2555,9 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report②⑦">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report②⑧">5.3. 
     Add report to observer </a>
-    <li><a href="#ref-for-report②⑨">7.2. Garbage Collection</a> <a href="#ref-for-report③⓪">(2)</a> <a href="#ref-for-report③①">(3)</a> <a href="#ref-for-report③②">(4)</a> <a href="#ref-for-report③③">(5)</a>
-    <li><a href="#ref-for-report③④">9.1. Generate Test Report</a>
-    <li><a href="#ref-for-report③⑤">10.1. Capability URLs</a>
+    <li><a href="#ref-for-report②⑨">6.2. Garbage Collection</a> <a href="#ref-for-report③⓪">(2)</a> <a href="#ref-for-report③①">(3)</a> <a href="#ref-for-report③②">(4)</a> <a href="#ref-for-report③③">(5)</a>
+    <li><a href="#ref-for-report③④">8.1. Generate Test Report</a>
+    <li><a href="#ref-for-report③⑤">9.1. Capability URLs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-body">
@@ -2890,10 +2572,7 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report-body④">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report-body⑤">5.3. 
     Add report to observer </a>
-    <li><a href="#ref-for-report-body⑥">6.1. Deprecation</a>
-    <li><a href="#ref-for-report-body⑦">6.2. Intervention</a>
-    <li><a href="#ref-for-report-body⑧">6.3. Crash</a>
-    <li><a href="#ref-for-report-body⑨">10.1. Capability URLs</a>
+    <li><a href="#ref-for-report-body⑥">9.1. Capability URLs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-url">
@@ -2960,7 +2639,7 @@ Content-Type: application/reports+json
     Queue data as type for endpoint group on settings </a>
     <li><a href="#ref-for-report-attempts①">4.5. 
     Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-report-attempts②">7.2. Garbage Collection</a>
+    <li><a href="#ref-for-report-attempts②">6.2. Garbage Collection</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reporting-cache">
@@ -2974,7 +2653,7 @@ Content-Type: application/reports+json
     Queue data as type for endpoint group on settings </a> <a href="#ref-for-reporting-cache⑦">(2)</a>
     <li><a href="#ref-for-reporting-cache⑧">4.4. 
     Send reports </a> <a href="#ref-for-reporting-cache⑨">(2)</a> <a href="#ref-for-reporting-cache①⓪">(3)</a> <a href="#ref-for-reporting-cache①①">(4)</a> <a href="#ref-for-reporting-cache①②">(5)</a>
-    <li><a href="#ref-for-reporting-cache①③">11.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
+    <li><a href="#ref-for-reporting-cache①③">10.5. Clearing the reporting cache</a> <a href="#ref-for-reporting-cache①④">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="failover-class">
@@ -3055,8 +2734,8 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-reporting-observer③">5. Reporting Observers</a> <a href="#ref-for-reporting-observer④">(2)</a> <a href="#ref-for-reporting-observer⑤">(3)</a>
     <li><a href="#ref-for-reporting-observer⑥">5.2. 
     Notify reporting observers on environment with report </a>
-    <li><a href="#ref-for-reporting-observer⑦">7.2. Garbage Collection</a>
-    <li><a href="#ref-for-reporting-observer⑧">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-reporting-observer⑦">6.2. Garbage Collection</a>
+    <li><a href="#ref-for-reporting-observer⑧">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="registered-reporting-observer-list">
@@ -3074,7 +2753,7 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-registered">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-registered①">5.2. 
     Notify reporting observers on environment with report </a> <a href="#ref-for-registered②">(2)</a>
-    <li><a href="#ref-for-registered③">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-registered③">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-buffer">
@@ -3084,16 +2763,13 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report-buffer①">5.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report-buffer②">5.2. 
     Notify reporting observers on environment with report </a> <a href="#ref-for-report-buffer③">(2)</a> <a href="#ref-for-report-buffer④">(3)</a>
-    <li><a href="#ref-for-report-buffer⑤">7.2. Garbage Collection</a>
+    <li><a href="#ref-for-report-buffer⑤">6.2. Garbage Collection</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportbody">
    <b><a href="#reportbody">#reportbody</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-reportbody">5.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-reportbody①">6.1. Deprecation</a>
-    <li><a href="#ref-for-reportbody②">6.2. Intervention</a>
-    <li><a href="#ref-for-reportbody③">6.3. Crash</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reportingobserver">
@@ -3223,89 +2899,16 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-reportingobserver-takerecords">5.1. Interface ReportingObserver</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="deprecation-reports">
-   <b><a href="#deprecation-reports">#deprecation-reports</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-deprecation-reports">6.1. Deprecation</a> <a href="#ref-for-deprecation-reports①">(2)</a> <a href="#ref-for-deprecation-reports②">(3)</a>
-    <li><a href="#ref-for-deprecation-reports③">6.2. Intervention</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="deprecationreportbody">
-   <b><a href="#deprecationreportbody">#deprecationreportbody</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-deprecationreportbody">6.1. Deprecation</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="deprecationreportbody-id">
-   <b><a href="#deprecationreportbody-id">#deprecationreportbody-id</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-deprecationreportbody-id">6.1. Deprecation</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="deprecationreportbody-anticipatedremoval">
-   <b><a href="#deprecationreportbody-anticipatedremoval">#deprecationreportbody-anticipatedremoval</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-deprecationreportbody-anticipatedremoval">6.2. Intervention</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="deprecationreportbody-sourcefile">
-   <b><a href="#deprecationreportbody-sourcefile">#deprecationreportbody-sourcefile</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-deprecationreportbody-sourcefile">6.1. Deprecation</a> <a href="#ref-for-deprecationreportbody-sourcefile①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="intervention-reports">
-   <b><a href="#intervention-reports">#intervention-reports</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-intervention-reports">6.2. Intervention</a> <a href="#ref-for-intervention-reports①">(2)</a> <a href="#ref-for-intervention-reports②">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="interventionreportbody">
-   <b><a href="#interventionreportbody">#interventionreportbody</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-interventionreportbody">6.2. Intervention</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="interventionreportbody-id">
-   <b><a href="#interventionreportbody-id">#interventionreportbody-id</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-interventionreportbody-id">6.2. Intervention</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="interventionreportbody-sourcefile">
-   <b><a href="#interventionreportbody-sourcefile">#interventionreportbody-sourcefile</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-interventionreportbody-sourcefile">6.2. Intervention</a> <a href="#ref-for-interventionreportbody-sourcefile①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="crash-reports">
-   <b><a href="#crash-reports">#crash-reports</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-crash-reports">6.3. Crash</a> <a href="#ref-for-crash-reports①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="crashreportbody">
-   <b><a href="#crashreportbody">#crashreportbody</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-crashreportbody">6.3. Crash</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="crashreportbody-reason">
-   <b><a href="#crashreportbody-reason">#crashreportbody-reason</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-crashreportbody-reason">6.3. Crash</a> <a href="#ref-for-crashreportbody-reason①">(2)</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="dom-generatetestreportparameters-message">
    <b><a href="#dom-generatetestreportparameters-message">#dom-generatetestreportparameters-message</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-generatetestreportparameters-message">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dom-generatetestreportparameters-message">8.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-generatetestreportparameters-group">
    <b><a href="#dom-generatetestreportparameters-group">#dom-generatetestreportparameters-group</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-generatetestreportparameters-group">9.1. Generate Test Report</a>
+    <li><a href="#ref-for-dom-generatetestreportparameters-group">8.1. Generate Test Report</a>
    </ul>
   </aside>
 <script>/* script-var-click-highlighting */
