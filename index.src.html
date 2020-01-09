@@ -372,13 +372,13 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   `application/reports+json`.
 
   <h3 id="queue-report" algorithm>
-    Queue |data| as |type| for |endpoint group| on |settings|
+    Queue |data| as |type| for |endpoint group|
   </h3>
 
   Given a serializable object (|data|), a string (|type|), another string
-  (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
-  optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
-  which can be queued for future delivery.
+  (|endpoint group|), an optional <a>environment settings object</a>
+  (|settings|), and an optional {{URL}} (|url|), the following algorithm will
+  create a <a>report</a>, which can be queued for future delivery.
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -405,13 +405,15 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
-  5.  Let |environment| be |settings|'s <a>realm execution context</a>'s
-      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
-      global environment</a>.
+  5.  If |settings| is given, then
 
-  6.  Execute [[#notify-observers]] with |environment| and |report|.
+      1.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+          <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
+          global environment</a>.
 
-  7.  Return |report|.
+      2.  Execute [[#notify-observers]] with |environment| and |report|.
+
+  6.  Return |report|.
 
   Note: <a>reporting observers</a> can only observe reports from the
   same <a>environment settings object</a>.
@@ -707,7 +709,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   1.  Let |settings| be |document|'s [=environment settings object=].
 
   2.  Let |report| be the result of running [[#queue-report]] with |data|,
-      |type|, |endpoint group| and |settings|.</a>
+      |type|, |endpoint group| and |settings|.
 
   3. Append |report| to |document|'s [=reports=].
 
@@ -735,9 +737,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
   2.  For each |report| in |reports|:
 
-      1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
-
-      2.  If there exists an <a>endpoint group</a> (|group|) in |document|'s
+      1.  If there exists an <a>endpoint group</a> (|group|) in |document|'s
           {{document/endpoint-groups}} list whose {{endpoint group/name}} is
           |report|'s [=report/group=]:
 
