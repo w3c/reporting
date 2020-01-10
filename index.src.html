@@ -12,9 +12,8 @@ Former Editor: Paul Meyer 99916, Google Inc., paulmeyer@google.com
 Abstract:
   This document defines a generic reporting framework which allows web
   developers to associate a set of named reporting endpoints with an origin.
-  Various platform features (like Content Security Policy, Network Error
-  Reporting, and others) will use these endpoints to deliver feature-specific
-  reports in a consistent manner.
+  Various platform features (such as Network Error Logging) can use these
+  endpoints to deliver feature-specific reports in a consistent manner.
 Level: 1
 Indent: 2
 Version History: https://github.com/w3c/reporting/commits/master/index.src.html
@@ -63,19 +62,14 @@ spec: URL; urlPrefix: https://url.spec.whatwg.org/
       text: username; url: concept-url-username
       text: password; url: concept-url-password
 spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
-  urlPrefix: infrastructure.html
-    type: dfn
-      text: ASCII case-insensitive
   urlPrefix: webappapis.html
     type: dfn
-      text: global object
       text: environment settings object
       text: creation URL
       text: queue a task
   urlPrefix: browsers.html
     type: dfn
       text: origin
-      text: top-level browsing context
   urlPrefix: system-state.html
     type: dfn
       text: navigator.userAgent; url: dom-navigator-useragent
@@ -83,14 +77,10 @@ spec: RFC2782; for: SRV; urlPrefix: https://tools.ietf.org/html/rfc2782
   type: dfn
     text: SRV record; url:
     text: target selection algorithm; url: page-4
-spec: RFC3986; urlPrefix: https://tools.ietf.org/html/rfc3986
-  type: grammar
-    text: absolute-uri; url: section-4.3
 spec: RFC6797; urlPrefix: https://tools.ietf.org/html/rfc6797
   type: dfn
     url: section-8.2
       text: superdomain match
-      text: congruent match
 spec: RFC8259; urlPrefix: https://tools.ietf.org/html/rfc8259
   type: dfn
     text: JSON text; url: section-2
@@ -101,9 +91,6 @@ spec: RFC7230; urlPrefix: https://tools.ietf.org/html/rfc7230
     text: token; url: section-3.2.6
     text: quoted-string; url: section-3.2.6
     text: #rule; url: section-7
-spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234
-  type: grammar
-    text: delta-seconds; url: section-1.2.1
 spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
   type: dfn
     text: Public-Key-Pins; url: section-2.1
@@ -113,9 +100,6 @@ spec: HTTP-JFV; urlPrefix: https://tools.ietf.org/html/draft-reschke-http-jfv
 spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   type: dfn
     text: Realm
-    text: Date object; url: sec-date-objects
-  type: interface
-    text: Date; url: sec-date-objects
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
@@ -296,8 +280,6 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   observer</a>. By default, <a>report types</a> are not <a>visible to
   <code>ReportingObserver</code>s</a>.
 
-  Note: See [[#deprecation-report]] as an example <a>report type</a> definition.
-
   <h4 id="concept-reports">Reports</h4>
 
   A <dfn export>report</dfn> is a collection of arbitrary data which the user
@@ -373,13 +355,13 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   `application/reports+json`.
 
   <h3 id="queue-report" algorithm>
-    Queue |data| as |type| for |endpoint group| on |settings|
+    Queue |data| as |type| for |endpoint group|
   </h3>
 
   Given a serializable object (|data|), a string (|type|), another string
-  (|endpoint group|), an <a>environment settings object</a> (|settings|), and an
-  optional {{URL}} (|url|), the following algorithm will create a <a>report</a>,
-  which can be queued for future delivery.
+  (|endpoint group|), an optional <a>environment settings object</a>
+  (|settings|), and an optional {{URL}} (|url|), the following algorithm will
+  create a <a>report</a>, which can be queued for future delivery.
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -406,13 +388,15 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
 
-  5.  Let |environment| be |settings|'s <a>realm execution context</a>'s
-      <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
-      global environment</a>.
+  5.  If |settings| is given, then
 
-  6.  Execute [[#notify-observers]] with |environment| and |report|.
+      1.  Let |environment| be |settings|'s <a>realm execution context</a>'s
+          <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
+          global environment</a>.
 
-  7.  Return |report|.
+      2.  Execute [[#notify-observers]] with |environment| and |report|.
+
+  6.  Return |report|.
 
   Note: <a>reporting observers</a> can only observe reports from the
   same <a>environment settings object</a>.
@@ -669,7 +653,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   1.  Let |settings| be |document|'s [=environment settings object=].
 
   2.  Let |report| be the result of running [[#queue-report]] with |data|,
-      |type|, |endpoint group| and |settings|.</a>
+      |type|, |endpoint group| and |settings|.
 
   3. Append |report| to |document|'s [=reports=].
 
@@ -697,9 +681,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   2.  For each |report| in |reports|:
 
-      1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
-
-      2.  If there exists an <a>endpoint group</a> (|group|) in |document|'s
+      1.  If there exists an <a>endpoint group</a> (|group|) in |document|'s
           {{document/endpoint-groups}} list whose {{endpoint group/name}} is
           |report|'s [=report/group=]:
 
@@ -1018,223 +1000,6 @@ typedef sequence&lt;Report> ReportList;
         arguments consisting of |reports| and |observer|, and |observer| as the
         <a>callback this value</a>.  If this throws an exception, <a>report the
         exception</a>.
-</section>
-
-<section>
-  <h2 id="report-types">Report Types</h2>
-
-  <h3 id="deprecation-report">Deprecation</h3>
-
-  <dfn>Deprecation reports</dfn> indicate that a browser API or feature has been
-  used which is expected to stop working in a future update to the browser.
-
-  <a>Deprecation reports</a> have the <a>report type</a> "deprecation".
-
-  <a>Deprecation reports</a> are <a>visible to
-  <code>ReportingObserver</code>s</a>.
-
-  <pre class="idl">
-    [Exposed=(Window,Worker)]
-    interface DeprecationReportBody : ReportBody {
-      [Default] object toJSON();
-      readonly attribute DOMString id;
-      readonly attribute Date? anticipatedRemoval;
-      readonly attribute DOMString message;
-      readonly attribute DOMString? sourceFile;
-      readonly attribute unsigned long? lineNumber;
-      readonly attribute unsigned long? columnNumber;
-    };
-  </pre>
-
-  A <a>deprecation report</a>'s [=report/body=], represented in JavaScript by
-  {{DeprecationReportBody}}, contains the following fields:
-
-    - <dfn for="DeprecationReportBody">id</dfn>: an implementation-defined
-      string identifying the feature or API that will be removed. This string
-      can be used for grouping and counting related reports.
-
-    - <dfn for="DeprecationReportBody">anticipatedRemoval</dfn>: A
-      JavaScript <a>Date object</a> (rendered as an ISO 8601 string) indicating
-      roughly when the browser version without the specified API will be
-      generally available (excluding "beta" or other pre-release channels). This
-      value should be used to sort or prioritize warnings. If unknown, this
-      field should be null, and the deprecation should be considered low
-      priority (removal may not actually occur).
-
-    - <dfn for="DeprecationReportBody">message</dfn>: A human-readable string
-      with details typically matching what would be displayed on the developer
-      console. The message is not guaranteed to be unique for a given
-      [=DeprecationReportBody/id=] (eg. it may contain additional context on how
-      the API was used).
-
-    - <dfn for="DeprecationReportBody">sourceFile</dfn>: If known, the file
-      which first used the indicated API, or null otherwise.
-
-    - <dfn for="DeprecationReportBody">lineNumber</dfn>: If known, the line
-      number in [=DeprecationReportBody/sourceFile=] where the indicated API
-      was first used, or null otherwise.
-
-    - <dfn for="DeprecationReportBody">columnNumber</dfn>: If known, the column
-      number in [=DeprecationReportBody/sourceFile=] where the indicated API
-      was first used, or null otherwise.
-
-  <div class="example">
-  <pre>
-  {
-    "type": "deprecation",
-    "age": 27,
-    "url": "https://example.com/",
-    "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
-    "body": {
-      "id": "websql",
-      "anticipatedRemoval": "2020-01-01",
-      "message": "WebSQL is deprecated and will be removed in Chrome 97 around January 2020",
-      "sourceFile": "https://example.com/index.js",
-      "lineNumber": 1234,
-      "columnNumber": 42
-    }
-  }
-  </pre>
-  </div>
-
-  Note: Deprecation reports are always delivered to the <a>endpoint group</a>
-  named <code>default</code>; there is currently no way to override this.  If
-  you want to receive other kinds of reports, but not deprecation reports, make
-  sure to use a different name for the endpoint group that you choose for those
-  reports.
-
-  <h3 id="intervention-report">Intervention</h3>
-
-  <dfn>Intervention reports</dfn> indicate that a user agent has decided not to
-  honor a request made by the application (e.g. for security, performance or
-  user annoyance reasons). Note that the report properties are the same as those
-  for <a>deprecation reports</a>, except for the absence of
-  [=DeprecationReportBody/anticipatedRemoval=].
-
-  <a>Intervention reports</a> have the <a>report type</a> "intervention".
-
-  <a>Intervention reports</a> are <a>visible to
-  <code>ReportingObserver</code>s</a>.
-
-  <pre class="idl">
-    [Exposed=(Window,Worker)]
-    interface InterventionReportBody : ReportBody {
-      [Default] object toJSON();
-      readonly attribute DOMString id;
-      readonly attribute DOMString message;
-      readonly attribute DOMString? sourceFile;
-      readonly attribute unsigned long? lineNumber;
-      readonly attribute unsigned long? columnNumber;
-    };
-  </pre>
-
-  An <a>intervention report</a>'s [=report/body=], represented in JavaScript by
-  {{InterventionReportBody}}, contains the following fields:
-
-    - <dfn for="InterventionReportBody">id</dfn>: an implementation-defined
-      string identifying the specific intervention that occurred. This string
-      can be used for grouping and counting related reports.
-
-    - <dfn for="InterventionReportBody">message</dfn>: A human-readable string
-      with details typically matching what would be displayed on the developer
-      console. The message is not guaranteed to be unique for a given
-      [=InterventionReportBody/id=] (e.g. it may contain additional context on
-      what led to the intervention).
-
-    - <dfn for="InterventionReportBody">sourceFile</dfn>: If known, the file
-      which first used the indicated API, or null otherwise.
-
-    - <dfn for="InterventionReportBody">lineNumber</dfn>: If known, the line
-      number in [=InterventionReportBody/sourceFile=] of the offending behavior
-      (which prompted the intervention), or null otherwise.
-
-    - <dfn for="InterventionReportBody">columnNumber</dfn>: If known, the
-      column number in [=InterventionReportBody/sourceFile=] of the offending
-      behavior (which prompted the intervention), or null otherwise.
-
-  <div class="example">
-  <pre>
-  {
-    "type": "intervention",
-    "age": 27,
-    "url": "https://example.com/",
-    "body": {
-      "id": "audio-no-gesture",
-      "message": "A request to play audio was blocked because it was not triggered by user activation (such as a click).",
-      "sourceFile": "https://example.com/index.js",
-      "lineNumber": 1234,
-      "columnNumber": 42
-    }
-  }
-  </pre>
-  </div>
-
-  Note: Intervention reports are always delivered to the <a>endpoint group</a>
-  named <code>default</code>; there is currently no way to override this.  If
-  you want to receive other kinds of reports, but not intervention reports, make
-  sure to use a different name for the endpoint group that you choose for those
-  reports.
-
-  <h3 id="crash-report">Crash</h3>
-
-  <dfn>Crash reports</dfn> indicate that the user was unable to continue using
-  the page because the browser (or one of its processes necessary for the page)
-  crashed. For security reasons, no details of the crash are communicated except
-  for a unique identifier (which can be interpreted by the browser vendor), and
-  optionally the reason for the crash (such as "oom").
-
-  <a>Crash reports</a> have the <a>report type</a> "crash".
-
-  <pre class="idl">
-    [Exposed=(Window,Worker)]
-    interface CrashReportBody : ReportBody {
-      [Default] object toJSON();
-      readonly attribute DOMString? reason;
-    };
-  </pre>
-
-  An <a>crash report</a>'s [=report/body=], represented in JavaScript by
-  {{CrashReportBody}}, contains the following field:
-
-    - <dfn for="CrashReportBody">reason</dfn>: A more specific classification of
-      the type of crash that occured, if known, or omitted otherwise. The
-      valid <a>reason</a> strings are shown below.
-
-  <table border=1 cellpadding=5px style="border-collapse: collapse;">
-    <tbody>
-      <tr>
-        <th><a>Reason</a></th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td>oom</td>
-        <td>The page ran out of memory.</td>
-      </tr>
-      <tr>
-        <td>unresponsive</td>
-        <td>The page was killed due to being unresponsive.</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="example">
-  <pre>
-  {
-    "type": "crash",
-    "age": 42,
-    "url": "https://example.com/",
-    "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
-    "body": {
-      "reason": "oom"
-    }
-  }
-  </pre>
-  </div>
-
-  Note: Crash reports are always delivered to the <a>endpoint group</a> named
-  <code>default</code>; there is currently no way to override this.  If you want
-  to receive other kinds of reports, but not crash reports, make sure to use a
-  different name for the endpoint group that you choose for those reports.
 </section>
 
 <section>
