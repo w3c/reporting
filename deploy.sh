@@ -44,7 +44,6 @@ git clone $REPO out
 cd out
 echo "Checking out $TARGET_BRANCH into $PWD"
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-cd ..
 
 if containsElement "$TRAVIS_BRANCH" "${TOPIC_BRANCHES[@]}" ; then
   # Delete all existing contents in the topic branch directory (we will re-create them)
