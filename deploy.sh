@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
+set -x
 # From https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
 SOURCE_BRANCH="master"
@@ -18,6 +19,7 @@ containsElement () {
 }
 
 function doCompile {
+  echo "Compiling from $PWD"
   chmod 755 ./compile.sh
   ./compile.sh $1
 }
