@@ -11,10 +11,10 @@ Former Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.com
 Former Editor: Paul Meyer 99916, Google Inc., paulmeyer@google.com
 Abstract:
   This document defines a generic reporting framework which allows web
-  developers to associate a set of named reporting endpoints with an origin.
-  Various platform features (like Content Security Policy, Network Error
-  Reporting, and others) will use these endpoints to deliver feature-specific
-  reports in a consistent manner.
+  developers to associate a set of named reporting endpoints with a document.
+  Various platform features (like Content Security Policy, Feature Policy,
+  and others) will use these endpoints to deliver feature-specific reports in a
+  consistent manner.
 Level: 1
 Indent: 2
 Version History: https://github.com/w3c/reporting/commits/master/index.src.html
