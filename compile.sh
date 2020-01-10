@@ -1,15 +1,33 @@
 #!/bin/bash
+
+shopt -q nullglob
+NULLGLOB_WAS_SET=$?
+shopt -s nullglob
+FILES=$(echo *.bs)
+if [ 1 -eq $NULLGLOB_WAS_SET ]; then
+  shopt -u nullglob
+fi
+
 set -e # Exit with nonzero exit code if anything fails
 
 echo Running bikeshed on index.src.html
 bikeshed -f spec ./index.src.html
 
-echo Running bikeshed on network-reporting.bs
-bikeshed -f spec ./network-reporting.bs
+for SPEC in $FILES; do
+  echo Running bikeshed on $SPEC
+  bikeshed -f spec $SPEC
+done
 
-if [ -d out ]; then
-  echo Copy index.html into out/index.html
-  cp index.html out/index.html
-  echo Copy network-reporting.html into out/network-reporting.html
-  cp network-reporting.html out/network-reporting.html
+OUTDIR=${1:-out}
+
+if [ -d $OUTDIR ]; then
+  echo Copy index.html into $OUTDIR/index.html
+  cp index.html $OUTDIR/index.html
+  for SPEC in $FILES; do
+    SPEC_OUT=${SPEC%.bs}.html
+    if [ -f $SPEC_OUT ]; then
+      echo Copy $SPEC_OUT into $OUTDIR/$SPEC_OUT
+      cp $SPEC_OUT $OUTDIR/$SPEC_OUT
+    fi
+  done
 fi

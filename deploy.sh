@@ -6,13 +6,24 @@ set -e # Exit with nonzero exit code if anything fails
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
+# List of long-lived topic branch names to be published on github.io as a
+# subdirectory
+TOPIC_BRANCHES=("split-persistence")
+
+containsElement () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
 function doCompile {
   chmod 755 ./compile.sh
-  ./compile.sh
+  ./compile.sh $1
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+if [ "$TRAVIS_PULL_REQUEST" != "false" ] || { [ "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ] && ! containsElement "$TRAVIS_BRANCH" "${TOPIC_BRANCHES[@]}" ; }; then
     echo "Skipping deploy; just doing a build."
     doCompile
     exit 0
@@ -30,11 +41,27 @@ cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
-# Clean out existing contents
-rm -rf out/**/* || exit 0
+if containsElement "$TRAVIS_BRANCH" "${TOPIC_BRANCHES[@]}" ; then
+  # Delete all existing contents in the topic branch directory (we will re-create them)
+  mkdir -p "$TRAVIS_BRANCH"
+  cd "$TRAVIS_BRANCH"
+  find -maxdepth 1 ! -name . | xargs rm -rf
+  cd ../..
 
-# Run our compile script
-doCompile
+  # Run our compile script
+  doCompile "out/$TRAVIS_BRANCH"
+else
+  # Delete all existing contents except .git and topic branches (we will re-create them)
+  for i in "${TOPIC_BRANCHES[@]}"; do
+    echo exclude="$exclude ! -name '$i'";
+    exclude="$exclude ! -name '$i'";
+  done
+  eval find -maxdepth 1 ! -name .git ! -name . "$exclude" | xargs rm -rf
+  cd ..
+
+  # Run our compile script
+  doCompile
+fi
 
 # Now let's go have some fun with the cloned repo
 cd out
@@ -42,15 +69,15 @@ git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
-if git diff --quiet; then
-    echo "No changes to the output on this push; exiting."
-    exit 0
+if [ -z $(git status --porcelain) ]; then
+  echo "No changes to the output on this push; exiting."
+  exit 0
 fi
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 git add -A .
-git commit -m "Deploy to GitHub Pages: ${SHA}"
+git commit -m "Deploy to GitHub Pages: ${SHA} from branch \"${TRAVIS_BRANCH}\""
 
 # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
