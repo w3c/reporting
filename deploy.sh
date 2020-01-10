@@ -4,6 +4,8 @@ set -e # Exit with nonzero exit code if anything fails
 set -x
 # From https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
+echo "Deploying from $PWD"
+
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
@@ -40,6 +42,7 @@ SHA=`git rev-parse --verify HEAD`
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
 git clone $REPO out
 cd out
+echo "Checking out $TARGET_BRANCH into $PWD"
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
