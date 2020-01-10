@@ -149,7 +149,16 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 <section>
   <h2 id="intro">Introduction</h2>
 
-  [INTRODUCTION GOES HERE]
+  This document extends the concepts defined in [[REPORTING]] to enable a class
+  of reports which are not tied to the lifetime of any particular document. This
+  enables network errors to be reported on, even (or especially) in cases where
+  a document could not be loaded.
+
+  Decoupling reports from documents implies two major differences from the
+  document-centred reporting defined in [[REPORTING]]: First, configuration of
+  reporting must be done at the origin level, rather than through document
+  response headers. Second, the reports are queued and delivered by the user
+  agent separately from document reports.
 
   <h3 id="guarantees">Guarantees</h3>
 
