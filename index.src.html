@@ -533,16 +533,18 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h4 id="id-member">The `group` member</h4>
 
   The OPTIONAL <dfn for="ReportTo">`group`</dfn> member is a string that
-  associates a {{endpoint group/name}} with the <a>endpoint group</a>. The
-  member's value MUST be a string; any other type will result in a parse
-  error. If no member named "`group`" is present in the object, the <a>endpoint
-  group</a> will be given the {{endpoint group/name}} "`default`".
+  associates a {{endpoint group/name}} with the <a>endpoint group</a>.
+
+  If present, the member's value MUST be a string. If not present, the
+  <a>endpoint group</a> will be given the {{endpoint group/name}} "`default`".
 
   <h4 id="endpoints-member">The `endpoints` member</h4>
 
   The REQUIRED <dfn for="ReportTo" export>`endpoints`</dfn> member defines the
   list of <a data-lt="endpoint">endpoints</a> that belong to this <a>endpoint
-  group</a>. The member's value MUST be an array of JSON objects.
+  group</a>.
+
+  The member's value MUST be an array of JSON objects.
 
   The following subsections define the initial set of known members in each JSON
   object in the array. Future versions of this document may define additional
@@ -558,25 +560,26 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   <h4 id="endpoints-url-member">The `endpoints.url` member</h4>
 
   The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines
-  the location of the <a>endpoint</a>. The member's value MUST be a string; any
-  other type will result in a parse error.
+  the location of the <a>endpoint</a>.
 
-  Moreover, the URL that the member's value represents MUST be <a>potentially
-  trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
+  The member's value MUST be a string. Moreover, the URL that the member's value
+  represents MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
+  Non-secure endpoints will be ignored.
 
   <h4 id="endpoints-priority-member">The `endpoints.priority` member</h4>
 
   The OPTIONAL <dfn for="ReportTo">`priority`</dfn> member is a number that
-  defines which failover class the <a>endpoint</a> belongs to.  The member's
-  value, if present, MUST be a non-negative integer; any other type will result
-  in a parse error.
+  defines which failover class the <a>endpoint</a> belongs to.
+
+  The member's value, if present, MUST be a non-negative integer.
 
   <h4 id="endpoints-weight-member">The `endpoints.weight` member</h4>
 
   The OPTIONAL <dfn for="ReportTo">`weight`</dfn> member is a number that
   defines load balancing for the failover class that the <a>endpoint</a> belongs
-  to.  The member's value, if present, MUST be a non-negative integer; any other
-  type will result in a parse error.
+  to.
+
+  The member's value, if present, MUST be a non-negative integer.
 
   <h3 id="process-header" algorithm>
     Process reporting endpoints for |response|
@@ -632,22 +635,25 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
               string, or if that value is not an <a>absolute-URL string</a> or a
               <a>path-absolute-URL string</a>, skip to the next |endpoint item|.
 
-          2.  If |endpoint item| has a member named "<a
+          2.  Let |endpoint url| be the result of executing the <a>URL
+              parser</a> on |endpoint item|'s "<a for="ReportTo">`url`</a>"
+              member's value, with <a spec="url">base URL</a> set to
+              |response|'s <a for="response" attribute>url</a>. If
+              |endpoint url| is failure, skip to the next |endpoint item|.
+
+          3.  If |endpoint item| has a member named "<a
               for="ReportTo">`priority`</a>", whose value is not a non-negative
               integer, skip to the next |endpoint item|.
 
-          3.  If |endpoint item| has a member named "<a
+          4.  If |endpoint item| has a member named "<a
               for="ReportTo">`weight`</a>", whose value is not a non-negative
               integer, skip to the next |endpoint item|.
 
-          4.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
+          5.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
               as follows:
 
               :   {{endpoint/url}}
-              ::  The result of executing the <a>URL parser</a> on
-                  |endpoint item|'s "<a for="ReportTo">`url`</a>" member's
-                  value, with <a spec="url">base URL</a> set to |response|'s <a
-                  for="response" attribute>url</a>.
+              ::  |endpoint url|
               :   {{endpoint/priority}}
               ::  The value of the |endpoint item|'s "<a
                   for="ReportTo">`priority`</a>" member, if present; `1`
@@ -661,7 +667,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
               :   {{endpoint/retry_after}}
               ::  `null`
 
-          5.  Add |endpoint| to |endpoints|.
+          6.  Add |endpoint| to |endpoints|.
 
       6.  Let |group| be a new <a>endpoint group</a> whose properties are
           set as follows:
