@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 6a4c097ae8b731ee02752a258e8ac5ffbb752299" name="generator">
   <link href="https://w3c.github.io/reporting/network-reporting" rel="canonical">
-  <meta content="2a68248211a0a8a4cdc65f645d73f2bbc806f75e" name="document-revision">
+  <meta content="9a8a8a32c147cf4020281ae5b4e1e8645c02c50b" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -208,7 +208,7 @@ pre .property::before, pre .property::after {
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Network Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-10">10 January 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-13">13 January 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -434,8 +434,8 @@ pre .property::before, pre .property::after {
     <h3 class="heading settled" data-level="3.1" id="network_reporting_endpoints-policy-item"><span class="secno">3.1. </span><span class="content">The
   "network_reporting_endpoints" policy item</span><a class="self-link" href="#network_reporting_endpoints-policy-item"></a></h3>
     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints"><code>network_reporting_endpoints</code></dfn> member defines the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group⑦">network
-  endpoint groups</a> to be associated with the origin. If present, it must be
-  an array of objects.</p>
+  endpoint groups</a> to be associated with the origin.</p>
+    <p>If present, the member must be an array of objects.</p>
     <p>Each object in the array defines a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group⑧">network endpoint group</a> to which
   reports may be delivered, and will be parsed as defined in <a href="#process-configuration">§ 3.2 Process origin policy configuration</a>.</p>
     <p>The following subsections define the set of known members which may be
@@ -445,46 +445,43 @@ pre .property::before, pre .property::after {
     <h4 class="heading settled" data-level="3.1.1" id="id-member"><span class="secno">3.1.1. </span><span class="content">The <code>group</code> member</span><a class="self-link" href="#id-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-group"><code>group</code></dfn> member is a
   string that associates a <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name①">name</a></code> with the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group⑨">network endpoint
-  group</a>. The member’s value MUST be a string; any other type will result in
-  a parse error. If no member named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⓪">network endpoint group</a> will be given the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> "<code>default</code>".</p>
+  group</a>.</p>
+    <p>If present, the member’s value MUST be a string. If not present, the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⓪">network endpoint group</a> will be given the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> "<code>default</code>".</p>
     <h4 class="heading settled" data-level="3.1.2" id="include-subdomains-member"><span class="secno">3.1.2. </span><span class="content">The <code>include_subdomains</code> member</span><a class="self-link" href="#include-subdomains-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-include_subdomains"><code>include_subdomains</code></dfn> member is a boolean that enables this <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①①">network endpoint group</a> for all
-  subdomains of the current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑤">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.  If no
-  member named "<code>include_subdomains</code>" is present in the object, or its value is
-  not "<code>true</code>", the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①②">network endpoint group</a> will not be enabled for
-  subdomains.</p>
+  subdomains of the current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑤">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.</p>
     <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max_age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-export id="network_reporting_endpoints-max_age"><code>max_age</code></dfn> member defines the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①③">network endpoint group</a>’s lifetime, as a non-negative
-  integer number of seconds. The member’s value MUST be a non-negative number;
-  any other type will result in a parse error.</p>
-    <p>A value of "<code>0</code>" will cause the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①④">network endpoint group</a> to be removed
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-export id="network_reporting_endpoints-max_age"><code>max_age</code></dfn> member defines the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①②">network endpoint group</a>’s lifetime, as a non-negative
+  integer number of seconds.</p>
+    <p>The member’s value MUST be a non-negative number.</p>
+    <p>A value of "<code>0</code>" will cause the <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①③">network endpoint group</a> to be removed
   from the user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache">reporting cache</a>.</p>
     <h4 class="heading settled" data-level="3.1.4" id="endpoints-member"><span class="secno">3.1.4. </span><span class="content">The <code>endpoints</code> member</span><a class="self-link" href="#endpoints-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-export id="network_reporting_endpoints-endpoints"><code>endpoints</code></dfn> member defines the list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint②">endpoints</a> that
-  belong to this <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑤">network endpoint group</a>. The member’s value MUST be an
-  array of JSON objects.</p>
+  belong to this <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①④">network endpoint group</a>.</p>
+    <p>The member’s value MUST be an array of JSON objects.</p>
     <p>The following subsections define the initial set of known members in each
   JSON object in the array. Future versions of this document may define
   additional such members, and user agents MUST ignore unknown members when
   parsing the elements of the array.</p>
     <h4 class="heading settled" data-level="3.1.5" id="endpoints-url-member"><span class="secno">3.1.5. </span><span class="content">The <code>endpoints.url</code> member</span><a class="self-link" href="#endpoints-url-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-url"><code>url</code></dfn> member is a
-  string that defines the location of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint③">endpoint</a>. The member’s
-  value MUST be a string; any other type will result in a parse error.</p>
-    <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
-  trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
+  string that defines the location of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint③">endpoint</a>.</p>
+    <p>The member’s value MUST be a string. Moreover, the URL that the member’s value
+  represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>.
+  Non-secure endpoints will be ignored.</p>
     <h4 class="heading settled" data-level="3.1.6" id="endpoints-priority-member"><span class="secno">3.1.6. </span><span class="content">The <code>endpoints.priority</code> member</span><a class="self-link" href="#endpoints-priority-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-priority"><code>priority</code></dfn> member is
   a number that defines which failover class the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint④">endpoint</a> belongs
-  to. The member’s value, if present, MUST be a non-negative integer; any other
-  type will result in a parse error.</p>
+  to.</p>
+    <p>The member’s value, if present, MUST be a non-negative integer.</p>
     <h4 class="heading settled" data-level="3.1.7" id="endpoints-weight-member"><span class="secno">3.1.7. </span><span class="content">The <code>endpoints.weight</code> member</span><a class="self-link" href="#endpoints-weight-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-weight"><code>weight</code></dfn> member is a
-  number that defines load balancing for the failover class that the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑤">endpoint</a> belongs to. The member’s value, if present, MUST be a
-  non-negative integer; any other type will result in a parse error.</p>
+  number that defines load balancing for the failover class that the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑤">endpoint</a> belongs to.</p>
+    <p>The member’s value, if present, MUST be a non-negative integer.</p>
     <h3 class="heading settled algorithm" data-algorithm="Process origin policy configuration" data-level="3.2" id="process-configuration"><span class="secno">3.2. </span><span class="content"> Process origin policy configuration </span><a class="self-link" href="#process-configuration"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a> (<var>parsed</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑥">origin</a> (<var>origin</var>),
-  this algorithm extracts a list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑥">endpoints</a> and <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑥">network endpoint groups</a> for <var>origin</var>, and updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①">reporting
+  this algorithm extracts a list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑥">endpoints</a> and <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑤">network endpoint groups</a> for <var>origin</var>, and updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①">reporting
   cache</a> accordingly.</p>
     <p class="note" role="note"><span>Note:</span> This algorithm is called from around step 9 of <a href="https://wicg.github.io/origin-policy/#parse-a-string-into-an-origin-policy">Origin Policy §parse-a-string-into-an-origin-policy</a>, and only updates the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache②">reporting cache</a> if the <var>response</var> has been delivered securely.</p>
     <p class="issue" id="issue-0c90253d"><a class="self-link" href="#issue-0c90253d"></a> Origin Policy monkey patching. Talk to Domenic.</p>
@@ -496,38 +493,41 @@ pre .property::before, pre .property::after {
   each <var>item</var> in <var>parsed</var>["network_reporting_endpoints"]:</p>
       <ol>
        <li data-md>
-        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#network_reporting_endpoints-max_age" id="ref-for-network_reporting_endpoints-max_age①"><code>max_age</code></a>", or
-  that member’s value is not a number, skip to the next <var>item</var>.</p>
+        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#network_reporting_endpoints-max_age" id="ref-for-network_reporting_endpoints-max_age①"><code>max_age</code></a>", or that member’s
+  value is not a number, skip to the next <var>item</var>.</p>
        <li data-md>
         <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#network_reporting_endpoints-endpoints" id="ref-for-network_reporting_endpoints-endpoints①"><code>endpoints</code></a>", or that member’s
   value is not an array, skip to the next <var>item</var>.</p>
        <li data-md>
-        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#network_reporting_endpoints-group" id="ref-for-network_reporting_endpoints-group①"><code>group</code></a>" member’s value
-  if present, and "<code>default</code>" otherwise.</p>
+        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#network_reporting_endpoints-group" id="ref-for-network_reporting_endpoints-group①"><code>group</code></a>" member’s value if
+  present, and "<code>default</code>" otherwise.</p>
        <li data-md>
-        <p>If there is already a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑦">network endpoint group</a> in <var>groups</var> whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
+        <p>If there is already a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑥">network endpoint group</a> in <var>groups</var> whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
        <li data-md>
         <p>Let <var>endpoints</var> be an empty list.</p>
        <li data-md>
         <p>For each <var>endpoint item</var> in the value of <var>item</var>’s "<a data-link-type="dfn" href="#network_reporting_endpoints-endpoints" id="ref-for-network_reporting_endpoints-endpoints②"><code>endpoints</code></a>" member:</p>
         <ol>
          <li data-md>
-          <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#network_reporting_endpoints-url" id="ref-for-network_reporting_endpoints-url②"><code>url</code></a>", or that member’s value is not a
-  string, or if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>, skip to the next <var>endpoint item</var>.</p>
+          <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#network_reporting_endpoints-url" id="ref-for-network_reporting_endpoints-url②"><code>url</code></a>", or that member’s
+  value is not a string, or if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>,
+  skip to the next <var>endpoint item</var>.</p>
          <li data-md>
-          <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#network_reporting_endpoints-priority" id="ref-for-network_reporting_endpoints-priority②"><code>priority</code></a>", whose value is not a non-negative
-  integer, skip to the next <var>endpoint item</var>.</p>
+          <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL
+  parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#network_reporting_endpoints-url" id="ref-for-network_reporting_endpoints-url③"><code>url</code></a>" member’s value, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url">url</a>. If <var>endpoint url</var> is failure, skip to the next <var>endpoint item</var>.</p>
          <li data-md>
-          <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#network_reporting_endpoints-weight" id="ref-for-network_reporting_endpoints-weight"><code>weight</code></a>", whose value is not a non-negative
-  integer, skip to the next <var>endpoint item</var>.</p>
+          <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#network_reporting_endpoints-priority" id="ref-for-network_reporting_endpoints-priority②"><code>priority</code></a>", whose value is
+  not a non-negative integer, skip to the next <var>endpoint item</var>.</p>
          <li data-md>
-          <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑦">endpoint</a> whose properties are set
-  as follows:</p>
+          <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#network_reporting_endpoints-weight" id="ref-for-network_reporting_endpoints-weight"><code>weight</code></a>", whose value is
+  not a non-negative integer, skip to the next <var>endpoint item</var>.</p>
+         <li data-md>
+          <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑦">endpoint</a> whose properties
+  are set as follows:</p>
           <dl>
            <dt data-md><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
            <dd data-md>
-            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#network_reporting_endpoints-url" id="ref-for-network_reporting_endpoints-url③"><code>url</code></a>" member’s
-  value, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url">url</a>.</p>
+            <p><var>endpoint url</var></p>
            <dt data-md><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-priority" id="ref-for-dom-endpoint-priority">priority</a></code>
            <dd data-md>
             <p>The value of the <var>endpoint item</var>’s "<a data-link-type="dfn" href="#network_reporting_endpoints-priority" id="ref-for-network_reporting_endpoints-priority③"><code>priority</code></a>" member, if present; <code>1</code> otherwise.</p>
@@ -545,7 +545,7 @@ pre .property::before, pre .property::after {
           <p>Add <var>endpoint</var> to <var>endpoints</var>.</p>
         </ol>
        <li data-md>
-        <p>Let <var>group</var> be a new <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑧">network endpoint group</a> whose properties
+        <p>Let <var>group</var> be a new <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑦">network endpoint group</a> whose properties
   are set as follows:</p>
         <dl>
          <dt data-md><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name④">name</a></code>
@@ -632,41 +632,37 @@ pre .property::before, pre .property::after {
         <li data-md>
          <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a> for <var>origin</var>.</p>
         <li data-md>
-         <p>If there exists a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑨">network endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose</p>
-       </ol>
-       <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-group" id="ref-for-report-group">group</a>: 
-       <ol>
-        <li data-md>
-         <p>Let <var>endpoint</var> be the result of executing <a href="https://wicg.github.io/reporting/#choose-endpoint">Reporting API §choose-endpoint</a> on <var>group</var>.</p>
-        <li data-md>
-         <p>If <var>endpoint</var> is a not <code>null</code>:</p>
+         <p>If there exists a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑧">network endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-group" id="ref-for-report-group">group</a>:</p>
          <ol>
           <li data-md>
-           <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+           <p>Let <var>endpoint</var> be the result of executing <a href="https://wicg.github.io/reporting/#choose-endpoint">Reporting API §choose-endpoint</a> on <var>group</var>.</p>
           <li data-md>
-           <p>Skip to the next <var>report</var>.</p>
+           <p>If <var>endpoint</var> is a not <code>null</code>:</p>
+           <ol>
+            <li data-md>
+             <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+            <li data-md>
+             <p>Skip to the next <var>report</var>.</p>
+           </ol>
          </ol>
-       </ol>
-       <ol start="4">
         <li data-md>
          <p>For each <var>parent origin</var> that is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2">superdomain match</a> for <var>origin</var> <a data-link-type="biblio" href="#biblio-rfc6797">[RFC6797]</a>:</p>
          <ol>
           <li data-md>
            <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for <var>parent origin</var>.</p>
           <li data-md>
-           <p>If there exists a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group②⓪">network endpoint group</a> (<var>group</var>) in</p>
-         </ol>
-         <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-group" id="ref-for-report-group①">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-network-endpoint-group-subdomains" id="ref-for-dom-network-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>": 
-         <ol>
-          <li data-md>
-           <p>Let <var>endpoint</var> be the result of executing <a href="https://wicg.github.io/reporting/#choose-endpoint">Reporting API §choose-endpoint</a> on <var>group</var>.</p>
-          <li data-md>
-           <p>If <var>endpoint</var> is a <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑨">endpoint</a>:</p>
+           <p>If there exists a <a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group①⑨">network endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-group" id="ref-for-report-group①">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-network-endpoint-group-subdomains" id="ref-for-dom-network-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
            <ol>
             <li data-md>
-             <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+             <p>Let <var>endpoint</var> be the result of executing <a href="https://wicg.github.io/reporting/#choose-endpoint">Reporting API §choose-endpoint</a> on <var>group</var>.</p>
             <li data-md>
-             <p>Skip to the next <var>report</var>.</p>
+             <p>If <var>endpoint</var> is a <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑨">endpoint</a>:</p>
+             <ol>
+              <li data-md>
+               <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+              <li data-md>
+               <p>Skip to the next <var>report</var>.</p>
+             </ol>
            </ol>
          </ol>
         <li data-md>
@@ -753,9 +749,9 @@ pre .property::before, pre .property::after {
   relevant. These include:</p>
      <ul>
       <li data-md>
-       <p><a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group②①">network endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a></p>
+       <p><a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group②⓪">network endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group②②">network endpoint groups</a> which have not been used in some arbitrary</p>
+       <p><a data-link-type="dfn" href="#network-endpoint-group" id="ref-for-network-endpoint-group②①">network endpoint groups</a> which have not been used in some arbitrary</p>
       <li data-md>
        <p>period of time (perhaps a ~week?)</p>
       <li data-md>
@@ -1304,14 +1300,14 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-network-endpoint-group⑦">3.1. The
   "network_reporting_endpoints" policy item</a> <a href="#ref-for-network-endpoint-group⑧">(2)</a>
     <li><a href="#ref-for-network-endpoint-group⑨">3.1.1. The group member</a> <a href="#ref-for-network-endpoint-group①⓪">(2)</a>
-    <li><a href="#ref-for-network-endpoint-group①①">3.1.2. The include_subdomains member</a> <a href="#ref-for-network-endpoint-group①②">(2)</a>
-    <li><a href="#ref-for-network-endpoint-group①③">3.1.3. The max_age member</a> <a href="#ref-for-network-endpoint-group①④">(2)</a>
-    <li><a href="#ref-for-network-endpoint-group①⑤">3.1.4. The endpoints member</a>
-    <li><a href="#ref-for-network-endpoint-group①⑥">3.2. 
-    Process origin policy configuration </a> <a href="#ref-for-network-endpoint-group①⑦">(2)</a> <a href="#ref-for-network-endpoint-group①⑧">(3)</a>
-    <li><a href="#ref-for-network-endpoint-group①⑨">5.1. 
-    Send reports </a> <a href="#ref-for-network-endpoint-group②⓪">(2)</a>
-    <li><a href="#ref-for-network-endpoint-group②①">6.2. Garbage Collection</a> <a href="#ref-for-network-endpoint-group②②">(2)</a>
+    <li><a href="#ref-for-network-endpoint-group①①">3.1.2. The include_subdomains member</a>
+    <li><a href="#ref-for-network-endpoint-group①②">3.1.3. The max_age member</a> <a href="#ref-for-network-endpoint-group①③">(2)</a>
+    <li><a href="#ref-for-network-endpoint-group①④">3.1.4. The endpoints member</a>
+    <li><a href="#ref-for-network-endpoint-group①⑤">3.2. 
+    Process origin policy configuration </a> <a href="#ref-for-network-endpoint-group①⑥">(2)</a> <a href="#ref-for-network-endpoint-group①⑦">(3)</a>
+    <li><a href="#ref-for-network-endpoint-group①⑧">5.1. 
+    Send reports </a> <a href="#ref-for-network-endpoint-group①⑨">(2)</a>
+    <li><a href="#ref-for-network-endpoint-group②⓪">6.2. Garbage Collection</a> <a href="#ref-for-network-endpoint-group②①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-network-endpoint-group-subdomains">
