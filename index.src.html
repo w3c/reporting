@@ -526,8 +526,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   -->
 
   Each <a>endpoint</a> is defined by a String Item, which is interpreted as a
-  URI-reference. If its value is not a valid URI-reference, that <a>endpoint</a>
-  member MUST be ignored.
+  URI-reference. If its value is not an <a>absolute-URL string</a> or a
+  <a>path-absolute-URL string</a>, that <a>endpoint</a> member MUST be ignored.
 
   Moreover, the URL that the member's value represents MUST be <a>potentially
   trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
@@ -592,26 +592,30 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
       3.  For each |endpoint item| of |value|:
 
-          1.  Let |endpoint url| and |endpoint parameters| be the elements of
-              the tuple |endpoint item|. If |endpoint url| is not a string, or
-              if that value is not an <a>absolute-URL string</a> or a
+          1.  Let |endpoint url string| and |endpoint parameters| be the
+              elements of the tuple |endpoint item|. If |endpoint url| is not a
+              string, or if that value is not an <a>absolute-URL string</a> or a
               <a>path-absolute-URL string</a>, skip to the next |endpoint item|.
 
-          2.  If |endpoint parameters| has a member named "<a
+          2.  Let |endpoint url| be the result of executing the
+              <a>URL parser</a> on |endpoint url string|, with <a
+              spec="url">base URL</a> set to |response|'s <a for="response"
+              attribute>url</a>. If |endpoint url| is failure, skip to the next
+              |endpoint item|.
+
+          3.  If |endpoint parameters| has a member named "<a
               for="ReportTo">`priority`</a>", whose value is not a non-negative
               integer, then <a>continue</a>.
 
-          3.  If |endpoint parameters| has a member named "<a
+          4.  If |endpoint parameters| has a member named "<a
               for="ReportTo">`weight`</a>", whose value is not a non-negative
               integer, then <a>continue</a>.
 
-          4.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
+          5.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
               as follows:
 
               :   {{endpoint/url}}
-              ::  The result of executing the <a>URL parser</a> on
-                  |endpoint url|, with <a spec="url">base URL</a> set to
-                  |response|'s <a for="response" attribute>url</a>.
+              ::  |endpoint url|
               :   {{endpoint/priority}}
               ::  The value of |endpoint parameters|["<a
                   for="ReportTo">`priority`</a>"], if it exists; `1` otherwise.
@@ -623,7 +627,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
               :   {{endpoint/retry_after}}
               ::  `null`
 
-          5.  Add |endpoint| to |endpoints|.
+          6.  Add |endpoint| to |endpoints|.
 
       4.  Let |group| be a new <a>endpoint group</a> whose properties are
           set as follows:
