@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 6a4c097ae8b731ee02752a258e8ac5ffbb752299" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="9a8a8a32c147cf4020281ae5b4e1e8645c02c50b" name="document-revision">
+  <meta content="b931e4904cb08e96ae997f50e327f138cfc177d6" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -728,34 +728,32 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   when parsing the header.</p>
     <h4 class="heading settled" data-level="3.2.1" id="id-member"><span class="secno">3.2.1. </span><span class="content">The <code>group</code> member</span><a class="self-link" href="#id-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport id="reportto-group"><code>group</code></dfn> member is a string that
-  associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑦">endpoint group</a>. The
-  member’s value MUST be a string; any other type will result in a parse
-  error. If no member named "<code>group</code>" is present in the object, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑧">endpoint
-  group</a> will be given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> "<code>default</code>".</p>
+  associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑦">endpoint group</a>.</p>
+    <p>If present, the member’s value MUST be a string. If not present, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑧">endpoint group</a> will be given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name③">name</a></code> "<code>default</code>".</p>
     <h4 class="heading settled" data-level="3.2.2" id="endpoints-member"><span class="secno">3.2.2. </span><span class="content">The <code>endpoints</code> member</span><a class="self-link" href="#endpoints-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-export id="reportto-endpoints"><code>endpoints</code></dfn> member defines the
   list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoints</a> that belong to this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑨">endpoint
-  group</a>. The member’s value MUST be an array of JSON objects.</p>
+  group</a>.</p>
+    <p>The member’s value MUST be an array of JSON objects.</p>
     <p>The following subsections define the initial set of known members in each JSON
   object in the array. Future versions of this document may define additional
   such members, and user agents MUST ignore unknown members when parsing the
   elements of the array.</p>
     <h4 class="heading settled" data-level="3.2.3" id="endpoints-url-member"><span class="secno">3.2.3. </span><span class="content">The <code>endpoints.url</code> member</span><a class="self-link" href="#endpoints-url-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport id="reportto-url"><code>url</code></dfn> member is a string that defines
-  the location of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a>. The member’s value MUST be a string; any
-  other type will result in a parse error.</p>
-    <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
-  trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
+  the location of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a>.</p>
+    <p>The member’s value MUST be a string. Moreover, the URL that the member’s value
+  represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>.
+  Non-secure endpoints will be ignored.</p>
     <h4 class="heading settled" data-level="3.2.4" id="endpoints-priority-member"><span class="secno">3.2.4. </span><span class="content">The <code>endpoints.priority</code> member</span><a class="self-link" href="#endpoints-priority-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport id="reportto-priority"><code>priority</code></dfn> member is a number that
-  defines which failover class the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoint</a> belongs to.  The member’s
-  value, if present, MUST be a non-negative integer; any other type will result
-  in a parse error.</p>
+  defines which failover class the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoint</a> belongs to.</p>
+    <p>The member’s value, if present, MUST be a non-negative integer.</p>
     <h4 class="heading settled" data-level="3.2.5" id="endpoints-weight-member"><span class="secno">3.2.5. </span><span class="content">The <code>endpoints.weight</code> member</span><a class="self-link" href="#endpoints-weight-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport id="reportto-weight"><code>weight</code></dfn> member is a number that
   defines load balancing for the failover class that the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑥">endpoint</a> belongs
-  to.  The member’s value, if present, MUST be a non-negative integer; any other
-  type will result in a parse error.</p>
+  to.</p>
+    <p>The member’s value, if present, MUST be a non-negative integer.</p>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content"> Process reporting endpoints for <var>response</var> </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>), this algorithm extracts and returns a
   list of <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⓪">endpoint groups</a>.</p>
@@ -802,6 +800,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
           <p>If <var>endpoint item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url④"><code>url</code></a>", or that member’s value is not a
   string, or if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>, skip to the next <var>endpoint item</var>.</p>
          <li data-md>
+          <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL
+  parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑤"><code>url</code></a>"
+  member’s value, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>endpoint url</var> is failure, skip to the next <var>endpoint item</var>.</p>
+         <li data-md>
           <p>If <var>endpoint item</var> has a member named "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority②"><code>priority</code></a>", whose value is not a non-negative
   integer, skip to the next <var>endpoint item</var>.</p>
          <li data-md>
@@ -813,8 +815,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
           <dl>
            <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
            <dd data-md>
-            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url⑤"><code>url</code></a>" member’s
-  value, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>.</p>
+            <p><var>endpoint url</var></p>
            <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority⑦">priority</a></code>
            <dd data-md>
             <p>The value of the <var>endpoint item</var>’s "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority③"><code>priority</code></a>" member, if present; <code>1</code> otherwise.</p>
