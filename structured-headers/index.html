@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 6a4c097ae8b731ee02752a258e8ac5ffbb752299" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="891d5e105eafbdc5eea16a7825bda8a1115f5b21" name="document-revision">
+  <meta content="324b17e2198df145f86c73504eec1087613d026f" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-10">10 January 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-13">13 January 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -702,7 +702,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑥">endpoint group</a> to which reports
   may be delivered. The entry value MUST be an inner-list, whose members are <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a>s.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a> is defined by a String Item, which is interpreted as a
-  URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoint</a> member MUST be ignored.</p>
+  URI-reference. If its value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoint</a> member MUST be ignored.</p>
     <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
   trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
     <p>The following parameters are defined for <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑥">endpoints</a>:</p>
@@ -758,9 +758,11 @@ endpoint to be ignored.</p>
         <p>For each <var>endpoint item</var> of <var>value</var>:</p>
         <ol>
          <li data-md>
-          <p>Let <var>endpoint url</var> and <var>endpoint parameters</var> be the elements of
-  the tuple <var>endpoint item</var>. If <var>endpoint url</var> is not a string, or
-  if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>, skip to the next <var>endpoint item</var>.</p>
+          <p>Let <var>endpoint url string</var> and <var>endpoint parameters</var> be the
+  elements of the tuple <var>endpoint item</var>. If <var>endpoint url</var> is not a
+  string, or if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string①">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string①">path-absolute-URL string</a>, skip to the next <var>endpoint item</var>.</p>
+         <li data-md>
+          <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint url string</var>, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>endpoint url</var> is failure, skip to the next <var>endpoint item</var>.</p>
          <li data-md>
           <p>If <var>endpoint parameters</var> has a member named "<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority"><code>priority</code></a>", whose value is not a non-negative
   integer, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue①">continue</a>.</p>
@@ -773,7 +775,7 @@ endpoint to be ignored.</p>
           <dl>
            <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
            <dd data-md>
-            <p>The result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint url</var>, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>.</p>
+            <p><var>endpoint url</var></p>
            <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-priority" id="ref-for-dom-endpoint-priority⑦">priority</a></code>
            <dd data-md>
             <p>The value of <var>endpoint parameters</var>["<a data-link-type="dfn" href="#reportto-priority" id="ref-for-reportto-priority①"><code>priority</code></a>"], if it exists; <code>1</code> otherwise.</p>
@@ -1810,7 +1812,8 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-absolute-url-string">
    <a href="https://url.spec.whatwg.org/#absolute-url-string">https://url.spec.whatwg.org/#absolute-url-string</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-absolute-url-string">3.3. 
+    <li><a href="#ref-for-absolute-url-string">3.2. The Report-To HTTP Response Header Field</a>
+    <li><a href="#ref-for-absolute-url-string①">3.3. 
     Process reporting endpoints for response </a>
    </ul>
   </aside>
@@ -1838,7 +1841,8 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-path-absolute-url-string">
    <a href="https://url.spec.whatwg.org/#path-absolute-url-string">https://url.spec.whatwg.org/#path-absolute-url-string</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-path-absolute-url-string">3.3. 
+    <li><a href="#ref-for-path-absolute-url-string">3.2. The Report-To HTTP Response Header Field</a>
+    <li><a href="#ref-for-path-absolute-url-string①">3.3. 
     Process reporting endpoints for response </a>
    </ul>
   </aside>
