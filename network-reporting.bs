@@ -10,11 +10,12 @@ Editor: Mike West 56384, Google Inc., mkwst@google.com
 Former Editor: Ilya Grigorik 56102, Google Inc., igrigorik@google.com
 Former Editor: Paul Meyer 99916, Google Inc., paulmeyer@google.com
 Abstract:
-  This document defines a generic reporting framework which allows web
-  developers to associate a set of named reporting endpoints with a document.
-  Various platform features (like Content Security Policy, Feature Policy,
-  and others) will use these endpoints to deliver feature-specific reports in a
-  consistent manner.
+  This document extends the generic reporting framework from the Reporting API
+  with a mechanisms for web developers to associate groups of reporting
+  endpoints with origins they control, and defines how reports can reliably be
+  sent to those endpoints, in order to be able to report on network conditions,
+  or other concerns which exceed the scope of a single document, in a consistent
+  manner.
 Level: 1
 Indent: 2
 Version History: https://github.com/w3c/reporting/commits/master/index.src.html
@@ -213,6 +214,58 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 <section>
   <h2 id="concept">Concepts</h2>
 
+  <h3 id="concept-endpoint-groups">Endpoint groups</h3>
+
+  An <dfn export>endpoint group</dfn> is a set of <a
+  data-lt="network reporting endpoint">network reporting endpoints</a> that will
+  be used together for backup and failover purposes.
+
+  Each <a>endpoint group</a> has a
+  <dfn for="endpoint group" export attribute>name</dfn>, which is an ASCII
+  string.
+
+  Each <a>endpoint group</a> has an <dfn
+  for="endpoint group" export attribute>endpoints</dfn> list, which is a list of
+  <a data-lt="network reporting endpoint">network reporting endpoints</a>.
+
+  Each <a>endpoint group</a> has a <dfn for="endpoint group"
+  export attribute>subdomains</dfn> flag, which is either "`include`" or
+  "`exclude`".
+
+  Each <a>endpoint group</a> has a <dfn for="endpoint group"
+  export attribute>ttl</dfn> representing the number of seconds the group
+  remains valid for an <a spec="html">origin</a>.
+
+  Each <a>endpoint group</a> has a <dfn for="endpoint group"
+  export attribute>creation</dfn> which is the timestamp at which the group was
+  added to an <a spec="html">origin</a>.
+
+  A <a>endpoint group</a> is <dfn for="endpoint group"
+  id="endpoint-group-expired">expired</dfn> if its {{endpoint group/creation}}
+  plus its {{endpoint group/ttl}} represents a time in the past.
+
+  <h3 id="concept-network-endpoint">Network reporting endpoints</h3>
+
+  A <dfn>network reporting endpoint</dfn> is an <a>endpoint</a>, which is
+  extended with these additional attributes:
+
+  Each <a>network reporting endpoint</a> has a <dfn
+  for="network reporting endpoint" export attribute>priority</dfn>, which is a
+  non-negative integer.
+
+  Each <a>network reporting endpoint</a> has a <dfn
+  for="network reporting endpoint" export attribute>weight</dfn>, which is a
+  non-negative integer.
+
+  Each <a>network reporting endpoint</a> has a <dfn
+  for="network reporting endpoint" export attribute>retry_after</dfn>, which is
+  either `null`, or a timestamp after which delivery should be retried.
+
+  An <a>network reporting endpoint</a> is <dfn
+  for="network reporting endpoint">pending</dfn> if its
+  {{network reporting endpoint/retry_after}} is not `null`, and represents a
+  time in the future.
+
   <h3 id="concept-client">Clients</h3>
 
   A <dfn export>client</dfn> represents a particular origin's relationship to
@@ -222,36 +275,43 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   which is an <a spec="html">origin</a>.
 
   Each <a>client</a> has an <dfn for="client" export
-  attribute>endpoint-groups</dfn> list, which is a list of <a>network endpoint
+  attribute>endpoint-groups</dfn> list, which is a list of <a>endpoint
   groups</a>, each of which MUST have a distinct {{endpoint group/name}}.
   (The algorithm in [[#process-configuration]] guarantees this by keeping only
   the first entry in the configuration member with a particular name.)
 
-  <h3 id="concept-network-endpoint-groups">Network endpoint groups</h3>
+  <h3 id="concept-failover-load-balancing">Failover and load balancing</h3>
 
-  A <dfn>network endpoint group</dfn> is an <a>endpoint group</a>, which is
-  extended with several additional attributes:
+  The <a>network reporting endpoints</a> in an <a>endpoint group</a> that all
+  have the same {{network reporting endpoint/priority}} form a <dfn
+  export>failover class</dfn>. <a>Failover classes</a> allow the developer to
+  provide backup collectors (those with higher
+  {{network reporting endpoint/priority}} values) that will only receive reports
+  if **all** of the primary collectors (those with lower
+  {{network reporting endpoint/priority}} values) fail.
 
-  Each <a>network endpoint group</a> has a <dfn for="network endpoint group"
-  export attribute>subdomains</dfn> flag, which is either "`include`" or
-  "`exclude`".
+  Developers can assign each <a>network reporting endpoint</a> in a <a>failover
+  class</a> a {{network reporting endpoint/weight}}, which determines how report
+  traffic is balanced across the <a>failover class</a>.
 
-  Each <a>network endpoint group</a> has a <dfn for="network endpoint group"
-  export attribute>ttl</dfn> representing the number of seconds the group
-  remains valid for an <a spec="html">origin</a>.
+  The algorithm that implements these rules is described in
+  [[#choose-endpoint]].
 
-  Each <a>network endpoint group</a> has a <dfn for="network endpoint group"
-  export attribute>creation</dfn> which is the timestamp at which the group was
-  added to an <a spec="html">origin</a>.
+  Note: The {{network reporting endpoint/priority}} and
+  {{network reporting endpoint/weight}} fields have the same semantics as the
+  corresponding fields in a DNS <a>SRV record</a>.
 
-  A <a>network endpoint group</a> is <dfn for="network endpoint group"
-  id="endpoint-group-expired">expired</dfn> if its {{endpoint group/creation}}
-  plus its {{endpoint group/ttl}} represents a time in the past.
+  Note: Failover and load balancing is a feature that would be generally useful
+  outside of Reporting.  Reporting delegates to the [[FETCH]] API to actually
+  upload reports once an endpoint has been selected.  If, in the future, the
+  Fetch API adds native support for failover and load balancing of requests, a
+  future version of this specification will be updated to use it instead of this
+  bespoke mechanism.
 
   <h3 id="concept-storage">Storage</h3>
 
   A conformant user agent MUST provide a <dfn>reporting cache</dfn>, which
-  is a storage mechanism that maintains a set of <a>network endpoint groups</a>
+  is a storage mechanism that maintains a set of <a>endpoint groups</a>
   that websites have instructed the user agent to associate with their
   <a spec="html">origins</a>, and a set of <a>reports</a> which are queued for
   delivery.
@@ -271,11 +331,11 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 <section>
   <h2 id="endpoint-delivery">Endpoint Delivery</h2>
 
-  A server MAY define a set of reporting endpoints for an origin it controls
+  A server MAY define a set of <a>endpoint groups</a> for an origin it controls
   through an <a>origin policy manifest</a> [[!ORIGIN-POLICY]].
 
-  Endpoint groups are specified with the `"network_reporting_endpoints"` member,
-  which defines the <a>network endpoint groups</a> to be associated with that
+  <a>Endpoint groups</a> are specified with the `"network_reporting_endpoints"`
+  member, which defines the <a>endpoint groups</a> to be associated with that
   origin.
 
   This member is defined in [[#network_reporting_endpoints-policy-item]], and
@@ -284,12 +344,12 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   <h3 id="network_reporting_endpoints-policy-item">The
   "network_reporting_endpoints" policy item</h3>
 
-  The <dfn>`network_reporting_endpoints`</dfn> member defines the <a>network
-  endpoint groups</a> to be associated with the origin.
+  The <dfn>`network_reporting_endpoints`</dfn> member defines the <a>endpoint
+  groups</a> to be associated with the origin.
 
   If present, the member must be an array of objects.
 
-  Each object in the array defines a <a>network endpoint group</a> to which
+  Each object in the array defines a <a>endpoint group</a> to which
   reports may be delivered, and will be parsed as defined in
   [[#process-configuration]].
 
@@ -301,35 +361,35 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   <h4 id="id-member">The `group` member</h4>
 
   The OPTIONAL <dfn for="network_reporting_endpoints">`group`</dfn> member is a
-  string that associates a {{endpoint group/name}} with the <a>network endpoint
+  string that associates a {{endpoint group/name}} with the <a>endpoint
   group</a>.
 
   If present, the member's value MUST be a string. If not present, the
-  <a>network endpoint group</a> will be given the {{endpoint group/name}}
+  <a>endpoint group</a> will be given the {{endpoint group/name}}
   "`default`".
 
   <h4 id="include-subdomains-member">The `include_subdomains` member</h4>
 
   The OPTIONAL <dfn for="network_reporting_endpoints">`include_subdomains`</dfn>
-  member is a boolean that enables this <a>network endpoint group</a> for all
+  member is a boolean that enables this <a>endpoint group</a> for all
   subdomains of the current <a spec="html">origin</a>'s {{URL/host}}.
 
   <h4 id="max-age-member">The `max_age` member</h4>
 
   The REQUIRED <dfn for="network_reporting_endpoints" export>`max_age`</dfn>
-  member defines the <a>network endpoint group</a>'s lifetime, as a non-negative
+  member defines the <a>endpoint group</a>'s lifetime, as a non-negative
   integer number of seconds.
 
   The member's value MUST be a non-negative number.
 
-  A value of "`0`" will cause the <a>network endpoint group</a> to be removed
+  A value of "`0`" will cause the <a>endpoint group</a> to be removed
   from the user agent's <a>reporting cache</a>.
 
   <h4 id="endpoints-member">The `endpoints` member</h4>
 
   The REQUIRED <dfn for="network_reporting_endpoints" export>`endpoints`</dfn>
   member defines the list of <a for="/" data-lt="endpoint">endpoints</a> that
-  belong to this <a>network endpoint group</a>.
+  belong to this <a>endpoint group</a>.
 
   The member's value MUST be an array of JSON objects.
 
@@ -374,8 +434,8 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   </h3>
 
   Given a <a>map</a> (|parsed|), and an <a spec="html">origin</a> (|origin|),
-  this algorithm extracts a list of <a for="/" data-lt="endpoint">endpoints</a>
-  and <a>network endpoint groups</a> for |origin|, and updates the <a>reporting
+  this algorithm extracts a list of <a>network reporting endpoints</a>
+  and <a>endpoint groups</a> for |origin|, and updates the <a>reporting
   cache</a> accordingly.
 
   Note: This algorithm is called from around step 9 of
@@ -401,7 +461,7 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
           for="network_reporting_endpoints">`group`</a>" member's value if
           present, and "`default`" otherwise.
 
-      4.  If there is already a <a>network endpoint group</a> in |groups| whose
+      4.  If there is already a <a>endpoint group</a> in |groups| whose
           {{endpoint group/name}} is |name|, skip to the next |item|.
 
       5.  Let |endpoints| be an empty list.
@@ -430,38 +490,41 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
               for="network_reporting_endpoints">`weight`</a>", whose value is
               not a non-negative integer, skip to the next |endpoint item|.
 
-          5.  Let |endpoint| be a new <a for="/">endpoint</a> whose properties
-              are set as follows:
+          5.  Let |endpoint| be a new <a>network reporting endpoint</a> whose
+              properties are set as follows:
 
+              :   {{endpoint/name}}
+              ::  `null`
               :   {{endpoint/url}}
               ::  |endpoint url|
-              :   {{endpoint/priority}}
+              :   {{network reporting endpoint/priority}}
               ::  The value of the |endpoint item|'s "<a
-                  for="network_reporting_endpoints">`priority`</a>" member, if present; `1`
-                  otherwise.
-              :   {{endpoint/weight}}
+                  for="network_reporting_endpoints">`priority`</a>" member, if
+                  present; `1` otherwise.
+              :   {{network reporting endpoint/weight}}
               ::  The value of the |endpoint item|'s "<a
-                  for="network_reporting_endpoints">`weight`</a>" member, if present; `1`
-                  otherwise.
+                  for="network_reporting_endpoints">`weight`</a>" member, if
+                  present; `1` otherwise.
               :   {{endpoint/failures}}
               ::  0
-              :   {{endpoint/retry_after}}
+              :   {{network reporting endpoint/retry_after}}
               ::  `null`
 
           5.  Add |endpoint| to |endpoints|.
 
-      7.  Let |group| be a new <a>network endpoint group</a> whose properties
+      7.  Let |group| be a new <a>endpoint group</a> whose properties
           are set as follows:
 
           :   {{endpoint group/name}}
           ::  |name|
-          :   {{network endpoint group/subdomains}}
-          ::  "`include`" if |item| has a member named
-              "<a for="network_reporting_endpoints">`include_subdomains`</a>" whose value is
-              `true`, "`exclude`" otherwise.
-          :   {{network endpoint group/ttl}}
-          ::  |item|'s "<a for="network_reporting_endpoints">`max_age`</a>" member's value.
-          :   {{network endpoint group/creation}}
+          :   {{endpoint group/subdomains}}
+          ::  "`include`" if |item| has a member named "<a
+              for="network_reporting_endpoints">`include_subdomains`</a>" whose
+              value is `true`, "`exclude`" otherwise.
+          :   {{endpoint group/ttl}}
+          ::  |item|'s "<a for="network_reporting_endpoints">`max_age`</a>"
+              member's value.
+          :   {{endpoint group/creation}}
           ::  The current timestamp
           :   {{endpoint group/endpoints}}
           ::  |endpoints|
@@ -520,6 +583,48 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   in the period directly after its generation than it would be a day or a week
   later.
 
+  <h3 id="choose-endpoint">
+    Choose an |endpoint| from a |group|
+  </h3>
+
+  Note: This algorithm is the same as the <a for="SRV">target selection
+    algorithm</a> used for DNS <a>SRV records</a>.
+
+  Given an <a>endpoint group</a> (|group|), this algorithm chooses an arbitrary
+  eligible <a>endpoint</a> from the group, if there is one, taking into account
+  the {{endpoint/priority}} and {{endpoint/weight}} of the <a
+  data-lt="endpoint">endpoints</a>.
+
+  1.  Let |endpoints| be a copy of |group|'s {{endpoint group/endpoints}} list.
+
+  2.  Remove every |endpoint| from |endpoints| that is
+      <a for="endpoint">pending</a>.
+
+  3.  If |endpoints| is empty, return `null`.
+
+  4.  Let |priority| be the minimum {{endpoint/priority}} value of each
+      |endpoint| in |endpoints|.
+
+  5.  Remove every |endpoint| from |endpoints| whose {{endpoint/priority}} value
+      is not equal to |priority|.
+
+  6.  If |endpoints| is empty, return `null`.
+
+  7.  Let |total weight| be the sum of the {{endpoint/weight}} value of each
+      |endpoint| in |endpoints|.
+
+  8.  Let |weight| be a random number &ge; 0 and &le; |total weight|.
+
+  9.  For each |endpoint| in |endpoints|:
+
+      1.  If |weight| is less than or equal to |endpoint|'s {{endpoint/weight}},
+          return |endpoint|.
+
+      2.  Subtract |endpoint|'s {{endpoint/weight}} from |weight|.
+
+  10. It should not be possible to fall through to here, since the random number
+      chosen earlier will be less than or equal to |total weight|.
+
   <h3 id="send-reports" algorithm>
     Send reports
   </h3>
@@ -529,8 +634,8 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   1.  Let |reports| be a copy of the list of queued <a>report</a> objects in
       <a>reporting cache</a>.
 
-  2.  Let |endpoint map| be an empty map of <a for="/">endpoint</a> objects to lists of
-      <a>report</a> objects.
+  2.  Let |endpoint map| be an empty map of <a>network reporting endpoint</a>
+      objects to lists of <a>report</a> objects.
 
   3.  For each |report| in |reports|:
 
@@ -539,14 +644,14 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
       2.  Let |client| be the entry in the <a>reporting cache</a> for
           |origin|.
 
-      3.  If there exists a <a>network endpoint group</a> (|group|) in
+      3.  If there exists a <a>endpoint group</a> (|group|) in
           |client|'s {{client/endpoint-groups}} list whose
           {{endpoint group/name}} is |report|'s [=report/group=]:
 
-          1.  Let |endpoint| be the result of executing [[REPORTING#choose-endpoint]] on
+          1.  Let |endpoint| be the result of executing [[#choose-endpoint]] on
               |group|.
 
-          2.  If |endpoint| is a not `null`:
+          2.  If |endpoint| is not `null`:
 
               1.  Append |report| to |endpoint map|'s list of reports for
                   |endpoint|.
@@ -559,25 +664,25 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
           1.  Let |client| be the entry in the <a>reporting cache</a> for
               |parent origin|.
 
-          2.  If there exists a <a>network endpoint group</a> (|group|) in
+          2.  If there exists a <a>endpoint group</a> (|group|) in
               |client|'s {{client/endpoint-groups}} list whose
               {{endpoint group/name}} is |report|'s [=report/group=] <b>and</b>
-              whose {{network endpoint group/subdomains}} flag is "`include`":
+              whose {{endpoint group/subdomains}} flag is "`include`":
 
-              1.  Let |endpoint| be the result of executing [[REPORTING#choose-endpoint]]
+              1.  Let |endpoint| be the result of executing [[#choose-endpoint]]
                   on |group|.
 
-              2.  If |endpoint| is a <a for="/">endpoint</a>:
+              2.  If |endpoint| is not `null`:
 
                   1.  Append |report| to |endpoint map|'s list of reports for
                       |endpoint|.
 
                   2.  Skip to the next |report|.
 
-      5.  If we reach this step, the |report| did not match any <a for="/">endpoint</a>
-          and the user agent MAY remove |report| from the <a>reporting cache</a>
-          directly. Depending on load, the user agent MAY instead wait for
-          [[#gc]] at some point in the future.
+      5.  If we reach this step, the |report| did not match any <a>network
+          reporting endpoint</a> and the user agent MAY remove |report| from the
+          <a>reporting cache</a> directly. Depending on load, the user agent MAY
+          instead wait for [[#gc]] at some point in the future.
 
   4.  For each (|endpoint|, |reports|) pair in |endpoint map|:
 
@@ -593,13 +698,13 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
       3.  For each (|origin|, |per-origin reports|) pair in |origin map|,
           execute the following steps asynchronously:
 
-          1.  Let |result| be the result of executing [[REPORTING#try-delivery]] on
-              |endpoint|, |origin|, and |per-origin reports|.
+          1.  Let |result| be the result of executing [[REPORTING#try-delivery]]
+              on |endpoint|, |origin|, and |per-origin reports|.
 
           2.  If |result| is "`Success`":
 
               1.  Set |endpoint|'s {{endpoint/failures}} to 0, and its
-                  {{endpoint/retry_after}} to `null`.
+                  {{network reporting endpoint/retry_after}} to `null`.
 
               2.  Remove each <a>report</a> in |reports| from the <a>reporting
                   cache</a>.
@@ -615,8 +720,8 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 
               1.  Increment |endpoint|'s {{endpoint/failures}}.
 
-              2.  Set |endpoint|'s {{endpoint/retry_after}} to a point in the
-                  future which the user agent chooses.
+              2.  Set |endpoint|'s {{network reporting endpoint/retry_after}} to
+                  a point in the future which the user agent chooses.
 
                   Note: We don't specify a particular algorithm here, but user
                   agents are encouraged to employ some sort of exponential
@@ -660,16 +765,16 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   <h3 id="gc">Garbage Collection</h3>
 
   Periodically, the user agent SHOULD walk through the cached <a>reports</a>
-  and <a for="/" data-lt="endpoint">endpoints</a>, and discard those that are no longer
-  relevant. These include:
+  and <a for="/" data-lt="endpoint">endpoints</a>, and discard those that are no
+  longer relevant. These include:
 
-  *   <a>network endpoint groups</a> which are <a for="network endpoint group">expired</a>
-  *   <a>network endpoint groups</a> which have not been used in some arbitrary
-  *   period of time (perhaps a ~week?)
-  *   <a for="/" data-lt="endpoint">endpoints</a> whose {{endpoint/failures}} exceed
-      some user-agent-defined threshold (~5 seems reasonable)
+  *   <a>endpoint groups</a> which are <a for="endpoint group">expired</a>.
+  *   <a>endpoint groups</a> which have not been used in some arbitrary
+      period of time (perhaps a ~week?)
+  *   <a for="/" data-lt="endpoint">endpoints</a> whose {{endpoint/failures}}
+      exceed some user-agent-defined threshold (~5 seems reasonable.)
   *   <a>reports</a> whose [=report/attempts=] exceed
-      some user-agent-defined threshold (~5 seems reasonable)
+      some user-agent-defined threshold (~5 seems reasonable.)
   *   <a>reports</a> which have not been delivered in some arbitrary period of
       time (perhaps ~2 days?)
 </section>
