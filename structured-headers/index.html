@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 8bc2fccb49a45a0af18c5e75ce18049d75f824b6" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="b08950044e0c1d27c58c4556153d24a29c4258c2" name="document-revision">
+  <meta content="c1b4c3d962747e4855006e5033d29c7b7062457c" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -337,7 +337,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#document-reporting"><span class="secno">3</span> <span class="content">Document Centered Reporting</span></a>
      <ol class="toc">
       <li><a href="#document-configuration"><span class="secno">3.1</span> <span class="content">Document configuration</span></a>
-      <li><a href="#header"><span class="secno">3.2</span> <span class="content">The <code>Report-To</code> HTTP Response Header Field</span></a>
+      <li><a href="#header"><span class="secno">3.2</span> <span class="content">The <code>Reporting-Endpoints</code> HTTP Response Header Field</span></a>
       <li><a href="#process-header"><span class="secno">3.3</span> <span class="content"> Process reporting endpoints for <var>response</var> </span></a>
       <li>
        <a href="#report-generation"><span class="secno">3.4</span> <span class="content">Report Generation</span></a>
@@ -387,7 +387,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#iana-considerations"><span class="secno">10</span> <span class="content">IANA Considerations</span></a>
      <ol class="toc">
-      <li><a href="#header-field-registration"><span class="secno">10.1</span> <span class="content">The <code>Report-To</code> Header</span></a>
+      <li><a href="#header-field-registration"><span class="secno">10.1</span> <span class="content">The <code>Reporting-Endpoints</code> Header</span></a>
       <li><a href="#media-type-registration"><span class="secno">10.2</span> <span class="content">The <code>application/reports+json</code> Media Type</span></a>
      </ol>
     <li>
@@ -436,11 +436,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   may prevent reports from reaching their destination at all, and user agents
   are permitted to reject and not deliver a report for any reason.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-83d17784">
-     <a class="self-link" href="#example-83d17784"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    <div class="example" id="example-bd21f0f9">
+     <a class="self-link" href="#example-bd21f0f9"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
     define a set of reporting endpoints named "<code>endpoint-1</code>": 
-<pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to">Report-To</a>: endpoint-1="https://example.com/reports"
+<pre><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints">Reporting-Endpoints</a>: endpoint-1="https://example.com/reports"
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to that
     endpoint:</p>
@@ -448,13 +448,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1" id="ref-for-section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-b8d1baee">
-     <a class="self-link" href="#example-b8d1baee"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-b1cea891">
+     <a class="self-link" href="#example-b1cea891"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
-<pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to①">Report-To</a>: csp-endpoint="https://example.com/csp-reports",
-                  hpkp-endpoint="https://example.com/hpkp-reports"
+<pre><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints①">Reporting-Endpoints</a>: csp-endpoint="https://example.com/csp-reports",
+                     hpkp-endpoint="https://example.com/hpkp-reports"
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to those named
     endpoints:</p>
@@ -611,17 +611,16 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   is tied to the document where they generated.</p>
     <h3 class="heading settled" data-level="3.1" id="document-configuration"><span class="secno">3.1. </span><span class="content">Document configuration</span><a class="self-link" href="#document-configuration"></a></h3>
     <p>Each <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document①">document</a> has an <dfn class="dfn-paneled idl-code" data-dfn-for="document" data-dfn-type="attribute" data-export id="dom-document-endpoints"><code>endpoints</code></dfn> list, which is a list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoints</a>, each of
-  which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name①">name</a></code>.  (The algorithm in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a> guarantees this by keeping the first entry in a <code>Report-To</code> header with a particular name.)</p>
+  which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name①">name</a></code>.  (The algorithm in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a> guarantees this by keeping the first entry in a <code>Reporting-Endpoints</code> header with a particular name.)</p>
     <p>A server MAY define a set of reporting endpoints for a resource it returns,
-  via the <a data-link-type="dfn" href="#report-to" id="ref-for-report-to②"><code>Report-To</code></a> HTTP response header field. This mechanism
-  is defined in <a href="#header">§ 3.2 The Report-To HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
+  via the <a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints②"><code>Reporting-Endpoints</code></a> HTTP response header field. This
+  mechanism is defined in <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
     <p>Each <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document②">document</a> has an <dfn class="idl-code" data-dfn-for="document" data-dfn-type="attribute" data-export id="dom-document-reports"><code>reports</code><a class="self-link" href="#dom-document-reports"></a></dfn> list, which is a list of <a data-link-type="dfn" href="#report" id="ref-for-report①⑥">reports</a>.</p>
-    <h3 class="heading settled" data-level="3.2" id="header"><span class="secno">3.2. </span><span class="content">The <code>Report-To</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
-    <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report-to"><code>Report-To</code></dfn> HTTP response header field is
-  used to construct the reporting configuration for a resource.</p>
-    <p><a data-link-type="dfn" href="#report-to" id="ref-for-report-to③"><code>Report-To</code></a> is a Dictionary Structured Header <a data-link-type="biblio" href="#biblio-structured-headers">[STRUCTURED-HEADERS]</a>.
-  Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may
-  be delivered. The entry value MUST be a string.</p>
+    <h3 class="heading settled" data-level="3.2" id="header"><span class="secno">3.2. </span><span class="content">The <code>Reporting-Endpoints</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
+    <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="reporting-endpoints"><code>Reporting-Endpoints</code></dfn> HTTP response header
+  field is used to construct the reporting configuration for a resource.</p>
+    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Header <a data-link-type="biblio" href="#biblio-structured-headers">[STRUCTURED-HEADERS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
+  string.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> is defined by a String Item, which is interpreted as a
   URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> member MUST be ignored.</p>
     <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
@@ -629,7 +628,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>No parameters are defined for <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoints</a>, and any parameters which are
   specified will be silently ignored.</p>
     <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
-<pre class="abnf">Report-To = <a data-link-type="grammar" href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2" id="ref-for-rfc.section.3.2">sh-dictionary</a>
+<pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar" href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2" id="ref-for-rfc.section.3.2">sh-dictionary</a>
 </pre>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content"> Process reporting endpoints for <var>response</var> </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>), this algorithm extracts and returns a
@@ -647,10 +646,10 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <li data-md>
         <p><var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a> does not
   contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header①">header</a> whose <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-name" id="ref-for-concept-header-name">name</a> is
-  "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to④"><code>Report-To</code></a>".</p>
+  "<a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints④"><code>Reporting-Endpoints</code></a>".</p>
       </ol>
      <li data-md>
-      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to⑤"><code>Report-To</code></a>".</p>
+      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is "<a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints⑤"><code>Reporting-Endpoints</code></a>".</p>
      <li data-md>
       <p>Let <var>parsed header</var> be the result of executing the algorithm defined in
   Section 4.2 of <a data-link-type="biblio" href="#biblio-structured-headers">[STRUCTURED-HEADERS]</a> on <var>header</var>, with <var>header_type</var> set to "dictionary". If that algorithm fails
@@ -1202,13 +1201,13 @@ Content-Type: application/reports+json
    </section>
    <section>
     <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
-    <h3 class="heading settled" data-level="10.1" id="header-field-registration"><span class="secno">10.1. </span><span class="content">The <code>Report-To</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
+    <h3 class="heading settled" data-level="10.1" id="header-field-registration"><span class="secno">10.1. </span><span class="content">The <code>Reporting-Endpoints</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
     <p>The permanent message header field registry should be updated
   with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
     <dl>
      <dt data-md>Header field name
      <dd data-md>
-      <p><code>Report-To</code></p>
+      <p><code>Reporting-Endpoints</code></p>
      <dt data-md>Applicable protocol
      <dd data-md>
       <p>http</p>
@@ -1220,7 +1219,7 @@ Content-Type: application/reports+json
       <p>W3C</p>
      <dt data-md>Specification document
      <dd data-md>
-      <p>This specification (see <a href="#header">§ 3.2 The Report-To HTTP Response Header Field</a>)</p>
+      <p>This specification (see <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>)</p>
     </dl>
     <h3 class="heading settled" data-level="10.2" id="media-type-registration"><span class="secno">10.2. </span><span class="content">The <code>application/reports+json</code> Media Type</span><a class="self-link" href="#media-type-registration"></a></h3>
     <dl>
@@ -1308,6 +1307,7 @@ Content-Type: application/reports+json
    <li><a href="#report">report</a><span>, in §2.1.3</span>
    <li><a href="#reportbody">ReportBody</a><span>, in §4.1</span>
    <li><a href="#report-buffer">report buffer</a><span>, in §4</span>
+   <li><a href="#reporting-endpoints">Reporting-Endpoints</a><span>, in §3.2</span>
    <li><a href="#reportingobserver">ReportingObserver</a><span>, in §4.1</span>
    <li><a href="#reporting-observer">reporting observer</a><span>, in §4</span>
    <li><a href="#callbackdef-reportingobservercallback">ReportingObserverCallback</a><span>, in §4.1</span>
@@ -1317,7 +1317,6 @@ Content-Type: application/reports+json
    <li><a href="#typedefdef-reportlist">ReportList</a><span>, in §4.1</span>
    <li><a href="#reportingobserver-report-queue">report queue</a><span>, in §4.1</span>
    <li><a href="#dom-document-reports">reports</a><span>, in §3.1</span>
-   <li><a href="#report-to">Report-To</a><span>, in §3.2</span>
    <li><a href="#report-type">report type</a><span>, in §2.1.2</span>
    <li><a href="#serialize-a-list-of-reports-to-json">serialize a list of reports to JSON</a><span>, in §2.4</span>
    <li><a href="#dom-reportingobserver-takerecords">takeRecords()</a><span>, in §4.1</span>
@@ -1604,7 +1603,7 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
    <a href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy">https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-is-origin-trustworthy">3.2. The Report-To HTTP Response Header Field</a>
+    <li><a href="#ref-for-is-origin-trustworthy">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
     <li><a href="#ref-for-is-origin-trustworthy①">3.3. 
     Process reporting endpoints for response </a>
    </ul>
@@ -1612,7 +1611,7 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-rfc.section.3.2">
    <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2">https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-rfc.section.3.2">3.2. The Report-To HTTP Response Header Field</a>
+    <li><a href="#ref-for-rfc.section.3.2">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url">
@@ -2012,7 +2011,7 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-endpoint">2.1.1. Endpoints</a> <a href="#ref-for-endpoint①">(2)</a> <a href="#ref-for-endpoint②">(3)</a>
     <li><a href="#ref-for-endpoint③">2.1.3. Reports</a>
     <li><a href="#ref-for-endpoint④">3.1. Document configuration</a>
-    <li><a href="#ref-for-endpoint⑤">3.2. The Report-To HTTP Response Header Field</a> <a href="#ref-for-endpoint⑥">(2)</a> <a href="#ref-for-endpoint⑦">(3)</a> <a href="#ref-for-endpoint⑧">(4)</a>
+    <li><a href="#ref-for-endpoint⑤">3.2. The Reporting-Endpoints HTTP Response Header Field</a> <a href="#ref-for-endpoint⑥">(2)</a> <a href="#ref-for-endpoint⑦">(3)</a> <a href="#ref-for-endpoint⑧">(4)</a>
     <li><a href="#ref-for-endpoint⑨">3.3. 
     Process reporting endpoints for response </a> <a href="#ref-for-endpoint①⓪">(2)</a>
     <li><a href="#ref-for-endpoint①①">3.5.1. Send reports</a> <a href="#ref-for-endpoint①②">(2)</a>
@@ -2174,14 +2173,14 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-document-endpoints">3.5.1. Send reports</a> <a href="#ref-for-dom-document-endpoints①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="report-to">
-   <b><a href="#report-to">#report-to</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="reporting-endpoints">
+   <b><a href="#reporting-endpoints">#reporting-endpoints</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-to">1.2. Examples</a> <a href="#ref-for-report-to①">(2)</a>
-    <li><a href="#ref-for-report-to②">3.1. Document configuration</a>
-    <li><a href="#ref-for-report-to③">3.2. The Report-To HTTP Response Header Field</a>
-    <li><a href="#ref-for-report-to④">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-report-to⑤">(2)</a>
+    <li><a href="#ref-for-reporting-endpoints">1.2. Examples</a> <a href="#ref-for-reporting-endpoints①">(2)</a>
+    <li><a href="#ref-for-reporting-endpoints②">3.1. Document configuration</a>
+    <li><a href="#ref-for-reporting-endpoints③">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
+    <li><a href="#ref-for-reporting-endpoints④">3.3. 
+    Process reporting endpoints for response </a> <a href="#ref-for-reporting-endpoints⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reporting-observer">
