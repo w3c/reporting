@@ -473,16 +473,18 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
 
       1.  Let |endpoint url string| be the first element of the tuple
-          |value_and_parameters|. If |endpoint url string| is not a string, or
-          if that value is not an <a>absolute-URL string</a> or a
-          <a>path-absolute-URL string</a>, then <a>continue</a>.
+          |value_and_parameters|. If |endpoint url string| is not a string,
+          then <a>continue</a>.
 
       2.  Let |endpoint url| be the result of executing the <a>URL parser</a>
           on |endpoint url string|, with <a spec="url">base URL</a> set to
           |response|'s <a for="response" attribute>url</a>. If |endpoint url| is
           failure, then <a>continue</a>.
 
-      3.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
+      3. If |endpoint url|'s <a>origin</a> is not <a>potentially
+          trustworthy</a>, then <a>continue</a>.
+
+      4.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
               as follows:
 
               :   {{endpoint/name}}
@@ -492,7 +494,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
               :   {{endpoint/failures}}
               ::  0
 
-      4.  Add |endpoint| to |endpoints|.
+      5.  Add |endpoint| to |endpoints|.
 
   6. Return |endpoints|.
 
