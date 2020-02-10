@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 8bc2fccb49a45a0af18c5e75ce18049d75f824b6" name="generator">
+  <meta content="Bikeshed version b43aa594f5014ff14748da1aace9afaa73d2b3e6" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="c1b4c3d962747e4855006e5033d29c7b7062457c" name="document-revision">
+  <meta content="6497ff55735f645bfda9133ba1e657dcc2c896ec" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-02-05">5 February 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-02-10">10 February 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -660,11 +660,14 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <p>For each <var>name</var> → <var>value_and_parameters</var> of <var>parsed header</var>:</p>
       <ol>
        <li data-md>
-        <p>Let <var>endpoint url string</var> be the first element of the tuple <var>value_and_parameters</var>. If <var>endpoint url string</var> is not a string, or
-  if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
+        <p>Let <var>endpoint url string</var> be the first element of the tuple <var>value_and_parameters</var>. If <var>endpoint url string</var> is not a string,
+  then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
        <li data-md>
         <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint url string</var>, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>endpoint url</var> is
   failure, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue①">continue</a>.</p>
+       <li data-md>
+        <p>If <var>endpoint url</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin①">origin</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy②">potentially
+  trustworthy</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue②">continue</a>.</p>
        <li data-md>
         <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⓪">endpoint</a> whose properties are set
       as follows:</p>
@@ -730,13 +733,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <p>For each (<var>endpoint</var>, <var>report list</var>) pair in <var>endpoint map</var>:</p>
       <ol>
        <li data-md>
-        <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin①">origins</a> to
+        <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin②">origins</a> to
   lists of <a data-link-type="dfn" href="#report" id="ref-for-report②①">report</a> objects.</p>
        <li data-md>
         <p>For each <var>report</var> in <var>report list</var>:</p>
         <ol>
          <li data-md>
-          <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin②">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url②">url</a>.</p>
+          <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url②">url</a>.</p>
          <li data-md>
           <p>Append <var>report</var> to <var>origin map</var>’s list of reports for <var>origin</var>.</p>
         </ol>
@@ -772,7 +775,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   are only removed from the cache after delivery has been attempted, skipped
   reports will simply be delivered later.</p>
     <h4 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="3.5.2" id="try-delivery"><span class="secno">3.5.2. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h4>
-    <p>Given an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a> (<var>endpoint</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origin</a> (<var>origin</var>), and a list of <a data-link-type="dfn" href="#report" id="ref-for-report②③">reports</a> (<var>reports</var>), this algorithm will
+    <p>Given an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a> (<var>endpoint</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a> (<var>origin</var>), and a list of <a data-link-type="dfn" href="#report" id="ref-for-report②③">reports</a> (<var>reports</var>), this algorithm will
   construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a>, and attempt to deliver it to <var>endpoint</var>. It
   returns "<code>Success</code>" if that delivery succeeds, "<code>Remove Endpoint</code>" if the
   endpoint explicitly removes itself as a reporting endpoint by sending a 410
@@ -1527,8 +1530,10 @@ Content-Type: application/reports+json
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#origin">https://html.spec.whatwg.org/multipage/browsers.html#origin</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-origin">2.1.1. Endpoints</a>
-    <li><a href="#ref-for-origin①">3.5.1. Send reports</a> <a href="#ref-for-origin②">(2)</a>
-    <li><a href="#ref-for-origin③">3.5.2. 
+    <li><a href="#ref-for-origin①">3.3. 
+    Process reporting endpoints for response </a>
+    <li><a href="#ref-for-origin②">3.5.1. Send reports</a> <a href="#ref-for-origin③">(2)</a>
+    <li><a href="#ref-for-origin④">3.5.2. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -1566,7 +1571,7 @@ Content-Type: application/reports+json
    <a href="https://infra.spec.whatwg.org/#iteration-continue">https://infra.spec.whatwg.org/#iteration-continue</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-iteration-continue">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-iteration-continue①">(2)</a>
+    Process reporting endpoints for response </a> <a href="#ref-for-iteration-continue①">(2)</a> <a href="#ref-for-iteration-continue②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-list">
@@ -1605,7 +1610,7 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-is-origin-trustworthy">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
     <li><a href="#ref-for-is-origin-trustworthy①">3.3. 
-    Process reporting endpoints for response </a>
+    Process reporting endpoints for response </a> <a href="#ref-for-is-origin-trustworthy②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-rfc.section.3.2">
@@ -1620,13 +1625,6 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-concept-url">2.1.1. Endpoints</a>
     <li><a href="#ref-for-concept-url①">2.3. 
     Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-absolute-url-string">
-   <a href="https://url.spec.whatwg.org/#absolute-url-string">https://url.spec.whatwg.org/#absolute-url-string</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-absolute-url-string">3.3. 
-    Process reporting endpoints for response </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-base-url">
@@ -1648,13 +1646,6 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-concept-url-password">2.3. 
     Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-path-absolute-url-string">
-   <a href="https://url.spec.whatwg.org/#path-absolute-url-string">https://url.spec.whatwg.org/#path-absolute-url-string</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-path-absolute-url-string">3.3. 
-    Process reporting endpoints for response </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-parser">
@@ -1877,11 +1868,9 @@ Content-Type: application/reports+json
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">URL</span>
-     <li><span class="dfn-paneled" id="term-for-absolute-url-string" style="color:initial">absolute-url string</span>
      <li><span class="dfn-paneled" id="term-for-concept-base-url" style="color:initial">base url</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-origin" style="color:initial">origin of a url</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-password" style="color:initial">password</span>
-     <li><span class="dfn-paneled" id="term-for-path-absolute-url-string" style="color:initial">path-absolute-url string</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-parser" style="color:initial">url parser</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-serializer" style="color:initial">url serializer</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-username" style="color:initial">username</span>
