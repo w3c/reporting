@@ -115,6 +115,9 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     text: session; url: dfn-session
     text: success; url: dfn-success
     text: trying; url: dfn-try
+spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#
+  type: grammar
+    text: sh-dictionary; url: rfc.section.3.2
 </pre>
 <pre class="biblio">
 {
@@ -123,6 +126,12 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     "href": "https://w3c.github.io/webappsec-secure-contexts/",
     "title": "Secure Contexts",
     "publisher": "W3C"
+  },
+  "STRUCTURED-HEADERS": {
+    "authors": [ "Mark Nottingham", "Poul-Henning Kamp" ],
+    "href": "https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html",
+    "title": "Structured Headers for HTTP",
+    "publisher": "IETF"
   }
 }
 
@@ -167,8 +176,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     define a set of reporting endpoints named "`endpoint-1`":
 
     <pre>
-      <a>Report-To</a>: { "<a for="ReportTo">name</a>": "endpoint-1",
-                     "<a for="ReportTo">url</a>": "https://example.com/reports" }
+      <a>Reporting-Endpoints</a>: endpoint-1="https://example.com/reports"
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to that
@@ -187,10 +195,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     the following header to define two reporting endpoints:
 
     <pre>
-      <a>Report-To</a>: { "<a for="ReportTo">name</a>": "csp-endpoint",
-                     "<a for="ReportTo">url</a>": "https://example.com/csp-reports" },
-                 { "<a for="ReportTo">name</a>": "hpkp-endpoint",
-                     "<a for="ReportTo">url</a>": "https://example.com/hpkp-reports" }
+      <a>Reporting-Endpoints</a>: csp-endpoint="https://example.com/csp-reports",
+                           hpkp-endpoint="https://example.com/hpkp-reports"
     </pre>
 
     And the following headers, which direct CSP and HPKP reports to those named
@@ -393,53 +399,41 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
   attribute>endpoints</dfn> list, which is a list of <a>endpoints</a>, each of
   which MUST have a distinct {{endpoint/name}}.  (The algorithm in
   [[#process-header]] guarantees this by keeping the first entry in a
-  `Report-To` header with a particular name.)
+  `Reporting-Endpoints` header with a particular name.)
 
   A server MAY define a set of reporting endpoints for a resource it returns,
-  via the <a>`Report-To`</a> HTTP response header field. This mechanism
-  is defined in [[#header]], and its processing in [[#process-header]].
+  via the <a>`Reporting-Endpoints`</a> HTTP response header field. This
+  mechanism is defined in [[#header]], and its processing in
+  [[#process-header]].
 
   Each <a>document</a> has an <dfn for="document" export attribute>reports</dfn>
   list, which is a list of <a>reports</a>.
 
-  <h3 id="header">The `Report-To` HTTP Response Header Field</h3>
+  <h3 id="header">The `Reporting-Endpoints` HTTP Response Header Field</h3>
 
-  The value of the <dfn export>`Report-To`</dfn> HTTP response header field is
-  used to construct the reporting configuration for a resource. The header is
-  represented by the following ABNF grammar [[!RFC5234]]:
+  The value of the <dfn export>`Reporting-Endpoints`</dfn> HTTP response header
+  field is used to construct the reporting configuration for a resource.
+
+  <a>`Reporting-Endpoints`</a> is a Dictionary Structured Header
+  [[STRUCTURED-HEADERS]]. Each entry in the dictionary defines an
+  <a>endpoint</a> to which reports may be delivered. The entry value MUST be a
+  string.
+
+  Each <a>endpoint</a> is defined by a String Item, which is interpreted as a
+  URI-reference. If its value is not a valid URI-reference, that <a>endpoint</a>
+  member MUST be ignored.
+
+  Moreover, the URL that the member's value represents MUST be <a>potentially
+  trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
+
+  No parameters are defined for <a>endpoints</a>, and any parameters which are
+  specified will be silently ignored.
+
+  The header is represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
-    Report-To = <a>json-field-value</a>
-                ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
+    Reporting-Endpoints = <a>sh-dictionary</a>
   </pre>
-
-  The header's value is interpreted as a JSON-formatted array of objects
-  without the outer `[` and `]`, as described in Section 4 of [[HTTP-JFV]].
-
-  Each object in the array defines an <a>endpoint</a> to which reports may be
-  delivered, and will be parsed as defined in [[#process-header]].
-
-  The following subsections define the initial set of known members in each
-  JSON object the header's value defines. Future versions of this document may
-  define additional such members, and user agents MUST ignore unknown members
-  when parsing the header.
-
-  <h4 id="id-member">The `name` member</h4>
-
-  The OPTIONAL <dfn for="ReportTo">`name`</dfn> member is a string that
-  associates a {{endpoint/name}} with the <a>endpoint</a>.
-
-  If present, the member's value MUST be a string. If not present, the
-  <a>endpoint</a> will be given the {{endpoint/name}} "`default`".
-
-  <h4 id="url-member">The `url` member</h4>
-
-  The REQUIRED <dfn for="ReportTo">`url`</dfn> member is a string that defines
-  the location of the <a>endpoint</a>.
-
-  The member's value MUST be a string. Moreover, the URL that the member's value
-  represents MUST be <a>potentially trustworthy</a> [[!SECURE-CONTEXTS]].
-  Non-secure endpoints will be ignored.
 
   <h3 id="process-header" algorithm>
     Process reporting endpoints for |response|
@@ -462,37 +456,35 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
 
       2.  |response|'s <a for="response" attribute>header list</a> does not
           contain a <a>header</a> whose <a for="header" attribute>name</a> is
-          "<a>`Report-To`</a>".
+          "<a>`Reporting-Endpoints`</a>".
 
   2.  Let |header| be the <a for="header" attribute>value</a> of the
       <a>header</a> in |response|'s <a for="response" attribute>header list</a>
-      whose name is "<a>`Report-To`</a>".
+      whose name is "<a>`Reporting-Endpoints`</a>".
 
-  3.  Let |list| be the result of executing the algorithm defined in Section 4
-      of [[HTTP-JFV]] on |header|. If that algorithm results in an error, abort
-      these steps.
+  3.  Let |parsed header| be the result of executing the algorithm defined in
+      Section 4.2 of [[STRUCTURED-HEADERS]] on |header|, with <var
+      ignore>header_type</var> set to "dictionary". If that algorithm fails
+      parsing, abort these steps.
 
   4.  Let |endpoints| be an empty list.
 
-  5.  For each |item| in |list|:
+  5.  For each |name| → |value_and_parameters| of |parsed header|:
 
-      1.  Let |name| be |item|'s "<a for="ReportTo">`name`</a>" member's value
-          if present, and "`default`" otherwise.
 
-      2.  If there is already an <a>endpoint</a> in |endpoints| whose
-          {{endpoint/name}} is |name|, skip to the next |item|.
+      1.  Let |endpoint url string| be the first element of the tuple
+          |value_and_parameters|. If |endpoint url string| is not a string,
+          then <a>continue</a>.
 
-      3.  If |item| has no member named "<a for="ReportTo">`url`</a>", or that
-          member's value is not a string, or if that value is not an
-          <a>absolute-URL string</a> or a <a>path-absolute-URL string</a>, skip
-          to the next |item|.
+      2.  Let |endpoint url| be the result of executing the <a>URL parser</a>
+          on |endpoint url string|, with <a spec="url">base URL</a> set to
+          |response|'s <a for="response" attribute>url</a>. If |endpoint url| is
+          failure, then <a>continue</a>.
 
-      4.  Let |url| be the result of executing the <a>URL parser</a> on |item|'s
-          "<a for="ReportTo">`url`</a>" member's value, with <a spec="url">base
-          URL</a> set to |response|'s <a for="response" attribute>url</a>. If
-          |url| is failure, skip to the next |item|.
+      3. If |endpoint url|'s <a>origin</a> is not <a>potentially
+          trustworthy</a>, then <a>continue</a>.
 
-      5.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
+      4.  Let |endpoint| be a new <a>endpoint</a> whose properties are set
               as follows:
 
               :   {{endpoint/name}}
@@ -502,7 +494,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
               :   {{endpoint/failures}}
               ::  0
 
-      6.  Add |endpoint| to |endpoints|.
+      5.  Add |endpoint| to |endpoints|.
 
   6. Return |endpoints|.
 
@@ -1090,13 +1082,13 @@ typedef sequence&lt;Report> ReportList;
 <section>
   <h2 id="iana-considerations">IANA Considerations</h2>
 
-  <h3 id="header-field-registration">The `Report-To` Header</h3>
+  <h3 id="header-field-registration">The `Reporting-Endpoints` Header</h3>
 
   The permanent message header field registry should be updated
   with the following registration: [[!RFC3864]]
 
   :   Header field name
-  ::  `Report-To`
+  ::  `Reporting-Endpoints`
   :   Applicable protocol
   ::  http
   :   Status

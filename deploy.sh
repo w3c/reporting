@@ -11,7 +11,7 @@ TARGET_BRANCH="gh-pages"
 
 # List of long-lived topic branch names to be published on github.io as a
 # subdirectory
-TOPIC_BRANCHES=("split-persistence")
+TOPIC_BRANCHES=("split-persistence" "structured-headers")
 
 containsElement () {
   local e match="$1"
