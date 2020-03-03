@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 8bc2fccb49a45a0af18c5e75ce18049d75f824b6" name="generator">
+  <meta content="Bikeshed version 5721fde7f6b8111f662b83b678f9e181a9838206" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="df9e8bb1180ec86372024272c10074a48e7e548f" name="document-revision">
+  <meta content="34da8627d9c03288b526731d42f53e99fae600d6" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-02-05">5 February 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-03">3 March 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -337,12 +337,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <a href="#document-reporting"><span class="secno">3</span> <span class="content">Document Centered Reporting</span></a>
      <ol class="toc">
       <li><a href="#document-configuration"><span class="secno">3.1</span> <span class="content">Document configuration</span></a>
-      <li>
-       <a href="#header"><span class="secno">3.2</span> <span class="content">The <code>Report-To</code> HTTP Response Header Field</span></a>
-       <ol class="toc">
-        <li><a href="#id-member"><span class="secno">3.2.1</span> <span class="content">The <code>name</code> member</span></a>
-        <li><a href="#url-member"><span class="secno">3.2.2</span> <span class="content">The <code>url</code> member</span></a>
-       </ol>
+      <li><a href="#header"><span class="secno">3.2</span> <span class="content">The <code>Reporting-Endpoints</code> HTTP Response Header Field</span></a>
       <li><a href="#process-header"><span class="secno">3.3</span> <span class="content"> Process reporting endpoints for <var>response</var> </span></a>
       <li>
        <a href="#report-generation"><span class="secno">3.4</span> <span class="content">Report Generation</span></a>
@@ -392,7 +387,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#iana-considerations"><span class="secno">10</span> <span class="content">IANA Considerations</span></a>
      <ol class="toc">
-      <li><a href="#header-field-registration"><span class="secno">10.1</span> <span class="content">The <code>Report-To</code> Header</span></a>
+      <li><a href="#header-field-registration"><span class="secno">10.1</span> <span class="content">The <code>Reporting-Endpoints</code> Header</span></a>
       <li><a href="#media-type-registration"><span class="secno">10.2</span> <span class="content">The <code>application/reports+json</code> Media Type</span></a>
      </ol>
     <li>
@@ -441,12 +436,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   may prevent reports from reaching their destination at all, and user agents
   are permitted to reject and not deliver a report for any reason.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
-    <div class="example" id="example-c8606d75">
-     <a class="self-link" href="#example-c8606d75"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+    <div class="example" id="example-bd21f0f9">
+     <a class="self-link" href="#example-bd21f0f9"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
     define a set of reporting endpoints named "<code>endpoint-1</code>": 
-<pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-name" id="ref-for-reportto-name">name</a>": "endpoint-1",
-               "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url">url</a>": "https://example.com/reports" }
+<pre><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints">Reporting-Endpoints</a>: endpoint-1="https://example.com/reports"
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to that
     endpoint:</p>
@@ -454,15 +448,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7469#section-2.1" id="ref-for-section-2.1">Public-Key-Pins</a>: ...; report-to=endpoint-1
 </pre>
     </div>
-    <div class="example" id="example-bb98337e">
-     <a class="self-link" href="#example-bb98337e"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+    <div class="example" id="example-b1cea891">
+     <a class="self-link" href="#example-b1cea891"></a> After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
     the following header to define two reporting endpoints: 
-<pre><a data-link-type="dfn" href="#report-to" id="ref-for-report-to①">Report-To</a>: { "<a data-link-type="dfn" href="#reportto-name" id="ref-for-reportto-name①">name</a>": "csp-endpoint",
-               "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url①">url</a>": "https://example.com/csp-reports" },
-           { "<a data-link-type="dfn" href="#reportto-name" id="ref-for-reportto-name②">name</a>": "hpkp-endpoint",
-               "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url②">url</a>": "https://example.com/hpkp-reports" }
+<pre><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints①">Reporting-Endpoints</a>: csp-endpoint="https://example.com/csp-reports",
+                     hpkp-endpoint="https://example.com/hpkp-reports"
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to those named
     endpoints:</p>
@@ -619,36 +611,25 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   is tied to the document where they generated.</p>
     <h3 class="heading settled" data-level="3.1" id="document-configuration"><span class="secno">3.1. </span><span class="content">Document configuration</span><a class="self-link" href="#document-configuration"></a></h3>
     <p>Each <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document①">document</a> has an <dfn class="dfn-paneled idl-code" data-dfn-for="document" data-dfn-type="attribute" data-export id="dom-document-endpoints"><code>endpoints</code></dfn> list, which is a list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoints</a>, each of
-  which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name①">name</a></code>.  (The algorithm in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a> guarantees this by keeping the first entry in a <code>Report-To</code> header with a particular name.)</p>
+  which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name①">name</a></code>.  (The algorithm in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a> guarantees this by keeping the first entry in a <code>Reporting-Endpoints</code> header with a particular name.)</p>
     <p>A server MAY define a set of reporting endpoints for a resource it returns,
-  via the <a data-link-type="dfn" href="#report-to" id="ref-for-report-to②"><code>Report-To</code></a> HTTP response header field. This mechanism
-  is defined in <a href="#header">§ 3.2 The Report-To HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
+  via the <a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints②"><code>Reporting-Endpoints</code></a> HTTP response header field. This
+  mechanism is defined in <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
     <p>Each <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document②">document</a> has an <dfn class="idl-code" data-dfn-for="document" data-dfn-type="attribute" data-export id="dom-document-reports"><code>reports</code><a class="self-link" href="#dom-document-reports"></a></dfn> list, which is a list of <a data-link-type="dfn" href="#report" id="ref-for-report①⑥">reports</a>.</p>
-    <h3 class="heading settled" data-level="3.2" id="header"><span class="secno">3.2. </span><span class="content">The <code>Report-To</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
-    <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report-to"><code>Report-To</code></dfn> HTTP response header field is
-  used to construct the reporting configuration for a resource. The header is
-  represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
-<pre class="abnf">Report-To = <a data-link-type="grammar" href="https://tools.ietf.org/html/draft-reschke-http-jfv#section-2" id="ref-for-section-2①">json-field-value</a>
-            ; See Section 2 of [[HTTP-JFV]], and Section 2 of [[RFC8259]]
+    <h3 class="heading settled" data-level="3.2" id="header"><span class="secno">3.2. </span><span class="content">The <code>Reporting-Endpoints</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
+    <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="reporting-endpoints"><code>Reporting-Endpoints</code></dfn> HTTP response header
+  field is used to construct the reporting configuration for a resource.</p>
+    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Header <a data-link-type="biblio" href="#biblio-structured-headers">[STRUCTURED-HEADERS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
+  string.</p>
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> is defined by a String Item, which is interpreted as a
+  URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> member MUST be ignored.</p>
+    <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
+  trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
+    <p>No parameters are defined for <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoints</a>, and any parameters which are
+  specified will be silently ignored.</p>
+    <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
+<pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar" href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2" id="ref-for-rfc.section.3.2">sh-dictionary</a>
 </pre>
-    <p>The header’s value is interpreted as a JSON-formatted array of objects
-  without the outer <code>[</code> and <code>]</code>, as described in Section 4 of <a data-link-type="biblio" href="#biblio-http-jfv">[HTTP-JFV]</a>.</p>
-    <p>Each object in the array defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be
-  delivered, and will be parsed as defined in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
-    <p>The following subsections define the initial set of known members in each
-  JSON object the header’s value defines. Future versions of this document may
-  define additional such members, and user agents MUST ignore unknown members
-  when parsing the header.</p>
-    <h4 class="heading settled" data-level="3.2.1" id="id-member"><span class="secno">3.2.1. </span><span class="content">The <code>name</code> member</span><a class="self-link" href="#id-member"></a></h4>
-    <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport id="reportto-name"><code>name</code></dfn> member is a string that
-  associates a <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name②">name</a></code> with the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a>.</p>
-    <p>If present, the member’s value MUST be a string. If not present, the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> will be given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name③">name</a></code> "<code>default</code>".</p>
-    <h4 class="heading settled" data-level="3.2.2" id="url-member"><span class="secno">3.2.2. </span><span class="content">The <code>url</code> member</span><a class="self-link" href="#url-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="ReportTo" data-dfn-type="dfn" data-noexport id="reportto-url"><code>url</code></dfn> member is a string that defines
-  the location of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoint</a>.</p>
-    <p>The member’s value MUST be a string. Moreover, the URL that the member’s value
-  represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>.
-  Non-secure endpoints will be ignored.</p>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content"> Process reporting endpoints for <var>response</var> </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>), this algorithm extracts and returns a
   list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑨">endpoints</a>.</p>
@@ -665,37 +646,33 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <li data-md>
         <p><var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a> does not
   contain a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header①">header</a> whose <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-name" id="ref-for-concept-header-name">name</a> is
-  "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to③"><code>Report-To</code></a>".</p>
+  "<a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints④"><code>Reporting-Endpoints</code></a>".</p>
       </ol>
      <li data-md>
-      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is "<a data-link-type="dfn" href="#report-to" id="ref-for-report-to④"><code>Report-To</code></a>".</p>
+      <p>Let <var>header</var> be the <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-header-value" id="ref-for-concept-header-value">value</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header②">header</a> in <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list①">header list</a> whose name is "<a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints⑤"><code>Reporting-Endpoints</code></a>".</p>
      <li data-md>
-      <p>Let <var>list</var> be the result of executing the algorithm defined in Section 4
-  of <a data-link-type="biblio" href="#biblio-http-jfv">[HTTP-JFV]</a> on <var>header</var>. If that algorithm results in an error, abort
-  these steps.</p>
+      <p>Let <var>parsed header</var> be the result of executing the algorithm defined in
+  Section 4.2 of <a data-link-type="biblio" href="#biblio-structured-headers">[STRUCTURED-HEADERS]</a> on <var>header</var>, with <var>header_type</var> set to "dictionary". If that algorithm fails
+  parsing, abort these steps.</p>
      <li data-md>
       <p>Let <var>endpoints</var> be an empty list.</p>
      <li data-md>
-      <p>For each <var>item</var> in <var>list</var>:</p>
+      <p>For each <var>name</var> → <var>value_and_parameters</var> of <var>parsed header</var>:</p>
       <ol>
        <li data-md>
-        <p>Let <var>name</var> be <var>item</var>’s "<a data-link-type="dfn" href="#reportto-name" id="ref-for-reportto-name③"><code>name</code></a>" member’s value
-  if present, and "<code>default</code>" otherwise.</p>
+        <p>Let <var>endpoint url string</var> be the first element of the tuple <var>value_and_parameters</var>. If <var>endpoint url string</var> is not a string,
+  then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
        <li data-md>
-        <p>If there is already an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⓪">endpoint</a> in <var>endpoints</var> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name④">name</a></code> is <var>name</var>, skip to the next <var>item</var>.</p>
+        <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint url string</var>, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>endpoint url</var> is
+  failure, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue①">continue</a>.</p>
        <li data-md>
-        <p>If <var>item</var> has no member named "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url③"><code>url</code></a>", or that
-  member’s value is not a string, or if that value is not an <a data-link-type="dfn" href="https://url.spec.whatwg.org/#absolute-url-string" id="ref-for-absolute-url-string">absolute-URL string</a> or a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#path-absolute-url-string" id="ref-for-path-absolute-url-string">path-absolute-URL string</a>, skip
-  to the next <var>item</var>.</p>
+        <p>If <var>endpoint url</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin①">origin</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy②">potentially
+  trustworthy</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue②">continue</a>.</p>
        <li data-md>
-        <p>Let <var>url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>item</var>’s
-  "<a data-link-type="dfn" href="#reportto-url" id="ref-for-reportto-url④"><code>url</code></a>" member’s value, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base
-  URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>url</var> is failure, skip to the next <var>item</var>.</p>
-       <li data-md>
-        <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①①">endpoint</a> whose properties are set
+        <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⓪">endpoint</a> whose properties are set
       as follows:</p>
         <dl>
-         <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name⑤">name</a></code>
+         <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name②">name</a></code>
          <dd data-md>
           <p><var>name</var></p>
          <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
@@ -739,12 +716,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>A user agent sends a list of <a data-link-type="dfn" href="#report" id="ref-for-report①⑨">reports</a> (<var>reports</var>) for a <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document④">document</a> (<var>document</var>) by executing the following steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①②">endpoint</a> objects to lists of <a data-link-type="dfn" href="#report" id="ref-for-report②⓪">report</a> objects.</p>
+      <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①①">endpoint</a> objects to lists of <a data-link-type="dfn" href="#report" id="ref-for-report②⓪">report</a> objects.</p>
      <li data-md>
       <p>For each <var>report</var> in <var>reports</var>:</p>
       <ol>
        <li data-md>
-        <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a> (<var>endpoint</var>) in <var>document</var>’s <code class="idl"><a data-link-type="idl" href="#dom-document-endpoints" id="ref-for-dom-document-endpoints">endpoints</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-destination" id="ref-for-report-destination①">destination</a>:</p>
+        <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①②">endpoint</a> (<var>endpoint</var>) in <var>document</var>’s <code class="idl"><a data-link-type="idl" href="#dom-document-endpoints" id="ref-for-dom-document-endpoints">endpoints</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name③">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-destination" id="ref-for-report-destination①">destination</a>:</p>
         <ol>
          <li data-md>
           <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
@@ -756,13 +733,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <p>For each (<var>endpoint</var>, <var>report list</var>) pair in <var>endpoint map</var>:</p>
       <ol>
        <li data-md>
-        <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin①">origins</a> to
+        <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin②">origins</a> to
   lists of <a data-link-type="dfn" href="#report" id="ref-for-report②①">report</a> objects.</p>
        <li data-md>
         <p>For each <var>report</var> in <var>report list</var>:</p>
         <ol>
          <li data-md>
-          <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin②">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url②">url</a>.</p>
+          <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url②">url</a>.</p>
          <li data-md>
           <p>Append <var>report</var> to <var>origin map</var>’s list of reports for <var>origin</var>.</p>
         </ol>
@@ -798,7 +775,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   are only removed from the cache after delivery has been attempted, skipped
   reports will simply be delivered later.</p>
     <h4 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="3.5.2" id="try-delivery"><span class="secno">3.5.2. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h4>
-    <p>Given an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoint</a> (<var>endpoint</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origin</a> (<var>origin</var>), and a list of <a data-link-type="dfn" href="#report" id="ref-for-report②③">reports</a> (<var>reports</var>), this algorithm will
+    <p>Given an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a> (<var>endpoint</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a> (<var>origin</var>), and a list of <a data-link-type="dfn" href="#report" id="ref-for-report②③">reports</a> (<var>reports</var>), this algorithm will
   construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a>, and attempt to deliver it to <var>endpoint</var>. It
   returns "<code>Success</code>" if that delivery succeeds, "<code>Remove Endpoint</code>" if the
   endpoint explicitly removes itself as a reporting endpoint by sending a 410
@@ -897,7 +874,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportingobserver"><code><c- g>ReportingObserver</c-></code></dfn> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/constructor(callback, options), ReportingObserver/constructor(callback)" data-dfn-type="argument" data-export id="dom-reportingobserver-constructor-callback-options-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-constructor-callback-options-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/constructor(callback, options), ReportingObserver/constructor(callback)" data-dfn-type="argument" data-export id="dom-reportingobserver-constructor-callback-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-constructor-callback-options-options"></a></dfn> = {});
+  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback"><c- n>ReportingObserverCallback</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/ReportingObserver(callback, options), ReportingObserver/constructor(callback, options), ReportingObserver/ReportingObserver(callback), ReportingObserver/constructor(callback)" data-dfn-type="argument" data-export id="dom-reportingobserver-reportingobserver-callback-options-callback"><code><c- g>callback</c-></code><a class="self-link" href="#dom-reportingobserver-reportingobserver-callback-options-callback"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions"><c- n>ReportingObserverOptions</c-></a> <dfn class="idl-code" data-dfn-for="ReportingObserver/ReportingObserver(callback, options), ReportingObserver/constructor(callback, options), ReportingObserver/ReportingObserver(callback), ReportingObserver/constructor(callback)" data-dfn-type="argument" data-export id="dom-reportingobserver-reportingobserver-callback-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-reportingobserver-reportingobserver-callback-options-options"></a></dfn> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords"><c- g>takeRecords</c-></a>();
@@ -1044,11 +1021,11 @@ queue</dfn>, which is initially empty.</p>
     <p>The user agent MAY choose to prioritize reports from particular origins over
   others (perhaps those that the user visits most often?)</p>
     <h3 class="heading settled" data-level="5.2" id="gc"><span class="secno">5.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
-    <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report" id="ref-for-report②⑧">reports</a> and <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoints</a>, and discard those that are no longer
+    <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="#report" id="ref-for-report②⑧">reports</a> and <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①④">endpoints</a>, and discard those that are no longer
   relevant. These include:</p>
     <ul>
      <li data-md>
-      <p><a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑥">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures②">failures</a></code> exceed
+      <p><a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⑤">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-failures" id="ref-for-dom-endpoint-failures②">failures</a></code> exceed
   some user-agent-defined threshold (~5 seems reasonable)</p>
      <li data-md>
       <p><a data-link-type="dfn" href="#report" id="ref-for-report②⑨">reports</a> which have not been delivered in some arbitrary period of
@@ -1158,7 +1135,7 @@ Content-Type: application/reports+json
      <li data-md>
       <p>Let <var>group</var> be <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code> property.</p>
      <li data-md>
-      <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2②">JSON text</a>,
+      <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2①">JSON text</a>,
  containing a single string field, <var>body_message</var>.</p>
      <li data-md>
       <p>Set <var>body_message</var> to <var>message</var>.</p>
@@ -1227,13 +1204,13 @@ Content-Type: application/reports+json
    </section>
    <section>
     <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
-    <h3 class="heading settled" data-level="10.1" id="header-field-registration"><span class="secno">10.1. </span><span class="content">The <code>Report-To</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
+    <h3 class="heading settled" data-level="10.1" id="header-field-registration"><span class="secno">10.1. </span><span class="content">The <code>Reporting-Endpoints</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
     <p>The permanent message header field registry should be updated
   with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
     <dl>
      <dt data-md>Header field name
      <dd data-md>
-      <p><code>Report-To</code></p>
+      <p><code>Reporting-Endpoints</code></p>
      <dt data-md>Applicable protocol
      <dd data-md>
       <p>http</p>
@@ -1245,7 +1222,7 @@ Content-Type: application/reports+json
       <p>W3C</p>
      <dt data-md>Specification document
      <dd data-md>
-      <p>This specification (see <a href="#header">§ 3.2 The Report-To HTTP Response Header Field</a>)</p>
+      <p>This specification (see <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>)</p>
     </dl>
     <h3 class="heading settled" data-level="10.2" id="media-type-registration"><span class="secno">10.2. </span><span class="content">The <code>application/reports+json</code> Media Type</span><a class="self-link" href="#media-type-registration"></a></h3>
     <dl>
@@ -1324,12 +1301,7 @@ Content-Type: application/reports+json
    <li><a href="#dictdef-generatetestreportparameters">GenerateTestReportParameters</a><span>, in §7.1</span>
    <li><a href="#dom-generatetestreportparameters-group">group</a><span>, in §7.1</span>
    <li><a href="#dom-generatetestreportparameters-message">message</a><span>, in §7.1</span>
-   <li>
-    name
-    <ul>
-     <li><a href="#dom-endpoint-name">attribute for endpoint</a><span>, in §2.1.1</span>
-     <li><a href="#reportto-name">dfn for ReportTo</a><span>, in §3.2.1</span>
-    </ul>
+   <li><a href="#dom-endpoint-name">name</a><span>, in §2.1.1</span>
    <li><a href="#dom-reportingobserver-observe">observe()</a><span>, in §4.1</span>
    <li><a href="#reportingobserver-options">options</a><span>, in §4.1</span>
    <li><a href="#registered">registered</a><span>, in §4</span>
@@ -1338,6 +1310,7 @@ Content-Type: application/reports+json
    <li><a href="#report">report</a><span>, in §2.1.3</span>
    <li><a href="#reportbody">ReportBody</a><span>, in §4.1</span>
    <li><a href="#report-buffer">report buffer</a><span>, in §4</span>
+   <li><a href="#reporting-endpoints">Reporting-Endpoints</a><span>, in §3.2</span>
    <li><a href="#reportingobserver">ReportingObserver</a><span>, in §4.1</span>
    <li><a href="#reporting-observer">reporting observer</a><span>, in §4</span>
    <li><a href="#callbackdef-reportingobservercallback">ReportingObserverCallback</a><span>, in §4.1</span>
@@ -1347,7 +1320,6 @@ Content-Type: application/reports+json
    <li><a href="#typedefdef-reportlist">ReportList</a><span>, in §4.1</span>
    <li><a href="#reportingobserver-report-queue">report queue</a><span>, in §4.1</span>
    <li><a href="#dom-document-reports">reports</a><span>, in §3.1</span>
-   <li><a href="#report-to">Report-To</a><span>, in §3.2</span>
    <li><a href="#report-type">report type</a><span>, in §2.1.2</span>
    <li><a href="#serialize-a-list-of-reports-to-json">serialize a list of reports to JSON</a><span>, in §2.4</span>
    <li><a href="#dom-reportingobserver-takerecords">takeRecords()</a><span>, in §4.1</span>
@@ -1370,7 +1342,6 @@ Content-Type: application/reports+json
     <ul>
      <li><a href="#dom-report-url">attribute for Report</a><span>, in §4.1</span>
      <li><a href="#dom-endpoint-url">attribute for endpoint</a><span>, in §2.1.1</span>
-     <li><a href="#reportto-url">dfn for ReportTo</a><span>, in §3.2.2</span>
      <li><a href="#report-url">dfn for report</a><span>, in §2.1.3</span>
     </ul>
    <li><a href="#report-user-agent">user agent</a><span>, in §2.1.3</span>
@@ -1559,8 +1530,10 @@ Content-Type: application/reports+json
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#origin">https://html.spec.whatwg.org/multipage/browsers.html#origin</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-origin">2.1.1. Endpoints</a>
-    <li><a href="#ref-for-origin①">3.5.1. Send reports</a> <a href="#ref-for-origin②">(2)</a>
-    <li><a href="#ref-for-origin③">3.5.2. 
+    <li><a href="#ref-for-origin①">3.3. 
+    Process reporting endpoints for response </a>
+    <li><a href="#ref-for-origin②">3.5.1. Send reports</a> <a href="#ref-for-origin③">(2)</a>
+    <li><a href="#ref-for-origin④">3.5.2. 
     Attempt to deliver reports to endpoint </a>
    </ul>
   </aside>
@@ -1588,16 +1561,17 @@ Content-Type: application/reports+json
     Invoke reporting observers with notify list </a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-section-2">
-   <a href="https://tools.ietf.org/html/draft-reschke-http-jfv#section-2">https://tools.ietf.org/html/draft-reschke-http-jfv#section-2</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-2①">3.2. The Report-To HTTP Response Header Field</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-byte-sequence">
    <a href="https://infra.spec.whatwg.org/#byte-sequence">https://infra.spec.whatwg.org/#byte-sequence</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-byte-sequence">2.4. Serialize Reports</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-iteration-continue">
+   <a href="https://infra.spec.whatwg.org/#iteration-continue">https://infra.spec.whatwg.org/#iteration-continue</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-iteration-continue">3.3. 
+    Process reporting endpoints for response </a> <a href="#ref-for-iteration-continue①">(2)</a> <a href="#ref-for-iteration-continue②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-list">
@@ -1628,15 +1602,21 @@ Content-Type: application/reports+json
    <a href="https://tools.ietf.org/html/rfc8259#section-2">https://tools.ietf.org/html/rfc8259#section-2</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-section-2">2.1.3. Reports</a>
-    <li><a href="#ref-for-section-2②">7.1. Generate Test Report</a>
+    <li><a href="#ref-for-section-2①">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
    <a href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy">https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-is-origin-trustworthy">3.2.2. The url member</a>
+    <li><a href="#ref-for-is-origin-trustworthy">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
     <li><a href="#ref-for-is-origin-trustworthy①">3.3. 
-    Process reporting endpoints for response </a>
+    Process reporting endpoints for response </a> <a href="#ref-for-is-origin-trustworthy②">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-rfc.section.3.2">
+   <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2">https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html#rfc.section.3.2</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-rfc.section.3.2">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url">
@@ -1645,13 +1625,6 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-concept-url">2.1.1. Endpoints</a>
     <li><a href="#ref-for-concept-url①">2.3. 
     Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-absolute-url-string">
-   <a href="https://url.spec.whatwg.org/#absolute-url-string">https://url.spec.whatwg.org/#absolute-url-string</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-absolute-url-string">3.3. 
-    Process reporting endpoints for response </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-base-url">
@@ -1673,13 +1646,6 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-concept-url-password">2.3. 
     Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-path-absolute-url-string">
-   <a href="https://url.spec.whatwg.org/#path-absolute-url-string">https://url.spec.whatwg.org/#path-absolute-url-string</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-path-absolute-url-string">3.3. 
-    Process reporting endpoints for response </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url-parser">
@@ -1870,14 +1836,10 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-report-the-exception" style="color:initial">report the exception</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[HTTP-JFV]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-section-2" style="color:initial">json-field-value</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-byte-sequence" style="color:initial">byte sequence</span>
+     <li><span class="dfn-paneled" id="term-for-iteration-continue" style="color:initial">continue</span>
      <li><span class="dfn-paneled" id="term-for-list" style="color:initial">list</span>
      <li><span class="dfn-paneled" id="term-for-ordered-set" style="color:initial">ordered set</span>
      <li><span class="dfn-paneled" id="term-for-serialize-json-to-bytes" style="color:initial">serialize json to bytes</span>
@@ -1890,7 +1852,7 @@ Content-Type: application/reports+json
    <li>
     <a data-link-type="biblio">[RFC8259]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-section-2①" style="color:initial">json text</span>
+     <li><span class="dfn-paneled" id="term-for-section-2" style="color:initial">json text</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SECURE-CONTEXTS]</a> defines the following terms:
@@ -1898,14 +1860,17 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-is-origin-trustworthy" style="color:initial">potentially trustworthy</span>
     </ul>
    <li>
+    <a data-link-type="biblio">[STRUCTURED-HEADERS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-rfc.section.3.2" style="color:initial">sh-dictionary</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-concept-url" style="color:initial">URL</span>
-     <li><span class="dfn-paneled" id="term-for-absolute-url-string" style="color:initial">absolute-url string</span>
      <li><span class="dfn-paneled" id="term-for-concept-base-url" style="color:initial">base url</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-origin" style="color:initial">origin of a url</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-password" style="color:initial">password</span>
-     <li><span class="dfn-paneled" id="term-for-path-absolute-url-string" style="color:initial">path-absolute-url string</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-parser" style="color:initial">url parser</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-serializer" style="color:initial">url serializer</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-username" style="color:initial">username</span>
@@ -1950,8 +1915,6 @@ Content-Type: application/reports+json
    <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 11 September 2019. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
-   <dt id="biblio-http-jfv">[HTTP-JFV]
-   <dd>J. Reschke. <a href="https://tools.ietf.org/html/draft-reschke-http-jfv">A JSON Encoding for HTTP Header Field Values</a>. 24 October 2017. Active Internet-Draft. URL: <a href="https://tools.ietf.org/html/draft-reschke-http-jfv">https://tools.ietf.org/html/draft-reschke-http-jfv</a>
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rfc3864">[RFC3864]
@@ -1964,6 +1927,8 @@ Content-Type: application/reports+json
    <dd>T. Bray, Ed.. <a href="https://tools.ietf.org/html/rfc8259">The JavaScript Object Notation (JSON) Data Interchange Format</a>. December 2017. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc8259">https://tools.ietf.org/html/rfc8259</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
+   <dt id="biblio-structured-headers">[STRUCTURED-HEADERS]
+   <dd>Mark Nottingham; Poul-Henning Kamp. <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html">Structured Headers for HTTP</a>. URL: <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html">https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webdriver">[WebDriver]
@@ -1998,7 +1963,7 @@ Content-Type: application/reports+json
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <a href="#reportingobserver"><code><c- g>ReportingObserver</c-></code></a> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver①"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-constructor-callback-options-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-constructor-callback-options-options"><code><c- g>options</c-></code></a> = {});
+  <a class="idl-code" data-link-type="constructor" href="#dom-reportingobserver-reportingobserver" id="ref-for-dom-reportingobserver-reportingobserver①"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="#callbackdef-reportingobservercallback" id="ref-for-callbackdef-reportingobservercallback①"><c- n>ReportingObserverCallback</c-></a> <a href="#dom-reportingobserver-reportingobserver-callback-options-callback"><code><c- g>callback</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions②"><c- n>ReportingObserverOptions</c-></a> <a href="#dom-reportingobserver-reportingobserver-callback-options-options"><code><c- g>options</c-></code></a> = {});
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-observe" id="ref-for-dom-reportingobserver-observe①"><c- g>observe</c-></a>();
   <c- b>void</c-> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-disconnect" id="ref-for-dom-reportingobserver-disconnect①"><c- g>disconnect</c-></a>();
   <a class="n" data-link-type="idl-name" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist②"><c- n>ReportList</c-></a> <a class="idl-code" data-link-type="method" href="#dom-reportingobserver-takerecords" id="ref-for-dom-reportingobserver-takerecords①"><c- g>takeRecords</c-></a>();
@@ -2035,15 +2000,13 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-endpoint">2.1.1. Endpoints</a> <a href="#ref-for-endpoint①">(2)</a> <a href="#ref-for-endpoint②">(3)</a>
     <li><a href="#ref-for-endpoint③">2.1.3. Reports</a>
     <li><a href="#ref-for-endpoint④">3.1. Document configuration</a>
-    <li><a href="#ref-for-endpoint⑤">3.2. The Report-To HTTP Response Header Field</a>
-    <li><a href="#ref-for-endpoint⑥">3.2.1. The name member</a> <a href="#ref-for-endpoint⑦">(2)</a>
-    <li><a href="#ref-for-endpoint⑧">3.2.2. The url member</a>
+    <li><a href="#ref-for-endpoint⑤">3.2. The Reporting-Endpoints HTTP Response Header Field</a> <a href="#ref-for-endpoint⑥">(2)</a> <a href="#ref-for-endpoint⑦">(3)</a> <a href="#ref-for-endpoint⑧">(4)</a>
     <li><a href="#ref-for-endpoint⑨">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-endpoint①⓪">(2)</a> <a href="#ref-for-endpoint①①">(3)</a>
-    <li><a href="#ref-for-endpoint①②">3.5.1. Send reports</a> <a href="#ref-for-endpoint①③">(2)</a>
-    <li><a href="#ref-for-endpoint①④">3.5.2. 
+    Process reporting endpoints for response </a> <a href="#ref-for-endpoint①⓪">(2)</a>
+    <li><a href="#ref-for-endpoint①①">3.5.1. Send reports</a> <a href="#ref-for-endpoint①②">(2)</a>
+    <li><a href="#ref-for-endpoint①③">3.5.2. 
     Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-endpoint①⑤">5.2. Garbage Collection</a> <a href="#ref-for-endpoint①⑥">(2)</a>
+    <li><a href="#ref-for-endpoint①④">5.2. Garbage Collection</a> <a href="#ref-for-endpoint①⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-name">
@@ -2051,10 +2014,9 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-dom-endpoint-name">2.1.3. Reports</a>
     <li><a href="#ref-for-dom-endpoint-name①">3.1. Document configuration</a>
-    <li><a href="#ref-for-dom-endpoint-name②">3.2.1. The name member</a> <a href="#ref-for-dom-endpoint-name③">(2)</a>
-    <li><a href="#ref-for-dom-endpoint-name④">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-dom-endpoint-name⑤">(2)</a>
-    <li><a href="#ref-for-dom-endpoint-name⑥">3.5.1. Send reports</a>
+    <li><a href="#ref-for-dom-endpoint-name②">3.3. 
+    Process reporting endpoints for response </a>
+    <li><a href="#ref-for-dom-endpoint-name③">3.5.1. Send reports</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-url">
@@ -2200,29 +2162,14 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-document-endpoints">3.5.1. Send reports</a> <a href="#ref-for-dom-document-endpoints①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="report-to">
-   <b><a href="#report-to">#report-to</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="reporting-endpoints">
+   <b><a href="#reporting-endpoints">#reporting-endpoints</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-to">1.2. Examples</a> <a href="#ref-for-report-to①">(2)</a>
-    <li><a href="#ref-for-report-to②">3.1. Document configuration</a>
-    <li><a href="#ref-for-report-to③">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-report-to④">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportto-name">
-   <b><a href="#reportto-name">#reportto-name</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportto-name">1.2. Examples</a> <a href="#ref-for-reportto-name①">(2)</a> <a href="#ref-for-reportto-name②">(3)</a>
-    <li><a href="#ref-for-reportto-name③">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportto-url">
-   <b><a href="#reportto-url">#reportto-url</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportto-url">1.2. Examples</a> <a href="#ref-for-reportto-url①">(2)</a> <a href="#ref-for-reportto-url②">(3)</a>
-    <li><a href="#ref-for-reportto-url③">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-reportto-url④">(2)</a>
+    <li><a href="#ref-for-reporting-endpoints">1.2. Examples</a> <a href="#ref-for-reporting-endpoints①">(2)</a>
+    <li><a href="#ref-for-reporting-endpoints②">3.1. Document configuration</a>
+    <li><a href="#ref-for-reporting-endpoints③">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
+    <li><a href="#ref-for-reporting-endpoints④">3.3. 
+    Process reporting endpoints for response </a> <a href="#ref-for-reporting-endpoints⑤">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="reporting-observer">
