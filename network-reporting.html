@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 5721fde7f6b8111f662b83b678f9e181a9838206" name="generator">
   <link href="https://w3c.github.io/reporting/network-reporting" rel="canonical">
-  <meta content="7da9f80874558cc43e8f744559896ae9458a2a71" name="document-revision">
+  <meta content="76450fd381b68caee9a0f001022dccb933cf8d64" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -208,7 +208,7 @@ pre .property::before, pre .property::after {
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Network Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-04">4 March 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-05">5 March 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -559,7 +559,7 @@ pre .property::before, pre .property::after {
           <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint⑨">network reporting endpoint</a> whose
   properties are set as follows:</p>
           <dl>
-           <dt data-md><code class="idl"><a data-link-type="idl">name</a></code>
+           <dt data-md><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-name" id="ref-for-dom-endpoint-name">name</a></code>
            <dd data-md>
             <p><code>null</code></p>
            <dt data-md><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
@@ -638,10 +638,10 @@ pre .property::before, pre .property::after {
         <li data-md>
          <p>Let <var>settings</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a>.</p>
         <li data-md>
-         <p>Let <var>report</var> be the result of running <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §4.2 Queue data as type for endpoint group on settings</a> with <var>data</var>, <var>type</var>, <var>endpoint group</var> and <var>settings</var>.</p>
+         <p>Let <var>report</var> be the result of running <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §2.3 Queue data as type for destination</a> with <var>data</var>, <var>type</var>, <var>endpoint group</var> and <var>settings</var>.</p>
        </ol>
       <li data-md>
-       <p>Otherwise, let <var>report</var> be the result of running <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §4.2 Queue data as type for endpoint group on settings</a> with <var>data</var>, <var>type</var>, and <var>endpoint group</var>.</p>
+       <p>Otherwise, let <var>report</var> be the result of running <a href="https://w3c.github.io/reporting/#queue-report">Reporting API §2.3 Queue data as type for destination</a> with <var>data</var>, <var>type</var>, and <var>endpoint group</var>.</p>
       <li data-md>
        <p>Append <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑤">reporting cache</a>.</p>
      </ol>
@@ -653,7 +653,7 @@ pre .property::before, pre .property::after {
   follow, and assumes that the user agent will have enough contextual
   information to deliver reports in a timely manner, balanced against impacting
   a user’s experience.</p>
-     <p>That said, a user agent SHOULD make a effort to deliver reports as soon as
+     <p>That said, a user agent SHOULD make an effort to deliver reports as soon as
   possible after queuing, as a report’s data might be significantly more useful
   in the period directly after its generation than it would be a day or a week
   later.</p>
@@ -662,7 +662,7 @@ pre .property::before, pre .property::after {
     algorithm</a> used for DNS <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#" id="termref-for-②">SRV records</a>.</p>
      <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
   eligible <a data-link-type="dfn">endpoint</a> from the group, if there is one, taking into account
-  the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-priority" id="ref-for-dom-endpoint-priority">priority</a></code> and <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-weight" id="ref-for-dom-endpoint-weight">weight</a></code> of the <a data-link-type="dfn">endpoints</a>.</p>
+  the <code class="idl"><a data-link-type="idl">priority</a></code> and <code class="idl"><a data-link-type="idl">weight</a></code> of the <a data-link-type="dfn">endpoints</a>.</p>
      <ol>
       <li data-md>
        <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
@@ -671,24 +671,24 @@ pre .property::before, pre .property::after {
       <li data-md>
        <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
       <li data-md>
-       <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-priority" id="ref-for-dom-endpoint-priority①">priority</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
+       <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl">priority</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
       <li data-md>
-       <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-priority" id="ref-for-dom-endpoint-priority②">priority</a></code> value
+       <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose <code class="idl"><a data-link-type="idl">priority</a></code> value
   is not equal to <var>priority</var>.</p>
       <li data-md>
        <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
       <li data-md>
-       <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-weight" id="ref-for-dom-endpoint-weight①">weight</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
+       <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl">weight</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
       <li data-md>
        <p>Let <var>weight</var> be a random number ≥ 0 and ≤ <var>total weight</var>.</p>
       <li data-md>
        <p>For each <var>endpoint</var> in <var>endpoints</var>:</p>
        <ol>
         <li data-md>
-         <p>If <var>weight</var> is less than or equal to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-weight" id="ref-for-dom-endpoint-weight②">weight</a></code>,
+         <p>If <var>weight</var> is less than or equal to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl">weight</a></code>,
   return <var>endpoint</var>.</p>
         <li data-md>
-         <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-weight" id="ref-for-dom-endpoint-weight③">weight</a></code> from <var>weight</var>.</p>
+         <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl">weight</a></code> from <var>weight</var>.</p>
        </ol>
       <li data-md>
        <p>It should not be possible to fall through to here, since the random number
@@ -709,7 +709,7 @@ pre .property::before, pre .property::after {
         <li data-md>
          <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a> for <var>origin</var>.</p>
         <li data-md>
-         <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-group" id="ref-for-report-group">group</a>:</p>
+         <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn">group</a>:</p>
          <ol>
           <li data-md>
            <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
@@ -728,7 +728,7 @@ pre .property::before, pre .property::after {
           <li data-md>
            <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for <var>parent origin</var>.</p>
           <li data-md>
-           <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-group" id="ref-for-report-group①">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
+           <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
            <ol>
             <li data-md>
              <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
@@ -766,7 +766,7 @@ pre .property::before, pre .property::after {
   execute the following steps asynchronously:</p>
          <ol>
           <li data-md>
-           <p>Let <var>result</var> be the result of executing <a href="https://w3c.github.io/reporting/#try-delivery">Reporting API §4.5 Attempt to deliver reports to endpoint</a> on <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
+           <p>Let <var>result</var> be the result of executing <a href="https://w3c.github.io/reporting/#try-delivery">Reporting API §3.5.2 Attempt to deliver reports to endpoint</a> on <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
           <li data-md>
            <p>If <var>result</var> is "<code>Success</code>":</p>
            <ol>
@@ -1101,18 +1101,11 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-endpoint-failures③">6.2. Garbage Collection</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-report-group">
-   <a href="https://w3c.github.io/reporting/#report-group">https://w3c.github.io/reporting/#report-group</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-endpoint-name">
+   <a href="https://w3c.github.io/reporting/#dom-endpoint-name">https://w3c.github.io/reporting/#dom-endpoint-name</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report-group">5.2. 
-    Send reports </a> <a href="#ref-for-report-group①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-endpoint-priority">
-   <a href="https://w3c.github.io/reporting/#dom-endpoint-priority">https://w3c.github.io/reporting/#dom-endpoint-priority</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-endpoint-priority">5.1. 
-    Choose an endpoint from a group </a> <a href="#ref-for-dom-endpoint-priority①">(2)</a> <a href="#ref-for-dom-endpoint-priority②">(3)</a>
+    <li><a href="#ref-for-dom-endpoint-name">3.2. 
+    Process origin policy configuration </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-report">
@@ -1131,13 +1124,6 @@ Content-Type: application/reports+json
    <ul>
     <li><a href="#ref-for-report-url">5.2. 
     Send reports </a> <a href="#ref-for-report-url①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-endpoint-weight">
-   <a href="https://w3c.github.io/reporting/#dom-endpoint-weight">https://w3c.github.io/reporting/#dom-endpoint-weight</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-endpoint-weight">5.1. 
-    Choose an endpoint from a group </a> <a href="#ref-for-dom-endpoint-weight①">(2)</a> <a href="#ref-for-dom-endpoint-weight②">(3)</a> <a href="#ref-for-dom-endpoint-weight③">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-">
@@ -1243,11 +1229,9 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-report-body" style="color:initial">body</span>
      <li><span class="dfn-paneled" id="term-for-endpoint" style="color:initial">endpoint</span>
      <li><span class="dfn-paneled" id="term-for-dom-endpoint-failures" style="color:initial">failures</span>
-     <li><span class="dfn-paneled" id="term-for-report-group" style="color:initial">group</span>
-     <li><span class="dfn-paneled" id="term-for-dom-endpoint-priority" style="color:initial">priority</span>
+     <li><span class="dfn-paneled" id="term-for-dom-endpoint-name" style="color:initial">name</span>
      <li><span class="dfn-paneled" id="term-for-report" style="color:initial">report</span>
      <li><span class="dfn-paneled" id="term-for-report-url" style="color:initial">url <small>(for report)</small></span>
-     <li><span class="dfn-paneled" id="term-for-dom-endpoint-weight" style="color:initial">weight</span>
     </ul>
    <li>
     <a data-link-type="biblio">[rfc2782]</a> defines the following terms:
