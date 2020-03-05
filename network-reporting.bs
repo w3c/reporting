@@ -578,7 +578,7 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
   information to deliver reports in a timely manner, balanced against impacting
   a user's experience.
 
-  That said, a user agent SHOULD make a effort to deliver reports as soon as
+  That said, a user agent SHOULD make an effort to deliver reports as soon as
   possible after queuing, as a report's data might be significantly more useful
   in the period directly after its generation than it would be a day or a week
   later.
