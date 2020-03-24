@@ -447,25 +447,16 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   ISSUE: Fetch monkey patching. Talk to Anne.
 
-  1.  Abort these steps if any of the following conditions are true:
+  1.  Abort these steps if |response|'s <a for="response" attribute>HTTPS
+      state</a> is not "`modern`", and the <a lt="origin of a url">origin</a>
+      of |response|'s <a for="response" attribute>url</a> is not <a>potentially
+      trustworthy</a>.
 
-      1.  |response|'s <a for="response" attribute>HTTPS state</a> is not
-          "`modern`", and the <a lt="origin of a url">origin</a> of |response|'s
-          <a for="response" attribute>url</a> is not <a>potentially
-          trustworthy</a>.
+  2.  Let |parsed header| be the result of executing [=get a structured header=]
+      given "Reporting-Endpoints" and "dictionary" from |response|'s <a
+      for="response" attribute>header list</a>.
 
-      2.  |response|'s <a for="response" attribute>header list</a> does not
-          contain a <a>header</a> whose <a for="header" attribute>name</a> is
-          "<a>`Reporting-Endpoints`</a>".
-
-  2.  Let |header| be the <a for="header" attribute>value</a> of the
-      <a>header</a> in |response|'s <a for="response" attribute>header list</a>
-      whose name is "<a>`Reporting-Endpoints`</a>".
-
-  3.  Let |parsed header| be the result of executing the algorithm defined in
-      Section 4.2 of [[STRUCTURED-HEADERS]] on |header|, with <var
-      ignore>header_type</var> set to "dictionary". If that algorithm fails
-      parsing, abort these steps.
+  3.  If |parsed header| is null or failure, abort these steps.
 
   4.  Let |endpoints| be an empty list.
 
