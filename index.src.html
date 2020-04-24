@@ -515,10 +515,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   string (|destination|), and a serializable object (|data|), it must run the
   following steps:
 
-  1.  If |context| is a <a>Document</a>, then let |settings| be |context|'s
-      [=environment settings object=].
-
-  2.  Otherwise, let |settings| be |context|'s [=relevant settings object=].
+  1.  Let |settings| be |context|'s [=relevant settings object=].
 
   2.  Let |report| be the result of running [[#queue-report]] with |data|,
       |type|, |destination| and |settings|.
