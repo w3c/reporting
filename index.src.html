@@ -876,7 +876,7 @@ typedef sequence&lt;Report> ReportList;
       Content-Type: application/reports+json
 
       [{
-        "type": "csp",
+        "type": "csp-violation",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
         "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
@@ -896,7 +896,7 @@ typedef sequence&lt;Report> ReportList;
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
           "port": 443,
-          "effective-expiration-date": "2014-05-01T12:40:50Z"
+          "effective-expiration-date": "2014-05-01T12:40:50Z",
           "served-certificate-chain": [
             "-----BEGIN CERTIFICATE-----\n
             MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
