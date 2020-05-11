@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 959d006, updated Sat Mar 28 12:38:37 2020 -0700" name="generator">
+  <meta content="Bikeshed version 4be3a54, updated Mon May 4 06:47:10 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="222a13d7460869faf9ebd22a73043ed7b6bcac16" name="document-revision">
+  <meta content="67da850bbe357059e22402ad5de3340b7197a234" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-30">30 March 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-11">11 May 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1026,15 +1026,15 @@ queue</dfn>, which is initially empty.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="6" id="sample-reports"><span class="secno">6. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-    <div class="example" id="example-547dfdd6">
-     <a class="self-link" href="#example-547dfdd6"></a> 
+    <div class="example" id="example-fe808bba">
+     <a class="self-link" href="#example-fe808bba"></a> 
 <pre>POST / HTTP/1.1
 Host: example.com
 ...
 Content-Type: application/reports+json
 
 [{
-  "type": "csp",
+  "type": "csp-violation",
   "age": 10,
   "url": "https://example.com/vulnerable-page/",
   "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
@@ -1054,7 +1054,7 @@ Content-Type: application/reports+json
     "date-time": "2014-04-06T13:00:50Z",
     "hostname": "www.example.com",
     "port": 443,
-    "effective-expiration-date": "2014-05-01T12:40:50Z"
+    "effective-expiration-date": "2014-05-01T12:40:50Z",
     "served-certificate-chain": [
       "-----BEGIN CERTIFICATE-----\n
       MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
