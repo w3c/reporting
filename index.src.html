@@ -298,10 +298,10 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
     Queue |data| as |type| for |destination|
   </h3>
 
-  Given a serializable object (|data|), a string (|type|), another string
+  To <dfn export lt="queue" for="reporting">queue</dfn> a <a>report</a> given a
+  serializable object (|data|), a string (|type|), another string
   (|destination|), an optional <a>environment settings object</a>
-  (|settings|), and an optional {{URL}} (|url|), the following algorithm will
-  create a <a>report</a>, which can be queued for future delivery.
+  (|settings|), and an optional {{URL}} (|url|):
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
