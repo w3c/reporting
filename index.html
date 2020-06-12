@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 4be3a54, updated Mon May 4 06:47:10 2020 -0700" name="generator">
+  <meta content="Bikeshed version 3c0a8b6, updated Fri Jun 12 10:24:21 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="67da850bbe357059e22402ad5de3340b7197a234" name="document-revision">
+  <meta content="3ea7ca3d80a875f2521e6a7bd62fa926db41d54d" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -266,7 +266,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-11">11 May 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-12">12 June 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -510,9 +510,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <h3 class="heading settled" data-level="2.2" id="media-type"><span class="secno">2.2. </span><span class="content">Media Type</span><a class="self-link" href="#media-type"></a></h3>
     <p>The media type used when POSTing reports to a specified endpoint is <code>application/reports+json</code>.</p>
     <h3 class="heading settled algorithm" data-algorithm="Queue data as type for destination" data-level="2.3" id="queue-report"><span class="secno">2.3. </span><span class="content"> Queue <var>data</var> as <var>type</var> for <var>destination</var> </span><a class="self-link" href="#queue-report"></a></h3>
-    <p>Given a serializable object (<var>data</var>), a string (<var>type</var>), another string
-  (<var>destination</var>), an optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a> (<var>settings</var>), and an optional <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URL</a></code> (<var>url</var>), the following algorithm will
-  create a <a data-link-type="dfn" href="#report" id="ref-for-report①④">report</a>, which can be queued for future delivery.</p>
+    <p>To <dfn data-dfn-for="reporting" data-dfn-type="dfn" data-export id="reporting-queue">queue<a class="self-link" href="#reporting-queue"></a></dfn> a <a data-link-type="dfn" href="#report" id="ref-for-report①④">report</a> given a
+  serializable object (<var>data</var>), a string (<var>type</var>), another string
+  (<var>destination</var>), an optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a> (<var>settings</var>), and an optional <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URL</a></code> (<var>url</var>):</p>
     <ol>
      <li data-md>
       <p>Let <var>report</var> be a new <a data-link-type="dfn" href="#report" id="ref-for-report①⑤">report</a> object with its values initialized as
@@ -1087,12 +1087,12 @@ Content-Type: application/reports+json
    <section>
     <h2 class="heading settled" data-level="7" id="automation"><span class="secno">7. </span><span class="content">Automation</span><a class="self-link" href="#automation"></a></h2>
     <p>For the purposes of user-agent automation and application testing, this
-  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver">[WebDriver]</a> specification.</p>
+  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver">[WebDriver]</a> specification.</p>
     <h3 class="heading settled" data-level="7.1" id="generate-test-report-command"><span class="secno">7.1. </span><span class="content">Generate Test Report</span><a class="self-link" href="#generate-test-report-command"></a></h3>
-    <p>The <dfn data-dfn-type="dfn" data-noexport id="generate-test-report">Generate Test Report<a class="self-link" href="#generate-test-report"></a></dfn> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command" id="ref-for-dfn-extension-command①">extension command</a> simulates the
+    <p>The <dfn data-dfn-type="dfn" data-noexport id="generate-test-report">Generate Test Report<a class="self-link" href="#generate-test-report"></a></dfn> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command①">extension command</a> simulates the
   generation of a <a data-link-type="dfn" href="#report" id="ref-for-report③②">report</a> for the purposes of testing. This report will be
   observed by any <a data-link-type="dfn" href="#registered" id="ref-for-registered③">registered</a> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑧">reporting observers</a>.</p>
-    <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command" id="ref-for-dfn-extension-command②">extension command</a> is defined as follows:</p>
+    <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command②">extension command</a> is defined as follows:</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="idl-code" data-dfn-type="dictionary" data-export id="dictdef-generatetestreportparameters"><code><c- g>GenerateTestReportParameters</c-></code><a class="self-link" href="#dictdef-generatetestreportparameters"></a></dfn> {
   <c- b>required</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-message"><code><c- g>message</c-></code></dfn>;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-default="&quot;default&quot;" data-dfn-for="GenerateTestReportParameters" data-dfn-type="dict-member" data-export data-type="DOMString " id="dom-generatetestreportparameters-group"><code><c- g>group</c-></code></dfn> = "default";
@@ -1102,25 +1102,25 @@ Content-Type: application/reports+json
      <tbody>
       <tr>
        <th>HTTP Method
-       <th><a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-uri-template" id="ref-for-dfn-extension-command-uri-template">URI Template</a>
+       <th><a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command-uri-template" id="ref-for-dfn-extension-command-uri-template">URI Template</a>
       <tr>
        <td><code>POST</code>
        <td><code>/session/{session id}/reporting/generate_test_report</code>
     </table>
-    <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps" id="ref-for-dfn-remote-end-steps">remote end steps</a> are:</p>
+    <p>The <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-remote-end-steps" id="ref-for-dfn-remote-end-steps">remote end steps</a> are:</p>
     <ol>
      <li data-md>
-      <p>If <var>parameters</var> is not a JSON <a data-link-type="dfn" href="https://w3c.github.io/FileAPI/#blob-url-entry-object" id="ref-for-blob-url-entry-object">Object</a>, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error">WebDriver
- error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument">invalid argument</a>.</p>
+      <p>If <var>parameters</var> is not a JSON <a data-link-type="dfn" href="https://w3c.github.io/FileAPI/#blob-url-entry-object" id="ref-for-blob-url-entry-object">Object</a>, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error">WebDriver
+ error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-invalid-argument" id="ref-for-dfn-invalid-argument">invalid argument</a>.</p>
      <li data-md>
-      <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
+      <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
      <li data-md>
-      <p>If <var>message</var> is not present, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error①">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
+      <p>If <var>message</var> is not present, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error①">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
      <li data-md>
-      <p>If the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a> is no longer open, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error②">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code" id="ref-for-dfn-error-code②">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-no-such-window" id="ref-for-dfn-no-such-window">no such
+      <p>If the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a> is no longer open, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error②">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code②">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-no-such-window" id="ref-for-dfn-no-such-window">no such
  window</a>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-handle-any-user-prompts" id="ref-for-dfn-handle-any-user-prompts">Handle any user prompts</a> and return its value if it is a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error" id="ref-for-dfn-error③">WebDriver
+      <p><a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts" id="ref-for-dfn-handle-any-user-prompts">Handle any user prompts</a> and return its value if it is a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error③">WebDriver
  error</a>.</p>
      <li data-md>
       <p>Let <var>group</var> be <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code> property.</p>
@@ -1130,11 +1130,11 @@ Content-Type: application/reports+json
      <li data-md>
       <p>Set <var>body_message</var> to <var>message</var>.</p>
      <li data-md>
-      <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object③">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context①">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a>.</p>
+      <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object③">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context①">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a>.</p>
      <li data-md>
       <p>Execute <a href="#queue-report">§ 2.3 Queue data as type for destination</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
      <li data-md>
-      <p>Return <a data-link-type="dfn" href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success" id="ref-for-dfn-success">success</a> with data null.</p>
+      <p>Return <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-success" id="ref-for-dfn-success">success</a> with data null.</p>
     </ol>
    </section>
    <section>
@@ -1294,6 +1294,7 @@ Content-Type: application/reports+json
    <li><a href="#dom-endpoint-name">name</a><span>, in §2.1.1</span>
    <li><a href="#dom-reportingobserver-observe">observe()</a><span>, in §4.1</span>
    <li><a href="#reportingobserver-options">options</a><span>, in §4.1</span>
+   <li><a href="#reporting-queue">queue</a><span>, in §2.3</span>
    <li><a href="#registered">registered</a><span>, in §4</span>
    <li><a href="#registered-reporting-observer-list">registered reporting observer list</a><span>, in §4</span>
    <li><a href="#dom-report">Report</a><span>, in §4.1</span>
@@ -1651,68 +1652,68 @@ Content-Type: application/reports+json
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-current-browsing-context">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-current-browsing-context</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-current-browsing-context">https://w3c.github.io/webdriver/#dfn-current-browsing-context</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-current-browsing-context">7.1. Generate Test Report</a> <a href="#ref-for-dfn-current-browsing-context①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-extension-command">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-extension-command">https://w3c.github.io/webdriver/#dfn-extension-command</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-extension-command">7. Automation</a>
     <li><a href="#ref-for-dfn-extension-command①">7.1. Generate Test Report</a> <a href="#ref-for-dfn-extension-command②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-extension-command-uri-template">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-uri-template">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-extension-command-uri-template</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-extension-command-uri-template">https://w3c.github.io/webdriver/#dfn-extension-command-uri-template</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-extension-command-uri-template">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-handle-any-user-prompts">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-handle-any-user-prompts">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-handle-any-user-prompts</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts">https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-handle-any-user-prompts">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-invalid-argument">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-invalid-argument</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-invalid-argument">https://w3c.github.io/webdriver/#dfn-invalid-argument</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-invalid-argument">7.1. Generate Test Report</a> <a href="#ref-for-dfn-invalid-argument①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-no-such-window">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-no-such-window">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-no-such-window</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-no-such-window">https://w3c.github.io/webdriver/#dfn-no-such-window</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-no-such-window">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-remote-end-steps">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-remote-end-steps</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-remote-end-steps">https://w3c.github.io/webdriver/#dfn-remote-end-steps</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-remote-end-steps">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-success">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-success</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-success">https://w3c.github.io/webdriver/#dfn-success</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-success">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-try">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-try</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-try">https://w3c.github.io/webdriver/#dfn-try</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-try">7.1. Generate Test Report</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-error">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-error">https://w3c.github.io/webdriver/#dfn-error</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-error">7.1. Generate Test Report</a> <a href="#ref-for-dfn-error①">(2)</a> <a href="#ref-for-dfn-error②">(3)</a> <a href="#ref-for-dfn-error③">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-error-code">
-   <a href="https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code">https://w3c.github.io/webdriver/webdriver-spec.html#dfn-error-code</a><b>Referenced in:</b>
+   <a href="https://w3c.github.io/webdriver/#dfn-error-code">https://w3c.github.io/webdriver/#dfn-error-code</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-error-code">7.1. Generate Test Report</a> <a href="#ref-for-dfn-error-code①">(2)</a> <a href="#ref-for-dfn-error-code②">(3)</a>
    </ul>
