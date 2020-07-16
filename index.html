@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 3c0a8b6, updated Fri Jun 12 10:24:21 2020 -0700" name="generator">
+  <meta content="Bikeshed version 1bdc5b2, updated Tue Jul 14 16:26:50 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="3ea7ca3d80a875f2521e6a7bd62fa926db41d54d" name="document-revision">
+  <meta content="94bb5e0dd0deb067fb335f0acfd5115916a91f9b" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -146,6 +146,62 @@ figcaption:not(.no-marker)::before {
 [data-md] > :last-child {
     margin-bottom: 0;
 }</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+            
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
 <style>/* style-selflinks */
 
 .heading, .issue, .note, .example, li, dt {
@@ -266,7 +322,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-12">12 June 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-16">16 July 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -641,9 +697,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   state</a> is not "<code>modern</code>", and the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin">origin</a> of <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url">url</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy①">potentially
   trustworthy</a>.</p>
      <li data-md>
-      <p>Let <var>parsed header</var> be the result of executing <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header" id="ref-for-concept-header-list-get-structured-header">get a structured header</a> given "Reporting-Endpoints" and "dictionary" from <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a>.</p>
+      <p>Let <var>parsed header</var> be the result of executing <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header" id="ref-for-concept-header-list-get-structured-header">get a structured field value</a> given "Reporting-Endpoints" and "dictionary" from <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a>.</p>
      <li data-md>
-      <p>If <var>parsed header</var> is null or failure, abort these steps.</p>
+      <p>If <var>parsed header</var> is null, abort these steps.</p>
      <li data-md>
       <p>Let <var>endpoints</var> be an empty list.</p>
      <li data-md>
@@ -848,6 +904,22 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   that wishes to observe these reports.</p>
     <p class="note" role="note"><span>Note:</span> Reporting observers are only relevant for user agents with
   JavaScript engines.</p>
+    <aside class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver" title="The ReportingObserver interface of the Reporting API allows you to collect and access reports.">ReportingObserver</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+      </div>
+     </div>
+    </aside>
     <h3 class="heading settled" data-level="4.1" id="interface-reporting-observer"><span class="secno">4.1. </span><span class="content">Interface <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver①">ReportingObserver</a></code></span><a class="self-link" href="#interface-reporting-observer"></a></h3>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportbody"><code><c- g>ReportBody</c-></code></dfn> {
@@ -893,6 +965,22 @@ queue</dfn>, which is initially empty.</p>
     </ul>
     <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
+    <aside class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/ReportingObserver" title="The ReportingObserver() constructor of the Reporting API creates a new ReportingObserver object instance, which can be used to collect and access reports.">ReportingObserver/ReportingObserver</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+      </div>
+     </div>
+    </aside>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)|constructor(callback, options)|ReportingObserver(callback)|constructor(callback)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
   invoked, must run these steps:</p>
     <ol>
@@ -905,6 +993,22 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>Return <var>observer</var>.</p>
     </ol>
+    <aside class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/observe" title="The observe() method of the ReportingObserver interface instructs a reporting observer to start collecting reports in its report queue.">ReportingObserver/observe</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+      </div>
+     </div>
+    </aside>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-observe"><code>observe()</code></dfn> method, when invoked, must run these steps:</p>
     <ol>
      <li data-md>
@@ -921,6 +1025,22 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>For each <var>report</var> in the <a data-link-type="dfn" href="#report-buffer" id="ref-for-report-buffer①">report buffer</a> associated with <var>environment</var>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to execute <a href="#add-report">§ 4.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object④">context object</a>.</p>
     </ol>
+    <aside class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/disconnect" title="The disconnect() method of the ReportingObserver interface stops a reporting observer that had previously started observing from collecting reports.">ReportingObserver/disconnect</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+      </div>
+     </div>
+    </aside>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-disconnect"><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:</p>
     <ol>
@@ -931,6 +1051,22 @@ queue</dfn>, which is initially empty.</p>
  list</a> of its associated <a data-link-type="dfn" href="https://tc39.github.io/ecma262/#realm" id="ref-for-realm⑦">ECMAScript global
  environment</a>.</p>
     </ol>
+    <aside class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/takeRecords" title="The takeRecords() method of the ReportingObserver interface returns the current list of reports contained in the observer&apos;s report queue, and empties the queue.">ReportingObserver/takeRecords</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+      </div>
+     </div>
+    </aside>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-takerecords"><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:</p>
     <ol>
@@ -1788,7 +1924,7 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-concept-response-https-state" style="color:initial">HTTPS state</span>
      <li><span class="dfn-paneled" id="term-for-concept-body" style="color:initial">body</span>
      <li><span class="dfn-paneled" id="term-for-concept-fetch" style="color:initial">fetch</span>
-     <li><span class="dfn-paneled" id="term-for-concept-header-list-get-structured-header" style="color:initial">get a structured header</span>
+     <li><span class="dfn-paneled" id="term-for-concept-header-list-get-structured-header" style="color:initial">get a structured field value</span>
      <li><span class="dfn-paneled" id="term-for-concept-header" style="color:initial">header</span>
      <li><span class="dfn-paneled" id="term-for-concept-response-header-list" style="color:initial">header list <small>(for response)</small></span>
      <li><span class="dfn-paneled" id="term-for-main-fetch" style="color:initial">main fetch</span>
@@ -1909,7 +2045,7 @@ Content-Type: application/reports+json
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/">Secure Contexts</a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
    <dt id="biblio-structured-headers">[STRUCTURED-HEADERS]
-   <dd>Mark Nottingham; Poul-Henning Kamp. <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html">Structured Headers for HTTP</a>. URL: <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html">https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html</a>
+   <dd>Mark Nottingham; Poul-Henning Kamp. <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html">Structured Field Values for HTTP</a>. URL: <a href="https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html">https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webdriver">[WebDriver]
@@ -2393,6 +2529,14 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>
 <script>/* script-var-click-highlighting */
 
     document.addEventListener("click", e=>{
