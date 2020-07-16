@@ -130,7 +130,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   "STRUCTURED-HEADERS": {
     "authors": [ "Mark Nottingham", "Poul-Henning Kamp" ],
     "href": "https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html",
-    "title": "Structured Headers for HTTP",
+    "title": "Structured Field Values for HTTP",
     "publisher": "IETF"
   }
 }
@@ -452,11 +452,11 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
       of |response|'s <a for="response" attribute>url</a> is not <a>potentially
       trustworthy</a>.
 
-  2.  Let |parsed header| be the result of executing [=get a structured header=]
+  2.  Let |parsed header| be the result of executing [=get a structured field value=]
       given "Reporting-Endpoints" and "dictionary" from |response|'s <a
       for="response" attribute>header list</a>.
 
-  3.  If |parsed header| is null or failure, abort these steps.
+  3.  If |parsed header| is null, abort these steps.
 
   4.  Let |endpoints| be an empty list.
 
