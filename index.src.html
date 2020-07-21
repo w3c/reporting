@@ -866,6 +866,48 @@ typedef sequence&lt;Report> ReportList;
 </section>
 
 <section>
+  <h2 id="deployment">Deployment Considerations</h2>
+
+  <h3 id="custom-metadata">Custom Metadata</h3>
+
+  A server might want to include additional metadata in reports that are
+  generated for their origin.  This can be accomplished by encoding the extra
+  metadata in the <a for="ReportTo">`url`</a> of any <a
+    for="ReportTo">`endpoints`</a> in the <a>`Report-To`</a> response headers
+  for the origin — for example, in the URL path or query parameters.
+
+  <pre>
+    <a>Report-To</a>: { "<a for="ReportTo">group</a>": "csp",
+                 "<a for="ReportTo">max-age</a>": 10886400,
+                 "<a>endpoints</a>": [
+                   { "<a for="ReportTo">url</a>": "https://example.com/reports?nonce=e897932f" }
+                 ] }
+  </pre>
+
+  Since the instructions in a <a>`Report-To`</a> header will be used for future
+  requests to the same origin, the server SHOULD NOT use this mechanism to
+  encode metadata that is only valid for the current request.  The metadata MUST
+  be valid for all requests to the same origin from the same user.
+
+  <h3 id="spam-mitigation">Spam Mitigation</h3>
+
+  One potential use of [[#custom-metadata]] is to help prevent spam — report
+  uploads that don't correspond to a real request made by a real user.  For
+  instance, when constructing the <a>`Report-To`</a> for a response, the server
+  could create a nonce whose value depends on the origin of the request, and the
+  public IP address of the client.  The server would then embed this nonce into
+  the <a for="ReportTo">`url`</a> values of the header.
+
+  When the collector receives a report, it will have access to the nonce (since
+  that will be part of the URL in the `POST` request to the collector).  It can
+  construct a nonce for each report in the upload, using the origin of the
+  report's [=report/url=] and the IP address of the uploading client.  If any of
+  the per-report nonces don't match the nonce in the upload URL, the
+  corresponding reports can be considered fraudulent, and dropped.
+
+</section>
+
+<section>
   <h2 id="sample-reports">Sample Reports</h2>
 
   <div class="example">
