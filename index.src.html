@@ -682,12 +682,12 @@ interface Report {
 [Exposed=(Window,Worker)]
 interface ReportingObserver {
   constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options = {});
-  void observe();
-  void disconnect();
+  undefined observe();
+  undefined disconnect();
   ReportList takeRecords();
 };
 
-callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
+callback ReportingObserverCallback = undefined (sequence&lt;Report> reports, ReportingObserver observer);
 
 dictionary ReportingObserverOptions {
   sequence&lt;DOMString> types;
