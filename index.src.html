@@ -921,6 +921,15 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
       ::  A [=/body=] whose [=body/source=] is the [=byte sequence=] resulting
           from executing [=serialize JSON to bytes=] on |collection|.
 
+      Note: Reports are sent with credentials set to `same-origin`. This allows
+      reporting endpoints which are same-origin with the reporting site to get
+      extra context about the nature of the report: for example, to understand
+      whether a given user's account is triggering errors consistently, or if a
+      certain sequence of actions taken on other pages is triggering a report on
+      this page. This does not leak any new information to the reporting
+      endpoint that it could not obtain in other ways. That is not the case for
+      cross-origin reporting endpoints, so they do not receive credentials.
+
   4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
   5.  <a>Wait for a response</a> (|response|).
