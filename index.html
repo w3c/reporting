@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 9ec7eb8, updated Tue Oct 13 17:24:06 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="f890dc1e803d5de33522e1efcbd403657838d5d9" name="document-revision">
+  <meta content="de9d47fa0fc9803f86b7a15bdf15f833a6d6e8dc" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1172,11 +1172,19 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         <p>set</p>
        <dt data-md><code>credentials</code>
        <dd data-md>
-        <p>"<code>include</code>"</p>
+        <p>"<code>same-origin</code>"</p>
        <dt data-md><code>body</code>
        <dd data-md>
         <p>A <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-body" id="ref-for-concept-body">body</a> whose <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-body-source" id="ref-for-concept-body-source">source</a> is <var>body</var>.</p>
       </dl>
+      <p class="note" role="note"><span>Note:</span> Reports are sent with credentials set to <code>same-origin</code>. This allows
+  reporting endpoints which are same-origin with the reporting page to get
+  extra context about the nature of the report: for example, to understand
+  whether a given user’s account is triggering errors consistently, or if a
+  certain sequence of actions taken on other pages is triggering a report on
+  this page. This does not leak any new information to the reporting
+  endpoint that it could not obtain in other ways. That is not the case for
+  cross-origin reporting endpoints, so they do not receive credentials.</p>
      <li data-md>
       <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">Queue a task</a> to <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-fetch" id="ref-for-concept-fetch">fetch</a> <var>request</var>.</p>
      <li data-md>
