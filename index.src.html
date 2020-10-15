@@ -616,9 +616,18 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
       :   `unsafe-request` flag
       ::  set
       :   `credentials`
-      ::  "`include`"
+      ::  "`same-origin`"
       :   `body`
       ::  A [=/body=] whose [=body/source=] is |body|.
+
+      Note: Reports are sent with credentials set to `same-origin`. This allows
+      reporting endpoints which are same-origin with the reporting page to get
+      extra context about the nature of the report: for example, to understand
+      whether a given user's account is triggering errors consistently, or if a
+      certain sequence of actions taken on other pages is triggering a report on
+      this page. This does not leak any new information to the reporting
+      endpoint that it could not obtain in other ways. That is not the case for
+      cross-origin reporting endpoints, so they do not receive credentials.
 
   4.  <a>Queue a task</a> to <a>fetch</a> |request|.
 
