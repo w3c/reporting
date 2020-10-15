@@ -661,27 +661,38 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 
               2.  Skip to the next |report|.
 
-      4.  For each |parent origin| that is a <a>superdomain match</a>
-          for |origin| [[!RFC6797]]:
+      4.  If |origin| is a [=tuple origin=] whose [=origin/host=] is a
+          [=domain=]:
 
-          1.  Let |client| be the entry in the <a>reporting cache</a> for
-              |parent origin|.
+          1.  For each |parent domain| that is a <a>superdomain match</a>
+              for |origin|'s [=origin/host=] [[!RFC6797]], considering longer
+              domains first:
 
-          2.  If there exists a <a>endpoint group</a> (|group|) in
-              |client|'s {{client/endpoint-groups}} list whose
-              {{endpoint group/name}} is |report|'s [=report/destination=]
-              <b>and</b> whose {{endpoint group/subdomains}} flag is
-              "`include`":
+              1.  Let |parent origin| be a copy of |origin|, with its
+                  [=origin/host=] replaced with |parent domain|.
 
-              1.  Let |endpoint| be the result of executing [[#choose-endpoint]]
-                  on |group|.
+              2.  Let |client| be the entry in the <a>reporting cache</a> for
+                  |parent origin|.
 
-              2.  If |endpoint| is not `null`:
+              3.  If there exists an <a>endpoint group</a> (|group|) in
+                  |client|'s {{client/endpoint-groups}} list whose {{endpoint
+                  group/name}} is |report|'s [=report/destination=] <b>and</b>
+                  whose {{endpoint group/subdomains}} flag is "`include`":
 
-                  1.  Append |report| to |endpoint map|'s list of reports for
-                      |endpoint|.
+                  1.  Let |endpoint| be the result of executing
+                      [[#choose-endpoint]] on |group|.
 
-                  2.  Skip to the next |report|.
+                  2.  If |endpoint| is not `null`:
+
+                      1.  Append |report| to |endpoint map|'s list of reports
+                          for |endpoint|.
+
+                      2.  Skip to the next |report|.
+
+          Note: This algorithm ensures that more specific {{endpoint
+          group/subdomains}} policies take precendence over less specific ones,
+          and that {{endpoint group/subdomains}} policies are ignored for any
+          non-[=domain=] origins (e.g., for a request to a raw IP address).
 
       5.  If we reach this step, the |report| did not match any <a>network
           reporting endpoint</a> and the user agent MAY remove |report| from the
