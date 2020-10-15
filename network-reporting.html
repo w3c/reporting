@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 9ec7eb8, updated Tue Oct 13 17:24:06 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/network-reporting" rel="canonical">
-  <meta content="1ec8dcfbfb9b8435f2fb43e6cc3d62bf5aa05da4" name="document-revision">
+  <meta content="f890dc1e803d5de33522e1efcbd403657838d5d9" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -446,7 +446,7 @@ dfn > a.self-link::before      { content: "#"; }
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Network Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-14">14 October 2020</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-15">15 October 2020</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -638,19 +638,19 @@ dfn > a.self-link::before      { content: "#"; }
   added to an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin①">origin</a>.</p>
     <p>A <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑤">endpoint group</a> is <dfn class="dfn-paneled" data-dfn-for="endpoint group" data-dfn-type="dfn" data-noexport id="endpoint-group-expired">expired</dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-creation" id="ref-for-dom-endpoint-group-creation">creation</a></code> plus its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-ttl" id="ref-for-dom-endpoint-group-ttl">ttl</a></code> represents a time in the past.</p>
     <h3 class="heading settled" data-level="2.2" id="concept-network-endpoint"><span class="secno">2.2. </span><span class="content">Network reporting endpoints</span><a class="self-link" href="#concept-network-endpoint"></a></h3>
-    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="network-reporting-endpoint">network reporting endpoint</dfn> is an <a data-link-type="dfn">endpoint</a>, which is
-  extended with these additional attributes:</p>
+    <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="network-reporting-endpoint">network reporting endpoint</dfn> is an <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint①">endpoint</a>, which
+  is extended with these additional attributes:</p>
     <p>Each <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint②">network reporting endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="network reporting endpoint" data-dfn-type="attribute" data-export id="dom-network-reporting-endpoint-priority"><code>priority</code></dfn>, which is a
   non-negative integer.</p>
     <p>Each <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint③">network reporting endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="network reporting endpoint" data-dfn-type="attribute" data-export id="dom-network-reporting-endpoint-weight"><code>weight</code></dfn>, which is a
   non-negative integer.</p>
     <p>Each <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint④">network reporting endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="network reporting endpoint" data-dfn-type="attribute" data-export id="dom-network-reporting-endpoint-retry_after"><code>retry_after</code></dfn>, which is
   either <code>null</code>, or a timestamp after which delivery should be retried.</p>
-    <p>An <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint⑤">network reporting endpoint</a> is <dfn data-dfn-for="network reporting endpoint" data-dfn-type="dfn" data-noexport id="network-reporting-endpoint-pending">pending<a class="self-link" href="#network-reporting-endpoint-pending"></a></dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-retry_after" id="ref-for-dom-network-reporting-endpoint-retry_after">retry_after</a></code> is not <code>null</code>, and represents a
+    <p>An <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint⑤">network reporting endpoint</a> is <dfn class="dfn-paneled" data-dfn-for="network reporting endpoint" data-dfn-type="dfn" data-noexport id="network-reporting-endpoint-pending">pending</dfn> if its <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-retry_after" id="ref-for-dom-network-reporting-endpoint-retry_after">retry_after</a></code> is not <code>null</code>, and represents a
   time in the future.</p>
     <h3 class="heading settled" data-level="2.3" id="concept-client"><span class="secno">2.3. </span><span class="content">Clients</span><a class="self-link" href="#concept-client"></a></h3>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="client">client</dfn> represents a particular origin’s relationship to
-  a set of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint①">endpoints</a>.</p>
+  a set of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint②">endpoints</a>.</p>
     <p>Each <a data-link-type="dfn" href="#client" id="ref-for-client">client</a> has an <dfn class="dfn-paneled idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export id="dom-client-origin"><code>origin</code></dfn>,
   which is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin②">origin</a>.</p>
     <p>Each <a data-link-type="dfn" href="#client" id="ref-for-client①">client</a> has an <dfn class="dfn-paneled idl-code" data-dfn-for="client" data-dfn-type="attribute" data-export id="dom-client-endpoint-groups"><code>endpoint-groups</code></dfn> list, which is a list of <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑥">endpoint
@@ -729,7 +729,7 @@ dfn > a.self-link::before      { content: "#"; }
     <p>A value of "<code>0</code>" will cause the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑧">endpoint group</a> to be removed
   from the user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache">reporting cache</a>.</p>
     <h4 class="heading settled" data-level="3.1.4" id="endpoints-member"><span class="secno">3.1.4. </span><span class="content">The <code>endpoints</code> member</span><a class="self-link" href="#endpoints-member"></a></h4>
-    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-export id="network_reporting_endpoints-endpoints"><code>endpoints</code></dfn> member defines the list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint②">endpoints</a> that
+    <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-export id="network_reporting_endpoints-endpoints"><code>endpoints</code></dfn> member defines the list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint③">endpoints</a> that
   belong to this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑨">endpoint group</a>.</p>
     <p>The member’s value MUST be an array of JSON objects.</p>
     <p>The following subsections define the initial set of known members in each
@@ -738,18 +738,18 @@ dfn > a.self-link::before      { content: "#"; }
   parsing the elements of the array.</p>
     <h4 class="heading settled" data-level="3.1.5" id="endpoints-url-member"><span class="secno">3.1.5. </span><span class="content">The <code>endpoints.url</code> member</span><a class="self-link" href="#endpoints-url-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-url"><code>url</code></dfn> member is a
-  string that defines the location of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint③">endpoint</a>.</p>
+  string that defines the location of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint④">endpoint</a>.</p>
     <p>The member’s value MUST be a string. Moreover, the URL that the member’s value
   represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>.
   Non-secure endpoints will be ignored.</p>
     <h4 class="heading settled" data-level="3.1.6" id="endpoints-priority-member"><span class="secno">3.1.6. </span><span class="content">The <code>endpoints.priority</code> member</span><a class="self-link" href="#endpoints-priority-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-priority"><code>priority</code></dfn> member is
-  a number that defines which failover class the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint④">endpoint</a> belongs
+  a number that defines which failover class the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑤">endpoint</a> belongs
   to.</p>
     <p>The member’s value, if present, MUST be a non-negative integer.</p>
     <h4 class="heading settled" data-level="3.1.7" id="endpoints-weight-member"><span class="secno">3.1.7. </span><span class="content">The <code>endpoints.weight</code> member</span><a class="self-link" href="#endpoints-weight-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-weight"><code>weight</code></dfn> member is a
-  number that defines load balancing for the failover class that the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑤">endpoint</a> belongs to.</p>
+  number that defines load balancing for the failover class that the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑥">endpoint</a> belongs to.</p>
     <p>The member’s value, if present, MUST be a non-negative integer.</p>
     <h3 class="heading settled algorithm" data-algorithm="Process origin policy configuration" data-level="3.2" id="process-configuration"><span class="secno">3.2. </span><span class="content"> Process origin policy configuration </span><a class="self-link" href="#process-configuration"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a> (<var>parsed</var>), and an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑥">origin</a> (<var>origin</var>),
@@ -899,34 +899,32 @@ dfn > a.self-link::before      { content: "#"; }
      <p class="note" role="note"><span>Note:</span> This algorithm is the same as the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#page-4" id="ref-for-page-4">target selection
     algorithm</a> used for DNS <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#" id="termref-for-②">SRV records</a>.</p>
      <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
-  eligible <a data-link-type="dfn">endpoint</a> from the group, if there is one, taking into account
-  the <code class="idl"><a data-link-type="idl">priority</a></code> and <code class="idl"><a data-link-type="idl">weight</a></code> of the <a data-link-type="dfn">endpoints</a>.</p>
+  eligible <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑦">endpoint</a> from the group, if there is one, taking into
+  account the <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑤">priority</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight③">weight</a></code> of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑧">endpoints</a>.</p>
      <ol>
       <li data-md>
        <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
       <li data-md>
-       <p>Remove every <var>endpoint</var> from <var>endpoints</var> that is <a data-link-type="dfn">pending</a>.</p>
+       <p>Remove every <var>endpoint</var> from <var>endpoints</var> that is <a data-link-type="dfn" href="#network-reporting-endpoint-pending" id="ref-for-network-reporting-endpoint-pending">pending</a>.</p>
       <li data-md>
        <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
       <li data-md>
-       <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl">priority</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
+       <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑥">priority</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
       <li data-md>
-       <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose <code class="idl"><a data-link-type="idl">priority</a></code> value
-  is not equal to <var>priority</var>.</p>
+       <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑦">priority</a></code> value is not equal to <var>priority</var>.</p>
       <li data-md>
        <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
       <li data-md>
-       <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl">weight</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
+       <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight④">weight</a></code> value of each <var>endpoint</var> in <var>endpoints</var>.</p>
       <li data-md>
        <p>Let <var>weight</var> be a random number ≥ 0 and ≤ <var>total weight</var>.</p>
       <li data-md>
        <p>For each <var>endpoint</var> in <var>endpoints</var>:</p>
        <ol>
         <li data-md>
-         <p>If <var>weight</var> is less than or equal to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl">weight</a></code>,
-  return <var>endpoint</var>.</p>
+         <p>If <var>weight</var> is less than or equal to <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight⑤">weight</a></code>, return <var>endpoint</var>.</p>
         <li data-md>
-         <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl">weight</a></code> from <var>weight</var>.</p>
+         <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight⑥">weight</a></code> from <var>weight</var>.</p>
        </ol>
       <li data-md>
        <p>It should not be possible to fall through to here, since the random number
@@ -947,7 +945,7 @@ dfn > a.self-link::before      { content: "#"; }
         <li data-md>
          <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a> for <var>origin</var>.</p>
         <li data-md>
-         <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn">group</a>:</p>
+         <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-destination" id="ref-for-report-destination">destination</a>:</p>
          <ol>
           <li data-md>
            <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
@@ -966,7 +964,8 @@ dfn > a.self-link::before      { content: "#"; }
           <li data-md>
            <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for <var>parent origin</var>.</p>
           <li data-md>
-           <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn">group</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
+           <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-destination" id="ref-for-report-destination①">destination</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is
+  "<code>include</code>":</p>
            <ol>
             <li data-md>
              <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
@@ -1062,7 +1061,7 @@ dfn > a.self-link::before      { content: "#"; }
      <p>The user agent MAY choose to prioritize reports from particular origins over
   others (perhaps those that the user visits most often?)</p>
      <h3 class="heading settled" data-level="6.2" id="gc"><span class="secno">6.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
-     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑧">reports</a> and <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑥">endpoints</a>, and discard those that are no
+     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑧">reports</a> and <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑨">endpoints</a>, and discard those that are no
   longer relevant. These include:</p>
      <ul>
       <li data-md>
@@ -1071,7 +1070,7 @@ dfn > a.self-link::before      { content: "#"; }
        <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑦">endpoint groups</a> which have not been used in some arbitrary
   period of time (perhaps a ~week?)</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑦">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed some user-agent-defined threshold (~5 seems reasonable.)</p>
+       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint①⓪">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed some user-agent-defined threshold (~5 seems reasonable.)</p>
       <li data-md>
        <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑨">reports</a> whose <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-attempts" id="ref-for-report-attempts">attempts</a> exceed
   some user-agent-defined threshold (~5 seems reasonable.)</p>
@@ -1317,16 +1316,26 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report-body">8.1. Capability URLs</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-report-destination">
+   <a href="https://w3c.github.io/reporting/#report-destination">https://w3c.github.io/reporting/#report-destination</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-report-destination">5.2. 
+    Send reports </a> <a href="#ref-for-report-destination①">(2)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-endpoint">
    <a href="https://w3c.github.io/reporting/#endpoint">https://w3c.github.io/reporting/#endpoint</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-endpoint">1.1. Guarantees</a>
-    <li><a href="#ref-for-endpoint①">2.3. Clients</a>
-    <li><a href="#ref-for-endpoint②">3.1.4. The endpoints member</a>
-    <li><a href="#ref-for-endpoint③">3.1.5. The endpoints.url member</a>
-    <li><a href="#ref-for-endpoint④">3.1.6. The endpoints.priority member</a>
-    <li><a href="#ref-for-endpoint⑤">3.1.7. The endpoints.weight member</a>
-    <li><a href="#ref-for-endpoint⑥">6.2. Garbage Collection</a> <a href="#ref-for-endpoint⑦">(2)</a>
+    <li><a href="#ref-for-endpoint①">2.2. Network reporting endpoints</a>
+    <li><a href="#ref-for-endpoint②">2.3. Clients</a>
+    <li><a href="#ref-for-endpoint③">3.1.4. The endpoints member</a>
+    <li><a href="#ref-for-endpoint④">3.1.5. The endpoints.url member</a>
+    <li><a href="#ref-for-endpoint⑤">3.1.6. The endpoints.priority member</a>
+    <li><a href="#ref-for-endpoint⑥">3.1.7. The endpoints.weight member</a>
+    <li><a href="#ref-for-endpoint⑦">5.1. 
+    Choose an endpoint from a group </a> <a href="#ref-for-endpoint⑧">(2)</a>
+    <li><a href="#ref-for-endpoint⑨">6.2. Garbage Collection</a> <a href="#ref-for-endpoint①⓪">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-endpoint-failures">
@@ -1465,6 +1474,7 @@ Content-Type: application/reports+json
     <ul>
      <li><span class="dfn-paneled" id="term-for-report-attempts">attempts</span>
      <li><span class="dfn-paneled" id="term-for-report-body">body</span>
+     <li><span class="dfn-paneled" id="term-for-report-destination">destination</span>
      <li><span class="dfn-paneled" id="term-for-endpoint">endpoint</span>
      <li><span class="dfn-paneled" id="term-for-dom-endpoint-failures">failures</span>
      <li><span class="dfn-paneled" id="term-for-dom-endpoint-name">name</span>
@@ -1630,6 +1640,8 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-network-reporting-endpoint-priority">2.4. Failover and load balancing</a> <a href="#ref-for-dom-network-reporting-endpoint-priority①">(2)</a> <a href="#ref-for-dom-network-reporting-endpoint-priority②">(3)</a> <a href="#ref-for-dom-network-reporting-endpoint-priority③">(4)</a>
     <li><a href="#ref-for-dom-network-reporting-endpoint-priority④">3.2. 
     Process origin policy configuration </a>
+    <li><a href="#ref-for-dom-network-reporting-endpoint-priority⑤">5.1. 
+    Choose an endpoint from a group </a> <a href="#ref-for-dom-network-reporting-endpoint-priority⑥">(2)</a> <a href="#ref-for-dom-network-reporting-endpoint-priority⑦">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-network-reporting-endpoint-weight">
@@ -1638,6 +1650,8 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-network-reporting-endpoint-weight">2.4. Failover and load balancing</a> <a href="#ref-for-dom-network-reporting-endpoint-weight①">(2)</a>
     <li><a href="#ref-for-dom-network-reporting-endpoint-weight②">3.2. 
     Process origin policy configuration </a>
+    <li><a href="#ref-for-dom-network-reporting-endpoint-weight③">5.1. 
+    Choose an endpoint from a group </a> <a href="#ref-for-dom-network-reporting-endpoint-weight④">(2)</a> <a href="#ref-for-dom-network-reporting-endpoint-weight⑤">(3)</a> <a href="#ref-for-dom-network-reporting-endpoint-weight⑥">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-network-reporting-endpoint-retry_after">
@@ -1648,6 +1662,13 @@ Content-Type: application/reports+json
     Process origin policy configuration </a>
     <li><a href="#ref-for-dom-network-reporting-endpoint-retry_after②">5.2. 
     Send reports </a> <a href="#ref-for-dom-network-reporting-endpoint-retry_after③">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="network-reporting-endpoint-pending">
+   <b><a href="#network-reporting-endpoint-pending">#network-reporting-endpoint-pending</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-network-reporting-endpoint-pending">5.1. 
+    Choose an endpoint from a group </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="client">
