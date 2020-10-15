@@ -54,6 +54,7 @@ spec: SECURE-CONTEXTS; urlPrefix: https://w3c.github.io/webappsec-secure-context
     text: potentially trustworthy; url: is-origin-trustworthy
 spec: URL; urlPrefix: https://url.spec.whatwg.org/
   type: dfn
+    text: domain; url: concept-domain
     text: origin of a url; url: concept-url-origin
     text: URL serializer; url: concept-url-serializer
     text: URL parser; url: concept-url-parser
@@ -372,7 +373,7 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 
   The OPTIONAL <dfn for="network_reporting_endpoints">`include_subdomains`</dfn>
   member is a boolean that enables this <a>endpoint group</a> for all
-  subdomains of the current <a spec="html">origin</a>'s {{URL/host}}.
+  subdomains of the current <a spec="html">origin</a>'s [=origin/host=].
 
   <h4 id="max-age-member">The `max_age` member</h4>
 
