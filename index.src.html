@@ -526,8 +526,9 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   <h4 id="send-reports" algorithm>Send reports</h4>
 
-  A user agent sends a list of <a>reports</a> (|reports|) for a <a>document</a>
-  or {{WorkerGlobalScope}} object (|context|) by executing the following steps:
+  A user agent sends a list of <a>reports</a> (|reports|) for
+  {{WindowOrWorkerGlobalScope}} object (|context|) by executing the following
+  steps:
 
   1.  Let |endpoint map| be an empty map of <a>endpoint</a> objects to lists of
       <a>report</a> objects.
@@ -535,8 +536,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   2.  For each |report| in |reports|:
 
       1.  If there exists an <a>endpoint</a> (|endpoint|) in |context|'s
-          {{document/endpoints}} list whose {{endpoint/name}} is |report|'s
-          [=report/destination=]:
+          [=WindowOrWorkerGlobalScope/endpoints=] list whose {{endpoint/name}}
+          is |report|'s [=report/destination=]:
 
           1.  Append |report| to |endpoint map|'s list of reports for
               |endpoint|.
@@ -566,8 +567,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
           3.  If |result| is "`Remove Endpoint`":
 
-              1.  Remove |endpoint| from |context|'s {{document/endpoints}}
-                  list.
+              1.  Remove |endpoint| from |context|'s
+                  [=WindowOrWorkerGlobalScope/endpoints=] list.
 
           4.  Remove each <a>report</a> from |reports|.
 
@@ -733,8 +734,8 @@ typedef sequence&lt;Report> ReportList;
   The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
 
-  1. Let |global| be the <a spec=ecmascript>global object</a> of the <a
-     spec=ecmascript>realm</a> associated with the <a>context object</a>.
+  1. Let |global| be the be the [=relevant global object=] of the <a>context
+     object</a>.
 
   2. Append the <a>context object</a> to the |global|'s <a>registered reporting
      observer list</a>.
@@ -751,8 +752,8 @@ typedef sequence&lt;Report> ReportList;
 
   1. If the <a>context object</a> is not <a>registered</a>, return.
 
-  2. Let |global| be the <a spec=ecmascript>global object</a> of the <a
-     spec=ecmascript>realm</a> associated with the <a>context object</a>.
+  2. Let |global| be the [=relevant global object=] of the <a>context
+     object</a>.
 
   3. Remove the <a>context object</a> from |global|'s <a>registered reporting
      observer list</a>.
@@ -808,8 +809,7 @@ typedef sequence&lt;Report> ReportList;
   3. Append |r| to |observer|'s <a>report queue</a>.
 
   4. If the size of |observer|'s <a>report queue</a> is 1:
-     1.  Let |global| be the <a spec=ecmascript>global object</a> of the <a
-         spec=ecmascript>realm</a> associated with |observer|.
+     1. Let |global| be |observer|'s [=relevant global object=].
      2.  <a>Queue a task</a> to [[#invoke-observers]] with a copy of |global|'s
          <a>registered reporting observer list</a>.
 
