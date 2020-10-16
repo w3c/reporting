@@ -100,6 +100,7 @@ spec: HTTP-JFV; urlPrefix: https://tools.ietf.org/html/draft-reschke-http-jfv
 spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   type: dfn
     text: Realm
+    text: global object; url: sec-global-object
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
@@ -332,11 +333,11 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   5.  If |settings| is given, then
 
-      1.  Let |environment| be |settings|'s <a>realm execution context</a>'s
-          <a spec=ecmascript>realm</a>'s <a spec=ecmascript lt=realm>ECMAScript
-          global environment</a>.
+      1.  Let |scope| be |settings|'s <a>realm execution context</a>'s
+          <a spec=ecmascript>realm</a>'s <a spec=ecmascript>global object</a>.
 
-      2.  Execute [[#notify-observers]] with |environment| and |report|.
+      2.  If |scope| is an object implementing {{WindowOrWorkerGlobalScope}},
+          then execute [[#notify-observers]] with |scope| and |report|.
 
   6.  Return |report|.
 
@@ -398,33 +399,20 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   <h3 id="document-configuration">Document configuration</h3>
 
-  Each <a>Document</a> has an <dfn for="document" export
-  attribute>endpoints</dfn> list, which is a list of <a>endpoints</a>, each of
-  which MUST have a distinct {{endpoint/name}}. (Uniqueness is guaranteed by the
-  algorithm in [[#process-header]].)
+  Each object implementing {{WindowOrWorkerGlobalScope}} has an <dfn
+  for="WindowOrWorkerGlobalScope" export>endpoints</dfn> list, which
+  is a list of <a for="/">endpoints</a>, each of which MUST have a distinct
+  {{endpoint/name}}.  (Uniqueness is guaranteed by the algorithm in
+  [[#process-header]].)
 
-  Each <a>Document</a> has an <dfn for="document" export attribute>reports</dfn>
-  list, which is a list of <a>reports</a>.
+  Each object implementing {{WindowOrWorkerGlobalScope}} has an <dfn
+  for="WindowOrWorkerGlobalScope" export>reports</dfn> list, which is
+  a list of <a for="/">reports</a>.
 
-  To <dfn export>initialize a document's endpoint list</dfn>, given a
-  <a>Document</a> (|document|) and a <a>response</a> (|response|), set
-  |document|'s <a>endpoints</a> to the result of executing [[#process-header]]
-  given |response|.
-
-  <h3 id="worker-configuration">Worker configuration</h3>
-
-  Each {{WorkerGlobalScope}} object has an <dfn for="WorkerGlobalScope" export
-  attribute>endpoints</dfn> list, which is a list of <a>endpoints</a>, each of
-  which MUST have a distinct {{endpoint/name}}. (Uniqueness is guaranteed by the
-  algorithm in [[#process-header]].)
-
-  Each {{WorkerGlobalScope}} object has an <dfn for="WorkerGlobalScope" export
-  attribute>reports</dfn> list, which is a list of <a>reports</a>.
-
-  To <dfn export>initialize a worker's endpoint list</dfn>, given a
-  {{WorkerGlobalScope}} object (|worker|) and a <a>response</a> (|response|),
-  set |worker|'s <a>endpoints</a> to the result of executing [[#process-header]]
-  given |response|.
+  To <dfn export>initialize a document or worker's endpoint list</dfn>, given a
+  {{WindowOrWorkerGlobalScope}} (|scope|) and a <a>response</a> (|response|),
+  set |scope|'s <a for="WindowOrWorkerGlobalScope">endpoints</a> to the result
+  of executing [[#process-header]] given |response|.
 
   <h3 id="header">The `Reporting-Endpoints` HTTP Response Header Field</h3>
 
@@ -448,8 +436,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   Moreover, the URL that the member's value represents MUST be <a>potentially
   trustworthy</a> [[!SECURE-CONTEXTS]]. Non-secure endpoints will be ignored.
 
-  No parameters are defined for <a>endpoints</a>, and any parameters which are
-  specified will be silently ignored.
+  No parameters are defined for <a for="/">endpoints</a>, and any parameters
+  which are specified will be silently ignored.
 
   The header is represented by the following ABNF grammar [[!RFC5234]]:
 
@@ -462,15 +450,15 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   </h3>
 
   Given a <a>response</a> (|response|), this algorithm extracts and returns a
-  list of <a>endpoints</a>.
+  list of <a for="/">endpoints</a>.
 
   1.  Abort these steps if |response|'s <a for="response" attribute>HTTPS
       state</a> is not "`modern`", and the <a lt="origin of a url">origin</a>
       of |response|'s <a for="response" attribute>url</a> is not <a>potentially
       trustworthy</a>.
 
-  2.  Let |parsed header| be the result of executing [=get a structured field value=]
-      given "Reporting-Endpoints" and "dictionary" from |response|'s <a
+  2.  Let |parsed header| be the result of executing [=get a structured field
+      value=] given "Reporting-Endpoints" and "dictionary" from |response|'s <a
       for="response" attribute>header list</a>.
 
   3.  If |parsed header| is null, abort these steps.
@@ -657,18 +645,18 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   JavaScript, and is represented in JavaScript by the {{ReportingObserver}}
   object.
 
-  Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
-  a <dfn>registered reporting observer list</dfn>, which is an <a>ordered
-  set</a> of <a>reporting observers</a>.
+  Each object implementing {{WindowOrWorkerGlobalScope}} has a <dfn
+  for="WindowOrWorkerGlobalScope">registered reporting observer list</dfn>,
+  which is an <a>ordered set</a> of <a>reporting observers</a>.
 
   Any <a>reporting observer</a> that is in a <a>registered reporting observer
   list</a> is considered <dfn>registered</dfn>.
 
-  Each <a spec=ecmascript lt=realm>ECMAScript global environment</a> has
-  a <dfn>report buffer</dfn>, which is a <a spec=infra>list</a>
-  of <a>reports</a> that have been generated in that <a spec=ecmascript
-  lt=realm>ECMAScript global environment</a>. This list is initially empty, and
-  the reports are stored in the same order in which they are generated.
+  Each object implementing {{WindowOrWorkerGlobalScope}} has a <dfn
+  for="WindowOrWorkerGlobalScope">report buffer</dfn>, which is a <a
+  spec=infra>list</a> of <a>reports</a> that have been generated in that
+  {{WindowOrWorkerGlobalScope}}. This list is initially empty, and the reports
+  are stored in the same order in which they are generated.
 
   Note: The purpose of the <a>report buffer</a> is to allow <a>reporting
   observers</a> to observe reports that were generated earlier than that
@@ -745,29 +733,29 @@ typedef sequence&lt;Report> ReportList;
   The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
 
-  1. Let |environment| be the <a spec=ecmascript lt=realm>ECMAScript global
-     environment</a> associated with the <a>context object</a>.
+  1. Let |global| be the <a spec=ecmascript>global object</a> of the <a
+     spec=ecmascript>realm</a> associated with the <a>context object</a>.
 
-  2. Append the <a>context object</a> to the <a>registered reporting observer
-     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global
-     environment</a>.
+  2. Append the <a>context object</a> to the |global|'s <a>registered reporting
+     observer list</a>.
 
   3. If the <a>context object</a>'s {{buffered}} <a>option</a> is false, return.
 
   4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
 
-  5. For each |report| in the <a>report buffer</a> associated with
-     |environment|, <a>queue a task</a> to execute [[#add-report]] with |report|
-     and the <a>context object</a>.
+  5. For each |report| in |global|'s <a>report buffer</a>, <a>queue a task</a>
+     to execute [[#add-report]] with |report| and the <a>context object</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
 
   1. If the <a>context object</a> is not <a>registered</a>, return.
 
-  2. Remove the <a>context object</a> from the <a>registered reporting observer
-     list</a> of its associated <a spec=ecmascript lt=realm>ECMAScript global
-     environment</a>.
+  2. Let |global| be the <a spec=ecmascript>global object</a> of the <a
+     spec=ecmascript>realm</a> associated with the <a>context object</a>.
+
+  3. Remove the <a>context object</a> from |global|'s <a>registered reporting
+     observer list</a>.
 
   The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:
@@ -779,22 +767,21 @@ typedef sequence&lt;Report> ReportList;
   3. Return |reports|.
 
   <h3 id="notify-observers" algorithm>
-    Notify reporting observers on |environment| with |report|
+    Notify reporting observers on |scope| with |report|
   </h3>
 
   This algorithm makes |report|'s contents available to any <a>registered</a>
-  <a>reporting observers</a> on the provided <a spec=ecmascript
-  lt=realm>ECMAScript global environment</a> |environment|.
+  <a>reporting observers</a> on the provided {{WindowOrWorkerGlobalScope}}.
 
-  1. For each {{ReportingObserver}} |observer| <a>registered</a> with
-     |environment|, execute [[#add-report]] on |report| and |observer|.
+  1. For each {{ReportingObserver}} |observer| <a>registered</a> with |scope|,
+     execute [[#add-report]] on |report| and |observer|.
 
-  2. Append |report| to the <a>report buffer</a> associated with |environment|.
+  2. Append |report| to |scope|'s <a>report buffer</a>.
 
   3. Let |type| be |report|'s <a>type</a>.
 
-  4. If the <a>report buffer</a> now contains more than 100 reports
-     with <a>type</a> equal to |type|, remove the earliest item with <a>type</a>
+  4. If |scope|'s <a>report buffer</a> now contains more than 100 reports with
+     <a>type</a> equal to |type|, remove the earliest item with <a>type</a>
      equal to |type| in the <a>report buffer</a>.
 
   <h3 id="add-report" algorithm>
@@ -820,10 +807,11 @@ typedef sequence&lt;Report> ReportList;
 
   3. Append |r| to |observer|'s <a>report queue</a>.
 
-  4. If the size of |observer|'s <a>report queue</a> is 1, <a>Queue a task</a>
-     to [[#invoke-observers]] with a copy of the <a>registered reporting
-     observer list</a> of the <a spec=ecmascript lt=realm>ECMAScript global
-     environment</a> associated with |observer|.
+  4. If the size of |observer|'s <a>report queue</a> is 1:
+     1.  Let |global| be the <a spec=ecmascript>global object</a> of the <a
+         spec=ecmascript>realm</a> associated with |observer|.
+     2.  <a>Queue a task</a> to [[#invoke-observers]] with a copy of |global|'s
+         <a>registered reporting observer list</a>.
 
   <h3 id="invoke-observers" algorthm>
     Invoke reporting observers with |notify list|
@@ -869,17 +857,18 @@ typedef sequence&lt;Report> ReportList;
 
   <h3 id="gc">Garbage Collection</h3>
 
-  Periodically, the user agent SHOULD walk through the cached <a>reports</a>
-  and <a data-lt="endpoint">endpoints</a>, and discard those that are no longer
-  relevant. These include:
+  Periodically, the user agent SHOULD walk through the cached <a
+  for="/">reports</a> and <a for="/">endpoints</a>, and discard those that are
+  no longer relevant. These include:
 
-  *   <a data-lt="endpoint">endpoints</a> whose {{endpoint/failures}} exceed
+  *   <a for="/">endpoints</a> whose {{endpoint/failures}} exceed
       some user-agent-defined threshold (~5 seems reasonable)
-  *   <a>reports</a> which have not been delivered in some arbitrary period of
-      time (perhaps ~2 days?)
+  *   <a for="/">reports</a> which have not been delivered in some arbitrary
+      period of time (perhaps ~2 days?)
 
-  For any <a>reports</a> that are discarded, these <a>reports</a> should also be
-  removed from the <a>report buffer</a> of any <a>reporting observer</a>.
+  For any <a for="/">reports</a> that are discarded, these <a>reports</a> should
+  also be removed from the <a>report buffer</a> of any <a>reporting
+  observer</a>.
 </section>
 
 <section>
