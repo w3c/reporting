@@ -14,7 +14,7 @@ Report-To: { "url": "https://example.com/reports", "max_age": 10886400 }
 POST /reports HTTP/1.1
 Host: example.com
 ...
-Content-Type: application/report
+Content-Type: application/reports+json
 
 [{
   "type": "myreport",

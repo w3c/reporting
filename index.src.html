@@ -100,7 +100,7 @@ spec: HTTP-JFV; urlPrefix: https://tools.ietf.org/html/draft-reschke-http-jfv
 spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
   type: dfn
     text: Realm
-spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
+spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
     text: handle any user prompts; url: dfn-handle-any-user-prompts
@@ -130,7 +130,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   "STRUCTURED-HEADERS": {
     "authors": [ "Mark Nottingham", "Poul-Henning Kamp" ],
     "href": "https://httpwg.org/http-extensions/draft-ietf-httpbis-header-structure.html",
-    "title": "Structured Headers for HTTP",
+    "title": "Structured Field Values for HTTP",
     "publisher": "IETF"
   }
 }
@@ -300,10 +300,10 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
     Queue |data| as |type| for |destination|
   </h3>
 
-  Given a serializable object (|data|), a string (|type|), another string
+  To <dfn export for="reporting">queue</dfn> a <a>report</a> given a
+  serializable object (|data|), a string (|type|), another string
   (|destination|), an optional <a>environment settings object</a>
-  (|settings|), and an optional {{URL}} (|url|), the following algorithm will
-  create a <a>report</a>, which can be queued for future delivery.
+  (|settings|), and an optional {{URL}} (|url|):
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -469,11 +469,11 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
       of |response|'s <a for="response" attribute>url</a> is not <a>potentially
       trustworthy</a>.
 
-  2.  Let |parsed header| be the result of executing [=get a structured header=]
+  2.  Let |parsed header| be the result of executing [=get a structured field value=]
       given "Reporting-Endpoints" and "dictionary" from |response|'s <a
       for="response" attribute>header list</a>.
 
-  3.  If |parsed header| is null or failure, abort these steps.
+  3.  If |parsed header| is null, abort these steps.
 
   4.  Let |endpoints| be an empty list.
 
@@ -699,12 +699,12 @@ interface Report {
 [Exposed=(Window,Worker)]
 interface ReportingObserver {
   constructor(ReportingObserverCallback callback, optional ReportingObserverOptions options = {});
-  void observe();
-  void disconnect();
+  undefined observe();
+  undefined disconnect();
   ReportList takeRecords();
 };
 
-callback ReportingObserverCallback = void (sequence&lt;Report> reports, ReportingObserver observer);
+callback ReportingObserverCallback = undefined (sequence&lt;Report> reports, ReportingObserver observer);
 
 dictionary ReportingObserverOptions {
   sequence&lt;DOMString> types;
@@ -893,7 +893,7 @@ typedef sequence&lt;Report> ReportList;
       Content-Type: application/reports+json
 
       [{
-        "type": "csp",
+        "type": "csp-violation",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
         "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
@@ -913,7 +913,7 @@ typedef sequence&lt;Report> ReportList;
           "date-time": "2014-04-06T13:00:50Z",
           "hostname": "www.example.com",
           "port": 443,
-          "effective-expiration-date": "2014-05-01T12:40:50Z"
+          "effective-expiration-date": "2014-05-01T12:40:50Z",
           "served-certificate-chain": [
             "-----BEGIN CERTIFICATE-----\n
             MIIEBDCCAuygAwIBAgIDAjppMA0GCSqGSIb3DQEBBQUAMEIxCzAJBgNVBAYTAlVT\n
