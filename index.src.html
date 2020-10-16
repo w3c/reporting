@@ -97,10 +97,6 @@ spec: RFC7469; urlPrefix: https://tools.ietf.org/html/rfc7469
 spec: HTTP-JFV; urlPrefix: https://tools.ietf.org/html/draft-reschke-http-jfv
   type: grammar
     text: json-field-value; url: section-2
-spec: ECMASCRIPT; urlPrefix: https://tc39.github.io/ecma262/
-  type: dfn
-    text: Realm
-    text: global object; url: sec-global-object
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/#
   type: dfn
     text: current browsing context; url: dfn-current-browsing-context
@@ -333,8 +329,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   5.  If |settings| is given, then
 
-      1.  Let |scope| be |settings|'s <a>realm execution context</a>'s
-          <a spec=ecmascript>realm</a>'s <a spec=ecmascript>global object</a>.
+      1.  Let |scope| be |settings|'s [=environment settings object/global
+          object=].
 
       2.  If |scope| is an object implementing {{WindowOrWorkerGlobalScope}},
           then execute [[#notify-observers]] with |scope| and |report|.
