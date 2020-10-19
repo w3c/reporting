@@ -876,8 +876,16 @@ typedef sequence&lt;Report> ReportList;
   observer</a>.
 </section>
 
-<section>
+<section class="non-normative">
   <h2 id="sample-reports">Sample Reports</h2>
+
+  *This section is non-normative.*
+
+  This example shows the format in which reports are sent by the user agent to
+  the reporting endpoint. The sample submission contains three reports which
+  have been bundled together and sent in a single HTTP request. (The report
+  types and bodies themselves are not intended to be representative of any
+  actual feature, as those are outside of the scope of this specification).
 
   <div class="example">
     <pre>
@@ -887,19 +895,18 @@ typedef sequence&lt;Report> ReportList;
       Content-Type: application/reports+json
 
       [{
-        "type": "csp-violation",
+        "type": "security-violation",
         "age": 10,
         "url": "https://example.com/vulnerable-page/",
         "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
           "blocked": "https://evil.com/evil.js",
-          "directive": "script-src",
-          "policy": "script-src 'self'; object-src 'none'",
+          "policy": "bad-behavior 'none'",
           "status": 200,
           "referrer": "https://evil.com/"
         }
       }, {
-        "type": "hpkp",
+        "type": "certificate-issue",
         "age": 32,
         "url": "https://www.example.com/",
         "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
@@ -920,18 +927,12 @@ typedef sequence&lt;Report> ReportList;
           ]
         }
       }, {
-        "type": "nel",
+        "type": "cpu-on-fire",
         "age": 29,
         "url": "https://example.com/thing.js",
         "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
         "body": {
-          "referrer": "https://www.example.com/",
-          "server-ip": "234.233.232.231",
-          "protocol": "",
-          "status-code": 0,
-          "elapsed-time": 143,
-          "age": 0,
-          "type": "http.dns.name_not_resolved"
+          "temperature": 614.0
         }
       }]
     </pre>
