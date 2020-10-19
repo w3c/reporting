@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 9ec7eb8, updated Tue Oct 13 17:24:06 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="c259a3081cbeb1b82ff6479a75b7294d9f0d0814" name="document-revision">
+  <meta content="c2ecc1759b432c60ed159ed2d03f753f8c14b02e" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1487,29 +1487,34 @@ queue</dfn>, which is initially empty.</p>
   also be removed from the <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer⑤">report buffer</a> of any <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑦">reporting
   observer</a>.</p>
    </section>
-   <section>
+   <section class="non-normative">
     <h2 class="heading settled" data-level="6" id="sample-reports"><span class="secno">6. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-    <div class="example" id="example-fe808bba">
-     <a class="self-link" href="#example-fe808bba"></a> 
+    <p><em>This section is non-normative.</em></p>
+    <p>This example shows the format in which reports are sent by the user agent to
+  the reporting endpoint. The sample submission contains three reports which
+  have been bundled together and sent in a single HTTP request. (The report
+  types and bodies themselves are not intended to be representative of any
+  actual feature, as those are outside of the scope of this specification).</p>
+    <div class="example" id="example-3cfcdab2">
+     <a class="self-link" href="#example-3cfcdab2"></a> 
 <pre>POST / HTTP/1.1
 Host: example.com
 ...
 Content-Type: application/reports+json
 
 [{
-  "type": "csp-violation",
+  "type": "security-violation",
   "age": 10,
   "url": "https://example.com/vulnerable-page/",
   "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
     "blocked": "https://evil.com/evil.js",
-    "directive": "script-src",
-    "policy": "script-src 'self'; object-src 'none'",
+    "policy": "bad-behavior 'none'",
     "status": 200,
     "referrer": "https://evil.com/"
   }
 }, {
-  "type": "hpkp",
+  "type": "certificate-issue",
   "age": 32,
   "url": "https://www.example.com/",
   "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
@@ -1530,18 +1535,12 @@ Content-Type: application/reports+json
     ]
   }
 }, {
-  "type": "nel",
+  "type": "cpu-on-fire",
   "age": 29,
   "url": "https://example.com/thing.js",
   "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
   "body": {
-    "referrer": "https://www.example.com/",
-    "server-ip": "234.233.232.231",
-    "protocol": "",
-    "status-code": 0,
-    "elapsed-time": 143,
-    "age": 0,
-    "type": "http.dns.name_not_resolved"
+    "temperature": 614.0
   }
 }]
 </pre>

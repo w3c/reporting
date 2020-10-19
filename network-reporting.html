@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 9ec7eb8, updated Tue Oct 13 17:24:06 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/network-reporting" rel="canonical">
-  <meta content="c259a3081cbeb1b82ff6479a75b7294d9f0d0814" name="document-revision">
+  <meta content="c2ecc1759b432c60ed159ed2d03f753f8c14b02e" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -676,7 +676,7 @@ dfn > a.self-link::before      { content: "#"; }
   bespoke mechanism.</p>
     <h3 class="heading settled" data-level="2.5" id="concept-storage"><span class="secno">2.5. </span><span class="content">Storage</span><a class="self-link" href="#concept-storage"></a></h3>
     <p>A conformant user agent MUST provide a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="reporting-cache">reporting cache</dfn>, which
-  is a storage mechanism that maintains a set of <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑧">endpoint groups</a> that websites have instructed the user agent to associate with their <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origins</a>, and a set of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report">reports</a> which are queued for
+  is a storage mechanism that maintains a set of <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group⑧">endpoint groups</a> that websites have instructed the user agent to associate with their <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin③">origins</a>, and a set of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports">reports</a> which are queued for
   delivery.</p>
     <p>This storage mechanism is opaque, vendor-specific, and not exposed to the
   web, but it MUST provide the following methods which will be used in the
@@ -685,11 +685,11 @@ dfn > a.self-link::before      { content: "#"; }
      <li data-md>
       <p>Insert, update, and remove <a data-link-type="dfn" href="#client" id="ref-for-client②">clients</a>.</p>
      <li data-md>
-      <p>Enqueue and dequeue <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report①">reports</a> for delivery.</p>
+      <p>Enqueue and dequeue <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports①">reports</a> for delivery.</p>
      <li data-md>
       <p>Retrieve a list of <a data-link-type="dfn" href="#client" id="ref-for-client③">client</a> objects for an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a>.</p>
      <li data-md>
-      <p>Retrieve a list of queued <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report②">report</a> objects.</p>
+      <p>Retrieve a list of queued <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report">report</a> objects.</p>
      <li data-md>
       <p>Clear the cache.</p>
     </ol>
@@ -884,7 +884,7 @@ dfn > a.self-link::before      { content: "#"; }
        <p>Append <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑤">reporting cache</a>.</p>
      </ol>
      <h2 class="heading settled" data-level="5" id="report-delivery"><span class="secno">5. </span><span class="content">Report Delivery</span><a class="self-link" href="#report-delivery"></a></h2>
-     <p>Over time, various features will queue up a list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report③">reports</a> in the
+     <p>Over time, various features will queue up a list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports②">reports</a> in the
   user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑥">reporting cache</a>. The user agent will periodically grab
   the list of currently pending reports, and deliver them to the associated
   endpoints. This document does not define a schedule for the user agent to
@@ -934,9 +934,9 @@ dfn > a.self-link::before      { content: "#"; }
      <p>A user agent sends reports by executing the following steps:</p>
      <ol>
       <li data-md>
-       <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report④">report</a> objects in <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑦">reporting cache</a>.</p>
+       <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report①">report</a> objects in <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑦">reporting cache</a>.</p>
       <li data-md>
-       <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①⓪">network reporting endpoint</a> objects to lists of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑤">report</a> objects.</p>
+       <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①⓪">network reporting endpoint</a> objects to lists of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report②">report</a> objects.</p>
       <li data-md>
        <p>For each <var>report</var> in <var>reports</var>:</p>
        <ol>
@@ -999,7 +999,7 @@ dfn > a.self-link::before      { content: "#"; }
        <ol>
         <li data-md>
          <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origins</a> to
-  lists of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑥">report</a> objects.</p>
+  lists of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report③">report</a> objects.</p>
         <li data-md>
          <p>For each <var>report</var> in <var>reports</var>:</p>
          <ol>
@@ -1020,7 +1020,7 @@ dfn > a.self-link::before      { content: "#"; }
             <li data-md>
              <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures①">failures</a></code> to 0, and its <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-retry_after" id="ref-for-dom-network-reporting-endpoint-retry_after②">retry_after</a></code> to <code>null</code>.</p>
             <li data-md>
-             <p>Remove each <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑦">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting
+             <p>Remove each <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report④">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting
   cache</a>.</p>
            </ol>
            <p>Otherwise, if <var>result</var> is "<code>Remove Endpoint</code>":</p>
@@ -1071,7 +1071,7 @@ dfn > a.self-link::before      { content: "#"; }
      <p>The user agent MAY choose to prioritize reports from particular origins over
   others (perhaps those that the user visits most often?)</p>
      <h3 class="heading settled" data-level="6.2" id="gc"><span class="secno">6.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
-     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑧">reports</a> and <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑨">endpoints</a>, and discard those that are no
+     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports③">reports</a> and <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑨">endpoints</a>, and discard those that are no
   longer relevant. These include:</p>
      <ul>
       <li data-md>
@@ -1082,10 +1082,10 @@ dfn > a.self-link::before      { content: "#"; }
       <li data-md>
        <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint①⓪">endpoints</a> whose <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures③">failures</a></code> exceed some user-agent-defined threshold (~5 seems reasonable.)</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑨">reports</a> whose <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-attempts" id="ref-for-report-attempts">attempts</a> exceed
+       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports④">reports</a> whose <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-attempts" id="ref-for-report-attempts">attempts</a> exceed
   some user-agent-defined threshold (~5 seems reasonable.)</p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report①⓪">reports</a> which have not been delivered in some arbitrary period of
+       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑤">reports</a> which have not been delivered in some arbitrary period of
   time (perhaps ~2 days?)</p>
      </ul>
     </section>
@@ -1155,7 +1155,7 @@ Content-Type: application/reports+json
      <h3 class="heading settled" data-level="8.1" id="capability-urls"><span class="secno">8.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
      <p>Some URLs are valuable in and of themselves. To mitigate the possibility
   that such URLs will be leaked via this reporting mechanism, we strip out
-  credential information and fragment data from the URL we store as a <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report①①">report</a>’s originator. It is still possible, however, for a feature
+  credential information and fragment data from the URL we store as a <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑤">report</a>’s originator. It is still possible, however, for a feature
   to unintentionally leak such data via a report’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-body" id="ref-for-report-body">body</a>. Implementers
   SHOULD ensure that URLs contained in a report’s body are similarly stripped.</p>
     </section>
@@ -1383,12 +1383,18 @@ Content-Type: application/reports+json
   <aside class="dfn-panel" data-for="term-for-report">
    <a href="https://w3c.github.io/reporting/#report">https://w3c.github.io/reporting/#report</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-report">2.5. Storage</a> <a href="#ref-for-report①">(2)</a> <a href="#ref-for-report②">(3)</a>
-    <li><a href="#ref-for-report③">5. Report Delivery</a>
-    <li><a href="#ref-for-report④">5.2. 
-    Send reports </a> <a href="#ref-for-report⑤">(2)</a> <a href="#ref-for-report⑥">(3)</a> <a href="#ref-for-report⑦">(4)</a>
-    <li><a href="#ref-for-report⑧">6.2. Garbage Collection</a> <a href="#ref-for-report⑨">(2)</a> <a href="#ref-for-report①⓪">(3)</a>
-    <li><a href="#ref-for-report①①">8.1. Capability URLs</a>
+    <li><a href="#ref-for-report">2.5. Storage</a>
+    <li><a href="#ref-for-report①">5.2. 
+    Send reports </a> <a href="#ref-for-report②">(2)</a> <a href="#ref-for-report③">(3)</a> <a href="#ref-for-report④">(4)</a>
+    <li><a href="#ref-for-report⑤">8.1. Capability URLs</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-windoworworkerglobalscope-reports">
+   <a href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports">https://w3c.github.io/reporting/#windoworworkerglobalscope-reports</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-windoworworkerglobalscope-reports">2.5. Storage</a> <a href="#ref-for-windoworworkerglobalscope-reports①">(2)</a>
+    <li><a href="#ref-for-windoworworkerglobalscope-reports②">5. Report Delivery</a>
+    <li><a href="#ref-for-windoworworkerglobalscope-reports③">6.2. Garbage Collection</a> <a href="#ref-for-windoworworkerglobalscope-reports④">(2)</a> <a href="#ref-for-windoworworkerglobalscope-reports⑤">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-report-url">
@@ -1507,6 +1513,7 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-dom-endpoint-failures">failures</span>
      <li><span class="dfn-paneled" id="term-for-dom-endpoint-name">name</span>
      <li><span class="dfn-paneled" id="term-for-report">report</span>
+     <li><span class="dfn-paneled" id="term-for-windoworworkerglobalscope-reports">reports</span>
      <li><span class="dfn-paneled" id="term-for-report-url">url <small>(for report)</small></span>
     </ul>
    <li>
