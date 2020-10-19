@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 9ec7eb8, updated Tue Oct 13 17:24:06 2020 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/network-reporting" rel="canonical">
-  <meta content="5245a8054cb08cf41985b717f37aeffe5cf708b1" name="document-revision">
+  <meta content="c259a3081cbeb1b82ff6479a75b7294d9f0d0814" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -721,7 +721,7 @@ dfn > a.self-link::before      { content: "#"; }
     <p>If present, the member’s value MUST be a string. If not present, the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑤">endpoint group</a> will be given the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name②">name</a></code> "<code>default</code>".</p>
     <h4 class="heading settled" data-level="3.1.2" id="include-subdomains-member"><span class="secno">3.1.2. </span><span class="content">The <code>include_subdomains</code> member</span><a class="self-link" href="#include-subdomains-member"></a></h4>
     <p>The OPTIONAL <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-noexport id="network_reporting_endpoints-include_subdomains"><code>include_subdomains</code></dfn> member is a boolean that enables this <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑥">endpoint group</a> for all
-  subdomains of the current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑤">origin</a>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-host" id="ref-for-dom-url-host">host</a></code>.</p>
+  subdomains of the current <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑤">origin</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-host" id="ref-for-concept-origin-host">host</a>.</p>
     <h4 class="heading settled" data-level="3.1.3" id="max-age-member"><span class="secno">3.1.3. </span><span class="content">The <code>max_age</code> member</span><a class="self-link" href="#max-age-member"></a></h4>
     <p>The REQUIRED <dfn class="dfn-paneled" data-dfn-for="network_reporting_endpoints" data-dfn-type="dfn" data-export id="network_reporting_endpoints-max_age"><code>max_age</code></dfn> member defines the <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group①⑦">endpoint group</a>’s lifetime, as a non-negative
   integer number of seconds.</p>
@@ -959,26 +959,36 @@ dfn > a.self-link::before      { content: "#"; }
            </ol>
          </ol>
         <li data-md>
-         <p>For each <var>parent origin</var> that is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2">superdomain match</a> for <var>origin</var> <a data-link-type="biblio" href="#biblio-rfc6797">[RFC6797]</a>:</p>
+         <p>If <var>origin</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-tuple" id="ref-for-concept-origin-tuple">tuple origin</a> whose <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-host" id="ref-for-concept-origin-host①">host</a> is a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-domain" id="ref-for-concept-domain">domain</a>:</p>
          <ol>
           <li data-md>
-           <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for <var>parent origin</var>.</p>
-          <li data-md>
-           <p>If there exists a <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-destination" id="ref-for-report-destination①">destination</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is
-  "<code>include</code>":</p>
+           <p>For each <var>parent domain</var> that is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2">superdomain match</a> for <var>origin</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-host" id="ref-for-concept-origin-host②">host</a> <a data-link-type="biblio" href="#biblio-rfc6797">[RFC6797]</a>, considering longer
+  domains first:</p>
            <ol>
             <li data-md>
-             <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
+             <p>Let <var>parent origin</var> be a copy of <var>origin</var>, with its <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-host" id="ref-for-concept-origin-host③">host</a> replaced with <var>parent domain</var>.</p>
             <li data-md>
-             <p>If <var>endpoint</var> is not <code>null</code>:</p>
+             <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for <var>parent origin</var>.</p>
+            <li data-md>
+             <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-destination" id="ref-for-report-destination①">destination</a> <b>and</b> whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
              <ol>
               <li data-md>
-               <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+               <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
               <li data-md>
-               <p>Skip to the next <var>report</var>.</p>
+               <p>If <var>endpoint</var> is not <code>null</code>:</p>
+               <ol>
+                <li data-md>
+                 <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports
+  for <var>endpoint</var>.</p>
+                <li data-md>
+                 <p>Skip to the next <var>report</var>.</p>
+               </ol>
              </ol>
            </ol>
          </ol>
+         <p class="note" role="note"><span>Note:</span> This algorithm ensures that more specific <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains②">subdomains</a></code> policies take precendence over less specific ones,
+  and that <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains③">subdomains</a></code> policies are ignored for any
+  non-<a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-domain" id="ref-for-concept-domain①">domain</a> origins (e.g., for a request to a raw IP address).</p>
         <li data-md>
          <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①①">network
   reporting endpoint</a> and the user agent MAY remove <var>report</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①⓪">reporting cache</a> directly. Depending on load, the user agent MAY
@@ -1278,6 +1288,14 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-environment-settings-object">4. Report Generation</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-origin-host">
+   <a href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-host">https://html.spec.whatwg.org/multipage/origin.html#concept-origin-host</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-origin-host">3.1.2. The include_subdomains member</a>
+    <li><a href="#ref-for-concept-origin-host①">5.2. 
+    Send reports </a> <a href="#ref-for-concept-origin-host②">(2)</a> <a href="#ref-for-concept-origin-host③">(3)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-origin">
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#origin">https://html.spec.whatwg.org/multipage/browsers.html#origin</a><b>Referenced in:</b>
    <ul>
@@ -1289,6 +1307,13 @@ Content-Type: application/reports+json
     Process origin policy configuration </a>
     <li><a href="#ref-for-origin⑦">5.2. 
     Send reports </a> <a href="#ref-for-origin⑧">(2)</a> <a href="#ref-for-origin⑨">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-origin-tuple">
+   <a href="https://html.spec.whatwg.org/multipage/origin.html#concept-origin-tuple">https://html.spec.whatwg.org/multipage/origin.html#concept-origin-tuple</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-origin-tuple">5.2. 
+    Send reports </a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-ordered-map">
@@ -1416,10 +1441,11 @@ Content-Type: application/reports+json
     Process origin policy configuration </a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-url-host">
-   <a href="https://url.spec.whatwg.org/#dom-url-host">https://url.spec.whatwg.org/#dom-url-host</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-domain">
+   <a href="https://url.spec.whatwg.org/#concept-domain">https://url.spec.whatwg.org/#concept-domain</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-url-host">3.1.2. The include_subdomains member</a>
+    <li><a href="#ref-for-concept-domain">5.2. 
+    Send reports </a> <a href="#ref-for-concept-domain①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-path-absolute-url-string">
@@ -1457,7 +1483,9 @@ Content-Type: application/reports+json
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-environment-settings-object">environment settings object</span>
+     <li><span class="dfn-paneled" id="term-for-concept-origin-host">host</span>
      <li><span class="dfn-paneled" id="term-for-origin">origin</span>
+     <li><span class="dfn-paneled" id="term-for-concept-origin-tuple">tuple origin</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
@@ -1502,7 +1530,7 @@ Content-Type: application/reports+json
     <ul>
      <li><span class="dfn-paneled" id="term-for-absolute-url-string">absolute-url string</span>
      <li><span class="dfn-paneled" id="term-for-concept-base-url">base url</span>
-     <li><span class="dfn-paneled" id="term-for-dom-url-host">host</span>
+     <li><span class="dfn-paneled" id="term-for-concept-domain">domain</span>
      <li><span class="dfn-paneled" id="term-for-path-absolute-url-string">path-absolute-url string</span>
      <li><span class="dfn-paneled" id="term-for-concept-url-parser">url parser</span>
     </ul>
@@ -1597,7 +1625,7 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-dom-endpoint-group-subdomains">3.2. 
     Process origin policy configuration </a>
     <li><a href="#ref-for-dom-endpoint-group-subdomains①">5.2. 
-    Send reports </a>
+    Send reports </a> <a href="#ref-for-dom-endpoint-group-subdomains②">(2)</a> <a href="#ref-for-dom-endpoint-group-subdomains③">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-endpoint-group-ttl">
