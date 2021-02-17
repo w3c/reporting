@@ -1012,12 +1012,22 @@ typedef sequence&lt;Report> ReportList;
 
   <h3 id="capability-urls">Capability URLs</h3>
 
-  Some URLs are valuable in and of themselves. To mitigate the possibility
-  that such URLs will be leaked via this reporting mechanism, we strip out
-  credential information and fragment data from the URL we store as a
-  <a>report</a>'s originator. It is still possible, however, for a feature
-  to unintentionally leak such data via a report's [=report/body=]. Implementers
-  SHOULD ensure that URLs contained in a report's body are similarly stripped.
+  Some URLs are valuable in and of themselves. They may contain explicit
+  credentials in the username and password portion of the URL, or may grant
+  access to some resource to anyone with knowledge of the URL path.
+  Additionally, they may contain information which was never intended leave the
+  user's browser in the URL fragment. See [[CAPABILITY-URLS]] for more
+  information.
+
+  To mitigate the possibility that such URLs will be leaked via this reporting
+  mechanism, the algorithms here strip out credential information and fragment
+  data from the URL sent as a <a>report</a>'s originator. It is still possible,
+  however, for sensitive information in the URL's path to be leaked this way.
+  Sites which use such URLs may need to operate their own reporting endpoints.
+
+  Additionally, such URLs may be present in a report's [=report/body=].
+  Specifications which extend this API and which include any URLs in a report's
+  [=report/body=] SHOULD require that they be similarly stripped.
 </section>
 
 <section>
