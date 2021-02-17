@@ -1018,6 +1018,11 @@ typedef sequence&lt;Report> ReportList;
   <a>report</a>'s originator. It is still possible, however, for a feature
   to unintentionally leak such data via a report's [=report/body=]. Implementers
   SHOULD ensure that URLs contained in a report's body are similarly stripped.
+
+  Even with this information stripped, there might still be sensitive
+  information encoded in the remainder of the URL. Administrators of sites that
+  use URLs in this way SHOULD consider operating their own Reporting API
+  collectors, to prevent the reporting of such URLs to third parties.
 </section>
 
 <section>
