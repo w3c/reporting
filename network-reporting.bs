@@ -540,8 +540,9 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
       ::  |groups|
 
   4.  If there is already an entry in the <a>reporting cache</a> for |origin|,
-      replace it with |client|.  Otherwise, insert |client| into the
-      <a>reporting cache</a> for |origin|.
+      remove it.
+
+  5. Insert |client| into the <a>reporting cache</a> for |origin|.
 
 
 <!-- Big Text: Reporting -->
