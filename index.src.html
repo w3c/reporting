@@ -354,12 +354,11 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
   To <dfn>serialize a list of |reports| to JSON</dfn>,
 
-  1.  Let |collection| be a new ECMAScript `Array` object [[!ECMA-262]].
+  1.  Let |collection| be an empty list.
 
   2.  For each |report| in |reports|:
 
-      1.  Let |data| be a new ECMAScript `Object` with the following properties
-          [[!ECMA-262]]:
+      1.  Let |data| be a map with the following key/value pairs:
 
           :   `age`
           ::  The number of milliseconds between |report|'s [=report/timestamp=]
@@ -381,8 +380,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
 
       3.  Append |data| to |collection|.
 
-  3. Return the [=byte sequence=] resulting from executing [=serialize JSON to
-     bytes=] on |collection|.
+  3. Return the [=byte sequence=] resulting from executing [=serialize an Infra
+     value to JSON bytes=] on |collection|.
 </section>
 
 <section>
