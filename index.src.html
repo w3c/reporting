@@ -1055,6 +1055,24 @@ typedef sequence&lt;Report> ReportList;
   origins, and doesn't grant any new tracking ability above and beyond what's
   possible with `<img>` today.
 
+  <h3 id="identification">Identifying users through reports</h3>
+
+  A site which wishes to expose the identity of individual users to third
+  parties already has several methods available to do so. This API attempts to
+  reduce the likelihood of accidentally exposing user identifiers, by stripping
+  first-party credentials from reported URLs, and by omitting third-party
+  credentials when sending reports to cross-origin reporting endpoints. However,
+  there are still ways for sites to expose user identifiers. Defining a unique
+  reporting endpoint per-user, for instance, or encoding identifying information
+  within URL paths could cause reports to be tied to individuals.
+
+  Additionally, even without credentials, third party reporting services will
+  see the user's public IP address, and can make inferences about the user from
+  that. That information is of course available to any third-party request, and
+  is not limited to reporting, but sites can mitigate this by operating their
+  own report collectors, or by configuring reports to be sent to a proxy which
+  would then forward them to the actual third-party service.
+
   <h3 id="disable">Disabling Reporting</h3>
 
   Reporting is, to some extent, a question of commons. In the aggregate, it
