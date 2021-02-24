@@ -5,9 +5,9 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version abfe966, updated Fri Feb 5 17:27:03 2021 -0800" name="generator">
+  <meta content="Bikeshed version 7573c85, updated Fri Feb 19 16:30:08 2021 -0800" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="b50439ec749383960808ce120f495f418e9386b0" name="document-revision">
+  <meta content="2bd9d5aff0fe7ff8c82a2db9dd72a83d4d9a772b" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -636,7 +636,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-02-17">17 February 2021</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-02-24">24 February 2021</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1610,11 +1610,19 @@ Content-Type: application/reports+json
    <section>
     <h2 class="heading settled" data-level="8" id="security"><span class="secno">8. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
     <h3 class="heading settled" data-level="8.1" id="capability-urls"><span class="secno">8.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
-    <p>Some URLs are valuable in and of themselves. To mitigate the possibility
-  that such URLs will be leaked via this reporting mechanism, we strip out
-  credential information and fragment data from the URL we store as a <a data-link-type="dfn" href="#report" id="ref-for-report②④">report</a>’s originator. It is still possible, however, for a feature
-  to unintentionally leak such data via a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a>. Implementers
-  SHOULD ensure that URLs contained in a report’s body are similarly stripped.</p>
+    <p>Some URLs are valuable in and of themselves. They may contain explicit
+  credentials in the username and password portion of the URL, or may grant
+  access to some resource to anyone with knowledge of the URL path.
+  Additionally, they may contain information which was never intended leave the
+  user’s browser in the URL fragment. See <a data-link-type="biblio" href="#biblio-capability-urls">[CAPABILITY-URLS]</a> for more
+  information.</p>
+    <p>To mitigate the possibility that such URLs will be leaked via this reporting
+  mechanism, the algorithms here strip out credential information and fragment
+  data from the URL sent as a <a data-link-type="dfn" href="#report" id="ref-for-report②④">report</a>’s originator. It is still possible,
+  however, for sensitive information in the URL’s path to be leaked this way.
+  Sites which use such URLs may need to operate their own reporting endpoints.</p>
+    <p>Additionally, such URLs may be present in a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a>.
+  Specifications which extend this API and which include any URLs in a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑦">body</a> SHOULD require that they be similarly stripped.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="9" id="privacy"><span class="secno">9. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
@@ -2410,6 +2418,8 @@ Content-Type: application/reports+json
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
+   <dt id="biblio-capability-urls">[CAPABILITY-URLS]
+   <dd>Jeni Tennison. <a href="https://www.w3.org/TR/capability-urls/">Good Practices for Capability URLs</a>. 18 February 2014. WD. URL: <a href="https://www.w3.org/TR/capability-urls/">https://www.w3.org/TR/capability-urls/</a>
    <dt id="biblio-csp3">[CSP3]
    <dd>Mike West. <a href="https://www.w3.org/TR/CSP3/">Content Security Policy Level 3</a>. 15 October 2018. WD. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
    <dt id="biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]
@@ -2551,7 +2561,7 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-report-body④">4.1. Interface ReportingObserver</a>
     <li><a href="#ref-for-report-body⑤">4.3. 
     Add report to observer </a>
-    <li><a href="#ref-for-report-body⑥">8.1. Capability URLs</a>
+    <li><a href="#ref-for-report-body⑥">8.1. Capability URLs</a> <a href="#ref-for-report-body⑦">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="report-url">
