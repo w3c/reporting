@@ -595,6 +595,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
   2.  Let |request| be a new <a>request</a> with the following properties
       [[FETCH]]:
 
+      :   `method`
+      ::  "`POST`"
       :   `url`
       ::  |endpoint|'s {{endpoint/url}}
       :   `origin`
@@ -606,7 +608,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://httpwg.org/http-extensions/draft-ie
       ::  `null`
       :   `window`
       ::  "`no-window`"
-      :   `service-worker mode`
+      :   `service-workers mode`
       ::  "`none`"
       :   `initiator`
       ::  ""
