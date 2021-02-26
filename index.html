@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version 7573c85, updated Fri Feb 19 16:30:08 2021 -0800" name="generator">
   <link href="https://w3c.github.io/reporting/" rel="canonical">
-  <meta content="500b63de21857837b7fc3c69b47984b7094ccb7d" name="document-revision">
+  <meta content="1352c615b283149ee722034dd92fa04be757b505" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -636,7 +636,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <header>
     <p data-fill-with="logo"><a href="https://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a> </p>
     <h1>Reporting API</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-02-24">24 February 2021</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-02-26">26 February 2021</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
@@ -1156,6 +1156,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <li data-md>
       <p>Let <var>request</var> be a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request②">request</a> with the following properties <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a>:</p>
       <dl>
+       <dt data-md><code>method</code>
+       <dd data-md>
+        <p>"<code>POST</code>"</p>
        <dt data-md><code>url</code>
        <dd data-md>
         <p><var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url①">url</a></code></p>
@@ -1172,7 +1175,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <dt data-md><code>window</code>
        <dd data-md>
         <p>"<code>no-window</code>"</p>
-       <dt data-md><code>service-worker mode</code>
+       <dt data-md><code>service-workers mode</code>
        <dd data-md>
         <p>"<code>none</code>"</p>
        <dt data-md><code>initiator</code>
