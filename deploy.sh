@@ -1,14 +1,17 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
+set -x
 # From https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
-SOURCE_BRANCH="master"
+echo "Deploying from $PWD"
+
+SOURCE_BRANCH="main"
 TARGET_BRANCH="gh-pages"
 
 # List of long-lived topic branch names to be published on github.io as a
 # subdirectory
-TOPIC_BRANCHES=("split-persistence")
+TOPIC_BRANCHES=("split-persistence" "structured-headers")
 
 containsElement () {
   local e match="$1"
@@ -18,6 +21,7 @@ containsElement () {
 }
 
 function doCompile {
+  echo "Compiling from $PWD"
   chmod 755 ./compile.sh
   ./compile.sh $1
 }
@@ -38,8 +42,8 @@ SHA=`git rev-parse --verify HEAD`
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
 git clone $REPO out
 cd out
+echo "Checking out $TARGET_BRANCH into $PWD"
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-cd ..
 
 if containsElement "$TRAVIS_BRANCH" "${TOPIC_BRANCHES[@]}" ; then
   # Delete all existing contents in the topic branch directory (we will re-create them)
