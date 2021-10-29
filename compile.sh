@@ -1,5 +1,23 @@
 #!/bin/bash
 
+function run_bikeshed {
+  echo Running bikeshed on $1
+  if which bikeshed; then
+    bikeshed -f spec $1
+  else
+    HTTP_STATUS=$(curl https://api.csswg.org/bikeshed/ \
+                       --output $2 \
+                       --write-out "%{http_code}" \
+                       --header "Accept: text/plain, text/html" \
+                       -F file=@$1)
+    if [ "$HTTP_STATUS" -ne "200" ]; then
+      echo ""; cat $2; echo ""
+      rm -f $2
+      exit 1
+    fi
+  fi
+}
+
 shopt -q nullglob
 NULLGLOB_WAS_SET=$?
 shopt -s nullglob
@@ -10,23 +28,9 @@ fi
 
 set -e # Exit with nonzero exit code if anything fails
 
-for SPEC in index.src.html $FILES; do
-  echo Running bikeshed on $SPEC
-  if which bikeshed; then
-    bikeshed -f spec $SPEC
-  else
-    SPEC_OUT=${SPEC%.bs}.html
-    HTTP_STATUS=$(curl https://api.csswg.org/bikeshed/ \
-                       --output ${SPEC_OUT} \
-                       --write-out "%{http_code}" \
-                       --header "Accept: text/plain, text/html" \
-                       -F file=@${SPEC})
-    if [ "$HTTP_STATUS" -ne "200" ]; then
-      echo ""; cat $SPEC_OUT; echo ""
-      rm -f $SPEC_OUT
-      exit 1
-    fi
-  fi
+run_bikeshed index.src.html index.html
+for SPEC in $FILES; do
+  run_bikeshed $SPEC ${SPEC%.bs}.html
 done
 
 OUTDIR=${1:-out}

@@ -20,7 +20,7 @@ Level: 1
 Indent: 2
 Version History: https://github.com/w3c/reporting/commits/master/index.src.html
 Boilerplate: omit conformance, omit feedback-header
-!Participate: <a href="https://github.com/w3c/reporting/issues/new">File an issue</a> (<a href="https://github.com/w3c/reporting/issues">open issues</a>)
+Repository: https://github.com/w3c/reporting/
 Markup Shorthands: css off, markdown on
 </pre>
 <pre class="anchors">
