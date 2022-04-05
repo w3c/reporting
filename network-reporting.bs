@@ -2,7 +2,7 @@
 <pre class="metadata">
 Status: ED
 ED: https://w3c.github.io/reporting/network-reporting
-Shortname: network-reporting
+Shortname: reporting-1
 Group: webperf
 Editor: Douglas Creager 103120, GitHub, dcreager@dcreager.net
 Editor: Ian Clelland 76841, Google Inc., iclelland@google.com
