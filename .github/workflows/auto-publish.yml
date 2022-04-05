@@ -1,4 +1,4 @@
-# .github/workflows/viss2-core.yml
+# .github/workflows/auto-publish.yml
 name: Reporting API publication
 on:
   pull_request: {}
@@ -7,7 +7,7 @@ on:
     
 jobs:
   main:
-    name: Publish Reporting
+    name: Publish Reporting API WD
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
