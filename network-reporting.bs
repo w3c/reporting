@@ -19,7 +19,7 @@ Abstract:
 Level: 1
 Indent: 2
 Version History: https://github.com/w3c/reporting/commits/master/index.src.html
-Boilerplate: omit conformance, omit feedback-header
+Boilerplate: omit conformance
 Repository: https://github.com/w3c/reporting/
 Markup Shorthands: css off, markdown on
 </pre>
