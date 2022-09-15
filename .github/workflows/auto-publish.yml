@@ -4,9 +4,9 @@ on:
   pull_request: {}
   push:
     branches: [main]
-    
+
 jobs:
-  main:
+  reporting:
     name: Publish Reporting API WD
     runs-on: ubuntu-20.04
     steps:
@@ -20,3 +20,14 @@ jobs:
           W3C_BUILD_OVERRIDE: |
              shortName: reporting
              status: WD
+          GH_PAGES_BRANCH: gh-pages
+  network-reporting:
+    name: Publish Network Reporting API ED
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: w3c/spec-prod@v2
+        with:
+          SOURCE: network-reporting.bs
+          TOOLCHAIN: bikeshed
+          GH_PAGES_BRANCH: gh-pages
