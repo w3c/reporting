@@ -6,7 +6,7 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
+  <meta content="Bikeshed version 44af0bf3e, updated Fri Jul 29 17:05:16 2022 -0700" name="generator">
   <link href="https://www.w3.org/TR/reporting-1/" rel="canonical">
 <style>/* style-autolinks */
 
@@ -645,7 +645,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1>Reporting API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-04-05">5 April 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-09-15">15 September 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1009,7 +1009,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   header field. This mechanism is defined in <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
     <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="reporting-endpoints"><code>Reporting-Endpoints</code></dfn> HTTP response header
   field is used to construct the reporting configuration for a resource.</p>
-    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Header <a data-link-type="biblio" href="#biblio-structured-headers">[STRUCTURED-HEADERS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
+    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Field <a data-link-type="biblio" href="#biblio-structured-fields">[STRUCTURED-FIELDS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
   string.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> is defined by a String Item, which is interpreted as a
   URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> member MUST be ignored.</p>
@@ -1018,7 +1018,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>No parameters are defined for <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoints</a>, and any parameters
   which are specified will be silently ignored.</p>
     <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
-<pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar">sh-dictionary</a>
+<pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar" href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2" id="ref-for-section-3.2">sf-dictionary</a>
 </pre>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content"> Process reporting endpoints for <var>response</var> </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response①">response</a> (<var>response</var>), this algorithm extracts and returns a
@@ -1225,7 +1225,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <p>If <var>response</var>’s <code>status</code> is an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#ok-status" id="ref-for-ok-status">OK status</a> (200-299), return
   "<code>Success</code>".</p>
      <li data-md>
-      <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc7231">[RFC7231]</a>, return "<code>Remove Endpoint</code>".</p>
+      <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc9110">[RFC9110]</a>, return "<code>Remove Endpoint</code>".</p>
      <li data-md>
       <p>Return "<code>Failure</code>".</p>
     </ol>
@@ -1257,11 +1257,27 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <div class="support">
        <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
        <hr>
-       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
        <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
        <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+      </div>
+     </div>
+    </div>
+    <div class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportBody" title="The ReportBody interface of the Reporting API represents the body of a report. Individual report types inherit from this interface, adding specific attributes relevant to the particular report.">ReportBody</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
       </div>
      </div>
     </div>
@@ -1295,6 +1311,61 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 
 <c- b>typedef</c-> <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#idl-sequence" id="ref-for-idl-sequence②"><c- b>sequence</c-></a>&lt;<a data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②"><c- n>Report</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-reportlist"><code><c- g>ReportList</c-></code></dfn>;
 </pre>
+    <div class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/body" title="The body read-only property of the Report interface returns the body of the report, which is a ReportBody object containing the detailed report information.">Report/body</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+      </div>
+     </div>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/type" title="The type read-only property of the Report interface returns the type of report generated, e.g. deprecation or intervention.">Report/type</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+      </div>
+     </div>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/url" title="The url read-only property of the Report interface returns the URL of the document that generated the report.">Report/url</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+      </div>
+     </div>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report" title="The Report interface of the Reporting API represents a single report.">Report</a></p>
+      <p class="less-than-two-engines-text">In only one current engine.</p>
+      <div class="support">
+       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+       <hr>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+      </div>
+     </div>
+    </div>
     <p>A <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="dom-report"><code>Report</code></dfn> is the application exposed
   representation of a <a data-link-type="dfn" href="#report" id="ref-for-report①⑧">report</a>. <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export id="dom-report-type"><code>type</code></dfn> returns <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype③">type</a>, <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export id="dom-report-url"><code>url</code></dfn> returns <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>, and <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export id="dom-report-body"><code>body</code></dfn> returns <a data-link-type="dfn" href="#report-body" id="ref-for-report-body④">body</a>.</p>
     <p>Each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver③">ReportingObserver</a></code> object has these associated concepts:</p>
@@ -1317,11 +1388,11 @@ queue</dfn>, which is initially empty.</p>
       <div class="support">
        <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
        <hr>
-       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
        <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
        <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
       </div>
      </div>
     </div>
@@ -1345,28 +1416,27 @@ queue</dfn>, which is initially empty.</p>
       <div class="support">
        <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
        <hr>
-       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
        <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
        <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
       </div>
      </div>
     </div>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-observe"><code>observe()</code></dfn> method, when invoked, must run these steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>global</var> be the be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of the <a data-link-type="dfn">context
- object</a>.</p>
+      <p>Let <var>global</var> be the be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this">this</a>.</p>
      <li data-md>
-      <p>Append the <a data-link-type="dfn">context object</a> to the <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list①">registered reporting
+      <p>Append <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①">this</a> to the <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list①">registered reporting
  observer list</a>.</p>
      <li data-md>
-      <p>If the <a data-link-type="dfn">context object</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered①">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options①">option</a> is false, return.</p>
+      <p>If <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this②">this</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered①">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options①">option</a> is false, return.</p>
      <li data-md>
-      <p>Set <a data-link-type="dfn">context object</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered②">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options②">option</a> to false.</p>
+      <p>Set <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this③">this</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered②">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options②">option</a> to false.</p>
      <li data-md>
-      <p>For each <var>report</var> in <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer①">report buffer</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to execute <a href="#add-report">§ 4.3 Add report to observer</a> with <var>report</var> and the <a data-link-type="dfn">context object</a>.</p>
+      <p>For each <var>report</var> in <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer①">report buffer</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to execute <a href="#add-report">§ 4.3 Add report to observer</a> with <var>report</var> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this④">this</a>.</p>
     </ol>
     <div class="mdn-anno wrapped">
      <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
@@ -1376,11 +1446,11 @@ queue</dfn>, which is initially empty.</p>
       <div class="support">
        <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
        <hr>
-       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
        <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
        <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
       </div>
      </div>
     </div>
@@ -1388,12 +1458,11 @@ queue</dfn>, which is initially empty.</p>
   when invoked, must run these steps:</p>
     <ol>
      <li data-md>
-      <p>If the <a data-link-type="dfn">context object</a> is not <a data-link-type="dfn" href="#registered" id="ref-for-registered">registered</a>, return.</p>
+      <p>If <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑤">this</a> is not <a data-link-type="dfn" href="#registered" id="ref-for-registered">registered</a>, return.</p>
      <li data-md>
-      <p>Let <var>global</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> of the <a data-link-type="dfn">context
- object</a>.</p>
+      <p>Let <var>global</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑥">this</a>.</p>
      <li data-md>
-      <p>Remove the <a data-link-type="dfn">context object</a> from <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list②">registered reporting
+      <p>Remove <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑦">this</a> from <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list②">registered reporting
  observer list</a>.</p>
     </ol>
     <div class="mdn-anno wrapped">
@@ -1404,11 +1473,11 @@ queue</dfn>, which is initially empty.</p>
       <div class="support">
        <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
        <hr>
-       <span class="opera yes"><span>Opera</span><span>56+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
        <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
        <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>69+</span></span><span class="webview_android yes"><span>Android WebView</span><span>69+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>10.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>48+</span></span>
+       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
       </div>
      </div>
     </div>
@@ -1416,9 +1485,9 @@ queue</dfn>, which is initially empty.</p>
   when invoked, must run these steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>reports</var> be a copy of the <a data-link-type="dfn">context object</a>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue">report queue</a>.</p>
+      <p>Let <var>reports</var> be a copy of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑧">this</a>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue">report queue</a>.</p>
      <li data-md>
-      <p>Empty the <a data-link-type="dfn">context object</a>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue①">report queue</a>.</p>
+      <p>Empty <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑨">this</a>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue①">report queue</a>.</p>
      <li data-md>
       <p>Return <var>reports</var>.</p>
     </ol>
@@ -2093,6 +2162,12 @@ Content-Type: application/reports+json
     Process reporting endpoints for response </a> <a href="#ref-for-is-origin-trustworthy②">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-section-3.2">
+   <a href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2">https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-section-3.2">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url">
    <a href="https://url.spec.whatwg.org/#concept-url">https://url.spec.whatwg.org/#concept-url</a><b>Referenced in:</b>
    <ul>
@@ -2261,6 +2336,12 @@ Content-Type: application/reports+json
     <li><a href="#ref-for-idl-sequence">4.1. Interface ReportingObserver</a> <a href="#ref-for-idl-sequence①">(2)</a> <a href="#ref-for-idl-sequence②">(3)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-this">
+   <a href="https://webidl.spec.whatwg.org/#this">https://webidl.spec.whatwg.org/#this</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-this">4.1. Interface ReportingObserver</a> <a href="#ref-for-this①">(2)</a> <a href="#ref-for-this②">(3)</a> <a href="#ref-for-this③">(4)</a> <a href="#ref-for-this④">(5)</a> <a href="#ref-for-this⑤">(6)</a> <a href="#ref-for-this⑥">(7)</a> <a href="#ref-for-this⑦">(8)</a> <a href="#ref-for-this⑧">(9)</a> <a href="#ref-for-this⑨">(10)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-idl-undefined">
    <a href="https://webidl.spec.whatwg.org/#idl-undefined">https://webidl.spec.whatwg.org/#idl-undefined</a><b>Referenced in:</b>
    <ul>
@@ -2327,7 +2408,7 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-serialize-an-infra-value-to-json-bytes">serialize an infra value to json bytes</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[rfc7469]</a> defines the following terms:
+    <a data-link-type="biblio">[RFC7469]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-section-2.1">public-key-pins</span>
     </ul>
@@ -2340,6 +2421,11 @@ Content-Type: application/reports+json
     <a data-link-type="biblio">[SECURE-CONTEXTS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-is-origin-trustworthy">potentially trustworthy</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[STRUCTURED-FIELDS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-section-3.2">sf-dictionary</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
@@ -2378,6 +2464,7 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="term-for-invoke-a-callback-function">invoke</span>
      <li><span class="dfn-paneled" id="term-for-idl-object">object</span>
      <li><span class="dfn-paneled" id="term-for-idl-sequence">sequence</span>
+     <li><span class="dfn-paneled" id="term-for-this">this</span>
      <li><span class="dfn-paneled" id="term-for-idl-undefined">undefined</span>
     </ul>
   </ul>
@@ -2389,7 +2476,7 @@ Content-Type: application/reports+json
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fileapi">[FileAPI]
-   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/"><cite>File API</cite></a>. 4 June 2021. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
+   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
@@ -2398,33 +2485,33 @@ Content-Type: application/reports+json
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://www.rfc-editor.org/rfc/rfc3864"><cite>Registration Procedures for Message Header Fields</cite></a>. September 2004. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc3864">https://www.rfc-editor.org/rfc/rfc3864</a>
    <dt id="biblio-rfc5234">[RFC5234]
    <dd>D. Crocker, Ed.; P. Overell. <a href="https://www.rfc-editor.org/rfc/rfc5234"><cite>Augmented BNF for Syntax Specifications: ABNF</cite></a>. January 2008. Internet Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc5234">https://www.rfc-editor.org/rfc/rfc5234</a>
-   <dt id="biblio-rfc7231">[RFC7231]
-   <dd>R. Fielding, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc7231.html"><cite>Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</cite></a>. June 2014. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc7231.html">https://httpwg.org/specs/rfc7231.html</a>
    <dt id="biblio-rfc8259">[RFC8259]
    <dd>T. Bray, Ed.. <a href="https://www.rfc-editor.org/rfc/rfc8259"><cite>The JavaScript Object Notation (JSON) Data Interchange Format</cite></a>. December 2017. Internet Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc8259">https://www.rfc-editor.org/rfc/rfc8259</a>
+   <dt id="biblio-rfc9110">[RFC9110]
+   <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://www.rfc-editor.org/rfc/rfc9110"><cite>HTTP Semantics</cite></a>. June 2022. Internet Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/"><cite>Secure Contexts</cite></a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
+   <dt id="biblio-structured-fields">[STRUCTURED-FIELDS]
+   <dd>Mark Nottingham; Poul-Henning Kamp. <a href="https://www.rfc-editor.org/rfc/rfc8941.html"><cite>Structured Field Values for HTTP</cite></a>. URL: <a href="https://www.rfc-editor.org/rfc/rfc8941.html">https://www.rfc-editor.org/rfc/rfc8941.html</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webdriver">[WebDriver]
-   <dd>Simon Stewart; David Burns. <a href="https://www.w3.org/TR/webdriver1/"><cite>WebDriver</cite></a>. 5 June 2018. REC. URL: <a href="https://www.w3.org/TR/webdriver1/">https://www.w3.org/TR/webdriver1/</a>
+   <dd>Simon Stewart; David Burns. <a href="https://w3c.github.io/webdriver/"><cite>WebDriver</cite></a>. URL: <a href="https://w3c.github.io/webdriver/">https://w3c.github.io/webdriver/</a>
    <dt id="biblio-webidl">[WEBIDL]
    <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-capability-urls">[CAPABILITY-URLS]
-   <dd>Jeni Tennison. <a href="https://www.w3.org/TR/capability-urls/"><cite>Good Practices for Capability URLs</cite></a>. 18 February 2014. WD. URL: <a href="https://www.w3.org/TR/capability-urls/">https://www.w3.org/TR/capability-urls/</a>
+   <dd>Jeni Tennison. <a href="https://w3ctag.github.io/capability-urls/"><cite>Good Practices for Capability URLs</cite></a>. URL: <a href="https://w3ctag.github.io/capability-urls/">https://w3ctag.github.io/capability-urls/</a>
    <dt id="biblio-csp3">[CSP3]
-   <dd>Mike West. <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. 29 June 2021. WD. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
+   <dd>Mike West. <a href="https://w3c.github.io/webappsec-csp/"><cite>Content Security Policy Level 3</cite></a>. URL: <a href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
    <dt id="biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]
    <dd>Anne van Kesteren; Maciej Stachowiak. <a href="https://www.w3.org/TR/html-design-principles/"><cite>HTML Design Principles</cite></a>. 26 November 2007. WD. URL: <a href="https://www.w3.org/TR/html-design-principles/">https://www.w3.org/TR/html-design-principles/</a>
    <dt id="biblio-network-error-logging">[NETWORK-ERROR-LOGGING]
-   <dd>Douglas Creager; et al. <a href="https://www.w3.org/TR/network-error-logging-1/"><cite>Network Error Logging</cite></a>. 25 September 2018. WD. URL: <a href="https://www.w3.org/TR/network-error-logging-1/">https://www.w3.org/TR/network-error-logging-1/</a>
+   <dd>Douglas Creager; et al. <a href="https://w3c.github.io/network-error-logging/"><cite>Network Error Logging</cite></a>. URL: <a href="https://w3c.github.io/network-error-logging/">https://w3c.github.io/network-error-logging/</a>
    <dt id="biblio-rfc7469">[RFC7469]
    <dd>C. Evans; C. Palmer; R. Sleevi. <a href="https://www.rfc-editor.org/rfc/rfc7469"><cite>Public Key Pinning Extension for HTTP</cite></a>. April 2015. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc7469">https://www.rfc-editor.org/rfc/rfc7469</a>
-   <dt id="biblio-structured-headers">[STRUCTURED-HEADERS]
-   <dd>Mark Nottingham; Poul-Henning Kamp. <a href="https://www.rfc-editor.org/rfc/rfc8941.html"><cite>Structured Field Values for HTTP</cite></a>. URL: <a href="https://www.rfc-editor.org/rfc/rfc8941.html">https://www.rfc-editor.org/rfc/rfc8941.html</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
