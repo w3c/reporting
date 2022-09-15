@@ -113,7 +113,7 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/#
     text: session; url: dfn-session
     text: success; url: dfn-success
     text: trying; url: dfn-try
-spec: STRUCTURED-HEADERS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
+spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   type: grammar
     text: sf-dictionary; url: section-3.2
 </pre>
@@ -125,7 +125,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html
     "title": "Secure Contexts",
     "publisher": "W3C"
   },
-  "STRUCTURED-HEADERS": {
+  "STRUCTURED-FIELDS": {
     "authors": [ "Mark Nottingham", "Poul-Henning Kamp" ],
     "href": "https://www.rfc-editor.org/rfc/rfc8941.html",
     "title": "Structured Field Values for HTTP",
@@ -420,8 +420,8 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html
   The value of the <dfn export>`Reporting-Endpoints`</dfn> HTTP response header
   field is used to construct the reporting configuration for a resource.
 
-  <a>`Reporting-Endpoints`</a> is a Dictionary Structured Header
-  [[STRUCTURED-HEADERS]]. Each entry in the dictionary defines an
+  <a>`Reporting-Endpoints`</a> is a Dictionary Structured Field
+  [[STRUCTURED-FIELDS]]. Each entry in the dictionary defines an
   <a>endpoint</a> to which reports may be delivered. The entry value MUST be a
   string.
 
@@ -438,7 +438,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html
   The header is represented by the following ABNF grammar [[!RFC5234]]:
 
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
-    Reporting-Endpoints = <a>sh-dictionary</a>
+    Reporting-Endpoints = <a>sf-dictionary</a>
   </pre>
 
   <h3 id="process-header" algorithm>
@@ -640,7 +640,7 @@ spec: STRUCTURED-HEADERS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html
   6.  If |response|'s `status` is an <a>OK status</a> (200-299), return
       "`Success`".
 
-  7.  If |response|'s `status` is `410 Gone` [[!RFC7231]], return "`Remove
+  7.  If |response|'s `status` is `410 Gone` [[!RFC9110]], return "`Remove
       Endpoint`".
 
   8.  Return "`Failure`".
@@ -741,36 +741,34 @@ typedef sequence&lt;Report> ReportList;
   The <dfn method for=ReportingObserver><code>observe()</code></dfn>
   method, when invoked, must run these steps:
 
-  1. Let |global| be the be the [=relevant global object=] of the <a>context
-     object</a>.
+  1. Let |global| be the be the [=relevant global object=] of <a>this</a>.
 
-  2. Append the <a>context object</a> to the |global|'s <a>registered reporting
+  2. Append <a>this</a> to the |global|'s <a>registered reporting
      observer list</a>.
 
-  3. If the <a>context object</a>'s {{buffered}} <a>option</a> is false, return.
+  3. If <a>this</a>'s {{buffered}} <a>option</a> is false, return.
 
-  4. Set <a>context object</a>'s {{buffered}} <a>option</a> to false.
+  4. Set <a>this</a>'s {{buffered}} <a>option</a> to false.
 
   5. For each |report| in |global|'s <a>report buffer</a>, <a>queue a task</a>
-     to execute [[#add-report]] with |report| and the <a>context object</a>.
+     to execute [[#add-report]] with |report| and <a>this</a>.
 
   The <dfn method for=ReportingObserver><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:
 
-  1. If the <a>context object</a> is not <a>registered</a>, return.
+  1. If <a>this</a> is not <a>registered</a>, return.
 
-  2. Let |global| be the [=relevant global object=] of the <a>context
-     object</a>.
+  2. Let |global| be the [=relevant global object=] of <a>this</a>.
 
-  3. Remove the <a>context object</a> from |global|'s <a>registered reporting
+  3. Remove <a>this</a> from |global|'s <a>registered reporting
      observer list</a>.
 
   The <dfn method for=ReportingObserver><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:
 
-  1. Let |reports| be a copy of the <a>context object</a>'s <a>report queue</a>.
+  1. Let |reports| be a copy of <a>this</a>'s <a>report queue</a>.
 
-  2. Empty the <a>context object</a>'s <a>report queue</a>.
+  2. Empty <a>this</a>'s <a>report queue</a>.
 
   3. Return |reports|.
 
