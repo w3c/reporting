@@ -298,7 +298,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
     Queue |data| as |type| for |destination|
   </h3>
 
-  To <dfn>queue a report</dfn> given a
+  To <dfn>generate a report</dfn> given a
   serializable object (|data|), a string (|type|), another string
   (|destination|), an optional <a>environment settings object</a>
   (|settings|), and an optional {{URL}} (|url|):
@@ -327,14 +327,6 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
 
   4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
       serializer</a> on |url| with the <em>exclude fragment flag</em> set.
-
-  5.  If |settings| is given, then
-
-      1.  Let |scope| be |settings|'s [=environment settings object/global
-          object=].
-
-      2.  If |scope| is an object implementing {{WindowOrWorkerGlobalScope}},
-          then execute [[#notify-observers]] with |scope| and |report|.
 
   6.  Return |report|.
 
@@ -494,15 +486,23 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   <h4 id="generate-report" export algorithm>Generate report of |type| with
   |data|</h4>
 
-  When the user agent is to <dfn export>generate a report</dfn> for a <a>Document</a>
+  When the user agent is to <dfn export>generate and queue a report</dfn> for a <a>Document</a>
   or {{WorkerGlobalScope}} object (|context|), given a string (|type|), another
   string (|destination|), and a serializable object (|data|), it must run the
   following steps:
 
   1.  Let |settings| be |context|'s [=relevant settings object=].
 
-  2.  Let |report| be the result of running [=queue a report=] with |data|,
+  2.  Let |report| be the result of running [=generate a report=] with |data|,
       |type|, |destination| and |settings|.
+
+  1.  If |settings| is given, then
+
+      1.  Let |scope| be |settings|'s [=environment settings object/global
+          object=].
+
+      1.  If |scope| is an object implementing {{WindowOrWorkerGlobalScope}},
+          then execute [[#notify-observers]] with |scope| and |report|.
 
   3. Append |report| to |context|'s [=reports=].
 
@@ -1003,7 +1003,7 @@ typedef sequence&lt;Report> ReportList;
   9. Let |settings| be the <a>environment settings object</a> of the
      <a>current browsing context</a>'s <a>active document</a>.
 
-  10. Execute [=queue a report=] with |body|, "test", |group|, and |settings|.
+  10. Execute [=generate and queue a report=] with |body|, "test", |group|, and |settings|.
 
   11. Return <a>success</a> with data null.
 </section>
