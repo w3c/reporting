@@ -31,5 +31,5 @@ jobs:
         with:
           SOURCE: network-reporting.bs
           TOOLCHAIN: bikeshed
-          BUILD_FAIL_ON: warning
+          BUILD_FAIL_ON: link-error
           GH_PAGES_BRANCH: gh-pages
