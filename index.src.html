@@ -296,6 +296,10 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   define how [=/user agents=] determine whether their users prefer to disable
   reporting.
 
+  <p tracking-vector>Changing the default for a [=report type=] across all
+  origins is a [=tracking vector=] because a site can detect that an expected
+  report isn't sent.
+
   <h3 id="media-type">Media Type</h3>
 
   The media type used when POSTing reports to a specified endpoint is
@@ -1099,6 +1103,11 @@ typedef sequence&lt;Report> ReportList;
   users to [=reporting/disabled|disable reporting=] with some reasonable amount
   of granularity in order to maintain the priority of constituencies espoused in
   [[HTML-DESIGN-PRINCIPLES]].
+
+  To reduce the amount that this configuration is a [=tracking vector=], the
+  user agent would need to make it difficult to detect whether it sends an
+  expected report, perhaps by spreading out reports over a wider time or by
+  omitting some reports even if that type of reporting is enabled.
 </section>
 
 <!-- Big Text: IANA -->
