@@ -14,6 +14,7 @@ jobs:
       - uses: w3c/spec-prod@v2
         with:
           SOURCE: index.src.html
+          DESTINATION: index.html
           TOOLCHAIN: bikeshed
           BUILD_FAIL_ON: warning
           W3C_ECHIDNA_TOKEN: ${{ secrets.W3C_TR_TOKEN }}
