@@ -6,11 +6,10 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version 44af0bf3e, updated Fri Jul 29 17:05:16 2022 -0700" name="generator">
+  <meta content="Bikeshed version 3383f409d, updated Fri Apr 28 15:49:22 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/reporting-1/" rel="canonical">
-  <meta content="9ef060858170627648b813763b7811fab9b6f266" name="document-revision">
+  <meta content="1d8233dc5189d9540feac689d075c870e025936f" name="document-revision">
 <style>/* style-autolinks */
-
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
     font-size: inherit;
@@ -70,7 +69,8 @@ pre .property::before, pre .property::after {
 
 [data-link-type=biblio] {
     white-space: pre;
-}</style>
+}
+</style>
 <style>/* style-colors */
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
@@ -179,9 +179,9 @@ pre .property::before, pre .property::after {
     --outdated-shadow: red;
 
     --editedrec-bg: darkorange;
-}</style>
+}
+</style>
 <style>/* style-counters */
-
 body {
     counter-reset: example figure issue;
 }
@@ -208,9 +208,9 @@ figcaption {
 }
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
-}</style>
+}
+</style>
 <style>/* style-dfn-panel */
-
 :root {
     --dfnpanel-bg: #ddd;
     --dfnpanel-text: var(--text);
@@ -218,10 +218,9 @@ figcaption:not(.no-marker)::before {
 .dfn-panel {
     position: absolute;
     z-index: 35;
+    width: 20em;
+    width: 300px;
     height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
     max-height: 500px;
     overflow: auto;
     padding: 0.5em 0.75em;
@@ -229,6 +228,7 @@ figcaption:not(.no-marker)::before {
     background: var(--dfnpanel-bg);
     color: var(--dfnpanel-text);
     border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
@@ -236,8 +236,15 @@ figcaption:not(.no-marker)::before {
 .dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    white-space: pre;
+    display: inline-block;
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .dfn-panel.activated {
     display: inline-block;
     position: fixed;
@@ -248,10 +255,9 @@ figcaption:not(.no-marker)::before {
     max-height: 30vh;
 }
 
-.dfn-paneled { cursor: pointer; }
+.dfn-paneled[role="button"] { cursor: pointer; }
 </style>
 <style>/* style-issues */
-
 a[href].issue-return {
     float: right;
     float: inline-end;
@@ -261,7 +267,6 @@ a[href].issue-return {
 }
 </style>
 <style>/* style-md-lists */
-
 /* This is a weird hack for me not yet following the commonmark spec
    regarding paragraph and lists. */
 [data-md] > :first-child {
@@ -269,63 +274,221 @@ a[href].issue-return {
 }
 [data-md] > :last-child {
     margin-bottom: 0;
-}</style>
+}
+</style>
 <style>/* style-mdn-anno */
-
-            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
-            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
-            .mdn-anno:not(.wrapped) { opacity: 1}
-            .mdn-anno:hover { z-index: 9 }
-            .mdn-anno.wrapped { min-width: 0 }
-            .mdn-anno.wrapped > :not(button) { display: none; }
-            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
-            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
-            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
-            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
-            .mdn-anno > .feature { margin-top: 20px; }
-            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
-            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
-            .mdn-anno > .feature > .all-engines-text { color: green }
-            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
-            .mdn-anno > .feature > p + p { margin-top: 3px; }
-            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
-            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
-            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
-            .mdn-anno > .feature > .support > hr::before { content: ""; }
-            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
-            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
-            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
-            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
-            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
-            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
-            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
-            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
-            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
-            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
-            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
-            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
-            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
-            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
-            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
-            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
-            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
-            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
-            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
-            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
-            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
-            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
-            .name-slug-mismatch { color: red }
-            .caniuse-status:hover { z-index: 9; }
-
-            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
-            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
-            .h-entry p + .mdn-anno { margin-top: 0; }
-            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
-            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
-            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
-            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
-            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
-            </style>
+:root {
+	--mdn-bg: #EEE;
+	--mdn-shadow: #999;
+	--mdn-nosupport-text: #ccc;
+}
+.mdn-anno {
+	background: var(--mdn-bg, #EEE);
+	border-radius: .25em;
+	box-shadow: 0 0 3px var(--mdn-shadow, #999);
+	color: var(--text, black);
+	font: 1em sans-serif;
+	hyphens: none;
+	max-width: min-content;
+	overflow: hidden;
+	padding: 0.2em;
+	position: absolute;
+	right: 0.3em;
+	top: auto;
+	white-space: nowrap;
+	word-wrap: normal;
+	z-index: 8;
+}
+.mdn-anno.unpositioned {
+	display: none;
+}
+.mdn-anno.overlapping-main {
+	opacity: .2;
+	transition: opacity .1s;
+}
+.mdn-anno[open] {
+	opacity: 1;
+	z-index: 9;
+	min-width: 9em;
+}
+.mdn-anno:hover {
+	opacity: 1;
+	outline: var(--text, black) 1px solid;
+}
+.mdn-anno > summary {
+	font-weight: normal;
+	text-align: right;
+	cursor: pointer;
+	display: block;
+}
+.mdn-anno > summary > .less-than-two-engines-flag {
+	color: red;
+	padding-right: 2px;
+}
+.mdn-anno > summary > .all-engines-flag {
+	color: green;
+	padding-right: 2px;
+}
+.mdn-anno > summary > span {
+	color: #fff;
+	background-color: #000;
+	font-weight: normal;
+	font-family: zillaslab, Palatino, "Palatino Linotype", serif;
+	padding: 2px 3px 0px 3px;
+	line-height: 1.3em;
+	vertical-align: top;
+}
+.mdn-anno > .feature {
+	margin-top: 20px;
+}
+.mdn-anno > .feature:not(:first-of-type) {
+	border-top: 1px solid #999;
+	margin-top: 6px;
+	padding-top: 2px;
+}
+.mdn-anno > .feature > .less-than-two-engines-text {
+	color: red;
+}
+.mdn-anno > .feature > .all-engines-text {
+	color: green;
+}
+.mdn-anno > .feature > p {
+	font-size: .75em;
+	margin-top: 6px;
+	margin-bottom: 0;
+}
+.mdn-anno > .feature > p + p {
+	margin-top: 3px;
+}
+.mdn-anno > .feature > .support {
+	display: block;
+	font-size: 0.6em;
+	margin: 0;
+	padding: 0;
+	margin-top: 2px;
+}
+.mdn-anno > .feature > .support + div {
+	padding-top: 0.5em;
+}
+.mdn-anno > .feature > .support > hr {
+	display: block;
+	border: none;
+	border-top: 1px dotted #999;
+	padding: 3px 0px 0px 0px;
+	margin: 2px 3px 0px 3px;
+}
+.mdn-anno > .feature > .support > hr::before {
+	content: "";
+}
+.mdn-anno > .feature > .support > span {
+	padding: 0.2em 0;
+	display: block;
+	display: table;
+}
+.mdn-anno > .feature > .support > span.no {
+	color: var(--mdn-nosupport-text);
+	filter: grayscale(100%);
+}
+.mdn-anno > .feature > .support > span.no::before {
+	opacity: 0.5;
+}
+.mdn-anno > .feature > .support > span:first-of-type {
+	padding-top: 0.5em;
+}
+.mdn-anno > .feature > .support > span > span {
+	padding: 0 0.5em;
+	display: table-cell;
+}
+.mdn-anno > .feature > .support > span > span:first-child {
+	width: 100%;
+}
+.mdn-anno > .feature > .support > span > span:last-child {
+	width: 100%;
+	white-space: pre;
+	padding: 0;
+}
+.mdn-anno > .feature > .support > span::before {
+	content: ' ';
+	display: table-cell;
+	min-width: 1.5em;
+	height: 1.5em;
+	background: no-repeat center center;
+	background-size: contain;
+	text-align: right;
+	font-size: 0.75em;
+	font-weight: bold;
+}
+.mdn-anno > .feature > .support > .chrome_android::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg);
+}
+.mdn-anno > .feature > .support > .firefox_android::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/firefox.png);
+}
+.mdn-anno > .feature > .support > .chrome::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg);
+}
+.mdn-anno > .feature > .support > .edge_blink::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/edge.svg);
+}
+.mdn-anno > .feature > .support > .edge::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg);
+}
+.mdn-anno > .feature > .support > .firefox::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/firefox.png);
+}
+.mdn-anno > .feature > .support > .ie::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/ie.png);
+}
+.mdn-anno > .feature > .support > .safari_ios::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg);
+}
+.mdn-anno > .feature > .support > .nodejs::before {
+	background-image: url(https://nodejs.org/static/images/favicons/favicon.ico);
+}
+.mdn-anno > .feature > .support > .opera_android::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/opera.svg);
+}
+.mdn-anno > .feature > .support > .opera::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/opera.svg);
+}
+.mdn-anno > .feature > .support > .safari::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/safari.png);
+}
+.mdn-anno > .feature > .support > .samsunginternet_android::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg);
+}
+.mdn-anno > .feature > .support > .webview_android::before {
+	background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png);
+}
+.name-slug-mismatch {
+	color: red;
+}
+.caniuse-status:hover {
+	z-index: 9;
+}
+/* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */;
+.h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno {
+	right: -6.7em;
+}
+.h-entry p + .mdn-anno {
+	margin-top: 0;
+}
+ h2 + .mdn-anno.after {
+	margin: -48px 0 0 0;
+}
+ h3 + .mdn-anno.after {
+	margin: -46px 0 0 0;
+}
+ h4 + .mdn-anno.after {
+	margin: -42px 0 0 0;
+}
+ h5 + .mdn-anno.after {
+	margin: -40px 0 0 0;
+}
+ h6 + .mdn-anno.after {
+	margin: -40px 0 0 0;
+}
+</style>
 <style>/* style-selflinks */
 
 :root {
@@ -352,6 +515,14 @@ a.self-link:hover {
 }
 .heading > a.self-link {
     font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
 }
 li > a.self-link {
     left: calc(-1 * (3.5rem - 26px) - 2em);
@@ -442,16 +613,15 @@ c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
 <style>/* style-var-click-highlighting */
-
-    var { cursor: pointer; }
-    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
-    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
-    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
-    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
-    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
-    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
-    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
-    </style>
+var { cursor: pointer; }
+var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
+</style>
 <style>/* style-darkmode */
 
 @media (prefers-color-scheme: dark) {
@@ -565,6 +735,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        which is quite common in practice... */
     img { background: white; }
 }
+
 @media (prefers-color-scheme: dark) {
     :root {
         --selflink-text: black;
@@ -578,6 +749,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
         --dfnpanel-bg: #222;
         --dfnpanel-text: var(--text);
     }
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--mdn-bg: #222;
+		--mdn-shadow: #444;
+		--mdn-nosupport-text: #666;
+	}
 }
 @media (prefers-color-scheme: dark) {
     .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
@@ -646,7 +824,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1>Reporting API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-09-17">17 September 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2023-05-12">12 May 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -671,7 +849,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2022 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -878,11 +1056,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report④">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-url">url</dfn>, which
   is typically the address of the <code>Document</code> or <code>Worker</code> from which the report
   was generated.</p>
-    <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from this serialized URL.
+    <p class="note" role="note"><span class="marker">Note:</span> We strip the username, password, and fragment from this serialized URL.
   See <a href="#capability-urls">§ 8.1 Capability URLs</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑤">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-user-agent">user agent</dfn>, which is
   the value of the <code>User-Agent</code> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> from which the report was generated.</p>
-    <p class="note" role="note"><span>Note:</span> The <a data-link-type="dfn" href="#report-user-agent" id="ref-for-report-user-agent">user agent</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report⑥">report</a> represents the <code>User-Agent</code> sent by the browser for the page which generated the <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a>.  This is potentially distinct from the <code>User-Agent</code> sent in the HTTP headers when uploading the report to a collector — for
+    <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#report-user-agent" id="ref-for-report-user-agent">user agent</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report⑥">report</a> represents the <code>User-Agent</code> sent by the browser for the page which generated the <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a>.  This is potentially distinct from the <code>User-Agent</code> sent in the HTTP headers when uploading the report to a collector — for
   instance, where the browser has chosen to use a non-default <code>User-Agent</code> string such as the "request desktop site" feature.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑧">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-destination">destination</dfn>,
   which is a string representing the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name">name</a></code> of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint③">endpoint</a> that the report will be sent to.</p>
@@ -932,13 +1110,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <li data-md>
       <p>Return <var>report</var>.</p>
     </ol>
-    <p class="note" role="note"><span>Note:</span> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer①">reporting observers</a> can only observe reports from the
+    <p class="note" role="note"><span class="marker">Note:</span> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer①">reporting observers</a> can only observe reports from the
   same <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object①">environment settings object</a>.</p>
-    <p class="note" role="note"><span>Note:</span> We strip the username, password, and fragment from the serialized URL
+    <p class="note" role="note"><span class="marker">Note:</span> We strip the username, password, and fragment from the serialized URL
   in the report. See <a href="#capability-urls">§ 8.1 Capability URLs</a>.</p>
-    <p class="note" role="note"><span>Note:</span> The user agent MAY reject reports for any reason. This API does not
+    <p class="note" role="note"><span class="marker">Note:</span> The user agent MAY reject reports for any reason. This API does not
   guarantee delivery of arbitrary amounts of data, for instance.</p>
-    <p class="note" role="note"><span>Note:</span> Non user agent clients (with no JavaScript engine) should not interact
+    <p class="note" role="note"><span class="marker">Note:</span> Non user agent clients (with no JavaScript engine) should not interact
   with <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer②">reporting observers</a>, and thus should return in step 6.</p>
     <h3 class="heading settled algorithm" data-algorithm="Serialize Reports" data-level="2.4" id="serialize-reports"><span class="secno">2.4. </span><span class="content">Serialize Reports</span><a class="self-link" href="#serialize-reports"></a></h3>
     <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="serialize-a-list-of-reports-to-json">serialize a list of <var>reports</var> to JSON</dfn>,</p>
@@ -967,7 +1145,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
          <dd data-md>
           <p><var>report</var>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body③">body</a></p>
         </dl>
-        <p class="note" role="note"><span>Note:</span> Client clocks are unreliable and subject to skew. We therefore
+        <p class="note" role="note"><span class="marker">Note:</span> Client clocks are unreliable and subject to skew. We therefore
   deliver an <code>age</code> attribute rather than an absolute timestamp. See
   also <a href="#fingerprinting-clock-skew">§ 9.2 Clock Skew</a></p>
        <li data-md>
@@ -1000,15 +1178,15 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   header field. This mechanism is defined in <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
     <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="reporting-endpoints"><code>Reporting-Endpoints</code></dfn> HTTP response header
   field is used to construct the reporting configuration for a resource.</p>
-    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Field <a data-link-type="biblio" href="#biblio-structured-fields">[STRUCTURED-FIELDS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
+    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Field <a data-link-type="biblio" href="#biblio-structured-fields" title="Structured Field Values for HTTP">[STRUCTURED-FIELDS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
   string.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> is defined by a String Item, which is interpreted as a
   URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> member MUST be ignored.</p>
     <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
-  trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
+  trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts" title="Secure Contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
     <p>No parameters are defined for <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoints</a>, and any parameters
   which are specified will be silently ignored.</p>
-    <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234">[RFC5234]</a>:</p>
+    <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234" title="Augmented BNF for Syntax Specifications: ABNF">[RFC5234]</a>:</p>
 <pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar" href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2" id="ref-for-section-3.2">sf-dictionary</a>
 </pre>
     <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content"> Process reporting endpoints for <var>response</var> </span><a class="self-link" href="#process-header"></a></h3>
@@ -1151,7 +1329,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   delivery failed.</p>
       </ol>
     </ol>
-    <p class="note" role="note"><span>Note:</span> User agents MAY decide to attempt delivery for only a subset of the
+    <p class="note" role="note"><span class="marker">Note:</span> User agents MAY decide to attempt delivery for only a subset of the
   collected reports or endpoints (because, for example, sending all the reports
   at once would consume an unreasonable amount of bandwidth, etc). As reports
   are only removed from the cache after delivery has been attempted, skipped
@@ -1167,7 +1345,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <p>Let <var>body</var> be the result of executing <a data-link-type="dfn" href="#serialize-a-list-of-reports-to-json" id="ref-for-serialize-a-list-of-reports-to-json">serialize a list of reports to
   JSON</a> on <var>reports</var>.</p>
      <li data-md>
-      <p>Let <var>request</var> be a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request②">request</a> with the following properties <a data-link-type="biblio" href="#biblio-fetch">[FETCH]</a>:</p>
+      <p>Let <var>request</var> be a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request②">request</a> with the following properties <a data-link-type="biblio" href="#biblio-fetch" title="Fetch Standard">[FETCH]</a>:</p>
       <dl>
        <dt data-md><code>method</code>
        <dd data-md>
@@ -1210,7 +1388,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <dd data-md>
         <p>A <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-body" id="ref-for-concept-body">body</a> whose <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-body-source" id="ref-for-concept-body-source">source</a> is <var>body</var>.</p>
       </dl>
-      <p class="note" role="note"><span>Note:</span> Reports are sent with credentials set to <code>same-origin</code>. This allows
+      <p class="note" role="note"><span class="marker">Note:</span> Reports are sent with credentials set to <code>same-origin</code>. This allows
   reporting endpoints which are same-origin with the reporting page to get
   extra context about the nature of the report: for example, to understand
   whether a given user’s account is triggering errors consistently, or if a
@@ -1226,7 +1404,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <p>If <var>response</var>’s <code>status</code> is an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#ok-status" id="ref-for-ok-status">OK status</a> (200-299), return
   "<code>Success</code>".</p>
      <li data-md>
-      <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc9110">[RFC9110]</a>, return "<code>Remove Endpoint</code>".</p>
+      <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc9110" title="HTTP Semantics">[RFC9110]</a>, return "<code>Remove Endpoint</code>".</p>
      <li data-md>
       <p>Return "<code>Failure</code>".</p>
     </ol>
@@ -1241,47 +1419,15 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   list</a> is considered <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="registered">registered</dfn>.</p>
     <p>Each object implementing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑥">WindowOrWorkerGlobalScope</a></code> has a <dfn class="dfn-paneled" data-dfn-for="WindowOrWorkerGlobalScope" data-dfn-type="dfn" data-noexport id="windoworworkerglobalscope-report-buffer">report buffer</dfn>, which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a> of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑦">reports</a> that have been generated in that <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑦">WindowOrWorkerGlobalScope</a></code>. This list is initially empty, and the reports
   are stored in the same order in which they are generated.</p>
-    <p class="note" role="note"><span>Note:</span> The purpose of the <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer">report buffer</a> is to allow <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑤">reporting
+    <p class="note" role="note"><span class="marker">Note:</span> The purpose of the <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer">report buffer</a> is to allow <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑤">reporting
   observers</a> to observe reports that were generated earlier than that
   observer could be created (via the <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered">buffered</a></code> option). For example, some
   reports might be generated during an earlier stage of page loading than when
   an observer could first be created, or before a JavaScript library is loaded
   that wishes to observe these reports.</p>
-    <p class="note" role="note"><span>Note:</span> Reporting observers are only relevant for user agents with
+    <p class="note" role="note"><span class="marker">Note:</span> Reporting observers are only relevant for user agents with
   JavaScript engines.</p>
     <h3 class="heading settled" data-level="4.1" id="interface-reporting-observer"><span class="secno">4.1. </span><span class="content">Interface <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver①">ReportingObserver</a></code></span><a class="self-link" href="#interface-reporting-observer"></a></h3>
-    <div class="mdn-anno wrapped after">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver" title="The ReportingObserver interface of the Reporting API allows you to collect and access reports.">ReportingObserver</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
-    <div class="mdn-anno wrapped">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportBody" title="The ReportBody interface of the Reporting API represents the body of a report. Individual report types inherit from this interface, adding specific attributes relevant to the particular report.">ReportBody</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=(<c- n>Window</c->,<c- n>Worker</c->)]
 <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="reportbody"><code><c- g>ReportBody</c-></code></dfn> {
   [<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Default" id="ref-for-Default"><c- g>Default</c-></a>] <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-object" id="ref-for-idl-object"><c- b>object</c-></a> <dfn class="idl-code" data-dfn-for="ReportBody" data-dfn-type="method" data-export data-lt="toJSON()" id="dom-reportbody-tojson"><code><c- g>toJSON</c-></code><a class="self-link" href="#dom-reportbody-tojson"></a></dfn>();
@@ -1312,61 +1458,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 
 <c- b>typedef</c-> <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#idl-sequence" id="ref-for-idl-sequence②"><c- b>sequence</c-></a>&lt;<a data-link-type="idl-name" href="#dom-report" id="ref-for-dom-report②"><c- n>Report</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-reportlist"><code><c- g>ReportList</c-></code></dfn>;
 </pre>
-    <div class="mdn-anno wrapped">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/body" title="The body read-only property of the Report interface returns the body of the report, which is a ReportBody object containing the detailed report information.">Report/body</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/type" title="The type read-only property of the Report interface returns the type of report generated, e.g. deprecation or intervention.">Report/type</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/url" title="The url read-only property of the Report interface returns the URL of the document that generated the report.">Report/url</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report" title="The Report interface of the Reporting API represents a single report.">Report</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
     <p>A <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="dom-report"><code>Report</code></dfn> is the application exposed
   representation of a <a data-link-type="dfn" href="#report" id="ref-for-report①⑦">report</a>. <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export id="dom-report-type"><code>type</code></dfn> returns <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype③">type</a>, <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export id="dom-report-url"><code>url</code></dfn> returns <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>, and <dfn class="dfn-paneled idl-code" data-dfn-for="Report" data-dfn-type="attribute" data-export id="dom-report-body"><code>body</code></dfn> returns <a data-link-type="dfn" href="#report-body" id="ref-for-report-body④">body</a>.</p>
     <p>Each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver③">ReportingObserver</a></code> object has these associated concepts:</p>
@@ -1381,22 +1472,6 @@ queue</dfn>, which is initially empty.</p>
     </ul>
     <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
-    <div class="mdn-anno wrapped">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/ReportingObserver" title="The ReportingObserver() constructor of the Reporting API creates a new ReportingObserver object instance, which can be used to collect and access reports.">ReportingObserver/ReportingObserver</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)|constructor(callback, options)|ReportingObserver(callback)|constructor(callback)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
   invoked, must run these steps:</p>
     <ol>
@@ -1409,22 +1484,6 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>Return <var>observer</var>.</p>
     </ol>
-    <div class="mdn-anno wrapped">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/observe" title="The observe() method of the ReportingObserver interface instructs a reporting observer to start collecting reports in its report queue.">ReportingObserver/observe</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-observe"><code>observe()</code></dfn> method, when invoked, must run these steps:</p>
     <ol>
      <li data-md>
@@ -1439,22 +1498,6 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>For each <var>report</var> in <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer①">report buffer</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to execute <a href="#add-report">§ 4.3 Add report to observer</a> with <var>report</var> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this④">this</a>.</p>
     </ol>
-    <div class="mdn-anno wrapped">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/disconnect" title="The disconnect() method of the ReportingObserver interface stops a reporting observer that had previously started observing from collecting reports.">ReportingObserver/disconnect</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-disconnect"><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:</p>
     <ol>
@@ -1466,22 +1509,6 @@ queue</dfn>, which is initially empty.</p>
       <p>Remove <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑦">this</a> from <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list②">registered reporting
  observer list</a>.</p>
     </ol>
-    <div class="mdn-anno wrapped">
-     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
-     <div class="feature">
-      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/takeRecords" title="The takeRecords() method of the ReportingObserver interface returns the current list of reports contained in the observer&apos;s report queue, and empties the queue.">ReportingObserver/takeRecords</a></p>
-      <p class="less-than-two-engines-text">In only one current engine.</p>
-      <div class="support">
-       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
-       <hr>
-       <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
-       <hr>
-       <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
-       <hr>
-       <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
-      </div>
-     </div>
-    </div>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-takerecords"><code>takeRecords()</code></dfn> method,
   when invoked, must run these steps:</p>
     <ol>
@@ -1642,7 +1669,7 @@ Content-Type: application/reports+json
    <section>
     <h2 class="heading settled" data-level="7" id="automation"><span class="secno">7. </span><span class="content">Automation</span><a class="self-link" href="#automation"></a></h2>
     <p>For the purposes of user-agent automation and application testing, this
-  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver">[WebDriver]</a> specification.</p>
+  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver" title="WebDriver">[WebDriver]</a> specification.</p>
     <h3 class="heading settled" data-level="7.1" id="generate-test-report-command"><span class="secno">7.1. </span><span class="content">Generate Test Report</span><a class="self-link" href="#generate-test-report-command"></a></h3>
     <p>The <dfn data-dfn-type="dfn" data-export id="generate-test-report">Generate Test Report<a class="self-link" href="#generate-test-report"></a></dfn> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command①">extension command</a> simulates the
   generation of a <a data-link-type="dfn" href="#report" id="ref-for-report②②">report</a> for the purposes of testing. This report will be
@@ -1685,7 +1712,7 @@ Content-Type: application/reports+json
      <li data-md>
       <p>Set <var>body_message</var> to <var>message</var>.</p>
      <li data-md>
-      <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context①">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a>.</p>
+      <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context①">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document">active document</a>.</p>
      <li data-md>
       <p>Execute <a data-link-type="dfn" href="#generate-and-queue-a-report" id="ref-for-generate-and-queue-a-report">generate and queue a report</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
      <li data-md>
@@ -1699,7 +1726,7 @@ Content-Type: application/reports+json
   credentials in the username and password portion of the URL, or may grant
   access to some resource to anyone with knowledge of the URL path.
   Additionally, they may contain information which was never intended leave the
-  user’s browser in the URL fragment. See <a data-link-type="biblio" href="#biblio-capability-urls">[CAPABILITY-URLS]</a> for more
+  user’s browser in the URL fragment. See <a data-link-type="biblio" href="#biblio-capability-urls" title="Good Practices for Capability URLs">[CAPABILITY-URLS]</a> for more
   information.</p>
     <p>To mitigate the possibility that such URLs will be leaked via this reporting
   mechanism, the algorithms here strip out credential information and fragment
@@ -1720,7 +1747,7 @@ Content-Type: application/reports+json
   network through other means in any case, even after the document is closed,
   through mechanisms such as <code>navigator.sendBeacon</code>.</p>
     <p class="issue" id="issue-acba119f"><a class="self-link" href="#issue-acba119f"></a> Consider mitigations. For example, we could
-  drop reports if we change from one network to another. <a href="https://github.com/w3c/BackgroundSync/issues/107">[Issue #w3c/BackgroundSync#107]</a></p>
+  drop reports if we change from one network to another. <a href="https://github.com/WICG/background-sync/issues/107">[Issue #WICG/background-sync#107]</a></p>
     <h3 class="heading settled" data-level="9.2" id="fingerprinting-clock-skew"><span class="secno">9.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
     <p>Each report is delivered along with an <code>age</code> property, rather than the
   timestamp at which it was generated. We do this because each user’s local
@@ -1751,15 +1778,15 @@ Content-Type: application/reports+json
   priority over the ability of a user to individually opt-out of such a system.
   Sending reports costs bandwidth, and potentially could reveal some small
   amount of additional information above and beyond what a website can obtain
-  in-band (<a data-link-type="biblio" href="#biblio-network-error-logging">[NETWORK-ERROR-LOGGING]</a>, for instance). User agents MUST allow
+  in-band (<a data-link-type="biblio" href="#biblio-network-error-logging" title="Network Error Logging">[NETWORK-ERROR-LOGGING]</a>, for instance). User agents MUST allow
   users to disable reporting with some reasonable amount of granularity in order
-  to maintain the priority of constituencies espoused in <a data-link-type="biblio" href="#biblio-html-design-principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
+  to maintain the priority of constituencies espoused in <a data-link-type="biblio" href="#biblio-html-design-principles" title="HTML Design Principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
     <h3 class="heading settled" data-level="10.1" id="header-field-registration"><span class="secno">10.1. </span><span class="content">The <code>Reporting-Endpoints</code> Header</span><a class="self-link" href="#header-field-registration"></a></h3>
     <p>The permanent message header field registry should be updated
-  with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864">[RFC3864]</a></p>
+  with the following registration: <a data-link-type="biblio" href="#biblio-rfc3864" title="Registration Procedures for Message Header Fields">[RFC3864]</a></p>
     <dl>
      <dt data-md>Header field name
      <dd data-md>
@@ -1793,7 +1820,7 @@ Content-Type: application/reports+json
       <p>N/A</p>
      <dt data-md>Encoding considerations
      <dd data-md>
-      <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc8259">[RFC8259]</a>.</p>
+      <p>Encoding considerations are identical to those specified for the "application/json" media type. See <a data-link-type="biblio" href="#biblio-rfc8259" title="The JavaScript Object Notation (JSON) Data Interchange Format">[RFC8259]</a>.</p>
      <dt data-md>Security considerations
      <dd data-md>
       <p>See <a href="#security">§ 8 Security Considerations</a>.</p>
@@ -1902,571 +1929,125 @@ Content-Type: application/reports+json
    <li><a href="#report-user-agent">user agent</a><span>, in § 2.1.3</span>
    <li><a href="#visible-to-reportingobservers">visible to ReportingObservers</a><span>, in § 2.1.2</span>
   </ul>
-  <aside class="dfn-panel" data-for="term-for-content-security-policy">
-   <a href="https://w3c.github.io/webappsec-csp/#content-security-policy">https://w3c.github.io/webappsec-csp/#content-security-policy</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-content-security-policy">1.2. Examples</a> <a href="#ref-for-content-security-policy①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-directives-reporting">
-   <a href="https://w3c.github.io/webappsec-csp/#directives-reporting">https://w3c.github.io/webappsec-csp/#directives-reporting</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-directives-reporting">1.2. Examples</a> <a href="#ref-for-directives-reporting①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-document">
-   <a href="https://dom.spec.whatwg.org/#concept-document">https://dom.spec.whatwg.org/#concept-document</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-document">3.4.1. Generate report of type with
-  data</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-response-https-state">
-   <a href="https://fetch.spec.whatwg.org/#concept-response-https-state">https://fetch.spec.whatwg.org/#concept-response-https-state</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-response-https-state">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-body">
-   <a href="https://fetch.spec.whatwg.org/#concept-body">https://fetch.spec.whatwg.org/#concept-body</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-body">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-fetch">
-   <a href="https://fetch.spec.whatwg.org/#concept-fetch">https://fetch.spec.whatwg.org/#concept-fetch</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-fetch">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-header-list-get-structured-header">
-   <a href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header">https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-header-list-get-structured-header">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-header">
-   <a href="https://fetch.spec.whatwg.org/#concept-header">https://fetch.spec.whatwg.org/#concept-header</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-header">2.1.3. Reports</a>
-    <li><a href="#ref-for-concept-header①">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-response-header-list">
-   <a href="https://fetch.spec.whatwg.org/#concept-response-header-list">https://fetch.spec.whatwg.org/#concept-response-header-list</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-response-header-list">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-ok-status">
-   <a href="https://fetch.spec.whatwg.org/#ok-status">https://fetch.spec.whatwg.org/#ok-status</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-ok-status">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-request">
-   <a href="https://fetch.spec.whatwg.org/#concept-request">https://fetch.spec.whatwg.org/#concept-request</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-request">2.1.3. Reports</a>
-    <li><a href="#ref-for-concept-request①">3.5.2. 
-    Attempt to deliver reports to endpoint </a> <a href="#ref-for-concept-request②">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-response">
-   <a href="https://fetch.spec.whatwg.org/#concept-response">https://fetch.spec.whatwg.org/#concept-response</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-response">3.1. Document configuration</a>
-    <li><a href="#ref-for-concept-response①">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-body-source">
-   <a href="https://fetch.spec.whatwg.org/#concept-body-source">https://fetch.spec.whatwg.org/#concept-body-source</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-body-source">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-response-url">
-   <a href="https://fetch.spec.whatwg.org/#concept-response-url">https://fetch.spec.whatwg.org/#concept-response-url</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-response-url">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-concept-response-url①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-wait-for-a-response">
-   <a href="https://fetch.spec.whatwg.org/#wait-for-a-response">https://fetch.spec.whatwg.org/#wait-for-a-response</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-wait-for-a-response">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-blob-url-entry-object">
-   <a href="https://w3c.github.io/FileAPI/#blob-url-entry-object">https://w3c.github.io/FileAPI/#blob-url-entry-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-blob-url-entry-object">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-windoworworkerglobalscope">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope">https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-windoworworkerglobalscope">3.1. Document configuration</a> <a href="#ref-for-windoworworkerglobalscope①">(2)</a> <a href="#ref-for-windoworworkerglobalscope②">(3)</a>
-    <li><a href="#ref-for-windoworworkerglobalscope③">3.4.1. Generate report of type with
-  data</a>
-    <li><a href="#ref-for-windoworworkerglobalscope④">3.5.1. Send reports</a>
-    <li><a href="#ref-for-windoworworkerglobalscope⑤">4. Reporting Observers</a> <a href="#ref-for-windoworworkerglobalscope⑥">(2)</a> <a href="#ref-for-windoworworkerglobalscope⑦">(3)</a>
-    <li><a href="#ref-for-windoworworkerglobalscope⑧">4.2. 
-    Notify reporting observers on scope with report </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-workerglobalscope">
-   <a href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope">https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-workerglobalscope">3.4.1. Generate report of type with
-  data</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-active-document">
-   <a href="https://html.spec.whatwg.org/multipage/browsers.html#active-document">https://html.spec.whatwg.org/multipage/browsers.html#active-document</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-active-document">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-creation-url">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url">https://html.spec.whatwg.org/multipage/webappapis.html#creation-url</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-creation-url">2.3. 
-    Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-environment-settings-object">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-environment-settings-object">2.3. 
-    Queue data as type for destination </a> <a href="#ref-for-environment-settings-object①">(2)</a>
-    <li><a href="#ref-for-environment-settings-object②">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-settings-object-global">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-settings-object-global">3.4.1. Generate report of type with
-  data</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-navigator-useragent">
-   <a href="https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-useragent">https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-useragent</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-navigator-useragent">2.3. 
-    Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-origin">
-   <a href="https://html.spec.whatwg.org/multipage/browsers.html#origin">https://html.spec.whatwg.org/multipage/browsers.html#origin</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-origin">2.1.1. Endpoints</a>
-    <li><a href="#ref-for-origin①">3.3. 
-    Process reporting endpoints for response </a>
-    <li><a href="#ref-for-origin②">3.5.1. Send reports</a> <a href="#ref-for-origin③">(2)</a>
-    <li><a href="#ref-for-origin④">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-queue-a-task">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task">https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-queue-a-task">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-queue-a-task①">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-queue-a-task②">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-relevant-global">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-relevant-global">4.1. Interface ReportingObserver</a> <a href="#ref-for-concept-relevant-global①">(2)</a>
-    <li><a href="#ref-for-concept-relevant-global②">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-relevant-settings-object">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-relevant-settings-object">3.4.1. Generate report of type with
-  data</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-report-the-exception">
-   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#report-the-exception">https://html.spec.whatwg.org/multipage/webappapis.html#report-the-exception</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-the-exception">4.4. 
-    Invoke reporting observers with notify list </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-byte-sequence">
-   <a href="https://infra.spec.whatwg.org/#byte-sequence">https://infra.spec.whatwg.org/#byte-sequence</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-byte-sequence">2.4. Serialize Reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-iteration-continue">
-   <a href="https://infra.spec.whatwg.org/#iteration-continue">https://infra.spec.whatwg.org/#iteration-continue</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-iteration-continue">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-iteration-continue①">(2)</a> <a href="#ref-for-iteration-continue②">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-list">
-   <a href="https://infra.spec.whatwg.org/#list">https://infra.spec.whatwg.org/#list</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-list">4. Reporting Observers</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-ordered-set">
-   <a href="https://infra.spec.whatwg.org/#ordered-set">https://infra.spec.whatwg.org/#ordered-set</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-ordered-set">4. Reporting Observers</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-serialize-an-infra-value-to-json-bytes">
-   <a href="https://infra.spec.whatwg.org/#serialize-an-infra-value-to-json-bytes">https://infra.spec.whatwg.org/#serialize-an-infra-value-to-json-bytes</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-serialize-an-infra-value-to-json-bytes">2.4. Serialize Reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-section-2.1">
-   <a href="https://tools.ietf.org/html/rfc7469#section-2.1">https://tools.ietf.org/html/rfc7469#section-2.1</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-2.1">1.2. Examples</a> <a href="#ref-for-section-2.1①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-section-2">
-   <a href="https://tools.ietf.org/html/rfc8259#section-2">https://tools.ietf.org/html/rfc8259#section-2</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-2">2.1.3. Reports</a>
-    <li><a href="#ref-for-section-2①">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-is-origin-trustworthy">
-   <a href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy">https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-is-origin-trustworthy">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
-    <li><a href="#ref-for-is-origin-trustworthy①">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-is-origin-trustworthy②">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-section-3.2">
-   <a href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2">https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-3.2">3.2. The Reporting-Endpoints HTTP Response Header Field</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url">
-   <a href="https://url.spec.whatwg.org/#concept-url">https://url.spec.whatwg.org/#concept-url</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url">2.1.1. Endpoints</a>
-    <li><a href="#ref-for-concept-url①">2.3. 
-    Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-base-url">
-   <a href="https://url.spec.whatwg.org/#concept-base-url">https://url.spec.whatwg.org/#concept-base-url</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-base-url">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url-origin">
-   <a href="https://url.spec.whatwg.org/#concept-url-origin">https://url.spec.whatwg.org/#concept-url-origin</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url-origin">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url-password">
-   <a href="https://url.spec.whatwg.org/#concept-url-password">https://url.spec.whatwg.org/#concept-url-password</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url-password">2.3. 
-    Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url-parser">
-   <a href="https://url.spec.whatwg.org/#concept-url-parser">https://url.spec.whatwg.org/#concept-url-parser</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url-parser">3.3. 
-    Process reporting endpoints for response </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url-serializer">
-   <a href="https://url.spec.whatwg.org/#concept-url-serializer">https://url.spec.whatwg.org/#concept-url-serializer</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url-serializer">2.3. 
-    Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url-username">
-   <a href="https://url.spec.whatwg.org/#concept-url-username">https://url.spec.whatwg.org/#concept-url-username</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url-username">2.3. 
-    Queue data as type for destination </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-current-browsing-context">
-   <a href="https://w3c.github.io/webdriver/#dfn-current-browsing-context">https://w3c.github.io/webdriver/#dfn-current-browsing-context</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-current-browsing-context">7.1. Generate Test Report</a> <a href="#ref-for-dfn-current-browsing-context①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-extension-command">
-   <a href="https://w3c.github.io/webdriver/#dfn-extension-command">https://w3c.github.io/webdriver/#dfn-extension-command</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-extension-command">7. Automation</a>
-    <li><a href="#ref-for-dfn-extension-command①">7.1. Generate Test Report</a> <a href="#ref-for-dfn-extension-command②">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-extension-command-uri-template">
-   <a href="https://w3c.github.io/webdriver/#dfn-extension-command-uri-template">https://w3c.github.io/webdriver/#dfn-extension-command-uri-template</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-extension-command-uri-template">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-handle-any-user-prompts">
-   <a href="https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts">https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-handle-any-user-prompts">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-invalid-argument">
-   <a href="https://w3c.github.io/webdriver/#dfn-invalid-argument">https://w3c.github.io/webdriver/#dfn-invalid-argument</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-invalid-argument">7.1. Generate Test Report</a> <a href="#ref-for-dfn-invalid-argument①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-no-such-window">
-   <a href="https://w3c.github.io/webdriver/#dfn-no-such-window">https://w3c.github.io/webdriver/#dfn-no-such-window</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-no-such-window">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-remote-end-steps">
-   <a href="https://w3c.github.io/webdriver/#dfn-remote-end-steps">https://w3c.github.io/webdriver/#dfn-remote-end-steps</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-remote-end-steps">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-success">
-   <a href="https://w3c.github.io/webdriver/#dfn-success">https://w3c.github.io/webdriver/#dfn-success</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-success">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-try">
-   <a href="https://w3c.github.io/webdriver/#dfn-try">https://w3c.github.io/webdriver/#dfn-try</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-try">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-error">
-   <a href="https://w3c.github.io/webdriver/#dfn-error">https://w3c.github.io/webdriver/#dfn-error</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-error">7.1. Generate Test Report</a> <a href="#ref-for-dfn-error①">(2)</a> <a href="#ref-for-dfn-error②">(3)</a> <a href="#ref-for-dfn-error③">(4)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-error-code">
-   <a href="https://w3c.github.io/webdriver/#dfn-error-code">https://w3c.github.io/webdriver/#dfn-error-code</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-error-code">7.1. Generate Test Report</a> <a href="#ref-for-dfn-error-code①">(2)</a> <a href="#ref-for-dfn-error-code②">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-DOMString">
-   <a href="https://webidl.spec.whatwg.org/#idl-DOMString">https://webidl.spec.whatwg.org/#idl-DOMString</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-idl-DOMString">4.1. Interface ReportingObserver</a> <a href="#ref-for-idl-DOMString①">(2)</a> <a href="#ref-for-idl-DOMString②">(3)</a>
-    <li><a href="#ref-for-idl-DOMString③">7.1. Generate Test Report</a> <a href="#ref-for-idl-DOMString④">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-Default">
-   <a href="https://webidl.spec.whatwg.org/#Default">https://webidl.spec.whatwg.org/#Default</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-Default">4.1. Interface ReportingObserver</a> <a href="#ref-for-Default①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-Exposed">
-   <a href="https://webidl.spec.whatwg.org/#Exposed">https://webidl.spec.whatwg.org/#Exposed</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-Exposed">4.1. Interface ReportingObserver</a> <a href="#ref-for-Exposed①">(2)</a> <a href="#ref-for-Exposed②">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-boolean">
-   <a href="https://webidl.spec.whatwg.org/#idl-boolean">https://webidl.spec.whatwg.org/#idl-boolean</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-idl-boolean">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-callback-this-value">
-   <a href="https://webidl.spec.whatwg.org/#dfn-callback-this-value">https://webidl.spec.whatwg.org/#dfn-callback-this-value</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-callback-this-value">4.4. 
-    Invoke reporting observers with notify list </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-invoke-a-callback-function">
-   <a href="https://webidl.spec.whatwg.org/#invoke-a-callback-function">https://webidl.spec.whatwg.org/#invoke-a-callback-function</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-invoke-a-callback-function">4.4. 
-    Invoke reporting observers with notify list </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-object">
-   <a href="https://webidl.spec.whatwg.org/#idl-object">https://webidl.spec.whatwg.org/#idl-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-idl-object">4.1. Interface ReportingObserver</a> <a href="#ref-for-idl-object①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-sequence">
-   <a href="https://webidl.spec.whatwg.org/#idl-sequence">https://webidl.spec.whatwg.org/#idl-sequence</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-idl-sequence">4.1. Interface ReportingObserver</a> <a href="#ref-for-idl-sequence①">(2)</a> <a href="#ref-for-idl-sequence②">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-this">
-   <a href="https://webidl.spec.whatwg.org/#this">https://webidl.spec.whatwg.org/#this</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-this">4.1. Interface ReportingObserver</a> <a href="#ref-for-this①">(2)</a> <a href="#ref-for-this②">(3)</a> <a href="#ref-for-this③">(4)</a> <a href="#ref-for-this④">(5)</a> <a href="#ref-for-this⑤">(6)</a> <a href="#ref-for-this⑥">(7)</a> <a href="#ref-for-this⑦">(8)</a> <a href="#ref-for-this⑧">(9)</a> <a href="#ref-for-this⑨">(10)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-undefined">
-   <a href="https://webidl.spec.whatwg.org/#idl-undefined">https://webidl.spec.whatwg.org/#idl-undefined</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-idl-undefined">4.1. Interface ReportingObserver</a> <a href="#ref-for-idl-undefined①">(2)</a> <a href="#ref-for-idl-undefined②">(3)</a>
-   </ul>
-  </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
     <a data-link-type="biblio">[CSP3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-content-security-policy">content-security-policy</span>
-     <li><span class="dfn-paneled" id="term-for-directives-reporting">reports directive</span>
+     <li><span class="dfn-paneled" id="2382cfb6">content-security-policy</span>
+     <li><span class="dfn-paneled" id="0914e5ac">reports directive</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-concept-document">document</span>
+     <li><span class="dfn-paneled" id="a973e0fe">document</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FETCH]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-concept-response-https-state">HTTPS state</span>
-     <li><span class="dfn-paneled" id="term-for-concept-body">body</span>
-     <li><span class="dfn-paneled" id="term-for-concept-fetch">fetch</span>
-     <li><span class="dfn-paneled" id="term-for-concept-header-list-get-structured-header">get a structured field value</span>
-     <li><span class="dfn-paneled" id="term-for-concept-header">header</span>
-     <li><span class="dfn-paneled" id="term-for-concept-response-header-list">header list <small>(for response)</small></span>
-     <li><span class="dfn-paneled" id="term-for-ok-status">ok status</span>
-     <li><span class="dfn-paneled" id="term-for-concept-request">request</span>
-     <li><span class="dfn-paneled" id="term-for-concept-response">response</span>
-     <li><span class="dfn-paneled" id="term-for-concept-body-source">source</span>
-     <li><span class="dfn-paneled" id="term-for-concept-response-url">url</span>
-     <li><span class="dfn-paneled" id="term-for-wait-for-a-response">wait for a response</span>
+     <li><span class="dfn-paneled" id="29d70c68">HTTPS state</span>
+     <li><span class="dfn-paneled" id="644cb530">body</span>
+     <li><span class="dfn-paneled" id="a33db89a">fetch</span>
+     <li><span class="dfn-paneled" id="5c66de35">get a structured field value</span>
+     <li><span class="dfn-paneled" id="c9e7c11a">header</span>
+     <li><span class="dfn-paneled" id="d85a6c84">header list</span>
+     <li><span class="dfn-paneled" id="f7b00a8b">header list <small>(for response)</small></span>
+     <li><span class="dfn-paneled" id="a27468c5">ok status</span>
+     <li><span class="dfn-paneled" id="55213b5b">request</span>
+     <li><span class="dfn-paneled" id="ee7bba09">response</span>
+     <li><span class="dfn-paneled" id="449b55f1">source</span>
+     <li><span class="dfn-paneled" id="3268a8eb">url</span>
+     <li><span class="dfn-paneled" id="9a79363d">wait for a response</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FileAPI]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-blob-url-entry-object">object</span>
+     <li><span class="dfn-paneled" id="ea2e2fcc">object</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-windoworworkerglobalscope">WindowOrWorkerGlobalScope</span>
-     <li><span class="dfn-paneled" id="term-for-workerglobalscope">WorkerGlobalScope</span>
-     <li><span class="dfn-paneled" id="term-for-active-document">active document</span>
-     <li><span class="dfn-paneled" id="term-for-creation-url">creation url</span>
-     <li><span class="dfn-paneled" id="term-for-environment-settings-object">environment settings object</span>
-     <li><span class="dfn-paneled" id="term-for-concept-settings-object-global">global object</span>
-     <li><span class="dfn-paneled" id="term-for-dom-navigator-useragent">navigator.useragent</span>
-     <li><span class="dfn-paneled" id="term-for-origin">origin</span>
-     <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
-     <li><span class="dfn-paneled" id="term-for-concept-relevant-global">relevant global object</span>
-     <li><span class="dfn-paneled" id="term-for-relevant-settings-object">relevant settings object</span>
-     <li><span class="dfn-paneled" id="term-for-report-the-exception">report the exception</span>
+     <li><span class="dfn-paneled" id="5f6d392d">WindowOrWorkerGlobalScope</span>
+     <li><span class="dfn-paneled" id="83c59a3a">WorkerGlobalScope</span>
+     <li><span class="dfn-paneled" id="35972864">active document</span>
+     <li><span class="dfn-paneled" id="64db426e">creation url</span>
+     <li><span class="dfn-paneled" id="3e12e042">environment settings object</span>
+     <li><span class="dfn-paneled" id="8a30477b">global object</span>
+     <li><span class="dfn-paneled" id="543d1495">navigator.useragent</span>
+     <li><span class="dfn-paneled" id="303ff2d7">origin</span>
+     <li><span class="dfn-paneled" id="9a517a7d">queue a task</span>
+     <li><span class="dfn-paneled" id="e99bd18e">relevant global object</span>
+     <li><span class="dfn-paneled" id="9c4c1e66">relevant settings object</span>
+     <li><span class="dfn-paneled" id="04e154c5">report the exception</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-byte-sequence">byte sequence</span>
-     <li><span class="dfn-paneled" id="term-for-iteration-continue">continue</span>
-     <li><span class="dfn-paneled" id="term-for-list">list</span>
-     <li><span class="dfn-paneled" id="term-for-ordered-set">ordered set</span>
-     <li><span class="dfn-paneled" id="term-for-serialize-an-infra-value-to-json-bytes">serialize an infra value to json bytes</span>
+     <li><span class="dfn-paneled" id="3de9e659">byte sequence</span>
+     <li><span class="dfn-paneled" id="f937b7b6">continue</span>
+     <li><span class="dfn-paneled" id="649608b9">list</span>
+     <li><span class="dfn-paneled" id="692595fe">ordered set</span>
+     <li><span class="dfn-paneled" id="4c07280e">serialize an infra value to json bytes</span>
     </ul>
    <li>
     <a data-link-type="biblio">[RFC7469]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-section-2.1">public-key-pins</span>
+     <li><span class="dfn-paneled" id="c0fa3c07">public-key-pins</span>
     </ul>
    <li>
     <a data-link-type="biblio">[RFC8259]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-section-2">json text</span>
+     <li><span class="dfn-paneled" id="c8829574">json text</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SECURE-CONTEXTS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-is-origin-trustworthy">potentially trustworthy</span>
+     <li><span class="dfn-paneled" id="844c841b">potentially trustworthy</span>
     </ul>
    <li>
     <a data-link-type="biblio">[STRUCTURED-FIELDS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-section-3.2">sf-dictionary</span>
+     <li><span class="dfn-paneled" id="c0666585">sf-dictionary</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-concept-url">URL</span>
-     <li><span class="dfn-paneled" id="term-for-concept-base-url">base url</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url-origin">origin of a url</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url-password">password</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url-parser">url parser</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url-serializer">url serializer</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url-username">username</span>
+     <li><span class="dfn-paneled" id="20b42dd0">URL</span>
+     <li><span class="dfn-paneled" id="b9d1df32">base url</span>
+     <li><span class="dfn-paneled" id="c4c32895">origin of a url</span>
+     <li><span class="dfn-paneled" id="a1288f2a">password</span>
+     <li><span class="dfn-paneled" id="ca3ca4ae">url parser</span>
+     <li><span class="dfn-paneled" id="5442ea33">url serializer</span>
+     <li><span class="dfn-paneled" id="218c9455">username</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebDriver]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dfn-current-browsing-context">current browsing context</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-extension-command">extension command</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-extension-command-uri-template">extension command uri template</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-handle-any-user-prompts">handle any user prompts</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-invalid-argument">invalid argument</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-no-such-window">no such window</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-remote-end-steps">remote end steps</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-success">success</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-try">trying</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-error">webdriver error</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-error-code">webdriver error code</span>
+     <li><span class="dfn-paneled" id="024a1df2">current browsing context</span>
+     <li><span class="dfn-paneled" id="bc7f2174">extension command</span>
+     <li><span class="dfn-paneled" id="040c67fa">extension command uri template</span>
+     <li><span class="dfn-paneled" id="b3505eba">handle any user prompts</span>
+     <li><span class="dfn-paneled" id="8da4d1e3">invalid argument</span>
+     <li><span class="dfn-paneled" id="a1894061">no such window</span>
+     <li><span class="dfn-paneled" id="82c23298">remote end steps</span>
+     <li><span class="dfn-paneled" id="4be6272b">success</span>
+     <li><span class="dfn-paneled" id="7aa9c8e0">trying</span>
+     <li><span class="dfn-paneled" id="5cf0e148">webdriver error</span>
+     <li><span class="dfn-paneled" id="7482107b">webdriver error code</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-Default">Default</span>
-     <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
-     <li><span class="dfn-paneled" id="term-for-idl-boolean">boolean</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-callback-this-value">callback this value</span>
-     <li><span class="dfn-paneled" id="term-for-invoke-a-callback-function">invoke</span>
-     <li><span class="dfn-paneled" id="term-for-idl-object">object</span>
-     <li><span class="dfn-paneled" id="term-for-idl-sequence">sequence</span>
-     <li><span class="dfn-paneled" id="term-for-this">this</span>
-     <li><span class="dfn-paneled" id="term-for-idl-undefined">undefined</span>
+     <li><span class="dfn-paneled" id="8855a9aa">DOMString</span>
+     <li><span class="dfn-paneled" id="f4531911">Default</span>
+     <li><span class="dfn-paneled" id="889e932f">Exposed</span>
+     <li><span class="dfn-paneled" id="5372cca8">boolean</span>
+     <li><span class="dfn-paneled" id="a9bf6bd5">callback this value</span>
+     <li><span class="dfn-paneled" id="10ce5f6f">invoke</span>
+     <li><span class="dfn-paneled" id="efd1ec5d">object</span>
+     <li><span class="dfn-paneled" id="9cce47fd">sequence</span>
+     <li><span class="dfn-paneled" id="4013a022">this</span>
+     <li><span class="dfn-paneled" id="5f90bbfb">undefined</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2477,7 +2058,7 @@ Content-Type: application/reports+json
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-fileapi">[FileAPI]
-   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
+   <dd>Marijn Kruisselbrink. <a href="https://w3c.github.io/FileAPI/"><cite>File API</cite></a>. URL: <a href="https://w3c.github.io/FileAPI/">https://w3c.github.io/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
@@ -2558,463 +2139,670 @@ Content-Type: application/reports+json
   delivery failed. <a class="issue-return" href="#issue-7f6dd3bd" title="Jump to section">↵</a></div>
    <div class="issue"> how to polymorphically initialize body? <a class="issue-return" href="#issue-6311d126" title="Jump to section">↵</a></div>
    <div class="issue"> Consider mitigations. For example, we could
-  drop reports if we change from one network to another. <a href="https://github.com/w3c/BackgroundSync/issues/107">[Issue #w3c/BackgroundSync#107]</a> <a class="issue-return" href="#issue-acba119f" title="Jump to section">↵</a></div>
+  drop reports if we change from one network to another. <a href="https://github.com/WICG/background-sync/issues/107">[Issue #WICG/background-sync#107]</a> <a class="issue-return" href="#issue-acba119f" title="Jump to section">↵</a></div>
   </div>
-  <aside class="dfn-panel" data-for="endpoint">
-   <b><a href="#endpoint">#endpoint</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-endpoint">2.1.1. Endpoints</a> <a href="#ref-for-endpoint①">(2)</a> <a href="#ref-for-endpoint②">(3)</a>
-    <li><a href="#ref-for-endpoint③">2.1.3. Reports</a>
-    <li><a href="#ref-for-endpoint④">3.1. Document configuration</a>
-    <li><a href="#ref-for-endpoint⑤">3.2. The Reporting-Endpoints HTTP Response Header Field</a> <a href="#ref-for-endpoint⑥">(2)</a> <a href="#ref-for-endpoint⑦">(3)</a> <a href="#ref-for-endpoint⑧">(4)</a>
-    <li><a href="#ref-for-endpoint⑨">3.3. 
-    Process reporting endpoints for response </a> <a href="#ref-for-endpoint①⓪">(2)</a>
-    <li><a href="#ref-for-endpoint①①">3.5.1. Send reports</a> <a href="#ref-for-endpoint①②">(2)</a>
-    <li><a href="#ref-for-endpoint①③">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-endpoint①④">5.2. Garbage Collection</a> <a href="#ref-for-endpoint①⑤">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-endpoint-name">
-   <b><a href="#dom-endpoint-name">#dom-endpoint-name</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-endpoint-name">2.1.3. Reports</a>
-    <li><a href="#ref-for-dom-endpoint-name①">3.1. Document configuration</a>
-    <li><a href="#ref-for-dom-endpoint-name②">3.3. 
-    Process reporting endpoints for response </a>
-    <li><a href="#ref-for-dom-endpoint-name③">3.5.1. Send reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-endpoint-url">
-   <b><a href="#dom-endpoint-url">#dom-endpoint-url</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-endpoint-url">3.3. 
-    Process reporting endpoints for response </a>
-    <li><a href="#ref-for-dom-endpoint-url①">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-endpoint-failures">
-   <b><a href="#dom-endpoint-failures">#dom-endpoint-failures</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-endpoint-failures">3.3. 
-    Process reporting endpoints for response </a>
-    <li><a href="#ref-for-dom-endpoint-failures①">3.5.1. Send reports</a>
-    <li><a href="#ref-for-dom-endpoint-failures②">5.2. Garbage Collection</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-type">
-   <b><a href="#report-type">#report-type</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-type">2.1.2. Report Type</a> <a href="#ref-for-report-type①">(2)</a>
-    <li><a href="#ref-for-report-type②">2.1.3. Reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="visible-to-reportingobservers">
-   <b><a href="#visible-to-reportingobservers">#visible-to-reportingobservers</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-visible-to-reportingobservers">2.1.2. Report Type</a>
-    <li><a href="#ref-for-visible-to-reportingobservers①">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report">
-   <b><a href="#report">#report</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report">2.1.2. Report Type</a>
-    <li><a href="#ref-for-report①">2.1.3. Reports</a> <a href="#ref-for-report②">(2)</a> <a href="#ref-for-report③">(3)</a> <a href="#ref-for-report④">(4)</a> <a href="#ref-for-report⑤">(5)</a> <a href="#ref-for-report⑥">(6)</a> <a href="#ref-for-report⑦">(7)</a> <a href="#ref-for-report⑧">(8)</a> <a href="#ref-for-report⑨">(9)</a> <a href="#ref-for-report①⓪">(10)</a> <a href="#ref-for-report①①">(11)</a>
-    <li><a href="#ref-for-report①②">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report①③">3.1. Document configuration</a>
-    <li><a href="#ref-for-report①④">3.5.1. Send reports</a> <a href="#ref-for-report①⑤">(2)</a> <a href="#ref-for-report①⑥">(3)</a>
-    <li><a href="#ref-for-report①⑦">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-report①⑧">4.3. 
-    Add report to observer </a>
-    <li><a href="#ref-for-report①⑨">5.2. Garbage Collection</a> <a href="#ref-for-report②⓪">(2)</a> <a href="#ref-for-report②①">(3)</a>
-    <li><a href="#ref-for-report②②">7.1. Generate Test Report</a>
-    <li><a href="#ref-for-report②③">8.1. Capability URLs</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-body">
-   <b><a href="#report-body">#report-body</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-body">2.1.2. Report Type</a>
-    <li><a href="#ref-for-report-body①">2.1.3. Reports</a>
-    <li><a href="#ref-for-report-body②">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-body③">2.4. Serialize Reports</a>
-    <li><a href="#ref-for-report-body④">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-report-body⑤">4.3. 
-    Add report to observer </a>
-    <li><a href="#ref-for-report-body⑥">8.1. Capability URLs</a> <a href="#ref-for-report-body⑦">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-url">
-   <b><a href="#report-url">#report-url</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-url">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-url①">2.4. Serialize Reports</a>
-    <li><a href="#ref-for-report-url②">3.5.1. Send reports</a>
-    <li><a href="#ref-for-report-url③">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-report-url④">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-user-agent">
-   <b><a href="#report-user-agent">#report-user-agent</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-user-agent">2.1.3. Reports</a>
-    <li><a href="#ref-for-report-user-agent①">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-user-agent②">2.4. Serialize Reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-destination">
-   <b><a href="#report-destination">#report-destination</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-destination">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-destination①">3.5.1. Send reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-reporttype">
-   <b><a href="#report-reporttype">#report-reporttype</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-reporttype">2.1.3. Reports</a>
-    <li><a href="#ref-for-report-reporttype①">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-reporttype②">2.4. Serialize Reports</a>
-    <li><a href="#ref-for-report-reporttype③">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-report-reporttype④">4.2. 
-    Notify reporting observers on scope with report </a> <a href="#ref-for-report-reporttype⑤">(2)</a> <a href="#ref-for-report-reporttype⑥">(3)</a>
-    <li><a href="#ref-for-report-reporttype⑦">4.3. 
-    Add report to observer </a> <a href="#ref-for-report-reporttype⑧">(2)</a> <a href="#ref-for-report-reporttype⑨">(3)</a> <a href="#ref-for-report-reporttype①⓪">(4)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-timestamp">
-   <b><a href="#report-timestamp">#report-timestamp</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-timestamp">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-timestamp①">2.4. Serialize Reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="report-attempts">
-   <b><a href="#report-attempts">#report-attempts</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-report-attempts">2.3. 
-    Queue data as type for destination </a>
-    <li><a href="#ref-for-report-attempts①">2.4. Serialize Reports</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="generate-a-report">
-   <b><a href="#generate-a-report">#generate-a-report</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-generate-a-report">3.4.1. Generate report of type with
-  data</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="serialize-a-list-of-reports-to-json">
-   <b><a href="#serialize-a-list-of-reports-to-json">#serialize-a-list-of-reports-to-json</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-serialize-a-list-of-reports-to-json">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="windoworworkerglobalscope-endpoints">
-   <b><a href="#windoworworkerglobalscope-endpoints">#windoworworkerglobalscope-endpoints</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-windoworworkerglobalscope-endpoints">3.1. Document configuration</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-endpoints①">3.5.1. Send reports</a> <a href="#ref-for-windoworworkerglobalscope-endpoints②">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="windoworworkerglobalscope-reports">
-   <b><a href="#windoworworkerglobalscope-reports">#windoworworkerglobalscope-reports</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports">2.1.1. Endpoints</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports①">2.1.2. Report Type</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports②">3.4.1. Generate report of type with
-  data</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports③">3.5. Report Delivery</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports④">3.5.1. Send reports</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports⑤">3.5.2. 
-    Attempt to deliver reports to endpoint </a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports⑥">4. Reporting Observers</a> <a href="#ref-for-windoworworkerglobalscope-reports⑦">(2)</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-reports⑧">5.2. Garbage Collection</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reporting-endpoints">
-   <b><a href="#reporting-endpoints">#reporting-endpoints</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reporting-endpoints">1.2. Examples</a> <a href="#ref-for-reporting-endpoints①">(2)</a>
-    <li><a href="#ref-for-reporting-endpoints②">3.2. The Reporting-Endpoints HTTP Response Header Field</a> <a href="#ref-for-reporting-endpoints③">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="generate-and-queue-a-report">
-   <b><a href="#generate-and-queue-a-report">#generate-and-queue-a-report</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-generate-and-queue-a-report">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reporting-observer">
-   <b><a href="#reporting-observer">#reporting-observer</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reporting-observer">2.1.2. Report Type</a>
-    <li><a href="#ref-for-reporting-observer①">2.3. 
-    Queue data as type for destination </a> <a href="#ref-for-reporting-observer②">(2)</a>
-    <li><a href="#ref-for-reporting-observer③">4. Reporting Observers</a> <a href="#ref-for-reporting-observer④">(2)</a> <a href="#ref-for-reporting-observer⑤">(3)</a>
-    <li><a href="#ref-for-reporting-observer⑥">4.2. 
-    Notify reporting observers on scope with report </a>
-    <li><a href="#ref-for-reporting-observer⑦">5.2. Garbage Collection</a>
-    <li><a href="#ref-for-reporting-observer⑧">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="windoworworkerglobalscope-registered-reporting-observer-list">
-   <b><a href="#windoworworkerglobalscope-registered-reporting-observer-list">#windoworworkerglobalscope-registered-reporting-observer-list</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-windoworworkerglobalscope-registered-reporting-observer-list">4. Reporting Observers</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-registered-reporting-observer-list①">4.1. Interface ReportingObserver</a> <a href="#ref-for-windoworworkerglobalscope-registered-reporting-observer-list②">(2)</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-registered-reporting-observer-list③">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="registered">
-   <b><a href="#registered">#registered</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-registered">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-registered①">4.2. 
-    Notify reporting observers on scope with report </a> <a href="#ref-for-registered②">(2)</a>
-    <li><a href="#ref-for-registered③">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="windoworworkerglobalscope-report-buffer">
-   <b><a href="#windoworworkerglobalscope-report-buffer">#windoworworkerglobalscope-report-buffer</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-windoworworkerglobalscope-report-buffer">4. Reporting Observers</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-report-buffer①">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-report-buffer②">4.2. 
-    Notify reporting observers on scope with report </a> <a href="#ref-for-windoworworkerglobalscope-report-buffer③">(2)</a> <a href="#ref-for-windoworworkerglobalscope-report-buffer④">(3)</a>
-    <li><a href="#ref-for-windoworworkerglobalscope-report-buffer⑤">5.2. Garbage Collection</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportbody">
-   <b><a href="#reportbody">#reportbody</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportbody">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportingobserver">
-   <b><a href="#reportingobserver">#reportingobserver</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportingobserver">4. Reporting Observers</a>
-    <li><a href="#ref-for-reportingobserver①">4.1. Interface ReportingObserver</a> <a href="#ref-for-reportingobserver②">(2)</a> <a href="#ref-for-reportingobserver③">(3)</a> <a href="#ref-for-reportingobserver④">(4)</a>
-    <li><a href="#ref-for-reportingobserver⑤">4.2. 
-    Notify reporting observers on scope with report </a>
-    <li><a href="#ref-for-reportingobserver⑥">4.3. 
-    Add report to observer </a>
-    <li><a href="#ref-for-reportingobserver⑦">4.4. 
-    Invoke reporting observers with notify list </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="callbackdef-reportingobservercallback">
-   <b><a href="#callbackdef-reportingobservercallback">#callbackdef-reportingobservercallback</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-callbackdef-reportingobservercallback">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dictdef-reportingobserveroptions">
-   <b><a href="#dictdef-reportingobserveroptions">#dictdef-reportingobserveroptions</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dictdef-reportingobserveroptions">4.1. Interface ReportingObserver</a> <a href="#ref-for-dictdef-reportingobserveroptions①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserveroptions-types">
-   <b><a href="#dom-reportingobserveroptions-types">#dom-reportingobserveroptions-types</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserveroptions-types">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserveroptions-buffered">
-   <b><a href="#dom-reportingobserveroptions-buffered">#dom-reportingobserveroptions-buffered</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserveroptions-buffered">4. Reporting Observers</a>
-    <li><a href="#ref-for-dom-reportingobserveroptions-buffered①">4.1. Interface ReportingObserver</a> <a href="#ref-for-dom-reportingobserveroptions-buffered②">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="typedefdef-reportlist">
-   <b><a href="#typedefdef-reportlist">#typedefdef-reportlist</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-typedefdef-reportlist">4.1. Interface ReportingObserver</a> <a href="#ref-for-typedefdef-reportlist①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-report">
-   <b><a href="#dom-report">#dom-report</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-report">4.1. Interface ReportingObserver</a> <a href="#ref-for-dom-report①">(2)</a> <a href="#ref-for-dom-report②">(3)</a> <a href="#ref-for-dom-report③">(4)</a> <a href="#ref-for-dom-report④">(5)</a>
-    <li><a href="#ref-for-dom-report⑤">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-report-type">
-   <b><a href="#dom-report-type">#dom-report-type</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-report-type">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-dom-report-type①">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-report-url">
-   <b><a href="#dom-report-url">#dom-report-url</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-report-url">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-dom-report-url①">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-report-body">
-   <b><a href="#dom-report-body">#dom-report-body</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-report-body">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-dom-report-body①">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportingobserver-callback">
-   <b><a href="#reportingobserver-callback">#reportingobserver-callback</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportingobserver-callback">4.1. Interface ReportingObserver</a>
-    <li><a href="#ref-for-reportingobserver-callback①">4.4. 
-    Invoke reporting observers with notify list </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportingobserver-options">
-   <b><a href="#reportingobserver-options">#reportingobserver-options</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportingobserver-options">4.1. Interface ReportingObserver</a> <a href="#ref-for-reportingobserver-options①">(2)</a> <a href="#ref-for-reportingobserver-options②">(3)</a>
-    <li><a href="#ref-for-reportingobserver-options③">4.3. 
-    Add report to observer </a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="reportingobserver-report-queue">
-   <b><a href="#reportingobserver-report-queue">#reportingobserver-report-queue</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-reportingobserver-report-queue">4.1. Interface ReportingObserver</a> <a href="#ref-for-reportingobserver-report-queue①">(2)</a>
-    <li><a href="#ref-for-reportingobserver-report-queue②">4.3. 
-    Add report to observer </a> <a href="#ref-for-reportingobserver-report-queue③">(2)</a> <a href="#ref-for-reportingobserver-report-queue④">(3)</a>
-    <li><a href="#ref-for-reportingobserver-report-queue⑤">4.4. 
-    Invoke reporting observers with notify list </a> <a href="#ref-for-reportingobserver-report-queue⑥">(2)</a> <a href="#ref-for-reportingobserver-report-queue⑦">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserver-reportingobserver">
-   <b><a href="#dom-reportingobserver-reportingobserver">#dom-reportingobserver-reportingobserver</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserver-reportingobserver">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserver-observe">
-   <b><a href="#dom-reportingobserver-observe">#dom-reportingobserver-observe</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserver-observe">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserver-disconnect">
-   <b><a href="#dom-reportingobserver-disconnect">#dom-reportingobserver-disconnect</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserver-disconnect">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-reportingobserver-takerecords">
-   <b><a href="#dom-reportingobserver-takerecords">#dom-reportingobserver-takerecords</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-reportingobserver-takerecords">4.1. Interface ReportingObserver</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-generatetestreportparameters-message">
-   <b><a href="#dom-generatetestreportparameters-message">#dom-generatetestreportparameters-message</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-generatetestreportparameters-message">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-generatetestreportparameters-group">
-   <b><a href="#dom-generatetestreportparameters-group">#dom-generatetestreportparameters-group</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-generatetestreportparameters-group">7.1. Generate Test Report</a>
-   </ul>
-  </aside>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-report-body">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/body" title="The body read-only property of the Report interface returns the body of the report, which is a ReportBody object containing the detailed report information.">Report/body</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-report-type">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/type" title="The type read-only property of the Report interface returns the type of report generated, e.g. deprecation or intervention.">Report/type</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-report-url">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report/url" title="The url read-only property of the Report interface returns the URL of the document that generated the report.">Report/url</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-report">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Report" title="The Report interface of the Reporting API represents a single report.">Report</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="reportbody">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportBody" title="The ReportBody interface of the Reporting API represents the body of a report. Individual report types inherit from this interface, adding specific attributes relevant to the particular report.">ReportBody</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-reportingobserver-reportingobserver">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/ReportingObserver" title="The ReportingObserver() constructor of the Reporting API creates a new ReportingObserver object instance, which can be used to collect and access reports.">ReportingObserver/ReportingObserver</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-reportingobserver-disconnect">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/disconnect" title="The disconnect() method of the ReportingObserver interface stops a reporting observer that had previously started observing from collecting reports.">ReportingObserver/disconnect</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-reportingobserver-observe">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/observe" title="The observe() method of the ReportingObserver interface instructs a reporting observer to start collecting reports in its report queue.">ReportingObserver/observe</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="dom-reportingobserver-takerecords">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver/takeRecords" title="The takeRecords() method of the ReportingObserver interface returns the current list of reports contained in the observer&apos;s report queue, and empties the queue.">ReportingObserver/takeRecords</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+  <details class="mdn-anno unpositioned" data-anno-for="interface-reporting-observer">
+   <summary><span>MDN</span></summary>
+   <div class="feature">
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ReportingObserver" title="The ReportingObserver interface of the Reporting API allows you to collect and access reports.">ReportingObserver</a></p>
+    <div class="support">
+     <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari yes"><span>Safari</span><span>16.4+</span></span><span class="chrome yes"><span>Chrome</span><span>69+</span></span>
+     <hr>
+     <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+     <hr>
+     <span class="edge no"><span>Edge (Legacy)</span><span>?</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+     <hr>
+     <span class="firefox_android no"><span>Firefox for Android</span><span>?</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>?</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+    </div>
+   </div>
+  </details>
+<script>/* position-annos */
+"use strict";
+{
+
+function repositionAnnoPanels(){
+    const panels = [...document.querySelectorAll("[data-anno-for]")];
+    const main = document.querySelector("main");
+    let mainRect;
+    if(main) mainRect = main.getBoundingClientRect();
+    for(const panel of panels) {
+        const dfn = document.getElementById(panel.getAttribute("data-anno-for"));
+        if(!dfn) {
+            console.log("Can't find the annotation panel target:", panel);
+            continue;
+        }
+        const rect = dfn.getBoundingClientRect();
+        const top = window.scrollY + rect.top
+        panel.style.top = top + "px";
+        panel.top = top;
+        panel.height = rect.height;
+        panel.classList.remove("unpositioned");
+        const panelRect = panel.getBoundingClientRect()
+        if(main) {
+            panel.classList.toggle("overlapping-main", panelRect.left < mainRect.right)
+        }
+    }
+    let vSoFar = 0;
+    for(const panel of panels.sort(cmpTops)) {
+        if(panel.top < vSoFar) {
+            panel.top = vSoFar;
+            panel.style.top = vSoFar + "px";
+        }
+        vSoFar = panel.top + panel.height + 15;
+    }
+}
+
+function cmpTops(a,b) {
+    return a.top - b.top;
+}
+
+window.addEventListener("load", repositionAnnoPanels);
+window.addEventListener("resize", repositionAnnoPanels);
+}</script>
 <script>/* script-dfn-panel */
+"use strict";
+{
+    const dfnsJson = window.dfnsJson || {};
 
-document.body.addEventListener("click", function(e) {
-    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
-    // Find the dfn element or panel, if any, that was clicked on.
-    var el = e.target;
-    var target;
-    var hitALink = false;
-    while(el.parentElement) {
-        if(el.tagName == "A") {
-            // Clicking on a link in a <dfn> shouldn't summon the panel
-            hitALink = true;
-        }
-        if(el.classList.contains("dfn-paneled")) {
-            target = "dfn";
-            break;
-        }
-        if(el.classList.contains("dfn-panel")) {
-            target = "dfn-panel";
-            break;
-        }
-        el = el.parentElement;
+    function genDfnPanel({dfnID, url, dfnText, refSections, external}) {
+        return mk.aside({
+            class: "dfn-panel",
+            id: `infopanel-for-${dfnID}`,
+            "data-for": dfnID,
+            "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+            },
+            mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
+                `Info about the '${dfnText}' ${external?"external":""} reference.`),
+            mk.a({href:url}, url),
+            mk.b({}, "Referenced in:"),
+            mk.ul({},
+                ...refSections.map(section=>
+                    mk.li({},
+                        ...section.refs.map((ref, refI)=>
+                            [
+                                mk.a({
+                                    href: `#${ref.id}`
+                                    },
+                                    (refI == 0) ? section.title : `(${refI + 1})`
+                                ),
+                                " ",
+                            ]
+                        ),
+                    ),
+                ),
+            ),
+        );
     }
-    if(target != "dfn-panel") {
-        // Turn off any currently "on" or "activated" panels.
-        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
-            el.classList.remove("on");
-            el.classList.remove("activated");
-        });
-    }
-    if(target == "dfn" && !hitALink) {
-        // open the panel
-        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
-        if(dfnPanel) {
-            dfnPanel.classList.add("on");
-            var rect = el.getBoundingClientRect();
-            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
-            dfnPanel.style.top = window.scrollY + rect.top + "px";
-            var panelRect = dfnPanel.getBoundingClientRect();
-            var panelWidth = panelRect.right - panelRect.left;
-            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
-                // Reposition, because the panel is overflowing
-                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+
+    function genAllDfnPanels() {
+        for(const panelData of Object.values(window.dfnpanelData)) {
+            const dfnID = panelData.dfnID;
+            const dfn = document.getElementById(dfnID);
+            if(!dfn) {
+                console.log(`Can't find dfn#${dfnID}.`, panelData);
+            } else {
+                const panel = genDfnPanel(panelData);
+                append(document.body, panel);
+                insertDfnPopupAction(dfn, panel)
             }
-        } else {
-            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
         }
-    } else if(target == "dfn-panel") {
-        // Switch it to "activated" state, which pins it.
-        el.classList.add("activated");
-        el.style.left = null;
-        el.style.top = null;
     }
 
-});
-</script>
-<script>/* script-mdn-anno */
+    document.addEventListener("DOMContentLoaded", ()=>{
+        genAllDfnPanels();
 
-            document.body.addEventListener("click", (e) => {
-                if(e.target.closest(".mdn-anno-btn")) {
-                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
-                }
-            });
-            </script>
+        // Add popup behavior to all dfns to show the corresponding dfn-panel.
+        var dfns = queryAll('.dfn-paneled');
+        for(let dfn of dfns) { ; }
+
+        document.body.addEventListener("click", (e) => {
+            // If not handled already, just hide all dfn panels.
+            hideAllDfnPanels();
+        });
+    })
+
+
+    function hideAllDfnPanels() {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
+    }
+
+    function showDfnPanel(dfnPanel, dfn) {
+        hideAllDfnPanels(); // Only display one at this time.
+        dfn.setAttribute("aria-expanded", "true");
+        dfnPanel.classList.add("on");
+        dfnPanel.style.left = "5px";
+        dfnPanel.style.top = "0px";
+        const panelRect = dfnPanel.getBoundingClientRect();
+        const panelWidth = panelRect.right - panelRect.left;
+        if (panelRect.right > document.body.scrollWidth) {
+            // Panel's overflowing the screen.
+            // Just drop it below the dfn and flip it rightward instead.
+            // This still wont' fix things if the screen is *really* wide,
+            // but fixing that's a lot harder without 'anchor()'.
+            dfnPanel.style.top = "1.5em";
+            dfnPanel.style.left = "auto";
+            dfnPanel.style.right = "0px";
+        }
+    }
+
+    function pinDfnPanel(dfnPanel) {
+        // Switch it to "activated" state, which pins it.
+        dfnPanel.classList.add("activated");
+        dfnPanel.style.left = null;
+        dfnPanel.style.top = null;
+    }
+
+    function hideDfnPanel(dfnPanel, dfn) {
+        if(!dfn) {
+            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
+        }
+        dfn.setAttribute("aria-expanded", "false")
+        dfnPanel.classList.remove("on");
+        dfnPanel.classList.remove("activated");
+    }
+
+    function toggleDfnPanel(dfnPanel, dfn) {
+        if(dfnPanel.classList.contains("on")) {
+            hideDfnPanel(dfnPanel, dfn);
+        } else {
+            showDfnPanel(dfnPanel, dfn);
+        }
+    }
+
+    function insertDfnPopupAction(dfn, dfnPanel) {
+        // Find dfn panel
+        const panelWrapper = document.createElement('span');
+        panelWrapper.appendChild(dfnPanel);
+        panelWrapper.style.position = "relative";
+        panelWrapper.style.height = "0px";
+        dfn.insertAdjacentElement("afterend", panelWrapper);
+        dfn.setAttribute('role', 'button');
+        dfn.setAttribute('aria-expanded', 'false')
+        dfn.tabIndex = 0;
+        dfn.classList.add('has-dfn-panel');
+        dfn.addEventListener('click', (event) => {
+            showDfnPanel(dfnPanel, dfn);
+            event.stopPropagation();
+        });
+        dfn.addEventListener('keypress', (event) => {
+            const kc = event.keyCode;
+            // 32->Space, 13->Enter
+            if(kc == 32 || kc == 13) {
+                toggleDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        });
+
+        dfnPanel.addEventListener('click', (event) => {
+            if (event.target.nodeName == 'A') {
+                pinDfnPanel(dfnPanel);
+            }
+            event.stopPropagation();
+        });
+
+        dfnPanel.addEventListener('keydown', (event) => {
+            if(event.keyCode == 27) { // Escape key
+                hideDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        })
+    }
+}
+</script>
+<script>/* script-dfn-panel-json */
+window.dfnpanelData = {};
+window.dfnpanelData['2382cfb6'] = {"dfnID": "2382cfb6", "url": "https://w3c.github.io/webappsec-csp/#content-security-policy", "dfnText": "content-security-policy", "refSections": [{"refs": [{"id": "ref-for-content-security-policy"}, {"id": "ref-for-content-security-policy\u2460"}], "title": "1.2. Examples"}], "external": true};
+window.dfnpanelData['0914e5ac'] = {"dfnID": "0914e5ac", "url": "https://w3c.github.io/webappsec-csp/#directives-reporting", "dfnText": "reports directive", "refSections": [{"refs": [{"id": "ref-for-directives-reporting"}, {"id": "ref-for-directives-reporting\u2460"}], "title": "1.2. Examples"}], "external": true};
+window.dfnpanelData['a973e0fe'] = {"dfnID": "a973e0fe", "url": "https://dom.spec.whatwg.org/#concept-document", "dfnText": "document", "refSections": [{"refs": [{"id": "ref-for-concept-document"}], "title": "3.4.1. Generate report of type with\n  data"}], "external": true};
+window.dfnpanelData['29d70c68'] = {"dfnID": "29d70c68", "url": "https://fetch.spec.whatwg.org/#concept-response-https-state", "dfnText": "HTTPS state", "refSections": [{"refs": [{"id": "ref-for-concept-response-https-state"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['644cb530'] = {"dfnID": "644cb530", "url": "https://fetch.spec.whatwg.org/#concept-body", "dfnText": "body", "refSections": [{"refs": [{"id": "ref-for-concept-body"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['a33db89a'] = {"dfnID": "a33db89a", "url": "https://fetch.spec.whatwg.org/#concept-fetch", "dfnText": "fetch", "refSections": [{"refs": [{"id": "ref-for-concept-fetch"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['5c66de35'] = {"dfnID": "5c66de35", "url": "https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header", "dfnText": "get a structured field value", "refSections": [{"refs": [{"id": "ref-for-concept-header-list-get-structured-header"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['c9e7c11a'] = {"dfnID": "c9e7c11a", "url": "https://fetch.spec.whatwg.org/#concept-header", "dfnText": "header", "refSections": [{"refs": [{"id": "ref-for-concept-header"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-concept-header\u2460"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['d85a6c84'] = {"dfnID": "d85a6c84", "url": "https://fetch.spec.whatwg.org/#concept-header-list", "dfnText": "header list", "refSections": [{"refs": [{"id": "ref-for-concept-header-list"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['f7b00a8b'] = {"dfnID": "f7b00a8b", "url": "https://fetch.spec.whatwg.org/#concept-response-header-list", "dfnText": "header list (for response)", "refSections": [{"refs": [{"id": "ref-for-concept-response-header-list"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['a27468c5'] = {"dfnID": "a27468c5", "url": "https://fetch.spec.whatwg.org/#ok-status", "dfnText": "ok status", "refSections": [{"refs": [{"id": "ref-for-ok-status"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['55213b5b'] = {"dfnID": "55213b5b", "url": "https://fetch.spec.whatwg.org/#concept-request", "dfnText": "request", "refSections": [{"refs": [{"id": "ref-for-concept-request"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-concept-request\u2460"}, {"id": "ref-for-concept-request\u2461"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['ee7bba09'] = {"dfnID": "ee7bba09", "url": "https://fetch.spec.whatwg.org/#concept-response", "dfnText": "response", "refSections": [{"refs": [{"id": "ref-for-concept-response"}], "title": "3.1. Document configuration"}, {"refs": [{"id": "ref-for-concept-response\u2460"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['449b55f1'] = {"dfnID": "449b55f1", "url": "https://fetch.spec.whatwg.org/#concept-body-source", "dfnText": "source", "refSections": [{"refs": [{"id": "ref-for-concept-body-source"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['3268a8eb'] = {"dfnID": "3268a8eb", "url": "https://fetch.spec.whatwg.org/#concept-response-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-concept-response-url"}, {"id": "ref-for-concept-response-url\u2460"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['9a79363d'] = {"dfnID": "9a79363d", "url": "https://fetch.spec.whatwg.org/#wait-for-a-response", "dfnText": "wait for a response", "refSections": [{"refs": [{"id": "ref-for-wait-for-a-response"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['ea2e2fcc'] = {"dfnID": "ea2e2fcc", "url": "https://w3c.github.io/FileAPI/#blob-url-entry-object", "dfnText": "object", "refSections": [{"refs": [{"id": "ref-for-blob-url-entry-object"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['5f6d392d'] = {"dfnID": "5f6d392d", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope", "dfnText": "WindowOrWorkerGlobalScope", "refSections": [{"refs": [{"id": "ref-for-windoworworkerglobalscope"}, {"id": "ref-for-windoworworkerglobalscope\u2460"}, {"id": "ref-for-windoworworkerglobalscope\u2461"}], "title": "3.1. Document configuration"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope\u2462"}], "title": "3.4.1. Generate report of type with\n  data"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope\u2463"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope\u2464"}, {"id": "ref-for-windoworworkerglobalscope\u2465"}, {"id": "ref-for-windoworworkerglobalscope\u2466"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope\u2467"}], "title": "4.2. \n    Notify reporting observers on scope with report\n  "}], "external": true};
+window.dfnpanelData['83c59a3a'] = {"dfnID": "83c59a3a", "url": "https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope", "dfnText": "WorkerGlobalScope", "refSections": [{"refs": [{"id": "ref-for-workerglobalscope"}], "title": "3.4.1. Generate report of type with\n  data"}], "external": true};
+window.dfnpanelData['35972864'] = {"dfnID": "35972864", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document", "dfnText": "active document", "refSections": [{"refs": [{"id": "ref-for-nav-document"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['64db426e'] = {"dfnID": "64db426e", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#creation-url", "dfnText": "creation url", "refSections": [{"refs": [{"id": "ref-for-creation-url"}], "title": "2.3. \n    Queue data as type for destination\n  "}], "external": true};
+window.dfnpanelData['3e12e042'] = {"dfnID": "3e12e042", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object", "dfnText": "environment settings object", "refSections": [{"refs": [{"id": "ref-for-environment-settings-object"}, {"id": "ref-for-environment-settings-object\u2460"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-environment-settings-object\u2461"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['8a30477b'] = {"dfnID": "8a30477b", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global", "dfnText": "global object", "refSections": [{"refs": [{"id": "ref-for-concept-settings-object-global"}], "title": "3.4.1. Generate report of type with\n  data"}], "external": true};
+window.dfnpanelData['543d1495'] = {"dfnID": "543d1495", "url": "https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-useragent", "dfnText": "navigator.useragent", "refSections": [{"refs": [{"id": "ref-for-dom-navigator-useragent"}], "title": "2.3. \n    Queue data as type for destination\n  "}], "external": true};
+window.dfnpanelData['303ff2d7'] = {"dfnID": "303ff2d7", "url": "https://html.spec.whatwg.org/multipage/browsers.html#origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-origin"}], "title": "2.1.1. Endpoints"}, {"refs": [{"id": "ref-for-origin\u2460"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}, {"refs": [{"id": "ref-for-origin\u2461"}, {"id": "ref-for-origin\u2462"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-origin\u2463"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": true};
+window.dfnpanelData['9a517a7d'] = {"dfnID": "9a517a7d", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task", "dfnText": "queue a task", "refSections": [{"refs": [{"id": "ref-for-queue-a-task"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}, {"refs": [{"id": "ref-for-queue-a-task\u2460"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-queue-a-task\u2461"}], "title": "4.3. \n    Add report to observer\n  "}], "external": true};
+window.dfnpanelData['e99bd18e'] = {"dfnID": "e99bd18e", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global", "dfnText": "relevant global object", "refSections": [{"refs": [{"id": "ref-for-concept-relevant-global"}, {"id": "ref-for-concept-relevant-global\u2460"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2461"}], "title": "4.3. \n    Add report to observer\n  "}], "external": true};
+window.dfnpanelData['9c4c1e66'] = {"dfnID": "9c4c1e66", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object", "dfnText": "relevant settings object", "refSections": [{"refs": [{"id": "ref-for-relevant-settings-object"}], "title": "3.4.1. Generate report of type with\n  data"}], "external": true};
+window.dfnpanelData['04e154c5'] = {"dfnID": "04e154c5", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#report-the-exception", "dfnText": "report the exception", "refSections": [{"refs": [{"id": "ref-for-report-the-exception"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": true};
+window.dfnpanelData['3de9e659'] = {"dfnID": "3de9e659", "url": "https://infra.spec.whatwg.org/#byte-sequence", "dfnText": "byte sequence", "refSections": [{"refs": [{"id": "ref-for-byte-sequence"}], "title": "2.4. Serialize Reports"}], "external": true};
+window.dfnpanelData['f937b7b6'] = {"dfnID": "f937b7b6", "url": "https://infra.spec.whatwg.org/#iteration-continue", "dfnText": "continue", "refSections": [{"refs": [{"id": "ref-for-iteration-continue"}, {"id": "ref-for-iteration-continue\u2460"}, {"id": "ref-for-iteration-continue\u2461"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['649608b9'] = {"dfnID": "649608b9", "url": "https://infra.spec.whatwg.org/#list", "dfnText": "list", "refSections": [{"refs": [{"id": "ref-for-list"}], "title": "4. Reporting Observers"}], "external": true};
+window.dfnpanelData['692595fe'] = {"dfnID": "692595fe", "url": "https://infra.spec.whatwg.org/#ordered-set", "dfnText": "ordered set", "refSections": [{"refs": [{"id": "ref-for-ordered-set"}], "title": "4. Reporting Observers"}], "external": true};
+window.dfnpanelData['4c07280e'] = {"dfnID": "4c07280e", "url": "https://infra.spec.whatwg.org/#serialize-an-infra-value-to-json-bytes", "dfnText": "serialize an infra value to json bytes", "refSections": [{"refs": [{"id": "ref-for-serialize-an-infra-value-to-json-bytes"}], "title": "2.4. Serialize Reports"}], "external": true};
+window.dfnpanelData['c0fa3c07'] = {"dfnID": "c0fa3c07", "url": "https://tools.ietf.org/html/rfc7469#section-2.1", "dfnText": "public-key-pins", "refSections": [{"refs": [{"id": "ref-for-section-2.1"}, {"id": "ref-for-section-2.1\u2460"}], "title": "1.2. Examples"}], "external": true};
+window.dfnpanelData['c8829574'] = {"dfnID": "c8829574", "url": "https://tools.ietf.org/html/rfc8259#section-2", "dfnText": "json text", "refSections": [{"refs": [{"id": "ref-for-section-2"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-section-2\u2460"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['844c841b'] = {"dfnID": "844c841b", "url": "https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy", "dfnText": "potentially trustworthy", "refSections": [{"refs": [{"id": "ref-for-is-origin-trustworthy"}], "title": "3.2. The Reporting-Endpoints HTTP Response Header Field"}, {"refs": [{"id": "ref-for-is-origin-trustworthy\u2460"}, {"id": "ref-for-is-origin-trustworthy\u2461"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['c0666585'] = {"dfnID": "c0666585", "url": "https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2", "dfnText": "sf-dictionary", "refSections": [{"refs": [{"id": "ref-for-section-3.2"}], "title": "3.2. The Reporting-Endpoints HTTP Response Header Field"}], "external": true};
+window.dfnpanelData['20b42dd0'] = {"dfnID": "20b42dd0", "url": "https://url.spec.whatwg.org/#concept-url", "dfnText": "URL", "refSections": [{"refs": [{"id": "ref-for-concept-url"}], "title": "2.1.1. Endpoints"}, {"refs": [{"id": "ref-for-concept-url\u2460"}], "title": "2.3. \n    Queue data as type for destination\n  "}], "external": true};
+window.dfnpanelData['b9d1df32'] = {"dfnID": "b9d1df32", "url": "https://url.spec.whatwg.org/#concept-base-url", "dfnText": "base url", "refSections": [{"refs": [{"id": "ref-for-concept-base-url"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['c4c32895'] = {"dfnID": "c4c32895", "url": "https://url.spec.whatwg.org/#concept-url-origin", "dfnText": "origin of a url", "refSections": [{"refs": [{"id": "ref-for-concept-url-origin"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['a1288f2a'] = {"dfnID": "a1288f2a", "url": "https://url.spec.whatwg.org/#concept-url-password", "dfnText": "password", "refSections": [{"refs": [{"id": "ref-for-concept-url-password"}], "title": "2.3. \n    Queue data as type for destination\n  "}], "external": true};
+window.dfnpanelData['ca3ca4ae'] = {"dfnID": "ca3ca4ae", "url": "https://url.spec.whatwg.org/#concept-url-parser", "dfnText": "url parser", "refSections": [{"refs": [{"id": "ref-for-concept-url-parser"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
+window.dfnpanelData['5442ea33'] = {"dfnID": "5442ea33", "url": "https://url.spec.whatwg.org/#concept-url-serializer", "dfnText": "url serializer", "refSections": [{"refs": [{"id": "ref-for-concept-url-serializer"}], "title": "2.3. \n    Queue data as type for destination\n  "}], "external": true};
+window.dfnpanelData['218c9455'] = {"dfnID": "218c9455", "url": "https://url.spec.whatwg.org/#concept-url-username", "dfnText": "username", "refSections": [{"refs": [{"id": "ref-for-concept-url-username"}], "title": "2.3. \n    Queue data as type for destination\n  "}], "external": true};
+window.dfnpanelData['024a1df2'] = {"dfnID": "024a1df2", "url": "https://w3c.github.io/webdriver/#dfn-current-browsing-context", "dfnText": "current browsing context", "refSections": [{"refs": [{"id": "ref-for-dfn-current-browsing-context"}, {"id": "ref-for-dfn-current-browsing-context\u2460"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['bc7f2174'] = {"dfnID": "bc7f2174", "url": "https://w3c.github.io/webdriver/#dfn-extension-command", "dfnText": "extension command", "refSections": [{"refs": [{"id": "ref-for-dfn-extension-command"}], "title": "7. Automation"}, {"refs": [{"id": "ref-for-dfn-extension-command\u2460"}, {"id": "ref-for-dfn-extension-command\u2461"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['040c67fa'] = {"dfnID": "040c67fa", "url": "https://w3c.github.io/webdriver/#dfn-extension-command-uri-template", "dfnText": "extension command uri template", "refSections": [{"refs": [{"id": "ref-for-dfn-extension-command-uri-template"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['b3505eba'] = {"dfnID": "b3505eba", "url": "https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts", "dfnText": "handle any user prompts", "refSections": [{"refs": [{"id": "ref-for-dfn-handle-any-user-prompts"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['8da4d1e3'] = {"dfnID": "8da4d1e3", "url": "https://w3c.github.io/webdriver/#dfn-invalid-argument", "dfnText": "invalid argument", "refSections": [{"refs": [{"id": "ref-for-dfn-invalid-argument"}, {"id": "ref-for-dfn-invalid-argument\u2460"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['a1894061'] = {"dfnID": "a1894061", "url": "https://w3c.github.io/webdriver/#dfn-no-such-window", "dfnText": "no such window", "refSections": [{"refs": [{"id": "ref-for-dfn-no-such-window"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['82c23298'] = {"dfnID": "82c23298", "url": "https://w3c.github.io/webdriver/#dfn-remote-end-steps", "dfnText": "remote end steps", "refSections": [{"refs": [{"id": "ref-for-dfn-remote-end-steps"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['4be6272b'] = {"dfnID": "4be6272b", "url": "https://w3c.github.io/webdriver/#dfn-success", "dfnText": "success", "refSections": [{"refs": [{"id": "ref-for-dfn-success"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['7aa9c8e0'] = {"dfnID": "7aa9c8e0", "url": "https://w3c.github.io/webdriver/#dfn-try", "dfnText": "trying", "refSections": [{"refs": [{"id": "ref-for-dfn-try"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['5cf0e148'] = {"dfnID": "5cf0e148", "url": "https://w3c.github.io/webdriver/#dfn-error", "dfnText": "webdriver error", "refSections": [{"refs": [{"id": "ref-for-dfn-error"}, {"id": "ref-for-dfn-error\u2460"}, {"id": "ref-for-dfn-error\u2461"}, {"id": "ref-for-dfn-error\u2462"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['7482107b'] = {"dfnID": "7482107b", "url": "https://w3c.github.io/webdriver/#dfn-error-code", "dfnText": "webdriver error code", "refSections": [{"refs": [{"id": "ref-for-dfn-error-code"}, {"id": "ref-for-dfn-error-code\u2460"}, {"id": "ref-for-dfn-error-code\u2461"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['8855a9aa'] = {"dfnID": "8855a9aa", "url": "https://webidl.spec.whatwg.org/#idl-DOMString", "dfnText": "DOMString", "refSections": [{"refs": [{"id": "ref-for-idl-DOMString"}, {"id": "ref-for-idl-DOMString\u2460"}, {"id": "ref-for-idl-DOMString\u2461"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-idl-DOMString\u2462"}, {"id": "ref-for-idl-DOMString\u2463"}], "title": "7.1. Generate Test Report"}], "external": true};
+window.dfnpanelData['f4531911'] = {"dfnID": "f4531911", "url": "https://webidl.spec.whatwg.org/#Default", "dfnText": "Default", "refSections": [{"refs": [{"id": "ref-for-Default"}, {"id": "ref-for-Default\u2460"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['889e932f'] = {"dfnID": "889e932f", "url": "https://webidl.spec.whatwg.org/#Exposed", "dfnText": "Exposed", "refSections": [{"refs": [{"id": "ref-for-Exposed"}, {"id": "ref-for-Exposed\u2460"}, {"id": "ref-for-Exposed\u2461"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['5372cca8'] = {"dfnID": "5372cca8", "url": "https://webidl.spec.whatwg.org/#idl-boolean", "dfnText": "boolean", "refSections": [{"refs": [{"id": "ref-for-idl-boolean"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['a9bf6bd5'] = {"dfnID": "a9bf6bd5", "url": "https://webidl.spec.whatwg.org/#dfn-callback-this-value", "dfnText": "callback this value", "refSections": [{"refs": [{"id": "ref-for-dfn-callback-this-value"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": true};
+window.dfnpanelData['10ce5f6f'] = {"dfnID": "10ce5f6f", "url": "https://webidl.spec.whatwg.org/#invoke-a-callback-function", "dfnText": "invoke", "refSections": [{"refs": [{"id": "ref-for-invoke-a-callback-function"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": true};
+window.dfnpanelData['efd1ec5d'] = {"dfnID": "efd1ec5d", "url": "https://webidl.spec.whatwg.org/#idl-object", "dfnText": "object", "refSections": [{"refs": [{"id": "ref-for-idl-object"}, {"id": "ref-for-idl-object\u2460"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['9cce47fd'] = {"dfnID": "9cce47fd", "url": "https://webidl.spec.whatwg.org/#idl-sequence", "dfnText": "sequence", "refSections": [{"refs": [{"id": "ref-for-idl-sequence"}, {"id": "ref-for-idl-sequence\u2460"}, {"id": "ref-for-idl-sequence\u2461"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['4013a022'] = {"dfnID": "4013a022", "url": "https://webidl.spec.whatwg.org/#this", "dfnText": "this", "refSections": [{"refs": [{"id": "ref-for-this"}, {"id": "ref-for-this\u2460"}, {"id": "ref-for-this\u2461"}, {"id": "ref-for-this\u2462"}, {"id": "ref-for-this\u2463"}, {"id": "ref-for-this\u2464"}, {"id": "ref-for-this\u2465"}, {"id": "ref-for-this\u2466"}, {"id": "ref-for-this\u2467"}, {"id": "ref-for-this\u2468"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['5f90bbfb'] = {"dfnID": "5f90bbfb", "url": "https://webidl.spec.whatwg.org/#idl-undefined", "dfnText": "undefined", "refSections": [{"refs": [{"id": "ref-for-idl-undefined"}, {"id": "ref-for-idl-undefined\u2460"}, {"id": "ref-for-idl-undefined\u2461"}], "title": "4.1. Interface ReportingObserver"}], "external": true};
+window.dfnpanelData['endpoint'] = {"dfnID": "endpoint", "url": "#endpoint", "dfnText": "endpoint", "refSections": [{"refs": [{"id": "ref-for-endpoint"}, {"id": "ref-for-endpoint\u2460"}, {"id": "ref-for-endpoint\u2461"}], "title": "2.1.1. Endpoints"}, {"refs": [{"id": "ref-for-endpoint\u2462"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-endpoint\u2463"}], "title": "3.1. Document configuration"}, {"refs": [{"id": "ref-for-endpoint\u2464"}, {"id": "ref-for-endpoint\u2465"}, {"id": "ref-for-endpoint\u2466"}, {"id": "ref-for-endpoint\u2467"}], "title": "3.2. The Reporting-Endpoints HTTP Response Header Field"}, {"refs": [{"id": "ref-for-endpoint\u2468"}, {"id": "ref-for-endpoint\u2460\u24ea"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}, {"refs": [{"id": "ref-for-endpoint\u2460\u2460"}, {"id": "ref-for-endpoint\u2460\u2461"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-endpoint\u2460\u2462"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}, {"refs": [{"id": "ref-for-endpoint\u2460\u2463"}, {"id": "ref-for-endpoint\u2460\u2464"}], "title": "5.2. Garbage Collection"}], "external": false};
+window.dfnpanelData['dom-endpoint-name'] = {"dfnID": "dom-endpoint-name", "url": "#dom-endpoint-name", "dfnText": "name", "refSections": [{"refs": [{"id": "ref-for-dom-endpoint-name"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-dom-endpoint-name\u2460"}], "title": "3.1. Document configuration"}, {"refs": [{"id": "ref-for-dom-endpoint-name\u2461"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}, {"refs": [{"id": "ref-for-dom-endpoint-name\u2462"}], "title": "3.5.1. Send reports"}], "external": false};
+window.dfnpanelData['dom-endpoint-url'] = {"dfnID": "dom-endpoint-url", "url": "#dom-endpoint-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-dom-endpoint-url"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}, {"refs": [{"id": "ref-for-dom-endpoint-url\u2460"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": false};
+window.dfnpanelData['dom-endpoint-failures'] = {"dfnID": "dom-endpoint-failures", "url": "#dom-endpoint-failures", "dfnText": "failures", "refSections": [{"refs": [{"id": "ref-for-dom-endpoint-failures"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}, {"refs": [{"id": "ref-for-dom-endpoint-failures\u2460"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-dom-endpoint-failures\u2461"}], "title": "5.2. Garbage Collection"}], "external": false};
+window.dfnpanelData['report-type'] = {"dfnID": "report-type", "url": "#report-type", "dfnText": "report type", "refSections": [{"refs": [{"id": "ref-for-report-type"}, {"id": "ref-for-report-type\u2460"}], "title": "2.1.2. Report Type"}, {"refs": [{"id": "ref-for-report-type\u2461"}], "title": "2.1.3. Reports"}], "external": false};
+window.dfnpanelData['visible-to-reportingobservers'] = {"dfnID": "visible-to-reportingobservers", "url": "#visible-to-reportingobservers", "dfnText": "visible to ReportingObservers", "refSections": [{"refs": [{"id": "ref-for-visible-to-reportingobservers"}], "title": "2.1.2. Report Type"}, {"refs": [{"id": "ref-for-visible-to-reportingobservers\u2460"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['report'] = {"dfnID": "report", "url": "#report", "dfnText": "report", "refSections": [{"refs": [{"id": "ref-for-report"}], "title": "2.1.2. Report Type"}, {"refs": [{"id": "ref-for-report\u2460"}, {"id": "ref-for-report\u2461"}, {"id": "ref-for-report\u2462"}, {"id": "ref-for-report\u2463"}, {"id": "ref-for-report\u2464"}, {"id": "ref-for-report\u2465"}, {"id": "ref-for-report\u2466"}, {"id": "ref-for-report\u2467"}, {"id": "ref-for-report\u2468"}, {"id": "ref-for-report\u2460\u24ea"}, {"id": "ref-for-report\u2460\u2460"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-report\u2460\u2461"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report\u2460\u2462"}], "title": "3.1. Document configuration"}, {"refs": [{"id": "ref-for-report\u2460\u2463"}, {"id": "ref-for-report\u2460\u2464"}, {"id": "ref-for-report\u2460\u2465"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-report\u2460\u2466"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-report\u2460\u2467"}], "title": "4.3. \n    Add report to observer\n  "}, {"refs": [{"id": "ref-for-report\u2460\u2468"}, {"id": "ref-for-report\u2461\u24ea"}, {"id": "ref-for-report\u2461\u2460"}], "title": "5.2. Garbage Collection"}, {"refs": [{"id": "ref-for-report\u2461\u2461"}], "title": "7.1. Generate Test Report"}, {"refs": [{"id": "ref-for-report\u2461\u2462"}], "title": "8.1. Capability URLs"}], "external": false};
+window.dfnpanelData['report-body'] = {"dfnID": "report-body", "url": "#report-body", "dfnText": "body", "refSections": [{"refs": [{"id": "ref-for-report-body"}], "title": "2.1.2. Report Type"}, {"refs": [{"id": "ref-for-report-body\u2460"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-report-body\u2461"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-body\u2462"}], "title": "2.4. Serialize Reports"}, {"refs": [{"id": "ref-for-report-body\u2463"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-report-body\u2464"}], "title": "4.3. \n    Add report to observer\n  "}, {"refs": [{"id": "ref-for-report-body\u2465"}, {"id": "ref-for-report-body\u2466"}], "title": "8.1. Capability URLs"}], "external": false};
+window.dfnpanelData['report-url'] = {"dfnID": "report-url", "url": "#report-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-report-url"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-url\u2460"}], "title": "2.4. Serialize Reports"}, {"refs": [{"id": "ref-for-report-url\u2461"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-report-url\u2462"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-report-url\u2463"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['report-user-agent'] = {"dfnID": "report-user-agent", "url": "#report-user-agent", "dfnText": "user agent", "refSections": [{"refs": [{"id": "ref-for-report-user-agent"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-report-user-agent\u2460"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-user-agent\u2461"}], "title": "2.4. Serialize Reports"}], "external": false};
+window.dfnpanelData['report-destination'] = {"dfnID": "report-destination", "url": "#report-destination", "dfnText": "destination", "refSections": [{"refs": [{"id": "ref-for-report-destination"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-destination\u2460"}], "title": "3.5.1. Send reports"}], "external": false};
+window.dfnpanelData['report-reporttype'] = {"dfnID": "report-reporttype", "url": "#report-reporttype", "dfnText": "type", "refSections": [{"refs": [{"id": "ref-for-report-reporttype"}], "title": "2.1.3. Reports"}, {"refs": [{"id": "ref-for-report-reporttype\u2460"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-reporttype\u2461"}], "title": "2.4. Serialize Reports"}, {"refs": [{"id": "ref-for-report-reporttype\u2462"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-report-reporttype\u2463"}, {"id": "ref-for-report-reporttype\u2464"}, {"id": "ref-for-report-reporttype\u2465"}], "title": "4.2. \n    Notify reporting observers on scope with report\n  "}, {"refs": [{"id": "ref-for-report-reporttype\u2466"}, {"id": "ref-for-report-reporttype\u2467"}, {"id": "ref-for-report-reporttype\u2468"}, {"id": "ref-for-report-reporttype\u2460\u24ea"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['report-timestamp'] = {"dfnID": "report-timestamp", "url": "#report-timestamp", "dfnText": "timestamp", "refSections": [{"refs": [{"id": "ref-for-report-timestamp"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-timestamp\u2460"}], "title": "2.4. Serialize Reports"}], "external": false};
+window.dfnpanelData['report-attempts'] = {"dfnID": "report-attempts", "url": "#report-attempts", "dfnText": "attempts", "refSections": [{"refs": [{"id": "ref-for-report-attempts"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-report-attempts\u2460"}], "title": "2.4. Serialize Reports"}], "external": false};
+window.dfnpanelData['generate-a-report'] = {"dfnID": "generate-a-report", "url": "#generate-a-report", "dfnText": "generate a report", "refSections": [{"refs": [{"id": "ref-for-generate-a-report"}], "title": "3.4.1. Generate report of type with\n  data"}], "external": false};
+window.dfnpanelData['serialize-a-list-of-reports-to-json'] = {"dfnID": "serialize-a-list-of-reports-to-json", "url": "#serialize-a-list-of-reports-to-json", "dfnText": "serialize a list of reports to JSON", "refSections": [{"refs": [{"id": "ref-for-serialize-a-list-of-reports-to-json"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}], "external": false};
+window.dfnpanelData['windoworworkerglobalscope-endpoints'] = {"dfnID": "windoworworkerglobalscope-endpoints", "url": "#windoworworkerglobalscope-endpoints", "dfnText": "endpoints", "refSections": [{"refs": [{"id": "ref-for-windoworworkerglobalscope-endpoints"}], "title": "3.1. Document configuration"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-endpoints\u2460"}, {"id": "ref-for-windoworworkerglobalscope-endpoints\u2461"}], "title": "3.5.1. Send reports"}], "external": false};
+window.dfnpanelData['windoworworkerglobalscope-reports'] = {"dfnID": "windoworworkerglobalscope-reports", "url": "#windoworworkerglobalscope-reports", "dfnText": "reports", "refSections": [{"refs": [{"id": "ref-for-windoworworkerglobalscope-reports"}], "title": "2.1.1. Endpoints"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2460"}], "title": "2.1.2. Report Type"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2461"}], "title": "3.4.1. Generate report of type with\n  data"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2462"}], "title": "3.5. Report Delivery"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2463"}], "title": "3.5.1. Send reports"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2464"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2465"}, {"id": "ref-for-windoworworkerglobalscope-reports\u2466"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-reports\u2467"}], "title": "5.2. Garbage Collection"}], "external": false};
+window.dfnpanelData['reporting-endpoints'] = {"dfnID": "reporting-endpoints", "url": "#reporting-endpoints", "dfnText": "Reporting-Endpoints", "refSections": [{"refs": [{"id": "ref-for-reporting-endpoints"}, {"id": "ref-for-reporting-endpoints\u2460"}], "title": "1.2. Examples"}, {"refs": [{"id": "ref-for-reporting-endpoints\u2461"}, {"id": "ref-for-reporting-endpoints\u2462"}], "title": "3.2. The Reporting-Endpoints HTTP Response Header Field"}], "external": false};
+window.dfnpanelData['generate-and-queue-a-report'] = {"dfnID": "generate-and-queue-a-report", "url": "#generate-and-queue-a-report", "dfnText": "generate and queue a report", "refSections": [{"refs": [{"id": "ref-for-generate-and-queue-a-report"}], "title": "7.1. Generate Test Report"}], "external": false};
+window.dfnpanelData['reporting-observer'] = {"dfnID": "reporting-observer", "url": "#reporting-observer", "dfnText": "reporting observer", "refSections": [{"refs": [{"id": "ref-for-reporting-observer"}], "title": "2.1.2. Report Type"}, {"refs": [{"id": "ref-for-reporting-observer\u2460"}, {"id": "ref-for-reporting-observer\u2461"}], "title": "2.3. \n    Queue data as type for destination\n  "}, {"refs": [{"id": "ref-for-reporting-observer\u2462"}, {"id": "ref-for-reporting-observer\u2463"}, {"id": "ref-for-reporting-observer\u2464"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-reporting-observer\u2465"}], "title": "4.2. \n    Notify reporting observers on scope with report\n  "}, {"refs": [{"id": "ref-for-reporting-observer\u2466"}], "title": "5.2. Garbage Collection"}, {"refs": [{"id": "ref-for-reporting-observer\u2467"}], "title": "7.1. Generate Test Report"}], "external": false};
+window.dfnpanelData['windoworworkerglobalscope-registered-reporting-observer-list'] = {"dfnID": "windoworworkerglobalscope-registered-reporting-observer-list", "url": "#windoworworkerglobalscope-registered-reporting-observer-list", "dfnText": "registered reporting observer list", "refSections": [{"refs": [{"id": "ref-for-windoworworkerglobalscope-registered-reporting-observer-list"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-registered-reporting-observer-list\u2460"}, {"id": "ref-for-windoworworkerglobalscope-registered-reporting-observer-list\u2461"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-registered-reporting-observer-list\u2462"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['registered'] = {"dfnID": "registered", "url": "#registered", "dfnText": "registered", "refSections": [{"refs": [{"id": "ref-for-registered"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-registered\u2460"}, {"id": "ref-for-registered\u2461"}], "title": "4.2. \n    Notify reporting observers on scope with report\n  "}, {"refs": [{"id": "ref-for-registered\u2462"}], "title": "7.1. Generate Test Report"}], "external": false};
+window.dfnpanelData['windoworworkerglobalscope-report-buffer'] = {"dfnID": "windoworworkerglobalscope-report-buffer", "url": "#windoworworkerglobalscope-report-buffer", "dfnText": "report buffer", "refSections": [{"refs": [{"id": "ref-for-windoworworkerglobalscope-report-buffer"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-report-buffer\u2460"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-report-buffer\u2461"}, {"id": "ref-for-windoworworkerglobalscope-report-buffer\u2462"}, {"id": "ref-for-windoworworkerglobalscope-report-buffer\u2463"}], "title": "4.2. \n    Notify reporting observers on scope with report\n  "}, {"refs": [{"id": "ref-for-windoworworkerglobalscope-report-buffer\u2464"}], "title": "5.2. Garbage Collection"}], "external": false};
+window.dfnpanelData['reportbody'] = {"dfnID": "reportbody", "url": "#reportbody", "dfnText": "ReportBody", "refSections": [{"refs": [{"id": "ref-for-reportbody"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['reportingobserver'] = {"dfnID": "reportingobserver", "url": "#reportingobserver", "dfnText": "ReportingObserver", "refSections": [{"refs": [{"id": "ref-for-reportingobserver"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-reportingobserver\u2460"}, {"id": "ref-for-reportingobserver\u2461"}, {"id": "ref-for-reportingobserver\u2462"}, {"id": "ref-for-reportingobserver\u2463"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-reportingobserver\u2464"}], "title": "4.2. \n    Notify reporting observers on scope with report\n  "}, {"refs": [{"id": "ref-for-reportingobserver\u2465"}], "title": "4.3. \n    Add report to observer\n  "}, {"refs": [{"id": "ref-for-reportingobserver\u2466"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": false};
+window.dfnpanelData['callbackdef-reportingobservercallback'] = {"dfnID": "callbackdef-reportingobservercallback", "url": "#callbackdef-reportingobservercallback", "dfnText": "ReportingObserverCallback", "refSections": [{"refs": [{"id": "ref-for-callbackdef-reportingobservercallback"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dictdef-reportingobserveroptions'] = {"dfnID": "dictdef-reportingobserveroptions", "url": "#dictdef-reportingobserveroptions", "dfnText": "ReportingObserverOptions", "refSections": [{"refs": [{"id": "ref-for-dictdef-reportingobserveroptions"}, {"id": "ref-for-dictdef-reportingobserveroptions\u2460"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dom-reportingobserveroptions-types'] = {"dfnID": "dom-reportingobserveroptions-types", "url": "#dom-reportingobserveroptions-types", "dfnText": "types", "refSections": [{"refs": [{"id": "ref-for-dom-reportingobserveroptions-types"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['dom-reportingobserveroptions-buffered'] = {"dfnID": "dom-reportingobserveroptions-buffered", "url": "#dom-reportingobserveroptions-buffered", "dfnText": "buffered", "refSections": [{"refs": [{"id": "ref-for-dom-reportingobserveroptions-buffered"}], "title": "4. Reporting Observers"}, {"refs": [{"id": "ref-for-dom-reportingobserveroptions-buffered\u2460"}, {"id": "ref-for-dom-reportingobserveroptions-buffered\u2461"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['typedefdef-reportlist'] = {"dfnID": "typedefdef-reportlist", "url": "#typedefdef-reportlist", "dfnText": "ReportList", "refSections": [{"refs": [{"id": "ref-for-typedefdef-reportlist"}, {"id": "ref-for-typedefdef-reportlist\u2460"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dom-report'] = {"dfnID": "dom-report", "url": "#dom-report", "dfnText": "Report", "refSections": [{"refs": [{"id": "ref-for-dom-report"}, {"id": "ref-for-dom-report\u2460"}, {"id": "ref-for-dom-report\u2461"}, {"id": "ref-for-dom-report\u2462"}, {"id": "ref-for-dom-report\u2463"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-dom-report\u2464"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['dom-report-type'] = {"dfnID": "dom-report-type", "url": "#dom-report-type", "dfnText": "type", "refSections": [{"refs": [{"id": "ref-for-dom-report-type"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-dom-report-type\u2460"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['dom-report-url'] = {"dfnID": "dom-report-url", "url": "#dom-report-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-dom-report-url"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-dom-report-url\u2460"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['dom-report-body'] = {"dfnID": "dom-report-body", "url": "#dom-report-body", "dfnText": "body", "refSections": [{"refs": [{"id": "ref-for-dom-report-body"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-dom-report-body\u2460"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['reportingobserver-callback'] = {"dfnID": "reportingobserver-callback", "url": "#reportingobserver-callback", "dfnText": "callback", "refSections": [{"refs": [{"id": "ref-for-reportingobserver-callback"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-reportingobserver-callback\u2460"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": false};
+window.dfnpanelData['reportingobserver-options'] = {"dfnID": "reportingobserver-options", "url": "#reportingobserver-options", "dfnText": "options", "refSections": [{"refs": [{"id": "ref-for-reportingobserver-options"}, {"id": "ref-for-reportingobserver-options\u2460"}, {"id": "ref-for-reportingobserver-options\u2461"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-reportingobserver-options\u2462"}], "title": "4.3. \n    Add report to observer\n  "}], "external": false};
+window.dfnpanelData['reportingobserver-report-queue'] = {"dfnID": "reportingobserver-report-queue", "url": "#reportingobserver-report-queue", "dfnText": "report\nqueue", "refSections": [{"refs": [{"id": "ref-for-reportingobserver-report-queue"}, {"id": "ref-for-reportingobserver-report-queue\u2460"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-reportingobserver-report-queue\u2461"}, {"id": "ref-for-reportingobserver-report-queue\u2462"}, {"id": "ref-for-reportingobserver-report-queue\u2463"}], "title": "4.3. \n    Add report to observer\n  "}, {"refs": [{"id": "ref-for-reportingobserver-report-queue\u2464"}, {"id": "ref-for-reportingobserver-report-queue\u2465"}, {"id": "ref-for-reportingobserver-report-queue\u2466"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": false};
+window.dfnpanelData['dom-reportingobserver-reportingobserver'] = {"dfnID": "dom-reportingobserver-reportingobserver", "url": "#dom-reportingobserver-reportingobserver", "dfnText": "\n  ReportingObserver(callback, options)", "refSections": [{"refs": [{"id": "ref-for-dom-reportingobserver-reportingobserver"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dom-reportingobserver-observe'] = {"dfnID": "dom-reportingobserver-observe", "url": "#dom-reportingobserver-observe", "dfnText": "observe()", "refSections": [{"refs": [{"id": "ref-for-dom-reportingobserver-observe"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dom-reportingobserver-disconnect'] = {"dfnID": "dom-reportingobserver-disconnect", "url": "#dom-reportingobserver-disconnect", "dfnText": "disconnect()", "refSections": [{"refs": [{"id": "ref-for-dom-reportingobserver-disconnect"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dom-reportingobserver-takerecords'] = {"dfnID": "dom-reportingobserver-takerecords", "url": "#dom-reportingobserver-takerecords", "dfnText": "takeRecords()", "refSections": [{"refs": [{"id": "ref-for-dom-reportingobserver-takerecords"}], "title": "4.1. Interface ReportingObserver"}], "external": false};
+window.dfnpanelData['dom-generatetestreportparameters-message'] = {"dfnID": "dom-generatetestreportparameters-message", "url": "#dom-generatetestreportparameters-message", "dfnText": "message", "refSections": [{"refs": [{"id": "ref-for-dom-generatetestreportparameters-message"}], "title": "7.1. Generate Test Report"}], "external": false};
+window.dfnpanelData['dom-generatetestreportparameters-group'] = {"dfnID": "dom-generatetestreportparameters-group", "url": "#dom-generatetestreportparameters-group", "dfnText": "group", "refSections": [{"refs": [{"id": "ref-for-dom-generatetestreportparameters-group"}], "title": "7.1. Generate Test Report"}], "external": false};</script>
+<script>/* script-dom-helper */
+function query(sel) { return document.querySelector(sel); }
+
+function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
+
+function iter(obj) {
+	if(!obj) return [];
+	var it = obj[Symbol.iterator];
+	if(it) return it;
+	return Object.entries(obj);
+}
+
+function mk(tagname, attrs, ...children) {
+	const el = document.createElement(tagname);
+	for(const [k,v] of iter(attrs)) {
+		if(k.slice(0,3) == "_on") {
+			const eventName = k.slice(3);
+			el.addEventListener(eventName, v);
+		} else if(k[0] == "_") {
+			// property, not attribute
+			el[k.slice(1)] = v;
+		} else {
+			if(v === false || v == null) {
+        continue;
+      } else if(v === true) {
+        el.setAttribute(k, "");
+        continue;
+      } else {
+  			el.setAttribute(k, v);
+      }
+		}
+	}
+	append(el, children);
+	return el;
+}
+
+/* Create shortcuts for every known HTML element */
+[
+  "a",
+  "abbr",
+  "acronym",
+  "address",
+  "applet",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "basefont",
+  "bdo",
+  "big",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "center",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "div",
+  "dl",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "font",
+  "footer",
+  "form",
+  "frame",
+  "frameset",
+  "head",
+  "header",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "meta",
+  "meter",
+  "nav",
+  "nobr",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "pre",
+  "progress",
+  "q",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strike",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr",
+  "xmp",
+].forEach(tagname=>{
+	mk[tagname] = (...args) => mk(tagname, ...args);
+});
+
+function* nodesFromChildList(children) {
+	for(const child of children.flat(Infinity)) {
+		if(child instanceof Node) {
+			yield child;
+		} else {
+			yield new Text(child);
+		}
+	}
+}
+function append(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		if(el instanceof Node) el.appendChild(child);
+		else el.push(child);
+	}
+	return el;
+}
+
+function insertAfter(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		el.parentNode.insertBefore(child, el.nextSibling);
+	}
+	return el;
+}
+
+function clearContents(el) {
+	el.innerHTML = "";
+	return el;
+}
+
+function parseHTML(markup) {
+	if(markup.toLowerCase().trim().indexOf('<!doctype') === 0) {
+		const doc = document.implementation.createHTMLDocument("");
+		doc.documentElement.innerHTML = markup;
+		return doc;
+	} else {
+		const el = mk.template({});
+		el.innerHTML = markup;
+		return el.content;
+	}
+}</script>
 <script>/* script-var-click-highlighting */
 
-    document.addEventListener("click", e=>{
-        if(e.target.nodeName == "VAR") {
-            highlightSameAlgoVars(e.target);
-        }
-    });
+    "use strict";
     {
+        document.addEventListener("click", e=>{
+            if(e.target.nodeName == "VAR") {
+                highlightSameAlgoVars(e.target);
+            }
+        });
         const indexCounts = new Map();
         const indexNames = new Map();
         function highlightSameAlgoVars(v) {
@@ -3090,4 +2878,4 @@ document.body.addEventListener("click", function(e) {
             return "selected" + index;
         }
     }
-    </script>
+</script>
