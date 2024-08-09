@@ -784,11 +784,11 @@ typedef sequence&lt;Report> ReportList;
 
   2. Append |report| to |scope|'s <a>report buffer</a>.
 
-  3. Let |type| be |report|'s <a>type</a>.
+  3. Let |type| be |report|'s [=report/type=].
 
   4. If |scope|'s <a>report buffer</a> now contains more than 100 reports with
-     <a>type</a> equal to |type|, remove the earliest item with <a>type</a>
-     equal to |type| in the <a>report buffer</a>.
+     [=report/type=] equal to |type|, remove the earliest item with
+     [=report/type=] equal to |type| in the <a>report buffer</a>.
 
   <h3 id="add-report" algorithm>
     Add |report| to |observer|
@@ -796,7 +796,7 @@ typedef sequence&lt;Report> ReportList;
 
   Given a <a>report</a> |report| and a {{ReportingObserver}} |observer|, this
   algorithm adds |report| to |observer|'s <a>report queue</a>, so long as
-  |report|'s <a>type</a> is observable by |observer|.
+  |report|'s [=report/type=] is observable by |observer|.
 
   1. If |report|'s [=report/type=] is not <a>visible to
     <code>ReportingObserver</code>s</a>, return.
