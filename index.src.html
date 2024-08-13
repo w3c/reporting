@@ -833,10 +833,9 @@ typedef sequence&lt;Report> ReportList;
 
      3. Empty |observer|'s <a>report queue</a>
 
-     4. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with a list of
-        arguments consisting of |reports| and |observer|, and |observer| as the
-        <a>callback this value</a>.  If this throws an exception, <a>report the
-        exception</a>.
+     4. <a spec=webidl>Invoke</a> |observer|'s <a>callback</a> with
+        « |reports|, |observer| » and "`report`", and with |observer| as the
+        <a>callback this value</a>.
 </section>
 
 <section>
