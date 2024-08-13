@@ -7,7 +7,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://www.w3.org/TR/reporting-1/" rel="canonical">
-  <meta content="fe3877bf16b31c2e2e29211c9e2c7a23cf3f72aa" name="document-revision">
+  <meta content="36c72cc21072533124a189ab03784f7632651e89" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -889,7 +889,7 @@ var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1>Reporting API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-08-09">9 August 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-08-13">13 August 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1636,9 +1636,8 @@ queue</dfn>, which is initially empty.</p>
        <li data-md>
         <p>Empty <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue⑦">report queue</a></p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#invoke-a-callback-function" id="ref-for-invoke-a-callback-function">Invoke</a> <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-callback" id="ref-for-reportingobserver-callback①">callback</a> with a list of
-  arguments consisting of <var>reports</var> and <var>observer</var>, and <var>observer</var> as the <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-callback-this-value" id="ref-for-dfn-callback-this-value">callback this value</a>.  If this throws an exception, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#report-the-exception" id="ref-for-report-the-exception">report the
-  exception</a>.</p>
+        <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#invoke-a-callback-function" id="ref-for-invoke-a-callback-function">Invoke</a> <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-callback" id="ref-for-reportingobserver-callback①">callback</a> with
+  « <var>reports</var>, <var>observer</var> » and "<code>report</code>", and with <var>observer</var> as the <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-callback-this-value" id="ref-for-dfn-callback-this-value">callback this value</a>.</p>
       </ol>
     </ol>
    </section>
@@ -2043,7 +2042,6 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="9a517a7d">queue a task</span>
      <li><span class="dfn-paneled" id="e99bd18e">relevant global object</span>
      <li><span class="dfn-paneled" id="9c4c1e66">relevant settings object</span>
-     <li><span class="dfn-paneled" id="04e154c5">report the exception</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
@@ -2692,7 +2690,6 @@ window.dfnpanelData['303ff2d7'] = {"dfnID": "303ff2d7", "url": "https://html.spe
 window.dfnpanelData['9a517a7d'] = {"dfnID": "9a517a7d", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task", "dfnText": "queue a task", "refSections": [{"refs": [{"id": "ref-for-queue-a-task"}], "title": "3.5.2. \n    Attempt to deliver reports to endpoint\n  "}, {"refs": [{"id": "ref-for-queue-a-task\u2460"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-queue-a-task\u2461"}], "title": "4.3. \n    Add report to observer\n  "}], "external": true};
 window.dfnpanelData['e99bd18e'] = {"dfnID": "e99bd18e", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global", "dfnText": "relevant global object", "refSections": [{"refs": [{"id": "ref-for-concept-relevant-global"}, {"id": "ref-for-concept-relevant-global\u2460"}], "title": "4.1. Interface ReportingObserver"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2461"}], "title": "4.3. \n    Add report to observer\n  "}], "external": true};
 window.dfnpanelData['9c4c1e66'] = {"dfnID": "9c4c1e66", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object", "dfnText": "relevant settings object", "refSections": [{"refs": [{"id": "ref-for-relevant-settings-object"}], "title": "3.4.1. Generate report of type with\n  data"}], "external": true};
-window.dfnpanelData['04e154c5'] = {"dfnID": "04e154c5", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#report-the-exception", "dfnText": "report the exception", "refSections": [{"refs": [{"id": "ref-for-report-the-exception"}], "title": "4.4. \n    Invoke reporting observers with notify list\n  "}], "external": true};
 window.dfnpanelData['3de9e659'] = {"dfnID": "3de9e659", "url": "https://infra.spec.whatwg.org/#byte-sequence", "dfnText": "byte sequence", "refSections": [{"refs": [{"id": "ref-for-byte-sequence"}], "title": "2.4. Serialize Reports"}], "external": true};
 window.dfnpanelData['f937b7b6'] = {"dfnID": "f937b7b6", "url": "https://infra.spec.whatwg.org/#iteration-continue", "dfnText": "continue", "refSections": [{"refs": [{"id": "ref-for-iteration-continue"}, {"id": "ref-for-iteration-continue\u2460"}, {"id": "ref-for-iteration-continue\u2461"}], "title": "3.3. \n    Process reporting endpoints for response\n  "}], "external": true};
 window.dfnpanelData['649608b9'] = {"dfnID": "649608b9", "url": "https://infra.spec.whatwg.org/#list", "dfnText": "list", "refSections": [{"refs": [{"id": "ref-for-list"}], "title": "4. Reporting Observers"}], "external": true};
