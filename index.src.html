@@ -289,6 +289,17 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   counter, which is a non-negative integer representing the number of times the
   user agent attempted to deliver the report.
 
+  <h4 id="concept-configuration">User configuration</h4>
+
+  Reporting may be <dfn for="reporting">disabled</dfn> for particular [=report
+  types=], potentially on particular [=origins=]. The specification does not
+  define how [=/user agents=] determine whether their users prefer to disable
+  reporting.
+
+  <p tracking-vector>Changing the default for a [=report type=] across all
+  origins is a [=tracking vector=] because a site can detect that an expected
+  report isn't sent.
+
   <h3 id="media-type">Media Type</h3>
 
   The media type used when POSTing reports to a specified endpoint is
@@ -492,6 +503,9 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   following steps:
 
   1.  Let |settings| be |context|'s [=relevant settings object=].
+
+  1.  If reporting is [=reporting/disabled=] for |type| and |settings|'
+      [=environment settings object/origin=], return.
 
   2.  Let |report| be the result of running [=generate a report=] with |data|,
       |type|, |destination| and |settings|.
@@ -1085,9 +1099,14 @@ typedef sequence&lt;Report> ReportList;
   Sending reports costs bandwidth, and potentially could reveal some small
   amount of additional information above and beyond what a website can obtain
   in-band ([[NETWORK-ERROR-LOGGING]], for instance). User agents MUST allow
-  users to disable reporting with some reasonable amount of granularity in order
-  to maintain the priority of constituencies espoused in
+  users to [=reporting/disabled|disable reporting=] with some reasonable amount
+  of granularity in order to maintain the priority of constituencies espoused in
   [[HTML-DESIGN-PRINCIPLES]].
+
+  To reduce the amount that this configuration is a [=tracking vector=], the
+  user agent would need to make it difficult to detect whether it sends an
+  expected report, perhaps by spreading out reports over a wider time or by
+  omitting some reports even if that type of reporting is enabled.
 </section>
 
 <!-- Big Text: IANA -->
