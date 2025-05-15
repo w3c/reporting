@@ -486,7 +486,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   <h4 id="generate-report" export algorithm>Generate report of |type| with
   |data|</h4>
 
-  When the user agent is to <dfn export>generate and queue a report</dfn> for a <a>Document</a>
+  When the user agent is to <dfn export>generate and queue a report</dfn> for a {{Document}}
   or {{WorkerGlobalScope}} object (<dfn export for="generate and queue a report">|context|</dfn>),
   given a string (<dfn export for="generate and queue a report">|type|</dfn>),
   a string (<dfn export for="generate and queue a report">|destination|</dfn>), and
