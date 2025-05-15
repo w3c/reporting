@@ -487,9 +487,11 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   |data|</h4>
 
   When the user agent is to <dfn export>generate and queue a report</dfn> for a <a>Document</a>
-  or {{WorkerGlobalScope}} object (|context|), given a string (|type|), another
-  string (|destination|), and a serializable object (|data|), it must run the
-  following steps:
+  or {{WorkerGlobalScope}} object (<dfn export for="generate and queue a report">|context|</dfn>),
+  given a string (<dfn export for="generate and queue a report">|type|</dfn>),
+  a string (<dfn export for="generate and queue a report">|destination|</dfn>), and
+  a serializable object (<dfn export for="generate and queue a report">|data|</dfn>),
+  it must run the following steps:
 
   1.  Let |settings| be |context|'s [=relevant settings object=].
 
