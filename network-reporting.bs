@@ -555,7 +555,7 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
 
   When a user agent is to <dfn export>generate a network report</dfn>, given a
   string (|type|), another string (|endpoint group|), a serializable object
-  (|data|), and an optional <a>Document</a> (|document|), it must run the
+  (|data|), and an optional {{Document}} (|document|), it must run the
   following steps:
 
   1.  If |document| is given, then
