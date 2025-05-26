@@ -644,6 +644,22 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
       Endpoint`".
 
   8.  Return "`Failure`".
+
+  <h3 id="strip-url-for-use-in-reports-heading">Strip URL for use in reports</h3>
+  To <dfn algorithm export>strip URL for use in reports</dfn> given a [=/URL=] |url|,
+  perform the following steps. They return a string representing the URL for use in reports.
+
+  1. If |url|'s <a for="url">scheme</a> is not an <a>HTTP(S) scheme</a>,
+     then return |url|'s <a for="url">scheme</a>.
+
+  2. Set |url|’s <a for="url">fragment</a> to the empty string.
+
+  3. Set |url|’s <a for="url">username</a> to the empty string.
+
+  4. Set |url|’s <a for="url">password</a> to the empty string.
+
+  5. Return the result of executing the <a>URL serializer</a> on |url|.
+
 </section>
 
 <section>
