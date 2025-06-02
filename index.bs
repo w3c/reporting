@@ -59,7 +59,7 @@ spec: URL; urlPrefix: https://url.spec.whatwg.org/
   type: interface
     text: URL; url: concept-url
   type: attribute
-    for: URL
+    for: url
       text: username; url: concept-url-username
       text: password; url: concept-url-password
 spec: HTML; urlPrefix: https://html.spec.whatwg.org/multipage/
