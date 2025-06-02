@@ -5,9 +5,9 @@
   <title>Reporting API</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
+  <meta content="Bikeshed version 9a7a6709a, updated Tue May 27 16:45:34 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/reporting-1/" rel="canonical">
-  <meta content="b8418ea691473078bd7300936d1b61818d12e349" name="revision">
+  <meta content="b9ba28c8bdf763d8ffe576909688b737bbaeffbf" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -962,7 +962,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1>Reporting API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-05-15">15 May 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-06-02">2 June 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1047,6 +1047,7 @@ feature-specific reports in a consistent manner.</p>
         <li><a href="#send-reports"><span class="secno">3.5.1</span> <span class="content">Send reports</span></a>
         <li><a href="#try-delivery"><span class="secno">3.5.2</span> <span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span></a>
        </ol>
+      <li><a href="#strip-url-for-use-in-reports-heading"><span class="secno">3.6</span> <span class="content">Strip URL for use in reports</span></a>
      </ol>
     <li>
      <a href="#observers"><span class="secno">4</span> <span class="content">Reporting Observers</span></a>
@@ -1239,7 +1240,7 @@ feature-specific reports in a consistent manner.</p>
      <li data-md>
       <p>If <var>url</var> was not provided by the caller, let <var>url</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url" id="ref-for-creation-url">creation URL</a>.</p>
      <li data-md>
-      <p>Set <var>url</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-username" id="ref-for-concept-url-username">username</a></code> to the empty string, and its <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url-password" id="ref-for-concept-url-password">password</a></code> to <code>null</code>.</p>
+      <p>Set <var>url</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-username" id="ref-for-dom-url-username">username</a></code> to the empty string, and its <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-password" id="ref-for-dom-url-password">password</a></code> to <code>null</code>.</p>
      <li data-md>
       <p>Set <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url">url</a> to the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer" id="ref-for-concept-url-serializer">URL
   serializer</a> on <var>url</var> with the <em>exclude fragment flag</em> set.</p>
@@ -1541,6 +1542,22 @@ feature-specific reports in a consistent manner.</p>
       <p>If <var>response</var>’s <code>status</code> is <code>410 Gone</code> <a data-link-type="biblio" href="#biblio-rfc9110" title="HTTP Semantics">[RFC9110]</a>, return "<code>Remove       Endpoint</code>".</p>
      <li data-md>
       <p>Return "<code>Failure</code>".</p>
+    </ol>
+    <h3 class="heading settled" data-level="3.6" id="strip-url-for-use-in-reports-heading"><span class="secno">3.6. </span><span class="content">Strip URL for use in reports</span><a class="self-link" href="#strip-url-for-use-in-reports-heading"></a></h3>
+     To <dfn class="dfn-paneled algorithm" data-algorithm="strip URL for use in reports" data-dfn-type="dfn" data-export id="strip-url-for-use-in-reports">strip URL for use in reports</dfn> given a <a data-link-type="dfn" data-refhint-key="https://url.spec.whatwg.org/#concept-url" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url②">URL</a> <var>url</var>,
+  perform the following steps. They return a string representing the URL for use in reports. 
+    <ol>
+     <li data-md>
+      <p>If <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme">scheme</a> is not an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-scheme" id="ref-for-http-scheme">HTTP(S) scheme</a>,
+ then return <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme①">scheme</a>.</p>
+     <li data-md>
+      <p>Set <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-fragment" id="ref-for-concept-url-fragment">fragment</a> to the empty string.</p>
+     <li data-md>
+      <p>Set <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-username" id="ref-for-concept-url-username">username</a> to the empty string.</p>
+     <li data-md>
+      <p>Set <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-password" id="ref-for-concept-url-password">password</a> to the empty string.</p>
+     <li data-md>
+      <p>Return the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer" id="ref-for-concept-url-serializer①">URL serializer</a> on <var>url</var>.</p>
     </ol>
    </section>
    <section>
@@ -2044,6 +2061,7 @@ Content-Type: application/reports+json
    <li><a href="#windoworworkerglobalscope-reports">reports</a><span>, in § 3.1</span>
    <li><a href="#report-type">report type</a><span>, in § 2.1.2</span>
    <li><a href="#serialize-a-list-of-reports-to-json">serialize a list of reports to JSON</a><span>, in § 2.4</span>
+   <li><a href="#strip-url-for-use-in-reports">strip URL for use in reports</a><span>, in § 3.6</span>
    <li><a href="#dom-reportingobserver-takerecords">takeRecords()</a><span>, in § 4.1</span>
    <li><a href="#report-timestamp">timestamp</a><span>, in § 2.1.3</span>
    <li>
@@ -2093,6 +2111,7 @@ Content-Type: application/reports+json
      <li><span class="dfn-paneled" id="c9e7c11a">header</span>
      <li><span class="dfn-paneled" id="d85a6c84">header list</span>
      <li><span class="dfn-paneled" id="f7b00a8b">header list <small>(for response)</small></span>
+     <li><span class="dfn-paneled" id="eb62573b">HTTP(S) scheme</span>
      <li><span class="dfn-paneled" id="a27468c5">ok status</span>
      <li><span class="dfn-paneled" id="55213b5b">request</span>
      <li><span class="dfn-paneled" id="ee7bba09">response</span>
@@ -2154,11 +2173,16 @@ Content-Type: application/reports+json
     <ul>
      <li><span class="dfn-paneled" id="20b42dd0">URL</span>
      <li><span class="dfn-paneled" id="b9d1df32">base URL</span>
+     <li><span class="dfn-paneled" id="ed948033">fragment</span>
      <li><span class="dfn-paneled" id="c4c32895">origin of a url</span>
-     <li><span class="dfn-paneled" id="a1288f2a">password</span>
+     <li><span class="dfn-paneled" id="95210ccd">password <small>(for URL)</small></span>
+     <li><span class="dfn-paneled" id="a1288f2a">password <small>(for url)</small></span>
+     <li><span class="dfn-paneled" id="3a711be7">scheme</span>
+     <li><span class="dfn-paneled" id="dcffbccd">URL</span>
      <li><span class="dfn-paneled" id="ca3ca4ae">URL parser</span>
      <li><span class="dfn-paneled" id="5442ea33">URL serializer</span>
-     <li><span class="dfn-paneled" id="218c9455">username</span>
+     <li><span class="dfn-paneled" id="d6f79d11">username <small>(for URL)</small></span>
+     <li><span class="dfn-paneled" id="218c9455">username <small>(for url)</small></span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebDriver]</a> defines the following terms:
@@ -2636,13 +2660,14 @@ let dfnPanelData = {
 "0914e5ac": {"dfnID":"0914e5ac","dfnText":"reports directive","external":true,"refSections":[{"refs":[{"id":"ref-for-directives-reporting"},{"id":"ref-for-directives-reporting\u2460"}],"title":"1.2. Examples"}],"url":"https://w3c.github.io/webappsec-csp/#directives-reporting"},
 "10ce5f6f": {"dfnID":"10ce5f6f","dfnText":"invoke","external":true,"refSections":[{"refs":[{"id":"ref-for-invoke-a-callback-function"}],"title":"4.4. \n    Invoke reporting observers with notify list\n  "}],"url":"https://webidl.spec.whatwg.org/#invoke-a-callback-function"},
 "166572aa": {"dfnID":"166572aa","dfnText":"object","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-object"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/rdf-concepts/spec/#dfn-object"},
-"20b42dd0": {"dfnID":"20b42dd0","dfnText":"URL","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url"}],"title":"2.1.1. Endpoints"},{"refs":[{"id":"ref-for-concept-url\u2460"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://url.spec.whatwg.org/#concept-url"},
-"218c9455": {"dfnID":"218c9455","dfnText":"username","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-username"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://url.spec.whatwg.org/#concept-url-username"},
+"20b42dd0": {"dfnID":"20b42dd0","dfnText":"URL","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url"}],"title":"2.1.1. Endpoints"},{"refs":[{"id":"ref-for-concept-url\u2460"}],"title":"2.3. \n    Queue data as type for destination\n  "},{"refs":[{"id":"ref-for-concept-url\u2461"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url"},
+"218c9455": {"dfnID":"218c9455","dfnText":"username (for url)","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-username"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-username"},
 "2382cfb6": {"dfnID":"2382cfb6","dfnText":"Content-Security-Policy","external":true,"refSections":[{"refs":[{"id":"ref-for-content-security-policy"},{"id":"ref-for-content-security-policy\u2460"}],"title":"1.2. Examples"}],"url":"https://w3c.github.io/webappsec-csp/#content-security-policy"},
 "29d70c68": {"dfnID":"29d70c68","dfnText":"HTTPS state","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-response-https-state"}],"title":"3.3. \n    Process reporting endpoints for response\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-response-https-state"},
 "303ff2d7": {"dfnID":"303ff2d7","dfnText":"origin","external":true,"refSections":[{"refs":[{"id":"ref-for-origin"}],"title":"2.1.1. Endpoints"},{"refs":[{"id":"ref-for-origin\u2460"}],"title":"3.3. \n    Process reporting endpoints for response\n  "},{"refs":[{"id":"ref-for-origin\u2461"},{"id":"ref-for-origin\u2462"}],"title":"3.5.1. Send reports"},{"refs":[{"id":"ref-for-origin\u2463"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://html.spec.whatwg.org/multipage/browsers.html#origin"},
 "3268a8eb": {"dfnID":"3268a8eb","dfnText":"url","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-response-url"},{"id":"ref-for-concept-response-url\u2460"}],"title":"3.3. \n    Process reporting endpoints for response\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-response-url"},
 "35972864": {"dfnID":"35972864","dfnText":"active document","external":true,"refSections":[{"refs":[{"id":"ref-for-nav-document"}],"title":"7.1. Generate Test Report"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document"},
+"3a711be7": {"dfnID":"3a711be7","dfnText":"scheme","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-scheme"},{"id":"ref-for-concept-url-scheme\u2460"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-scheme"},
 "3de9e659": {"dfnID":"3de9e659","dfnText":"byte sequence","external":true,"refSections":[{"refs":[{"id":"ref-for-byte-sequence"}],"title":"2.4. Serialize Reports"}],"url":"https://infra.spec.whatwg.org/#byte-sequence"},
 "3e12e042": {"dfnID":"3e12e042","dfnText":"environment settings object","external":true,"refSections":[{"refs":[{"id":"ref-for-environment-settings-object"},{"id":"ref-for-environment-settings-object\u2460"}],"title":"2.3. \n    Queue data as type for destination\n  "},{"refs":[{"id":"ref-for-environment-settings-object\u2461"}],"title":"7.1. Generate Test Report"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object"},
 "4013a022": {"dfnID":"4013a022","dfnText":"this","external":true,"refSections":[{"refs":[{"id":"ref-for-this"},{"id":"ref-for-this\u2460"},{"id":"ref-for-this\u2461"},{"id":"ref-for-this\u2462"},{"id":"ref-for-this\u2463"},{"id":"ref-for-this\u2464"},{"id":"ref-for-this\u2465"},{"id":"ref-for-this\u2466"},{"id":"ref-for-this\u2467"},{"id":"ref-for-this\u2468"}],"title":"4.1. Interface ReportingObserver"}],"url":"https://webidl.spec.whatwg.org/#this"},
@@ -2651,7 +2676,7 @@ let dfnPanelData = {
 "4c07280e": {"dfnID":"4c07280e","dfnText":"serialize an Infra value to JSON bytes","external":true,"refSections":[{"refs":[{"id":"ref-for-serialize-an-infra-value-to-json-bytes"}],"title":"2.4. Serialize Reports"}],"url":"https://infra.spec.whatwg.org/#serialize-an-infra-value-to-json-bytes"},
 "5372cca8": {"dfnID":"5372cca8","dfnText":"boolean","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-boolean"}],"title":"4.1. Interface ReportingObserver"}],"url":"https://webidl.spec.whatwg.org/#idl-boolean"},
 "543d1495": {"dfnID":"543d1495","dfnText":"navigator.userAgent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-navigator-useragent"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-useragent"},
-"5442ea33": {"dfnID":"5442ea33","dfnText":"URL serializer","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-serializer"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://url.spec.whatwg.org/#concept-url-serializer"},
+"5442ea33": {"dfnID":"5442ea33","dfnText":"URL serializer","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-serializer"}],"title":"2.3. \n    Queue data as type for destination\n  "},{"refs":[{"id":"ref-for-concept-url-serializer\u2460"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-serializer"},
 "55213b5b": {"dfnID":"55213b5b","dfnText":"request","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-request"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-concept-request\u2460"},{"id":"ref-for-concept-request\u2461"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-request"},
 "5c66de35": {"dfnID":"5c66de35","dfnText":"get a structured field value","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-header-list-get-structured-header"}],"title":"3.3. \n    Process reporting endpoints for response\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header"},
 "5cf0e148": {"dfnID":"5cf0e148","dfnText":"WebDriver error","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-error"},{"id":"ref-for-dfn-error\u2460"},{"id":"ref-for-dfn-error\u2461"},{"id":"ref-for-dfn-error\u2462"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-error"},
@@ -2671,11 +2696,12 @@ let dfnPanelData = {
 "889e932f": {"dfnID":"889e932f","dfnText":"Exposed","external":true,"refSections":[{"refs":[{"id":"ref-for-Exposed"},{"id":"ref-for-Exposed\u2460"},{"id":"ref-for-Exposed\u2461"}],"title":"4.1. Interface ReportingObserver"}],"url":"https://webidl.spec.whatwg.org/#Exposed"},
 "8a30477b": {"dfnID":"8a30477b","dfnText":"global object","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-settings-object-global"}],"title":"3.4.1. Generate report of type with\n  data"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global"},
 "8da4d1e3": {"dfnID":"8da4d1e3","dfnText":"invalid argument","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-invalid-argument"},{"id":"ref-for-dfn-invalid-argument\u2460"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-invalid-argument"},
+"95210ccd": {"dfnID":"95210ccd","dfnText":"password (for URL)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-url-password"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://url.spec.whatwg.org/#dom-url-password"},
 "9a517a7d": {"dfnID":"9a517a7d","dfnText":"queue a task","external":true,"refSections":[{"refs":[{"id":"ref-for-queue-a-task"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "},{"refs":[{"id":"ref-for-queue-a-task\u2460"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-queue-a-task\u2461"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
 "9a79363d": {"dfnID":"9a79363d","dfnText":"wait for a response","external":true,"refSections":[{"refs":[{"id":"ref-for-wait-for-a-response"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#wait-for-a-response"},
 "9c4c1e66": {"dfnID":"9c4c1e66","dfnText":"relevant settings object","external":true,"refSections":[{"refs":[{"id":"ref-for-relevant-settings-object"}],"title":"3.4.1. Generate report of type with\n  data"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object"},
 "9cce47fd": {"dfnID":"9cce47fd","dfnText":"sequence","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-sequence"},{"id":"ref-for-idl-sequence\u2460"},{"id":"ref-for-idl-sequence\u2461"}],"title":"4.1. Interface ReportingObserver"}],"url":"https://webidl.spec.whatwg.org/#idl-sequence"},
-"a1288f2a": {"dfnID":"a1288f2a","dfnText":"password","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-password"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://url.spec.whatwg.org/#concept-url-password"},
+"a1288f2a": {"dfnID":"a1288f2a","dfnText":"password (for url)","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-password"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-password"},
 "a1894061": {"dfnID":"a1894061","dfnText":"no such window","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-no-such-window"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-no-such-window"},
 "a27468c5": {"dfnID":"a27468c5","dfnText":"ok status","external":true,"refSections":[{"refs":[{"id":"ref-for-ok-status"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#ok-status"},
 "a33db89a": {"dfnID":"a33db89a","dfnText":"fetch","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-fetch"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-fetch"},
@@ -2690,7 +2716,9 @@ let dfnPanelData = {
 "c9e7c11a": {"dfnID":"c9e7c11a","dfnText":"header","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-header"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-concept-header\u2460"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-header"},
 "ca3ca4ae": {"dfnID":"ca3ca4ae","dfnText":"URL parser","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-parser"}],"title":"3.3. \n    Process reporting endpoints for response\n  "}],"url":"https://url.spec.whatwg.org/#concept-url-parser"},
 "callbackdef-reportingobservercallback": {"dfnID":"callbackdef-reportingobservercallback","dfnText":"ReportingObserverCallback","external":false,"refSections":[{"refs":[{"id":"ref-for-callbackdef-reportingobservercallback"}],"title":"4.1. Interface ReportingObserver"}],"url":"#callbackdef-reportingobservercallback"},
+"d6f79d11": {"dfnID":"d6f79d11","dfnText":"username (for URL)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-url-username"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://url.spec.whatwg.org/#dom-url-username"},
 "d85a6c84": {"dfnID":"d85a6c84","dfnText":"header list","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-header-list"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-header-list"},
+"dcffbccd": {"dfnID":"dcffbccd","dfnText":"URL","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url"}],"title":"2.1.1. Endpoints"},{"refs":[{"id":"ref-for-concept-url\u2460"}],"title":"2.3. \n    Queue data as type for destination\n  "},{"refs":[{"id":"ref-for-concept-url\u2461"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url"},
 "dictdef-generatetestreportparameters": {"dfnID":"dictdef-generatetestreportparameters","dfnText":"GenerateTestReportParameters","external":false,"refSections":[],"url":"#dictdef-generatetestreportparameters"},
 "dictdef-reportingobserveroptions": {"dfnID":"dictdef-reportingobserveroptions","dfnText":"ReportingObserverOptions","external":false,"refSections":[{"refs":[{"id":"ref-for-dictdef-reportingobserveroptions"},{"id":"ref-for-dictdef-reportingobserveroptions\u2460"}],"title":"4.1. Interface ReportingObserver"}],"url":"#dictdef-reportingobserveroptions"},
 "dom-endpoint-failures": {"dfnID":"dom-endpoint-failures","dfnText":"failures","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-failures"}],"title":"3.3. \n    Process reporting endpoints for response\n  "},{"refs":[{"id":"ref-for-dom-endpoint-failures\u2460"}],"title":"3.5.1. Send reports"},{"refs":[{"id":"ref-for-dom-endpoint-failures\u2461"}],"title":"5.2. Garbage Collection"}],"url":"#dom-endpoint-failures"},
@@ -2715,6 +2743,8 @@ let dfnPanelData = {
 "dom-reportingobserveroptions-buffered": {"dfnID":"dom-reportingobserveroptions-buffered","dfnText":"buffered","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-reportingobserveroptions-buffered"}],"title":"4. Reporting Observers"},{"refs":[{"id":"ref-for-dom-reportingobserveroptions-buffered\u2460"},{"id":"ref-for-dom-reportingobserveroptions-buffered\u2461"}],"title":"4.1. Interface ReportingObserver"}],"url":"#dom-reportingobserveroptions-buffered"},
 "dom-reportingobserveroptions-types": {"dfnID":"dom-reportingobserveroptions-types","dfnText":"types","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-reportingobserveroptions-types"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"#dom-reportingobserveroptions-types"},
 "e99bd18e": {"dfnID":"e99bd18e","dfnText":"relevant global object","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-relevant-global"},{"id":"ref-for-concept-relevant-global\u2460"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-concept-relevant-global\u2461"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global"},
+"eb62573b": {"dfnID":"eb62573b","dfnText":"HTTP(S) scheme","external":true,"refSections":[{"refs":[{"id":"ref-for-http-scheme"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://fetch.spec.whatwg.org/#http-scheme"},
+"ed948033": {"dfnID":"ed948033","dfnText":"fragment","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-fragment"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-fragment"},
 "ee7bba09": {"dfnID":"ee7bba09","dfnText":"response","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-response"}],"title":"3.1. Document configuration"},{"refs":[{"id":"ref-for-concept-response\u2460"}],"title":"3.3. \n    Process reporting endpoints for response\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-response"},
 "efd1ec5d": {"dfnID":"efd1ec5d","dfnText":"object","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-object"},{"id":"ref-for-idl-object\u2460"}],"title":"4.1. Interface ReportingObserver"}],"url":"https://webidl.spec.whatwg.org/#idl-object"},
 "endpoint": {"dfnID":"endpoint","dfnText":"endpoint","external":false,"refSections":[{"refs":[{"id":"ref-for-endpoint"},{"id":"ref-for-endpoint\u2460"},{"id":"ref-for-endpoint\u2461"}],"title":"2.1.1. Endpoints"},{"refs":[{"id":"ref-for-endpoint\u2462"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-endpoint\u2463"}],"title":"3.1. Document configuration"},{"refs":[{"id":"ref-for-endpoint\u2464"},{"id":"ref-for-endpoint\u2465"},{"id":"ref-for-endpoint\u2466"},{"id":"ref-for-endpoint\u2467"}],"title":"3.2. The Reporting-Endpoints HTTP Response Header Field"},{"refs":[{"id":"ref-for-endpoint\u2468"},{"id":"ref-for-endpoint\u2460\u24ea"}],"title":"3.3. \n    Process reporting endpoints for response\n  "},{"refs":[{"id":"ref-for-endpoint\u2460\u2460"},{"id":"ref-for-endpoint\u2460\u2461"}],"title":"3.5.1. Send reports"},{"refs":[{"id":"ref-for-endpoint\u2460\u2462"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "},{"refs":[{"id":"ref-for-endpoint\u2460\u2463"},{"id":"ref-for-endpoint\u2460\u2464"}],"title":"5.2. Garbage Collection"}],"url":"#endpoint"},
@@ -2747,6 +2777,7 @@ let dfnPanelData = {
 "reportingobserver-options": {"dfnID":"reportingobserver-options","dfnText":"options","external":false,"refSections":[{"refs":[{"id":"ref-for-reportingobserver-options"},{"id":"ref-for-reportingobserver-options\u2460"},{"id":"ref-for-reportingobserver-options\u2461"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-reportingobserver-options\u2462"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"#reportingobserver-options"},
 "reportingobserver-report-queue": {"dfnID":"reportingobserver-report-queue","dfnText":"report\nqueue","external":false,"refSections":[{"refs":[{"id":"ref-for-reportingobserver-report-queue"},{"id":"ref-for-reportingobserver-report-queue\u2460"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-reportingobserver-report-queue\u2461"},{"id":"ref-for-reportingobserver-report-queue\u2462"},{"id":"ref-for-reportingobserver-report-queue\u2463"}],"title":"4.3. \n    Add report to observer\n  "},{"refs":[{"id":"ref-for-reportingobserver-report-queue\u2464"},{"id":"ref-for-reportingobserver-report-queue\u2465"},{"id":"ref-for-reportingobserver-report-queue\u2466"}],"title":"4.4. \n    Invoke reporting observers with notify list\n  "}],"url":"#reportingobserver-report-queue"},
 "serialize-a-list-of-reports-to-json": {"dfnID":"serialize-a-list-of-reports-to-json","dfnText":"serialize a list of reports to JSON","external":false,"refSections":[{"refs":[{"id":"ref-for-serialize-a-list-of-reports-to-json"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"#serialize-a-list-of-reports-to-json"},
+"strip-url-for-use-in-reports": {"dfnID":"strip-url-for-use-in-reports","dfnText":"strip URL for use in reports","external":false,"refSections":[],"url":"#strip-url-for-use-in-reports"},
 "typedefdef-reportlist": {"dfnID":"typedefdef-reportlist","dfnText":"ReportList","external":false,"refSections":[{"refs":[{"id":"ref-for-typedefdef-reportlist"},{"id":"ref-for-typedefdef-reportlist\u2460"}],"title":"4.1. Interface ReportingObserver"}],"url":"#typedefdef-reportlist"},
 "visible-to-reportingobservers": {"dfnID":"visible-to-reportingobservers","dfnText":"visible to ReportingObservers","external":false,"refSections":[{"refs":[{"id":"ref-for-visible-to-reportingobservers"}],"title":"2.1.2. Report Type"},{"refs":[{"id":"ref-for-visible-to-reportingobservers\u2460"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"#visible-to-reportingobservers"},
 "windoworworkerglobalscope-endpoints": {"dfnID":"windoworworkerglobalscope-endpoints","dfnText":"endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-windoworworkerglobalscope-endpoints"}],"title":"3.1. Document configuration"},{"refs":[{"id":"ref-for-windoworworkerglobalscope-endpoints\u2460"},{"id":"ref-for-windoworworkerglobalscope-endpoints\u2461"}],"title":"3.5.1. Send reports"}],"url":"#windoworworkerglobalscope-endpoints"},
@@ -3254,6 +3285,7 @@ let refsData = {
 "https://fetch.spec.whatwg.org/#concept-response-header-list": {"displayText":"header list","export":true,"for_":["response"],"level":"","normative":true,"shortname":"fetch","spec":"fetch","status":"anchor-block","text":"header list","type":"attribute","url":"https://fetch.spec.whatwg.org/#concept-response-header-list"},
 "https://fetch.spec.whatwg.org/#concept-response-https-state": {"displayText":"HTTPS state","export":true,"for_":["response"],"level":"","normative":true,"shortname":"fetch","spec":"fetch","status":"anchor-block","text":"HTTPS state","type":"attribute","url":"https://fetch.spec.whatwg.org/#concept-response-https-state"},
 "https://fetch.spec.whatwg.org/#concept-response-url": {"displayText":"url","export":true,"for_":["response"],"level":"","normative":true,"shortname":"fetch","spec":"fetch","status":"anchor-block","text":"url","type":"attribute","url":"https://fetch.spec.whatwg.org/#concept-response-url"},
+"https://fetch.spec.whatwg.org/#http-scheme": {"displayText":"HTTP(S) scheme","export":true,"for_":[],"level":"1","normative":true,"shortname":"fetch","spec":"fetch","status":"current","text":"http(s) scheme","type":"dfn","url":"https://fetch.spec.whatwg.org/#http-scheme"},
 "https://fetch.spec.whatwg.org/#ok-status": {"displayText":"ok status","export":true,"for_":[],"level":"","normative":true,"shortname":"fetch","spec":"fetch","status":"anchor-block","text":"ok status","type":"dfn","url":"https://fetch.spec.whatwg.org/#ok-status"},
 "https://fetch.spec.whatwg.org/#wait-for-a-response": {"displayText":"wait for a response","export":true,"for_":[],"level":"","normative":true,"shortname":"fetch","spec":"fetch","status":"anchor-block","text":"wait for a response","type":"dfn","url":"https://fetch.spec.whatwg.org/#wait-for-a-response"},
 "https://html.spec.whatwg.org/multipage/browsers.html#origin": {"displayText":"origin","export":true,"for_":[],"level":"","normative":true,"shortname":"html","spec":"html","status":"anchor-block","text":"origin","type":"dfn","url":"https://html.spec.whatwg.org/multipage/browsers.html#origin"},
@@ -3276,11 +3308,16 @@ let refsData = {
 "https://tools.ietf.org/html/rfc8259#section-2": {"displayText":"JSON text","export":true,"for_":[],"level":"","normative":true,"shortname":"rfc8259","spec":"rfc8259","status":"anchor-block","text":"json text","type":"dfn","url":"https://tools.ietf.org/html/rfc8259#section-2"},
 "https://url.spec.whatwg.org/#concept-base-url": {"displayText":"base URL","export":false,"for_":[],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"base url","type":"dfn","url":"https://url.spec.whatwg.org/#concept-base-url"},
 "https://url.spec.whatwg.org/#concept-url": {"displayText":"URL","export":true,"for_":[],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"URL","type":"interface","url":"https://url.spec.whatwg.org/#concept-url"},
+"https://url.spec.whatwg.org/#concept-url-fragment": {"displayText":"fragment","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"fragment","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-fragment"},
 "https://url.spec.whatwg.org/#concept-url-origin": {"displayText":"origin of a url","export":true,"for_":[],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"origin of a url","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-origin"},
 "https://url.spec.whatwg.org/#concept-url-parser": {"displayText":"URL parser","export":true,"for_":[],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"url parser","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-parser"},
-"https://url.spec.whatwg.org/#concept-url-password": {"displayText":"password","export":true,"for_":["URL"],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"password","type":"attribute","url":"https://url.spec.whatwg.org/#concept-url-password"},
+"https://url.spec.whatwg.org/#concept-url-password": {"displayText":"password","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"password","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-password"},
+"https://url.spec.whatwg.org/#concept-url-scheme": {"displayText":"scheme","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"scheme","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-scheme"},
 "https://url.spec.whatwg.org/#concept-url-serializer": {"displayText":"URL serializer","export":true,"for_":[],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"url serializer","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-serializer"},
-"https://url.spec.whatwg.org/#concept-url-username": {"displayText":"username","export":true,"for_":["URL"],"level":"","normative":true,"shortname":"url","spec":"url","status":"anchor-block","text":"username","type":"attribute","url":"https://url.spec.whatwg.org/#concept-url-username"},
+"https://url.spec.whatwg.org/#concept-url-username": {"displayText":"username","export":true,"for_":["url"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"username","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url-username"},
+"https://url.spec.whatwg.org/#concept-url_https://url.spec.whatwg.org/#concept-url": {"displayText":"URL","export":true,"for_":[],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"url","type":"dfn","url":"https://url.spec.whatwg.org/#concept-url"},
+"https://url.spec.whatwg.org/#dom-url-password": {"displayText":"password","export":true,"for_":["URL"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"password","type":"attribute","url":"https://url.spec.whatwg.org/#dom-url-password"},
+"https://url.spec.whatwg.org/#dom-url-username": {"displayText":"username","export":true,"for_":["URL"],"level":"1","normative":true,"shortname":"url","spec":"url","status":"current","text":"username","type":"attribute","url":"https://url.spec.whatwg.org/#dom-url-username"},
 "https://w3c.github.io/rdf-concepts/spec/#dfn-object": {"displayText":"object","export":true,"for_":[],"level":"1","normative":true,"shortname":"rdf-concepts","spec":"rdf12-concepts","status":"current","text":"object","type":"dfn","url":"https://w3c.github.io/rdf-concepts/spec/#dfn-object"},
 "https://w3c.github.io/webappsec-csp/#content-security-policy": {"displayText":"Content-Security-Policy","export":true,"for_":[],"level":"","normative":true,"shortname":"csp","spec":"csp","status":"anchor-block","text":"content-security-policy","type":"dfn","url":"https://w3c.github.io/webappsec-csp/#content-security-policy"},
 "https://w3c.github.io/webappsec-csp/#directives-reporting": {"displayText":"reports directive","export":true,"for_":[],"level":"","normative":true,"shortname":"csp","spec":"csp","status":"anchor-block","text":"reports directive","type":"dfn","url":"https://w3c.github.io/webappsec-csp/#directives-reporting"},
