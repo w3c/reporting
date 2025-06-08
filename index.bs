@@ -21,6 +21,8 @@ Version History: https://github.com/w3c/reporting/commits/main/index.src.html
 Boilerplate: omit conformance
 Repository: https://github.com/w3c/reporting/
 Markup Shorthands: css off, markdown on
+WPT Display: closed
+WPT Path Prefix: /reporting/
 </pre>
 <pre class="anchors">
 spec: CSP; urlPrefix: https://w3c.github.io/webappsec-csp/
