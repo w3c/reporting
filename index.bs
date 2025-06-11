@@ -697,17 +697,13 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   <h3 id=interface-reporting-observer>Interface {{ReportingObserver}}</h3>
 
   <pre class="idl">
-[Exposed=(Window,Worker)]
-interface ReportBody {
-  [Default] object toJSON();
+dictionary ReportBody {
 };
 
-[Exposed=(Window,Worker)]
-interface Report {
-  [Default] object toJSON();
-  readonly attribute DOMString type;
-  readonly attribute DOMString url;
-  readonly attribute ReportBody? body;
+dictionary Report {
+  DOMString type;
+  DOMString url;
+  ReportBody? body;
 };
 
 [Exposed=(Window,Worker)]
@@ -728,11 +724,11 @@ dictionary ReportingObserverOptions {
 typedef sequence&lt;Report> ReportList;
   </pre>
 
-  A <dfn id=dom-report interface>Report</dfn> is the application exposed
-  representation of a <a>report</a>. <dfn attribute for="Report">type</dfn>
-  returns [=report/type=], <dfn attribute for="Report">url</dfn> returns
-  [=report/url=], and <dfn attribute for="Report">body</dfn> returns
-  [=report/body=].
+  A <dfn id=dom-report dictionary>Report</dfn> is the application-exposed
+  representation of a <a>report</a>.
+
+  <dfn id="reportbody" dictionary>ReportBody</dfn> is an abstract <a>dictionary</a>
+  type from which specific report types should <a for=dictionary>inherit</a>.
 
   Each {{ReportingObserver}} object has these associated concepts:
     - A <dfn for=ReportingObserver>callback</dfn> function set on creation.
