@@ -24,6 +24,38 @@ Markup Shorthands: css off, markdown on
 WPT Display: closed
 WPT Path Prefix: /reporting/
 </pre>
+
+<wpt>
+multiple-report-policies.html
+post-redirect-stacktrace.https.html
+report-and-enforce.html
+report-blocked-data-uri.html
+report-blocked-uri-cross-origin.sub.html
+report-blocked-uri.html
+report-clips-sample.https.html
+report-cross-origin-no-cookies.sub.html
+report-frame-ancestors-no-parent-cookies.sub.html
+report-frame-ancestors-with-x-frame-options.sub.html
+report-frame-ancestors.sub.html
+report-multiple-violations-01.html
+report-multiple-violations-02.html
+report-only-cross-origin-frame.sub.html
+report-only-in-meta.sub.html
+report-only-unsafe-eval.html
+report-original-url-on-mixed-content-frame.https.sub.html
+report-original-url.sub.html
+report-preload-and-consume.https.html
+report-same-origin-with-cookies.html
+report-strips-fragment.html
+report-uri-effective-directive.html
+report-uri-from-child-frame.html
+report-uri-from-inline-javascript.html
+report-uri-from-javascript.html
+report-uri-multiple-reversed.html
+report-uri-multiple.html
+report-uri-scheme-relative.html
+</wpt>
+
 <pre class="anchors">
 spec: CSP; urlPrefix: https://w3c.github.io/webappsec-csp/
   type: dfn
