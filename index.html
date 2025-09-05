@@ -5,9 +5,9 @@
   <title>Reporting API</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 9a7a6709a, updated Tue May 27 16:45:34 2025 -0700" name="generator">
+  <meta content="Bikeshed version 3f621ba99, updated Mon Jul 28 15:38:36 2025 -0700" name="generator">
   <link href="https://www.w3.org/TR/reporting-1/" rel="canonical">
-  <meta content="1e48c2e0c63b27cbbf87e68386a012ad7e557814" name="revision">
+  <meta content="a38985ffe559ed93be7fc9962587a344cec307a8" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -960,9 +960,13 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </style>
  <body class="h-entry">
   <div class="head">
-   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/">
+    <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
+</a>
+</p>
    <h1>Reporting API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2025-06-11">11 June 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
+    <time class="dt-updated" datetime="2025-09-05">5 September 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -987,7 +991,8 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2025 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2025 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply.
+</p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -999,12 +1004,20 @@ feature-specific reports in a consistent manner.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
-   <p> This is a public copy of the editors’ draft.
+   <p>
+	This is a public copy of the editors’ draft.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
-	Don’t cite this document other than as work in progress. </p>
-   <p><a href="https://github.com/w3c/reporting/issues">GitHub Issues</a> are preferred for discussion of this specification. </p>
-   <p>This document is governed by the <a href="https://www.w3.org/policies/process/20231103/" id="w3c_process_revision">03 November 2023 W3C Process Document</a>. </p>
+	Don’t cite this document other than as work in progress.
+
+</p>
+   <p><a href="https://github.com/w3c/reporting/issues">GitHub Issues</a> are preferred for discussion of this specification.
+
+</p>
+   <p>This document is governed by the
+	<a href="https://www.w3.org/policies/process/20250818/" id="w3c_process_revision">18 August 2025 W3C Process Document</a>.
+
+</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
@@ -1027,7 +1040,9 @@ feature-specific reports in a consistent manner.</p>
         <li><a href="#concept-reports"><span class="secno">2.1.3</span> <span class="content">Reports</span></a>
        </ol>
       <li><a href="#media-type"><span class="secno">2.2</span> <span class="content">Media Type</span></a>
-      <li><a href="#queue-report"><span class="secno">2.3</span> <span class="content"> Queue <var>data</var> as <var>type</var> for <var>destination</var> </span></a>
+      <li><a href="#queue-report"><span class="secno">2.3</span> <span class="content">
+    Queue <var>data</var> as <var>type</var> for <var>destination</var>
+  </span></a>
       <li><a href="#serialize-reports"><span class="secno">2.4</span> <span class="content">Serialize Reports</span></a>
      </ol>
     <li>
@@ -1035,17 +1050,22 @@ feature-specific reports in a consistent manner.</p>
      <ol class="toc">
       <li><a href="#document-configuration"><span class="secno">3.1</span> <span class="content">Document configuration</span></a>
       <li><a href="#header"><span class="secno">3.2</span> <span class="content">The <code>Reporting-Endpoints</code> HTTP Response Header Field</span></a>
-      <li><a href="#process-header"><span class="secno">3.3</span> <span class="content"> Process reporting endpoints for <var>response</var> </span></a>
+      <li><a href="#process-header"><span class="secno">3.3</span> <span class="content">
+    Process reporting endpoints for <var>response</var>
+  </span></a>
       <li>
        <a href="#report-generation"><span class="secno">3.4</span> <span class="content">Report Generation</span></a>
        <ol class="toc">
-        <li><a href="#generate-report"><span class="secno">3.4.1</span> <span class="content">Generate report of <var>type</var> with <var>data</var></span></a>
+        <li><a href="#generate-report"><span class="secno">3.4.1</span> <span class="content">Generate report of <var>type</var> with
+  <var>data</var></span></a>
        </ol>
       <li>
        <a href="#report-delivery"><span class="secno">3.5</span> <span class="content">Report Delivery</span></a>
        <ol class="toc">
         <li><a href="#send-reports"><span class="secno">3.5.1</span> <span class="content">Send reports</span></a>
-        <li><a href="#try-delivery"><span class="secno">3.5.2</span> <span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span></a>
+        <li><a href="#try-delivery"><span class="secno">3.5.2</span> <span class="content">
+    Attempt to deliver <var>reports</var> to <var>endpoint</var>
+  </span></a>
        </ol>
       <li><a href="#strip-url-for-use-in-reports-heading"><span class="secno">3.6</span> <span class="content">Strip URL for use in reports</span></a>
      </ol>
@@ -1053,9 +1073,15 @@ feature-specific reports in a consistent manner.</p>
      <a href="#observers"><span class="secno">4</span> <span class="content">Reporting Observers</span></a>
      <ol class="toc">
       <li><a href="#interface-reporting-observer"><span class="secno">4.1</span> <span class="content">Interface <code class="idl"><span>ReportingObserver</span></code></span></a>
-      <li><a href="#notify-observers"><span class="secno">4.2</span> <span class="content"> Notify reporting observers on <var>scope</var> with <var>report</var> </span></a>
-      <li><a href="#add-report"><span class="secno">4.3</span> <span class="content"> Add <var>report</var> to <var>observer</var> </span></a>
-      <li><a href="#invoke-observers"><span class="secno">4.4</span> <span class="content"> Invoke reporting observers with <var>notify list</var> </span></a>
+      <li><a href="#notify-observers"><span class="secno">4.2</span> <span class="content">
+    Notify reporting observers on <var>scope</var> with <var>report</var>
+  </span></a>
+      <li><a href="#add-report"><span class="secno">4.3</span> <span class="content">
+    Add <var>report</var> to <var>observer</var>
+  </span></a>
+      <li><a href="#invoke-observers"><span class="secno">4.4</span> <span class="content">
+    Invoke reporting observers with <var>notify list</var>
+  </span></a>
      </ol>
     <li>
      <a href="#implementation"><span class="secno">5</span> <span class="content">Implementation Considerations</span></a>
@@ -1137,9 +1163,12 @@ feature-specific reports in a consistent manner.</p>
   are permitted to reject and not deliver a report for any reason.</p>
     <h3 class="heading settled" data-level="1.2" id="examples"><span class="secno">1.2. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h3>
     <div class="example" id="example-bd21f0f9">
-     <a class="self-link" href="#example-bd21f0f9"></a> MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
+     <a class="self-link" href="#example-bd21f0f9"></a>
+    MegaCorp Inc. wants to collect Content Security Policy and Key Pinning
     violation reports. It can do so by delivering the following header to
-    define a set of reporting endpoints named "<code>endpoint-1</code>": 
+    define a set of reporting endpoints named "<code>endpoint-1</code>":
+
+    
 <pre><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints">Reporting-Endpoints</a>: endpoint-1="https://example.com/reports"
 </pre>
      <p>And the following headers, which direct CSP and HPKP reports to that
@@ -1149,10 +1178,13 @@ feature-specific reports in a consistent manner.</p>
 </pre>
     </div>
     <div class="example" id="example-b1cea891">
-     <a class="self-link" href="#example-b1cea891"></a> After processing reports for a little while, MegaCorp Inc. decides to split
+     <a class="self-link" href="#example-b1cea891"></a>
+    After processing reports for a little while, MegaCorp Inc. decides to split
     the processing of these two types of reports out into two distinct endpoints
     in order to make the processing scripts simpler. It can do so by delivering
-    the following header to define two reporting endpoints: 
+    the following header to define two reporting endpoints:
+
+    
 <pre><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints①">Reporting-Endpoints</a>: csp-endpoint="https://example.com/csp-reports",
                      hpkp-endpoint="https://example.com/hpkp-reports"
 </pre>
@@ -1165,16 +1197,19 @@ feature-specific reports in a consistent manner.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="2" id="generic-reporting"><span class="secno">2. </span><span class="content">Generic Reporting Framework</span><a class="self-link" href="#generic-reporting"></a></h2>
-    <p class="informative"> This section defines the generic concepts of reports and endpoints, and how
+    <p class="informative">
+  This section defines the generic concepts of reports and endpoints, and how
   reports are serialized into the <a href="#media-type"><code>application/reports+json</code></a> format.</p>
     <h3 class="heading settled" data-level="2.1" id="concept"><span class="secno">2.1. </span><span class="content">Concepts</span><a class="self-link" href="#concept"></a></h3>
     <h4 class="heading settled" data-level="2.1.1" id="concept-endpoints"><span class="secno">2.1.1. </span><span class="content">Endpoints</span><a class="self-link" href="#concept-endpoints"></a></h4>
     <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="endpoint">endpoint</dfn> is location to which <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports">reports</a> for a
   particular <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin">origin</a> may be sent.</p>
-    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export id="dom-endpoint-name"><code>name</code></dfn>, which is an ASCII string.</p>
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint">endpoint</a> has a
+  <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export id="dom-endpoint-name"><code>name</code></dfn>, which is an ASCII string.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export id="dom-endpoint-url"><code>url</code></dfn>,
   which is a <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a></code>.</p>
-    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②">endpoint</a> has a <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export id="dom-endpoint-failures"><code>failures</code></dfn>, which is a non-negative
+    <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint②">endpoint</a> has a
+  <dfn class="dfn-paneled idl-code" data-dfn-for="endpoint" data-dfn-type="attribute" data-export id="dom-endpoint-failures"><code>failures</code></dfn>, which is a non-negative
   integer representing the number of consecutive times this endpoint has failed
   to respond to a request.</p>
     <h4 class="heading settled" data-level="2.1.2" id="concept-report-type"><span class="secno">2.1.2. </span><span class="content">Report Type</span><a class="self-link" href="#concept-report-type"></a></h4>
@@ -1183,11 +1218,13 @@ feature-specific reports in a consistent manner.</p>
     <p>When a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type">report type</a> is defined (in this spec or others), it can be
   specified to be <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</dfn>, meaning
   that <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports①">reports</a> of that type can be observed by a <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer">reporting
-  observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to <code>ReportingObserver</code>s</a>.</p>
+  observer</a>. By default, <a data-link-type="dfn" href="#report-type" id="ref-for-report-type①">report types</a> are not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers">visible to
+  <code>ReportingObserver</code>s</a>.</p>
     <h4 class="heading settled" data-level="2.1.3" id="concept-reports"><span class="secno">2.1.3. </span><span class="content">Reports</span><a class="self-link" href="#concept-reports"></a></h4>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="report">report</dfn> is a collection of arbitrary data which the user
   agent is expected to deliver to a specified endpoint.</p>
-    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-body">body</dfn>, which is either <code>null</code> or an object which can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2">JSON text</a>. The
+    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-body">body</dfn>, which is either
+  <code>null</code> or an object which can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2">JSON text</a>. The
   fields contained in a <a data-link-type="dfn" href="#report" id="ref-for-report②">report</a>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body①">body</a> are determined by
   the <a data-link-type="dfn" href="#report" id="ref-for-report③">report</a>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype">type</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report④">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-url">url</dfn>, which
@@ -1196,23 +1233,34 @@ feature-specific reports in a consistent manner.</p>
     <p class="note" role="note"><span class="marker">Note:</span> We strip the username, password, and fragment from this serialized URL.
   See <a href="#capability-urls">§ 8.1 Capability URLs</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑤">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-user-agent">user agent</dfn>, which is
-  the value of the <code>User-Agent</code> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> from which the report was generated.</p>
-    <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#report-user-agent" id="ref-for-report-user-agent">user agent</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report⑥">report</a> represents the <code>User-Agent</code> sent by the browser for the page which generated the <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a>.  This is potentially distinct from the <code>User-Agent</code> sent in the HTTP headers when uploading the report to a collector — for
-  instance, where the browser has chosen to use a non-default <code>User-Agent</code> string such as the "request desktop site" feature.</p>
+  the value of the <code>User-Agent</code> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header" id="ref-for-concept-header">header</a> of the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a>
+  from which the report was generated.</p>
+    <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#report-user-agent" id="ref-for-report-user-agent">user agent</a> of a <a data-link-type="dfn" href="#report" id="ref-for-report⑥">report</a> represents the
+  <code>User-Agent</code> sent by the browser for the page which generated the
+  <a data-link-type="dfn" href="#report" id="ref-for-report⑦">report</a>.  This is potentially distinct from the <code>User-Agent</code>
+  sent in the HTTP headers when uploading the report to a collector — for
+  instance, where the browser has chosen to use a non-default
+  <code>User-Agent</code> string such as the "request desktop site" feature.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑧">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-destination">destination</dfn>,
-  which is a string representing the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name">name</a></code> of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint③">endpoint</a> that the report will be sent to.</p>
+  which is a string representing the <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name">name</a></code> of the <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint③">endpoint</a>
+  that the report will be sent to.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report⑨">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-reporttype">type</dfn>, which is a <a data-link-type="dfn" href="#report-type" id="ref-for-report-type②">report type</a>.</p>
     <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①⓪">report</a> has a <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-timestamp">timestamp</dfn>,
   which records the time at which the report was generated, in milliseconds
   since the unix epoch.</p>
-    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①①">report</a> has an <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-attempts">attempts</dfn> counter, which is a non-negative integer representing the number of times the
+    <p>Each <a data-link-type="dfn" href="#report" id="ref-for-report①①">report</a> has an <dfn class="dfn-paneled" data-dfn-for="report" data-dfn-type="dfn" data-export id="report-attempts">attempts</dfn>
+  counter, which is a non-negative integer representing the number of times the
   user agent attempted to deliver the report.</p>
     <h3 class="heading settled" data-level="2.2" id="media-type"><span class="secno">2.2. </span><span class="content">Media Type</span><a class="self-link" href="#media-type"></a></h3>
-    <p>The media type used when POSTing reports to a specified endpoint is <code>application/reports+json</code>.</p>
-    <h3 class="heading settled algorithm" data-algorithm="Queue data as type for destination" data-level="2.3" id="queue-report"><span class="secno">2.3. </span><span class="content"> Queue <var>data</var> as <var>type</var> for <var>destination</var> </span><a class="self-link" href="#queue-report"></a></h3>
+    <p>The media type used when POSTing reports to a specified endpoint is
+  <code>application/reports+json</code>.</p>
+    <h3 class="heading settled algorithm" data-algorithm="Queue data as type for destination" data-level="2.3" id="queue-report"><span class="secno">2.3. </span><span class="content">
+    Queue <var>data</var> as <var>type</var> for <var>destination</var>
+  </span><a class="self-link" href="#queue-report"></a></h3>
     <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="generate-a-report">generate a report</dfn> given a
   serializable object (<var>data</var>), a string (<var>type</var>), another string
-  (<var>destination</var>), an optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a> (<var>settings</var>), and an optional <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URL</a></code> (<var>url</var>):</p>
+  (<var>destination</var>), an optional <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a>
+  (<var>settings</var>), and an optional <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URL</a></code> (<var>url</var>):</p>
     <ol>
      <li data-md>
       <p>Let <var>report</var> be a new <a data-link-type="dfn" href="#report" id="ref-for-report①②">report</a> object with its values initialized as
@@ -1238,12 +1286,14 @@ feature-specific reports in a consistent manner.</p>
         <p>0</p>
       </dl>
      <li data-md>
-      <p>If <var>url</var> was not provided by the caller, let <var>url</var> be <var>settings</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url" id="ref-for-creation-url">creation URL</a>.</p>
+      <p>If <var>url</var> was not provided by the caller, let <var>url</var> be <var>settings</var>’s
+  <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#creation-url" id="ref-for-creation-url">creation URL</a>.</p>
      <li data-md>
-      <p>Set <var>url</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-username" id="ref-for-dom-url-username">username</a></code> to the empty string, and its <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-password" id="ref-for-dom-url-password">password</a></code> to <code>null</code>.</p>
+      <p>Set <var>url</var>’s <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-username" id="ref-for-dom-url-username">username</a></code> to the empty string, and its <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-password" id="ref-for-dom-url-password">password</a></code>
+  to <code>null</code>.</p>
      <li data-md>
-      <p>Set <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url">url</a> to the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer" id="ref-for-concept-url-serializer">URL
-  serializer</a> on <var>url</var> with the <em>exclude fragment flag</em> set.</p>
+      <p>Set <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url">url</a> to the result of <a data-link-type="dfn" href="#strip-url-for-use-in-reports" id="ref-for-strip-url-for-use-in-reports">stripping URL for use in reports</a>,
+  given <var>url</var>.</p>
      <li data-md>
       <p>Return <var>report</var>.</p>
     </ol>
@@ -1268,7 +1318,8 @@ feature-specific reports in a consistent manner.</p>
         <dl>
          <dt data-md><code>age</code>
          <dd data-md>
-          <p>The number of milliseconds between <var>report</var>’s <a data-link-type="dfn" href="#report-timestamp" id="ref-for-report-timestamp①">timestamp</a> and the current time.</p>
+          <p>The number of milliseconds between <var>report</var>’s <a data-link-type="dfn" href="#report-timestamp" id="ref-for-report-timestamp①">timestamp</a>
+  and the current time.</p>
          <dt data-md><code>type</code>
          <dd data-md>
           <p><var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype②">type</a></p>
@@ -1302,22 +1353,29 @@ feature-specific reports in a consistent manner.</p>
   they were generated.</p>
     <h3 class="heading settled" data-level="3.1" id="document-configuration"><span class="secno">3.1. </span><span class="content">Document configuration</span><a class="self-link" href="#document-configuration"></a></h3>
     <p>Each object implementing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope">WindowOrWorkerGlobalScope</a></code> has an <dfn class="dfn-paneled" data-dfn-for="WindowOrWorkerGlobalScope" data-dfn-type="dfn" data-export id="windoworworkerglobalscope-endpoints">endpoints</dfn> list, which
-  is a list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoints</a>, each of which MUST have a distinct <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name①">name</a></code>.  (Uniqueness is guaranteed by the algorithm in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.)</p>
+  is a list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint④">endpoints</a>, each of which MUST have a distinct
+  <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name①">name</a></code>.  (Uniqueness is guaranteed by the algorithm in
+  <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.)</p>
     <p>Each object implementing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope①">WindowOrWorkerGlobalScope</a></code> has an <dfn class="dfn-paneled" data-dfn-for="WindowOrWorkerGlobalScope" data-dfn-type="dfn" data-export id="windoworworkerglobalscope-reports">reports</dfn> list, which is
   a list of <a data-link-type="dfn" href="#report" id="ref-for-report①③">reports</a>.</p>
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="initialize-a-globals-endpoint-list">initialize a global’s endpoint list</dfn>, given a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope②">WindowOrWorkerGlobalScope</a></code> (<var>scope</var>) and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>),
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="initialize-a-globals-endpoint-list">initialize a global’s endpoint list</dfn>, given a
+  <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope②">WindowOrWorkerGlobalScope</a></code> (<var>scope</var>) and a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response">response</a> (<var>response</var>),
   set <var>scope</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints">endpoints</a> to the result
   of executing <a href="#process-header">§ 3.3 Process reporting endpoints for response</a> given <var>response</var>.</p>
     <h3 class="heading settled" data-level="3.2" id="header"><span class="secno">3.2. </span><span class="content">The <code>Reporting-Endpoints</code> HTTP Response Header Field</span><a class="self-link" href="#header"></a></h3>
     <p>A server MAY define a set of reporting endpoints for a document or a worker
   script resource it returns, via the <a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints②"><code>Reporting-Endpoints</code></a> HTTP response
-  header field. This mechanism is defined in <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>, and its processing in <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
+  header field. This mechanism is defined in <a href="#header">§ 3.2 The Reporting-Endpoints HTTP Response Header Field</a>, and its processing in
+  <a href="#process-header">§ 3.3 Process reporting endpoints for response</a>.</p>
     <p>The value of the <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="reporting-endpoints"><code>Reporting-Endpoints</code></dfn> HTTP response header
   field is used to construct the reporting configuration for a resource.</p>
-    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Field <a data-link-type="biblio" href="#biblio-structured-fields" title="Structured Field Values for HTTP">[STRUCTURED-FIELDS]</a>. Each entry in the dictionary defines an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
+    <p><a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints③"><code>Reporting-Endpoints</code></a> is a Dictionary Structured Field
+  <a data-link-type="biblio" href="#biblio-structured-fields" title="Structured Field Values for HTTP">[STRUCTURED-FIELDS]</a>. Each entry in the dictionary defines an
+  <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑤">endpoint</a> to which reports may be delivered. The entry value MUST be a
   string.</p>
     <p>Each <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑥">endpoint</a> is defined by a String Item, which is interpreted as a
-  URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a> member MUST be ignored.</p>
+  URI-reference. If its value is not a valid URI-reference, that <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑦">endpoint</a>
+  member MUST be ignored.</p>
     <p>Moreover, the URL that the member’s value represents MUST be <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy">potentially
   trustworthy</a> <a data-link-type="biblio" href="#biblio-secure-contexts" title="Secure Contexts">[SECURE-CONTEXTS]</a>. Non-secure endpoints will be ignored.</p>
     <p>No parameters are defined for <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑧">endpoints</a>, and any parameters
@@ -1325,13 +1383,16 @@ feature-specific reports in a consistent manner.</p>
     <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234" title="Augmented BNF for Syntax Specifications: ABNF">[RFC5234]</a>:</p>
 <pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar" href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2" id="ref-for-section-3.2">sf-dictionary</a>
 </pre>
-    <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content"> Process reporting endpoints for <var>response</var> </span><a class="self-link" href="#process-header"></a></h3>
+    <h3 class="heading settled algorithm" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content">
+    Process reporting endpoints for <var>response</var>
+  </span><a class="self-link" href="#process-header"></a></h3>
     <p>Given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response" id="ref-for-concept-response①">response</a> (<var>response</var>), this algorithm extracts and returns a
   list of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint⑨">endpoints</a>.</p>
     <ol>
      <li data-md>
       <p>Abort these steps if <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-https-state" id="ref-for-concept-response-https-state">HTTPS
-  state</a> is not "<code>modern</code>", and the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin">origin</a> of <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url">url</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy①">potentially
+  state</a> is not "<code>modern</code>", and the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-origin" id="ref-for-concept-url-origin">origin</a>
+  of <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url">url</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy①">potentially
   trustworthy</a>.</p>
      <li data-md>
       <p>Let <var>parsed header</var> be the result of executing <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header" id="ref-for-concept-header-list-get-structured-header">get a structured field value</a> given "Reporting-Endpoints" and "dictionary" from <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-header-list" id="ref-for-concept-response-header-list">header list</a>.</p>
@@ -1343,10 +1404,13 @@ feature-specific reports in a consistent manner.</p>
       <p>For each <var>name</var> → <var>value_and_parameters</var> of <var>parsed header</var>:</p>
       <ol>
        <li data-md>
-        <p>Let <var>endpoint url string</var> be the first element of the tuple <var>value_and_parameters</var>. If <var>endpoint url string</var> is not a string,
+        <p>Let <var>endpoint url string</var> be the first element of the tuple
+  <var>value_and_parameters</var>. If <var>endpoint url string</var> is not a string,
   then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
        <li data-md>
-        <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a> on <var>endpoint url string</var>, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>endpoint url</var> is
+        <p>Let <var>endpoint url</var> be the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-parser" id="ref-for-concept-url-parser">URL parser</a>
+  on <var>endpoint url string</var>, with <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-base-url" id="ref-for-concept-base-url">base URL</a> set to
+  <var>response</var>’s <a class="idl-code" data-link-type="attribute" href="https://fetch.spec.whatwg.org/#concept-response-url" id="ref-for-concept-response-url①">url</a>. If <var>endpoint url</var> is
   failure, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue①">continue</a>.</p>
        <li data-md>
         <p>If <var>endpoint url</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin①">origin</a> is not <a data-link-type="dfn" href="https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy" id="ref-for-is-origin-trustworthy②">potentially
@@ -1373,8 +1437,10 @@ feature-specific reports in a consistent manner.</p>
     </ol>
     <h3 class="heading settled" data-level="3.4" id="report-generation"><span class="secno">3.4. </span><span class="content">Report Generation</span><a class="self-link" href="#report-generation"></a></h3>
     <h4 class="heading settled algorithm" data-algorithm="Generate report of type with
-  data" data-export data-level="3.4.1" id="generate-report"><span class="secno">3.4.1. </span><span class="content">Generate report of <var>type</var> with <var>data</var></span><a class="self-link" href="#generate-report"></a></h4>
-    <p>When the user agent is to <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="generate-and-queue-a-report">generate and queue a report</dfn> for a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> object (<dfn class="dfn-paneled" data-dfn-for="generate and queue a report" data-dfn-type="dfn" data-export id="generate-and-queue-a-report-context"><var>context</var></dfn>),
+  data" data-export data-level="3.4.1" id="generate-report"><span class="secno">3.4.1. </span><span class="content">Generate report of <var>type</var> with
+  <var>data</var></span><a class="self-link" href="#generate-report"></a></h4>
+    <p>When the user agent is to <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="generate-and-queue-a-report">generate and queue a report</dfn> for a <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code>
+  or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/workers.html#workerglobalscope" id="ref-for-workerglobalscope">WorkerGlobalScope</a></code> object (<dfn class="dfn-paneled" data-dfn-for="generate and queue a report" data-dfn-type="dfn" data-export id="generate-and-queue-a-report-context"><var>context</var></dfn>),
   given a string (<dfn class="dfn-paneled" data-dfn-for="generate and queue a report" data-dfn-type="dfn" data-export id="generate-and-queue-a-report-type"><var>type</var></dfn>),
   a string (<dfn class="dfn-paneled" data-dfn-for="generate and queue a report" data-dfn-type="dfn" data-export id="generate-and-queue-a-report-destination"><var>destination</var></dfn>), and
   a serializable object (<dfn class="dfn-paneled" data-dfn-for="generate and queue a report" data-dfn-type="dfn" data-export id="generate-and-queue-a-report-data"><var>data</var></dfn>),
@@ -1383,7 +1449,8 @@ feature-specific reports in a consistent manner.</p>
      <li data-md>
       <p>Let <var>settings</var> be <var>context</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>.</p>
      <li data-md>
-      <p>Let <var>report</var> be the result of running <a data-link-type="dfn" href="#generate-a-report" id="ref-for-generate-a-report">generate a report</a> with <var>data</var>, <var>type</var>, <var>destination</var> and <var>settings</var>.</p>
+      <p>Let <var>report</var> be the result of running <a data-link-type="dfn" href="#generate-a-report" id="ref-for-generate-a-report">generate a report</a> with <var>data</var>,
+  <var>type</var>, <var>destination</var> and <var>settings</var>.</p>
      <li data-md>
       <p>If <var>settings</var> is given, then</p>
       <ol>
@@ -1408,19 +1475,24 @@ feature-specific reports in a consistent manner.</p>
   in the period directly after its generation than it would be a day or a week
   later.</p>
     <h4 class="heading settled algorithm" data-algorithm="Send reports" data-level="3.5.1" id="send-reports"><span class="secno">3.5.1. </span><span class="content">Send reports</span><a class="self-link" href="#send-reports"></a></h4>
-    <p>A user agent sends a list of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports④">reports</a> (<var>reports</var>) for <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope④">WindowOrWorkerGlobalScope</a></code> object (<var>context</var>) by executing the following
+    <p>A user agent sends a list of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports④">reports</a> (<var>reports</var>) for
+  <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope④">WindowOrWorkerGlobalScope</a></code> object (<var>context</var>) by executing the following
   steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①①">endpoint</a> objects to lists of <a data-link-type="dfn" href="#report" id="ref-for-report①④">report</a> objects.</p>
+      <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①①">endpoint</a> objects to lists of
+  <a data-link-type="dfn" href="#report" id="ref-for-report①④">report</a> objects.</p>
      <li data-md>
       <p>For each <var>report</var> in <var>reports</var>:</p>
       <ol>
        <li data-md>
-        <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①②">endpoint</a> (<var>endpoint</var>) in <var>context</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints①">endpoints</a> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name③">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="#report-destination" id="ref-for-report-destination①">destination</a>:</p>
+        <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①②">endpoint</a> (<var>endpoint</var>) in <var>context</var>’s
+  <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints①">endpoints</a> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name③">name</a></code>
+  is <var>report</var>’s <a data-link-type="dfn" href="#report-destination" id="ref-for-report-destination①">destination</a>:</p>
         <ol>
          <li data-md>
-          <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for <var>endpoint</var>.</p>
+          <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for
+  <var>endpoint</var>.</p>
          <li data-md>
           <p>Otherwise, remove <var>report</var> from <var>reports</var>.</p>
         </ol>
@@ -1444,7 +1516,8 @@ feature-specific reports in a consistent manner.</p>
   execute the following steps asynchronously:</p>
         <ol>
          <li data-md>
-          <p>Let <var>result</var> be the result of executing <a href="#try-delivery">§ 3.5.2 Attempt to deliver reports to endpoint</a> on <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
+          <p>Let <var>result</var> be the result of executing <a href="#try-delivery">§ 3.5.2 Attempt to deliver reports to endpoint</a> on
+  <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
          <li data-md>
           <p>If <var>result</var> is "<code>Failure</code>":</p>
           <ol>
@@ -1455,7 +1528,8 @@ feature-specific reports in a consistent manner.</p>
           <p>If <var>result</var> is "<code>Remove Endpoint</code>":</p>
           <ol>
            <li data-md>
-            <p>Remove <var>endpoint</var> from <var>context</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints②">endpoints</a> list.</p>
+            <p>Remove <var>endpoint</var> from <var>context</var>’s
+  <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints②">endpoints</a> list.</p>
           </ol>
          <li data-md>
           <p>Remove each <a data-link-type="dfn" href="#report" id="ref-for-report①⑥">report</a> from <var>reports</var>.</p>
@@ -1470,8 +1544,11 @@ feature-specific reports in a consistent manner.</p>
   at once would consume an unreasonable amount of bandwidth, etc). As reports
   are only removed from the cache after delivery has been attempted, skipped
   reports will simply be delivered later.</p>
-    <h4 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="3.5.2" id="try-delivery"><span class="secno">3.5.2. </span><span class="content"> Attempt to deliver <var>reports</var> to <var>endpoint</var> </span><a class="self-link" href="#try-delivery"></a></h4>
-    <p>Given an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a> (<var>endpoint</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a> (<var>origin</var>), and a list of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑤">reports</a> (<var>reports</var>), this algorithm will
+    <h4 class="heading settled algorithm" data-algorithm="Attempt to deliver reports to endpoint" data-level="3.5.2" id="try-delivery"><span class="secno">3.5.2. </span><span class="content">
+    Attempt to deliver <var>reports</var> to <var>endpoint</var>
+  </span><a class="self-link" href="#try-delivery"></a></h4>
+    <p>Given an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①③">endpoint</a> (<var>endpoint</var>), an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin④">origin</a>
+  (<var>origin</var>), and a list of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑤">reports</a> (<var>reports</var>), this algorithm will
   construct a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request①">request</a>, and attempt to deliver it to <var>endpoint</var>. It
   returns "<code>Success</code>" if that delivery succeeds, "<code>Remove Endpoint</code>" if the
   endpoint explicitly removes itself as a reporting endpoint by sending a 410
@@ -1480,7 +1557,8 @@ feature-specific reports in a consistent manner.</p>
      <li data-md>
       <p>Let <var>body</var> be the result of executing <a data-link-type="dfn" href="#serialize-a-list-of-reports-to-json" id="ref-for-serialize-a-list-of-reports-to-json">serialize a list of reports to JSON</a> on <var>reports</var>.</p>
      <li data-md>
-      <p>Let <var>request</var> be a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request②">request</a> with the following properties <a data-link-type="biblio" href="#biblio-fetch" title="Fetch Standard">[FETCH]</a>:</p>
+      <p>Let <var>request</var> be a new <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request②">request</a> with the following properties
+  <a data-link-type="biblio" href="#biblio-fetch" title="Fetch Standard">[FETCH]</a>:</p>
       <dl>
        <dt data-md><code>method</code>
        <dd data-md>
@@ -1544,8 +1622,11 @@ feature-specific reports in a consistent manner.</p>
       <p>Return "<code>Failure</code>".</p>
     </ol>
     <h3 class="heading settled" data-level="3.6" id="strip-url-for-use-in-reports-heading"><span class="secno">3.6. </span><span class="content">Strip URL for use in reports</span><a class="self-link" href="#strip-url-for-use-in-reports-heading"></a></h3>
-     To <dfn class="dfn-paneled algorithm" data-algorithm="strip URL for use in reports" data-dfn-type="dfn" data-export id="strip-url-for-use-in-reports">strip URL for use in reports</dfn> given a <a data-link-type="dfn" data-refhint-key="https://url.spec.whatwg.org/#concept-url" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url②">URL</a> <var>url</var>,
-  perform the following steps. They return a string representing the URL for use in reports. 
+    
+  To <dfn class="dfn-paneled algorithm" data-algorithm="strip URL for use in reports" data-dfn-type="dfn" data-export id="strip-url-for-use-in-reports">strip URL for use in reports</dfn> given a <a data-link-type="dfn" data-refhint-key="https://url.spec.whatwg.org/#concept-url" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url②">URL</a> <var>url</var>,
+  perform the following steps. They return a string representing the URL for use in reports.
+
+
     <ol>
      <li data-md>
       <p>If <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-scheme" id="ref-for-concept-url-scheme">scheme</a> is not an <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#http-scheme" id="ref-for-http-scheme">HTTP(S) scheme</a>,
@@ -1557,18 +1638,20 @@ feature-specific reports in a consistent manner.</p>
      <li data-md>
       <p>Set <var>url</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-password" id="ref-for-concept-url-password">password</a> to the empty string.</p>
      <li data-md>
-      <p>Return the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer" id="ref-for-concept-url-serializer①">URL serializer</a> on <var>url</var>.</p>
+      <p>Return the result of executing the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url-serializer" id="ref-for-concept-url-serializer">URL serializer</a> on <var>url</var>.</p>
     </ol>
    </section>
    <section>
     <h2 class="heading settled" data-level="4" id="observers"><span class="secno">4. </span><span class="content">Reporting Observers</span><a class="self-link" href="#observers"></a></h2>
     <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="reporting-observer">reporting observer</dfn> observes some types of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑥">reports</a> from
-  JavaScript, and is represented in JavaScript by the <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver">ReportingObserver</a></code> object.</p>
+  JavaScript, and is represented in JavaScript by the <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver">ReportingObserver</a></code>
+  object.</p>
     <p>Each object implementing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑤">WindowOrWorkerGlobalScope</a></code> has a <dfn class="dfn-paneled" data-dfn-for="WindowOrWorkerGlobalScope" data-dfn-type="dfn" data-noexport id="windoworworkerglobalscope-registered-reporting-observer-list">registered reporting observer list</dfn>,
   which is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set">ordered set</a> of <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer③">reporting observers</a>.</p>
     <p>Any <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer④">reporting observer</a> that is in a <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list">registered reporting observer
   list</a> is considered <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="registered">registered</dfn>.</p>
-    <p>Each object implementing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑥">WindowOrWorkerGlobalScope</a></code> has a <dfn class="dfn-paneled" data-dfn-for="WindowOrWorkerGlobalScope" data-dfn-type="dfn" data-noexport id="windoworworkerglobalscope-report-buffer">report buffer</dfn>, which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a> of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑦">reports</a> that have been generated in that <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑦">WindowOrWorkerGlobalScope</a></code>. This list is initially empty, and the reports
+    <p>Each object implementing <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑥">WindowOrWorkerGlobalScope</a></code> has a <dfn class="dfn-paneled" data-dfn-for="WindowOrWorkerGlobalScope" data-dfn-type="dfn" data-noexport id="windoworworkerglobalscope-report-buffer">report buffer</dfn>, which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a> of <a data-link-type="dfn" href="#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑦">reports</a> that have been generated in that
+  <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑦">WindowOrWorkerGlobalScope</a></code>. This list is initially empty, and the reports
   are stored in the same order in which they are generated.</p>
     <p class="note" role="note"><span class="marker">Note:</span> The purpose of the <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer">report buffer</a> is to allow <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑤">reporting
   observers</a> to observe reports that were generated earlier than that
@@ -1607,20 +1690,23 @@ feature-specific reports in a consistent manner.</p>
 </pre>
     <p>A <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dom-report"><code>Report</code></dfn> is the application-exposed
   representation of a <a data-link-type="dfn" href="#report" id="ref-for-report①⑦">report</a>.</p>
-    <p><dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="reportbody"><code>ReportBody</code></dfn> is an abstract <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-dictionary" id="ref-for-dfn-dictionary">dictionary</a> type from which specific report types should <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-inherit-dictionary" id="ref-for-dfn-inherit-dictionary">inherit</a>.</p>
+    <p><dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="reportbody"><code>ReportBody</code></dfn> is an abstract <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-dictionary" id="ref-for-dfn-dictionary">dictionary</a>
+  type from which specific report types should <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-inherit-dictionary" id="ref-for-dfn-inherit-dictionary">inherit</a>.</p>
     <p>Each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver③">ReportingObserver</a></code> object has these associated concepts:</p>
     <ul>
      <li data-md>
       <p>A <dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-noexport id="reportingobserver-callback">callback</dfn> function set on creation.</p>
      <li data-md>
-      <p>A <code class="idl"><a data-link-type="idl" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions①">ReportingObserverOptions</a></code> dictionary called <dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-noexport id="reportingobserver-options">options</dfn>.</p>
+      <p>A <code class="idl"><a data-link-type="idl" href="#dictdef-reportingobserveroptions" id="ref-for-dictdef-reportingobserveroptions①">ReportingObserverOptions</a></code> dictionary called
+<dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-noexport id="reportingobserver-options">options</dfn>.</p>
      <li data-md>
       <p>A list of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report③">Report</a></code> objects called the <dfn class="dfn-paneled" data-dfn-for="ReportingObserver" data-dfn-type="dfn" data-lt="report queue" data-noexport id="reportingobserver-report-queue">report
 queue</dfn>, which is initially empty.</p>
     </ul>
     <p>A <code class="idl"><a data-link-type="idl" href="#typedefdef-reportlist" id="ref-for-typedefdef-reportlist①">ReportList</a></code> represents a sequence of <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report④">Report</a></code>s, providing developers
   with all the convenience methods found on JavaScript arrays.</p>
-    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)|constructor(callback, options)|ReportingObserver(callback)|constructor(callback)" id="dom-reportingobserver-reportingobserver"><code> ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
+    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="constructor" data-export data-lt="ReportingObserver(callback, options)|constructor(callback, options)|ReportingObserver(callback)|constructor(callback)" id="dom-reportingobserver-reportingobserver"><code>
+  ReportingObserver(<var>callback</var>, <var>options</var>)</code></dfn> constructor, when
   invoked, must run these steps:</p>
     <ol>
      <li data-md>
@@ -1632,7 +1718,8 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>Return <var>observer</var>.</p>
     </ol>
-    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-observe"><code>observe()</code></dfn> method, when invoked, must run these steps:</p>
+    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-observe"><code>observe()</code></dfn>
+  method, when invoked, must run these steps:</p>
     <ol>
      <li data-md>
       <p>Let <var>global</var> be the be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this">this</a>.</p>
@@ -1644,7 +1731,8 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>Set <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this③">this</a>’s <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-buffered" id="ref-for-dom-reportingobserveroptions-buffered②">buffered</a></code> <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options②">option</a> to false.</p>
      <li data-md>
-      <p>For each <var>report</var> in <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer①">report buffer</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to execute <a href="#add-report">§ 4.3 Add report to observer</a> with <var>report</var> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this④">this</a>.</p>
+      <p>For each <var>report</var> in <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer①">report buffer</a>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a>
+ to execute <a href="#add-report">§ 4.3 Add report to observer</a> with <var>report</var> and <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this④">this</a>.</p>
     </ol>
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="ReportingObserver" data-dfn-type="method" data-export id="dom-reportingobserver-disconnect"><code>disconnect()</code></dfn> method,
   when invoked, must run these steps:</p>
@@ -1667,8 +1755,11 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>Return <var>reports</var>.</p>
     </ol>
-    <h3 class="heading settled algorithm" data-algorithm="Notify reporting observers on scope with report" data-level="4.2" id="notify-observers"><span class="secno">4.2. </span><span class="content"> Notify reporting observers on <var>scope</var> with <var>report</var> </span><a class="self-link" href="#notify-observers"></a></h3>
-    <p>This algorithm makes <var>report</var>’s contents available to any <a data-link-type="dfn" href="#registered" id="ref-for-registered①">registered</a> <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑦">reporting observers</a> on the provided <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑧">WindowOrWorkerGlobalScope</a></code>.</p>
+    <h3 class="heading settled algorithm" data-algorithm="Notify reporting observers on scope with report" data-level="4.2" id="notify-observers"><span class="secno">4.2. </span><span class="content">
+    Notify reporting observers on <var>scope</var> with <var>report</var>
+  </span><a class="self-link" href="#notify-observers"></a></h3>
+    <p>This algorithm makes <var>report</var>’s contents available to any <a data-link-type="dfn" href="#registered" id="ref-for-registered①">registered</a>
+  <a data-link-type="dfn" href="#reporting-observer" id="ref-for-reporting-observer⑦">reporting observers</a> on the provided <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#windoworworkerglobalscope" id="ref-for-windoworworkerglobalscope⑧">WindowOrWorkerGlobalScope</a></code>.</p>
     <ol>
      <li data-md>
       <p>For each <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑤">ReportingObserver</a></code> <var>observer</var> <a data-link-type="dfn" href="#registered" id="ref-for-registered②">registered</a> with <var>scope</var>,
@@ -1678,18 +1769,27 @@ queue</dfn>, which is initially empty.</p>
      <li data-md>
       <p>Let <var>type</var> be <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype③">type</a>.</p>
      <li data-md>
-      <p>If <var>scope</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer③">report buffer</a> now contains more than 100 reports with <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> equal to <var>type</var>, remove the earliest item with <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> equal to <var>type</var> in the <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer④">report buffer</a>.</p>
+      <p>If <var>scope</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer③">report buffer</a> now contains more than 100 reports with
+ <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype④">type</a> equal to <var>type</var>, remove the earliest item with
+ <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑤">type</a> equal to <var>type</var> in the <a data-link-type="dfn" href="#windoworworkerglobalscope-report-buffer" id="ref-for-windoworworkerglobalscope-report-buffer④">report buffer</a>.</p>
     </ol>
-    <h3 class="heading settled algorithm" data-algorithm="Add report to observer" data-level="4.3" id="add-report"><span class="secno">4.3. </span><span class="content"> Add <var>report</var> to <var>observer</var> </span><a class="self-link" href="#add-report"></a></h3>
+    <h3 class="heading settled algorithm" data-algorithm="Add report to observer" data-level="4.3" id="add-report"><span class="secno">4.3. </span><span class="content">
+    Add <var>report</var> to <var>observer</var>
+  </span><a class="self-link" href="#add-report"></a></h3>
     <p>Given a <a data-link-type="dfn" href="#report" id="ref-for-report①⑧">report</a> <var>report</var> and a <code class="idl"><a data-link-type="idl" href="#reportingobserver" id="ref-for-reportingobserver⑥">ReportingObserver</a></code> <var>observer</var>, this
-  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue②">report queue</a>, so long as <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑥">type</a> is observable by <var>observer</var>.</p>
+  algorithm adds <var>report</var> to <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue②">report queue</a>, so long as
+  <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑥">type</a> is observable by <var>observer</var>.</p>
     <ol>
      <li data-md>
-      <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑦">type</a> is not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers①">visible to <code>ReportingObserver</code>s</a>, return.</p>
+      <p>If <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑦">type</a> is not <a data-link-type="dfn" href="#visible-to-reportingobservers" id="ref-for-visible-to-reportingobservers①">visible to
+<code>ReportingObserver</code>s</a>, return.</p>
      <li data-md>
-      <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑧">type</a>, return.</p>
+      <p>If <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-options" id="ref-for-reportingobserver-options③">options</a> has a non-empty
+ <code class="idl"><a data-link-type="idl" href="#dom-reportingobserveroptions-types" id="ref-for-dom-reportingobserveroptions-types">types</a></code> member which does not contain <var>report</var>’s
+ <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑧">type</a>, return.</p>
      <li data-md>
-      <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type">type</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑨">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>,
+      <p>Create a new <code class="idl"><a data-link-type="idl" href="#dom-report" id="ref-for-dom-report⑤">Report</a></code> <var>r</var> with <code class="idl"><a data-link-type="idl" href="#dom-report-type" id="ref-for-dom-report-type">type</a></code> initialized to <var>report</var>’s
+ <a data-link-type="dfn" href="#report-reporttype" id="ref-for-report-reporttype⑨">type</a>, <code class="idl"><a data-link-type="idl" href="#dom-report-url" id="ref-for-dom-report-url">url</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-url" id="ref-for-report-url③">url</a>,
  and <code class="idl"><a data-link-type="idl" href="#dom-report-body" id="ref-for-dom-report-body">body</a></code> initialized to <var>report</var>’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body④">body</a>.</p>
     </ol>
     <p class="issue" id="issue-6311d126"><a class="self-link" href="#issue-6311d126"></a> how to polymorphically initialize body?</p>
@@ -1702,10 +1802,13 @@ queue</dfn>, which is initially empty.</p>
        <li data-md>
         <p>Let <var>global</var> be <var>observer</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global②">relevant global object</a>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task②">Queue a task</a> to <a href="#invoke-observers">§ 4.4 Invoke reporting observers with notify list</a> with a copy of <var>global</var>’s <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list③">registered reporting observer list</a>.</p>
+        <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task②">Queue a task</a> to <a href="#invoke-observers">§ 4.4 Invoke reporting observers with notify list</a> with a copy of <var>global</var>’s
+   <a data-link-type="dfn" href="#windoworworkerglobalscope-registered-reporting-observer-list" id="ref-for-windoworworkerglobalscope-registered-reporting-observer-list③">registered reporting observer list</a>.</p>
       </ol>
     </ol>
-    <h3 class="heading settled algorithm" data-algorithm="Invoke reporting observers with notify list" data-level="4.4" id="invoke-observers"><span class="secno">4.4. </span><span class="content"> Invoke reporting observers with <var>notify list</var> </span><a class="self-link" href="#invoke-observers"></a></h3>
+    <h3 class="heading settled algorithm" data-algorithm="Invoke reporting observers with notify list" data-level="4.4" id="invoke-observers"><span class="secno">4.4. </span><span class="content">
+    Invoke reporting observers with <var>notify list</var>
+  </span><a class="self-link" href="#invoke-observers"></a></h3>
     <p>This algorithm invokes observer callback functions for reports of previously
   observed behavior.</p>
     <ol>
@@ -1720,7 +1823,8 @@ queue</dfn>, which is initially empty.</p>
         <p>Empty <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-report-queue" id="ref-for-reportingobserver-report-queue⑦">report queue</a></p>
        <li data-md>
         <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#invoke-a-callback-function" id="ref-for-invoke-a-callback-function">Invoke</a> <var>observer</var>’s <a data-link-type="dfn" href="#reportingobserver-callback" id="ref-for-reportingobserver-callback①">callback</a> with
-  « <var>reports</var>, <var>observer</var> » and "<code>report</code>", and with <var>observer</var> as the <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-callback-this-value" id="ref-for-dfn-callback-this-value">callback this value</a>.</p>
+  « <var>reports</var>, <var>observer</var> » and "<code>report</code>", and with <var>observer</var> as the
+  <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-callback-this-value" id="ref-for-dfn-callback-this-value">callback this value</a>.</p>
       </ol>
     </ol>
    </section>
@@ -1763,7 +1867,8 @@ queue</dfn>, which is initially empty.</p>
   types and bodies themselves are not intended to be representative of any
   actual feature, as those are outside of the scope of this specification).</p>
     <div class="example" id="example-3cfcdab2">
-     <a class="self-link" href="#example-3cfcdab2"></a> 
+     <a class="self-link" href="#example-3cfcdab2"></a>
+    
 <pre>POST / HTTP/1.1
 Host: example.com
 ...
@@ -1816,7 +1921,8 @@ Content-Type: application/reports+json
    <section>
     <h2 class="heading settled" data-level="7" id="automation"><span class="secno">7. </span><span class="content">Automation</span><a class="self-link" href="#automation"></a></h2>
     <p>For the purposes of user-agent automation and application testing, this
-  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver" title="WebDriver">[WebDriver]</a> specification.</p>
+  document defines a number of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command">extension commands</a> for the <a data-link-type="biblio" href="#biblio-webdriver" title="WebDriver">[WebDriver]</a>
+  specification.</p>
     <h3 class="heading settled" data-level="7.1" id="generate-test-report-command"><span class="secno">7.1. </span><span class="content">Generate Test Report</span><a class="self-link" href="#generate-test-report-command"></a></h3>
     <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="generate-test-report">Generate Test Report</dfn> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-extension-command" id="ref-for-dfn-extension-command①">extension command</a> simulates the
   generation of a <a data-link-type="dfn" href="#report" id="ref-for-report②②">report</a> for the purposes of testing. This report will be
@@ -1842,24 +1948,29 @@ Content-Type: application/reports+json
       <p>If <var>parameters</var> is not a JSON <a data-link-type="dfn" href="https://w3c.github.io/rdf-concepts/spec/#dfn-object" id="ref-for-dfn-object">Object</a>, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error">WebDriver
  error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-invalid-argument" id="ref-for-dfn-invalid-argument">invalid argument</a>.</p>
      <li data-md>
-      <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
+      <p>Let <var>message</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-try" id="ref-for-dfn-try">trying</a> to get <var>parameters</var>’s
+ <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-message" id="ref-for-dom-generatetestreportparameters-message">message</a></code> property.</p>
      <li data-md>
-      <p>If <var>message</var> is not present, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error①">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
+      <p>If <var>message</var> is not present, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error①">WebDriver error</a>
+ with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code①">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-invalid-argument" id="ref-for-dfn-invalid-argument①">invalid argument</a>.</p>
      <li data-md>
-      <p>If the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a> is no longer open, return a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error②">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code②">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-no-such-window" id="ref-for-dfn-no-such-window">no such
+      <p>If the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context">current browsing context</a> is no longer open, return a
+ <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error②">WebDriver error</a> with <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error-code" id="ref-for-dfn-error-code②">WebDriver error code</a> <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-no-such-window" id="ref-for-dfn-no-such-window">no such
  window</a>.</p>
      <li data-md>
       <p><a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-handle-any-user-prompts" id="ref-for-dfn-handle-any-user-prompts">Handle any user prompts</a> and return its value if it is a <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-error" id="ref-for-dfn-error③">WebDriver
  error</a>.</p>
      <li data-md>
-      <p>Let <var>group</var> be <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code> property.</p>
+      <p>Let <var>group</var> be <var>parameters</var>’s <code class="idl"><a data-link-type="idl" href="#dom-generatetestreportparameters-group" id="ref-for-dom-generatetestreportparameters-group">group</a></code>
+ property.</p>
      <li data-md>
       <p>Let <var>body</var> be a new object that can be serialized into a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc8259#section-2" id="ref-for-section-2①">JSON text</a>,
  containing a single string field, <var>body_message</var>.</p>
      <li data-md>
       <p>Set <var>body_message</var> to <var>message</var>.</p>
      <li data-md>
-      <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context①">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document">active document</a>.</p>
+      <p>Let <var>settings</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object②">environment settings object</a> of the
+ <a data-link-type="dfn" href="https://w3c.github.io/webdriver/#dfn-current-browsing-context" id="ref-for-dfn-current-browsing-context①">current browsing context</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document">active document</a>.</p>
      <li data-md>
       <p>Execute <a data-link-type="dfn" href="#generate-and-queue-a-report" id="ref-for-generate-and-queue-a-report">generate and queue a report</a> with <var>body</var>, "test", <var>group</var>, and <var>settings</var>.</p>
      <li data-md>
@@ -1881,7 +1992,8 @@ Content-Type: application/reports+json
   however, for sensitive information in the URL’s path to be leaked this way.
   Sites which use such URLs may need to operate their own reporting endpoints.</p>
     <p>Additionally, such URLs may be present in a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑤">body</a>.
-  Specifications which extend this API and which include any URLs in a report’s <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a> SHOULD require that they be similarly stripped.</p>
+  Specifications which extend this API and which include any URLs in a report’s
+  <a data-link-type="dfn" href="#report-body" id="ref-for-report-body⑥">body</a> SHOULD require that they be similarly stripped.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="9" id="privacy"><span class="secno">9. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
@@ -1927,7 +2039,8 @@ Content-Type: application/reports+json
   amount of additional information above and beyond what a website can obtain
   in-band (<a data-link-type="biblio" href="#biblio-network-error-logging" title="Network Error Logging">[NETWORK-ERROR-LOGGING]</a>, for instance). User agents MUST allow
   users to disable reporting with some reasonable amount of granularity in order
-  to maintain the priority of constituencies espoused in <a data-link-type="biblio" href="#biblio-html-design-principles" title="HTML Design Principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
+  to maintain the priority of constituencies espoused in
+  <a data-link-type="biblio" href="#biblio-html-design-principles" title="HTML Design Principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="10" id="iana-considerations"><span class="secno">10. </span><span class="content">IANA Considerations</span><a class="self-link" href="#iana-considerations"></a></h2>
@@ -2217,7 +2330,7 @@ Content-Type: application/reports+json
    <dt id="biblio-infra">[INFRA]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rdf12-concepts">[RDF12-CONCEPTS]
-   <dd>Olaf Hartig; et al. <a href="https://w3c.github.io/rdf-concepts/spec/"><cite>RDF 1.2 Concepts and Abstract Syntax</cite></a>. URL: <a href="https://w3c.github.io/rdf-concepts/spec/">https://w3c.github.io/rdf-concepts/spec/</a>
+   <dd>Olaf Hartig; et al. <a href="https://w3c.github.io/rdf-concepts/spec/"><cite>RDF 1.2 Concepts and Abstract Data Model</cite></a>. URL: <a href="https://w3c.github.io/rdf-concepts/spec/">https://w3c.github.io/rdf-concepts/spec/</a>
    <dt id="biblio-rfc3864">[RFC3864]
    <dd>G. Klyne; M. Nottingham; J. Mogul. <a href="https://www.rfc-editor.org/rfc/rfc3864"><cite>Registration Procedures for Message Header Fields</cite></a>. September 2004. Best Current Practice. URL: <a href="https://www.rfc-editor.org/rfc/rfc3864">https://www.rfc-editor.org/rfc/rfc3864</a>
    <dt id="biblio-rfc5234">[RFC5234]
@@ -2664,7 +2777,7 @@ let dfnPanelData = {
 "4c07280e": {"dfnID":"4c07280e","dfnText":"serialize an Infra value to JSON bytes","external":true,"refSections":[{"refs":[{"id":"ref-for-serialize-an-infra-value-to-json-bytes"}],"title":"2.4. Serialize Reports"}],"url":"https://infra.spec.whatwg.org/#serialize-an-infra-value-to-json-bytes"},
 "5372cca8": {"dfnID":"5372cca8","dfnText":"boolean","external":true,"refSections":[{"refs":[{"id":"ref-for-idl-boolean"}],"title":"4.1. Interface ReportingObserver"}],"url":"https://webidl.spec.whatwg.org/#idl-boolean"},
 "543d1495": {"dfnID":"543d1495","dfnText":"navigator.userAgent","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-navigator-useragent"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#dom-navigator-useragent"},
-"5442ea33": {"dfnID":"5442ea33","dfnText":"URL serializer","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-serializer"}],"title":"2.3. \n    Queue data as type for destination\n  "},{"refs":[{"id":"ref-for-concept-url-serializer\u2460"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-serializer"},
+"5442ea33": {"dfnID":"5442ea33","dfnText":"URL serializer","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-serializer"}],"title":"3.6. Strip URL for use in reports"}],"url":"https://url.spec.whatwg.org/#concept-url-serializer"},
 "55213b5b": {"dfnID":"55213b5b","dfnText":"request","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-request"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-concept-request\u2460"},{"id":"ref-for-concept-request\u2461"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-request"},
 "5c66de35": {"dfnID":"5c66de35","dfnText":"get a structured field value","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-header-list-get-structured-header"}],"title":"3.3. \n    Process reporting endpoints for response\n  "}],"url":"https://fetch.spec.whatwg.org/#concept-header-list-get-structured-header"},
 "5cf0e148": {"dfnID":"5cf0e148","dfnText":"WebDriver error","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-error"},{"id":"ref-for-dfn-error\u2460"},{"id":"ref-for-dfn-error\u2461"},{"id":"ref-for-dfn-error\u2462"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-error"},
@@ -2762,7 +2875,7 @@ let dfnPanelData = {
 "reportingobserver-options": {"dfnID":"reportingobserver-options","dfnText":"options","external":false,"refSections":[{"refs":[{"id":"ref-for-reportingobserver-options"},{"id":"ref-for-reportingobserver-options\u2460"},{"id":"ref-for-reportingobserver-options\u2461"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-reportingobserver-options\u2462"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"#reportingobserver-options"},
 "reportingobserver-report-queue": {"dfnID":"reportingobserver-report-queue","dfnText":"report\nqueue","external":false,"refSections":[{"refs":[{"id":"ref-for-reportingobserver-report-queue"},{"id":"ref-for-reportingobserver-report-queue\u2460"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-reportingobserver-report-queue\u2461"},{"id":"ref-for-reportingobserver-report-queue\u2462"},{"id":"ref-for-reportingobserver-report-queue\u2463"}],"title":"4.3. \n    Add report to observer\n  "},{"refs":[{"id":"ref-for-reportingobserver-report-queue\u2464"},{"id":"ref-for-reportingobserver-report-queue\u2465"},{"id":"ref-for-reportingobserver-report-queue\u2466"}],"title":"4.4. \n    Invoke reporting observers with notify list\n  "}],"url":"#reportingobserver-report-queue"},
 "serialize-a-list-of-reports-to-json": {"dfnID":"serialize-a-list-of-reports-to-json","dfnText":"serialize a list of reports to JSON","external":false,"refSections":[{"refs":[{"id":"ref-for-serialize-a-list-of-reports-to-json"}],"title":"3.5.2. \n    Attempt to deliver reports to endpoint\n  "}],"url":"#serialize-a-list-of-reports-to-json"},
-"strip-url-for-use-in-reports": {"dfnID":"strip-url-for-use-in-reports","dfnText":"strip URL for use in reports","external":false,"refSections":[],"url":"#strip-url-for-use-in-reports"},
+"strip-url-for-use-in-reports": {"dfnID":"strip-url-for-use-in-reports","dfnText":"strip URL for use in reports","external":false,"refSections":[{"refs":[{"id":"ref-for-strip-url-for-use-in-reports"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"#strip-url-for-use-in-reports"},
 "typedefdef-reportlist": {"dfnID":"typedefdef-reportlist","dfnText":"ReportList","external":false,"refSections":[{"refs":[{"id":"ref-for-typedefdef-reportlist"},{"id":"ref-for-typedefdef-reportlist\u2460"}],"title":"4.1. Interface ReportingObserver"}],"url":"#typedefdef-reportlist"},
 "visible-to-reportingobservers": {"dfnID":"visible-to-reportingobservers","dfnText":"visible to ReportingObservers","external":false,"refSections":[{"refs":[{"id":"ref-for-visible-to-reportingobservers"}],"title":"2.1.2. Report Type"},{"refs":[{"id":"ref-for-visible-to-reportingobservers\u2460"}],"title":"4.3. \n    Add report to observer\n  "}],"url":"#visible-to-reportingobservers"},
 "windoworworkerglobalscope-endpoints": {"dfnID":"windoworworkerglobalscope-endpoints","dfnText":"endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-windoworworkerglobalscope-endpoints"}],"title":"3.1. Document configuration"},{"refs":[{"id":"ref-for-windoworworkerglobalscope-endpoints\u2460"},{"id":"ref-for-windoworworkerglobalscope-endpoints\u2461"}],"title":"3.5.1. Send reports"}],"url":"#windoworworkerglobalscope-endpoints"},
@@ -3252,6 +3365,7 @@ let refsData = {
 "#reportingobserver-options": {"displayText":"options","export":true,"for_":["ReportingObserver"],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"options","type":"dfn","url":"#reportingobserver-options"},
 "#reportingobserver-report-queue": {"displayText":"report queue","export":true,"for_":["ReportingObserver"],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"report queue","type":"dfn","url":"#reportingobserver-report-queue"},
 "#serialize-a-list-of-reports-to-json": {"displayText":"serialize a list of reports to json","export":true,"for_":[],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"serialize a list of reports to json","type":"dfn","url":"#serialize-a-list-of-reports-to-json"},
+"#strip-url-for-use-in-reports": {"displayText":"strip url for use in reports","export":true,"for_":[],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"strip url for use in reports","type":"dfn","url":"#strip-url-for-use-in-reports"},
 "#typedefdef-reportlist": {"displayText":"ReportList","export":true,"for_":[],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"ReportList","type":"typedef","url":"#typedefdef-reportlist"},
 "#visible-to-reportingobservers": {"displayText":"visible to reportingobservers","export":true,"for_":[],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"visible to reportingobservers","type":"dfn","url":"#visible-to-reportingobservers"},
 "#windoworworkerglobalscope-endpoints": {"displayText":"endpoints","export":true,"for_":["WindowOrWorkerGlobalScope"],"level":"1","normative":true,"shortname":"reporting","spec":"reporting-1","status":"local","text":"endpoints","type":"dfn","url":"#windoworworkerglobalscope-endpoints"},
