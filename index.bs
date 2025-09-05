@@ -325,8 +325,8 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
 
-  4.  Set |report|'s [=report/url=] to the result of executing the <a>URL
-      serializer</a> on |url| with the <em>exclude fragment flag</em> set.
+  4.  Set |report|'s [=report/url=] to the result of [=stripping URL for use in reports=],
+      given |url|.
 
   6.  Return |report|.
 
