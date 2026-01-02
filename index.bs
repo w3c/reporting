@@ -298,10 +298,9 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
     Queue |data| as |type| for |destination|
   </h3>
 
-  To <dfn>generate a report</dfn> given a
+  To <dfn noexport>generate a report</dfn> given a
   serializable object (|data|), a string (|type|), another string
-  (|destination|), an optional <a>environment settings object</a>
-  (|settings|), and an optional {{URL}} (|url|):
+  (|destination|), and an <a>environment settings object</a> (|settings|):
 
   1.  Let |report| be a new <a>report</a> object with its values initialized as
       follows:
@@ -319,8 +318,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
       :   [=report/attempts=]
       ::  0
 
-  2.  If |url| was not provided by the caller, let |url| be |settings|'s
-      <a>creation URL</a>.
+  2.  Let |url| be |settings|'s <a>creation URL</a>.
 
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
@@ -495,7 +493,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
 
   1.  Let |settings| be |context|'s [=relevant settings object=].
 
-  2.  Let |report| be the result of running [=generate a report=] with |data|,
+  1.  Let |report| be the result of running [=generate a report=] with |data|,
       |type|, |destination| and |settings|.
 
   1.  If |settings| is given, then
@@ -506,7 +504,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
       1.  If |scope| is an object implementing {{WindowOrWorkerGlobalScope}},
           then execute [[#notify-observers]] with |scope| and |report|.
 
-  3. Append |report| to |context|'s [=reports=].
+  1. Append |report| to |context|'s [=reports=].
 
   <h3 id="report-delivery">Report Delivery</h3>
 
