@@ -298,7 +298,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
     Queue |data| as |type| for |destination|
   </h3>
 
-  To <dfn>generate a report</dfn> given a
+  To <dfn noexport>generate a report</dfn> given a
   serializable object (|data|), a string (|type|), another string
   (|destination|), and an <a>environment settings object</a> (|settings|):
 
