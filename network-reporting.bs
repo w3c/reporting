@@ -543,7 +543,7 @@ spec: origin-policy; urlPrefix: https://wicg.github.io/origin-policy/
       remove it.
 
   5. Insert |client| into the <a>reporting cache</a> for |origin|.
-
+</section>
 
 <!-- Big Text: Reporting -->
 <section>
