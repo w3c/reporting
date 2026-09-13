@@ -5,9 +5,9 @@
   <title>Network Reporting API</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
+  <meta content="Bikeshed version ac92c2f0d, updated Fri Aug 21 16:01:29 2026 -0700" name="generator">
   <link href="https://w3c.github.io/reporting/network-reporting" rel="canonical">
-  <meta content="57e73b585f46d43022b7d8c05d1deb6b0197c183" name="revision">
+  <meta content="202a1ac1a4d6622c515ed1398958bf14dcf110fe" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -303,7 +303,7 @@ pre .property::before, pre .property::after {
 </style>
 <style>/* Boilerplate: style-counters */
 body {
-    counter-reset: example figure issue;
+    counter-reset: example figure issue table;
 }
 .issue {
     counter-increment: issue;
@@ -328,6 +328,13 @@ figcaption {
 }
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
+}
+
+figure.table figcaption {
+    counter-increment: table;
+}
+figure.table figcaption:not(.no-marker)::before {
+    content: "Table " counter(table) " ";
 }
 </style>
 <style>/* Boilerplate: style-dfn-panel */
@@ -616,7 +623,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </p>
    <h1>Network Reporting API</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-01-02">2 January 2026</time></p>
+    <time class="dt-updated" datetime="2026-09-13">13 September 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -750,7 +757,7 @@ manner.</p>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
-      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Non-Normative References</span></a>
      </ol>
     <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
@@ -1075,268 +1082,269 @@ manner.</p>
      <li data-md>
       <p>Insert <var>client</var> into the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache④">reporting cache</a> for <var>origin</var>.</p>
     </ol>
-    <section>
-     <h2 class="heading settled" data-level="4" id="report-generation"><span class="secno">4. </span><span class="content">Report Generation</span><a class="self-link" href="#report-generation"></a></h2>
-     <p>Network reports can be generated with or without an active document. If a
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="4" id="report-generation"><span class="secno">4. </span><span class="content">Report Generation</span><a class="self-link" href="#report-generation"></a></h2>
+    <p>Network reports can be generated with or without an active document. If a
   document is present, and can be considered the source of the report, then the
   report generated may be visible to reporting observers in that document.</p>
-     <p>When a user agent is to <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="generate-a-network-report">generate a network report</dfn>, given a
+    <p>When a user agent is to <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="generate-a-network-report">generate a network report</dfn>, given a
   string (<var>type</var>), another string (<var>endpoint group</var>), a serializable object
   (<var>data</var>), and an optional <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> (<var>document</var>), it must run the
   following steps:</p>
-     <ol>
-      <li data-md>
-       <p>If <var>document</var> is given, then</p>
-       <ol>
-        <li data-md>
-         <p>Let <var>settings</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a>.</p>
-        <li data-md>
-         <p>Let <var>report</var> be the result of running <a href="https://w3c.github.io/reporting/#queue-report"><cite>Reporting API</cite> § 2.3 Queue data as type for destination</a> with
+    <ol>
+     <li data-md>
+      <p>If <var>document</var> is given, then</p>
+      <ol>
+       <li data-md>
+        <p>Let <var>settings</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object" id="ref-for-environment-settings-object">environment settings object</a>.</p>
+       <li data-md>
+        <p>Let <var>report</var> be the result of running <a href="https://w3c.github.io/reporting/#queue-report"><cite>Reporting API</cite> § 2.3 Queue data as type for destination</a> with
   <var>data</var>, <var>type</var>, <var>endpoint group</var> and <var>settings</var>.</p>
-       </ol>
-      <li data-md>
-       <p>Otherwise, let <var>report</var> be the result of running
+      </ol>
+     <li data-md>
+      <p>Otherwise, let <var>report</var> be the result of running
   <a href="https://w3c.github.io/reporting/#queue-report"><cite>Reporting API</cite> § 2.3 Queue data as type for destination</a> with <var>data</var>, <var>type</var>, and <var>endpoint group</var>.</p>
-      <li data-md>
-       <p>Append <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑤">reporting cache</a>.</p>
-     </ol>
-     <h2 class="heading settled" data-level="5" id="report-delivery"><span class="secno">5. </span><span class="content">Report Delivery</span><a class="self-link" href="#report-delivery"></a></h2>
-     <p>Over time, various features will queue up a list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports②">reports</a> in the
+     <li data-md>
+      <p>Append <var>report</var> to the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑤">reporting cache</a>.</p>
+    </ol>
+    <h2 class="heading settled" data-level="5" id="report-delivery"><span class="secno">5. </span><span class="content">Report Delivery</span><a class="self-link" href="#report-delivery"></a></h2>
+    <p>Over time, various features will queue up a list of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports②">reports</a> in the
   user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑥">reporting cache</a>. The user agent will periodically grab
   the list of currently pending reports, and deliver them to the associated
   endpoints. This document does not define a schedule for the user agent to
   follow, and assumes that the user agent will have enough contextual
   information to deliver reports in a timely manner, balanced against impacting
   a user’s experience.</p>
-     <p>That said, a user agent SHOULD make an effort to deliver reports as soon as
+    <p>That said, a user agent SHOULD make an effort to deliver reports as soon as
   possible after queuing, as a report’s data might be significantly more useful
   in the period directly after its generation than it would be a day or a week
   later.</p>
-     <h3 class="heading settled" data-level="5.1" id="choose-endpoint"><span class="secno">5.1. </span><span class="content">
+    <h3 class="heading settled" data-level="5.1" id="choose-endpoint"><span class="secno">5.1. </span><span class="content">
     Choose an <var>endpoint</var> from a <var>group</var>
   </span><a class="self-link" href="#choose-endpoint"></a></h3>
-     <p class="note" role="note"><span class="marker">Note:</span> This algorithm is the same as the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#page-4" id="ref-for-page-4">target selection
+    <p class="note" role="note"><span class="marker">Note:</span> This algorithm is the same as the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#page-4" id="ref-for-page-4">target selection
     algorithm</a> used for DNS <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc2782#" id="ref-for-something②">SRV records</a>.</p>
-     <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
+    <p>Given an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②③">endpoint group</a> (<var>group</var>), this algorithm chooses an arbitrary
   eligible <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑦">endpoint</a> from the group, if there is one, taking into
   account the <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑤">priority</a></code> and
   <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight③">weight</a></code> of the <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑧">endpoints</a>.</p>
-     <ol>
-      <li data-md>
-       <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
-      <li data-md>
-       <p>Remove every <var>endpoint</var> from <var>endpoints</var> that is
+    <ol>
+     <li data-md>
+      <p>Let <var>endpoints</var> be a copy of <var>group</var>’s <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-endpoints" id="ref-for-dom-endpoint-group-endpoints①">endpoints</a></code> list.</p>
+     <li data-md>
+      <p>Remove every <var>endpoint</var> from <var>endpoints</var> that is
   <a data-link-type="dfn" href="#network-reporting-endpoint-pending" id="ref-for-network-reporting-endpoint-pending">pending</a>.</p>
-      <li data-md>
-       <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
-      <li data-md>
-       <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑥">priority</a></code>
+     <li data-md>
+      <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
+     <li data-md>
+      <p>Let <var>priority</var> be the minimum <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑥">priority</a></code>
   value of each <var>endpoint</var> in <var>endpoints</var>.</p>
-      <li data-md>
-       <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose
+     <li data-md>
+      <p>Remove every <var>endpoint</var> from <var>endpoints</var> whose
   <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-priority" id="ref-for-dom-network-reporting-endpoint-priority⑦">priority</a></code> value is not equal to <var>priority</var>.</p>
-      <li data-md>
-       <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
-      <li data-md>
-       <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight④">weight</a></code>
+     <li data-md>
+      <p>If <var>endpoints</var> is empty, return <code>null</code>.</p>
+     <li data-md>
+      <p>Let <var>total weight</var> be the sum of the <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight④">weight</a></code>
   value of each <var>endpoint</var> in <var>endpoints</var>.</p>
-      <li data-md>
-       <p>Let <var>weight</var> be a random number ≥ 0 and ≤ <var>total weight</var>.</p>
-      <li data-md>
-       <p>For each <var>endpoint</var> in <var>endpoints</var>:</p>
-       <ol>
-        <li data-md>
-         <p>If <var>weight</var> is less than or equal to <var>endpoint</var>’s
+     <li data-md>
+      <p>Let <var>weight</var> be a random number ≥ 0 and ≤ <var>total weight</var>.</p>
+     <li data-md>
+      <p>For each <var>endpoint</var> in <var>endpoints</var>:</p>
+      <ol>
+       <li data-md>
+        <p>If <var>weight</var> is less than or equal to <var>endpoint</var>’s
   <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight⑤">weight</a></code>, return <var>endpoint</var>.</p>
-        <li data-md>
-         <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight⑥">weight</a></code> from
+       <li data-md>
+        <p>Subtract <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-weight" id="ref-for-dom-network-reporting-endpoint-weight⑥">weight</a></code> from
   <var>weight</var>.</p>
-       </ol>
-      <li data-md>
-       <p>It should not be possible to fall through to here, since the random number
+      </ol>
+     <li data-md>
+      <p>It should not be possible to fall through to here, since the random number
   chosen earlier will be less than or equal to <var>total weight</var>.</p>
-     </ol>
-     <h3 class="algorithm heading settled" data-algorithm="Send reports" data-level="5.2" id="send-reports"><span class="secno">5.2. </span><span class="content">
+    </ol>
+    <h3 class="algorithm heading settled" data-algorithm="Send reports" data-level="5.2" id="send-reports"><span class="secno">5.2. </span><span class="content">
     Send reports
   </span><a class="self-link" href="#send-reports"></a></h3>
-     <p>A user agent sends reports by executing the following steps:</p>
-     <ol>
-      <li data-md>
-       <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report①">report</a> objects in
+    <p>A user agent sends reports by executing the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>Let <var>reports</var> be a copy of the list of queued <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report①">report</a> objects in
   <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑦">reporting cache</a>.</p>
-      <li data-md>
-       <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①⓪">network reporting endpoint</a>
+     <li data-md>
+      <p>Let <var>endpoint map</var> be an empty map of <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①⓪">network reporting endpoint</a>
   objects to lists of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report②">report</a> objects.</p>
-      <li data-md>
-       <p>For each <var>report</var> in <var>reports</var>:</p>
-       <ol>
-        <li data-md>
-         <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑦">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-url" id="ref-for-report-url">url</a>.</p>
-        <li data-md>
-         <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a> for
+     <li data-md>
+      <p>For each <var>report</var> in <var>reports</var>:</p>
+      <ol>
+       <li data-md>
+        <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑦">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-url" id="ref-for-report-url">url</a>.</p>
+       <li data-md>
+        <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑧">reporting cache</a> for
   <var>origin</var>.</p>
-        <li data-md>
-         <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> (<var>group</var>) in
+       <li data-md>
+        <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②④">endpoint group</a> (<var>group</var>) in
   <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups①">endpoint-groups</a></code> list whose
   <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑤">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-destination" id="ref-for-report-destination">destination</a>:</p>
-         <ol>
-          <li data-md>
-           <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on
+        <ol>
+         <li data-md>
+          <p>Let <var>endpoint</var> be the result of executing <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on
   <var>group</var>.</p>
-          <li data-md>
-           <p>If <var>endpoint</var> is not <code>null</code>:</p>
-           <ol>
-            <li data-md>
-             <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for
+         <li data-md>
+          <p>If <var>endpoint</var> is not <code>null</code>:</p>
+          <ol>
+           <li data-md>
+            <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports for
   <var>endpoint</var>.</p>
-            <li data-md>
-             <p>Skip to the next <var>report</var>.</p>
-           </ol>
-         </ol>
-        <li data-md>
-         <p>If <var>origin</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-tuple" id="ref-for-concept-origin-tuple">tuple origin</a> whose <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host" id="ref-for-concept-origin-host①">host</a> is a
+           <li data-md>
+            <p>Skip to the next <var>report</var>.</p>
+          </ol>
+        </ol>
+       <li data-md>
+        <p>If <var>origin</var> is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-tuple" id="ref-for-concept-origin-tuple">tuple origin</a> whose <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host" id="ref-for-concept-origin-host①">host</a> is a
   <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-domain" id="ref-for-concept-domain">domain</a>:</p>
-         <ol>
-          <li data-md>
-           <p>For each <var>parent domain</var> that is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2">superdomain match</a>
+        <ol>
+         <li data-md>
+          <p>For each <var>parent domain</var> that is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6797#section-8.2" id="ref-for-section-8.2">superdomain match</a>
   for <var>origin</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host" id="ref-for-concept-origin-host②">host</a> <a data-link-type="biblio" href="#biblio-rfc6797" title="HTTP Strict Transport Security (HSTS)">[RFC6797]</a>, considering longer
   domains first:</p>
-           <ol>
-            <li data-md>
-             <p>Let <var>parent origin</var> be a copy of <var>origin</var>, with its
+          <ol>
+           <li data-md>
+            <p>Let <var>parent origin</var> be a copy of <var>origin</var>, with its
   <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host" id="ref-for-concept-origin-host③">host</a> replaced with <var>parent domain</var>.</p>
-            <li data-md>
-             <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for
+           <li data-md>
+            <p>Let <var>client</var> be the entry in the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache⑨">reporting cache</a> for
   <var>parent origin</var>.</p>
-            <li data-md>
-             <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in
+           <li data-md>
+            <p>If there exists an <a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑤">endpoint group</a> (<var>group</var>) in
   <var>client</var>’s <code class="idl"><a data-link-type="idl" href="#dom-client-endpoint-groups" id="ref-for-dom-client-endpoint-groups②">endpoint-groups</a></code> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-name" id="ref-for-dom-endpoint-group-name⑥">name</a></code> is <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-destination" id="ref-for-report-destination①">destination</a> <b>and</b>
   whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains①">subdomains</a></code> flag is "<code>include</code>":</p>
-             <ol>
-              <li data-md>
-               <p>Let <var>endpoint</var> be the result of executing
+            <ol>
+             <li data-md>
+              <p>Let <var>endpoint</var> be the result of executing
   <a href="#choose-endpoint">§ 5.1 Choose an endpoint from a group</a> on <var>group</var>.</p>
-              <li data-md>
-               <p>If <var>endpoint</var> is not <code>null</code>:</p>
-               <ol>
-                <li data-md>
-                 <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports
+             <li data-md>
+              <p>If <var>endpoint</var> is not <code>null</code>:</p>
+              <ol>
+               <li data-md>
+                <p>Append <var>report</var> to <var>endpoint map</var>’s list of reports
   for <var>endpoint</var>.</p>
-                <li data-md>
-                 <p>Skip to the next <var>report</var>.</p>
-               </ol>
-             </ol>
-           </ol>
-         </ol>
-         <p class="note" role="note"><span class="marker">Note:</span> This algorithm ensures that more specific <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains②">subdomains</a></code> policies take precendence over less specific ones,
+               <li data-md>
+                <p>Skip to the next <var>report</var>.</p>
+              </ol>
+            </ol>
+          </ol>
+        </ol>
+        <p class="note" role="note"><span class="marker">Note:</span> This algorithm ensures that more specific <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains②">subdomains</a></code> policies take precendence over less specific ones,
   and that <code class="idl"><a data-link-type="idl" href="#dom-endpoint-group-subdomains" id="ref-for-dom-endpoint-group-subdomains③">subdomains</a></code> policies are ignored for any
   non-<a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-domain" id="ref-for-concept-domain①">domain</a> origins (e.g., for a request to a raw IP address).</p>
-        <li data-md>
-         <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①①">network
+       <li data-md>
+        <p>If we reach this step, the <var>report</var> did not match any <a data-link-type="dfn" href="#network-reporting-endpoint" id="ref-for-network-reporting-endpoint①①">network
   reporting endpoint</a> and the user agent MAY remove <var>report</var> from the
   <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①⓪">reporting cache</a> directly. Depending on load, the user agent MAY
   instead wait for <a href="#gc">§ 6.2 Garbage Collection</a> at some point in the future.</p>
-       </ol>
-      <li data-md>
-       <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>:</p>
-       <ol>
-        <li data-md>
-         <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origins</a> to
+      </ol>
+     <li data-md>
+      <p>For each (<var>endpoint</var>, <var>reports</var>) pair in <var>endpoint map</var>:</p>
+      <ol>
+       <li data-md>
+        <p>Let <var>origin map</var> be an empty map of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑧">origins</a> to
   lists of <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report③">report</a> objects.</p>
-        <li data-md>
-         <p>For each <var>report</var> in <var>reports</var>:</p>
-         <ol>
-          <li data-md>
-           <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑨">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-url" id="ref-for-report-url①">url</a>.</p>
-          <li data-md>
-           <p>Append <var>report</var> to <var>origin map</var>’s list of reports for <var>origin</var>.</p>
-         </ol>
-        <li data-md>
-         <p>For each (<var>origin</var>, <var>per-origin reports</var>) pair in <var>origin map</var>,
+       <li data-md>
+        <p>For each <var>report</var> in <var>reports</var>:</p>
+        <ol>
+         <li data-md>
+          <p>Let <var>origin</var> be the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#origin" id="ref-for-origin⑨">origin</a> of <var>report</var>’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-url" id="ref-for-report-url①">url</a>.</p>
+         <li data-md>
+          <p>Append <var>report</var> to <var>origin map</var>’s list of reports for <var>origin</var>.</p>
+        </ol>
+       <li data-md>
+        <p>For each (<var>origin</var>, <var>per-origin reports</var>) pair in <var>origin map</var>,
   execute the following steps asynchronously:</p>
-         <ol>
-          <li data-md>
-           <p>Let <var>result</var> be the result of executing <a href="https://w3c.github.io/reporting/#try-delivery"><cite>Reporting API</cite> § 3.5.2 Attempt to deliver reports to endpoint</a>
+        <ol>
+         <li data-md>
+          <p>Let <var>result</var> be the result of executing <a href="https://w3c.github.io/reporting/#try-delivery"><cite>Reporting API</cite> § 3.5.2 Attempt to deliver reports to endpoint</a>
   on <var>endpoint</var>, <var>origin</var>, and <var>per-origin reports</var>.</p>
-          <li data-md>
-           <p>If <var>result</var> is "<code>Success</code>":</p>
-           <ol>
-            <li data-md>
-             <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures①">failures</a></code> to 0, and its
+         <li data-md>
+          <p>If <var>result</var> is "<code>Success</code>":</p>
+          <ol>
+           <li data-md>
+            <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures①">failures</a></code> to 0, and its
   <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-retry_after" id="ref-for-dom-network-reporting-endpoint-retry_after②">retry_after</a></code> to <code>null</code>.</p>
-            <li data-md>
-             <p>Remove each <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report④">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting
+           <li data-md>
+            <p>Remove each <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report④">report</a> in <var>reports</var> from the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①①">reporting
   cache</a>.</p>
-           </ol>
-           <p>Otherwise, if <var>result</var> is "<code>Remove Endpoint</code>":</p>
-           <ol>
-            <li data-md>
-             <p>Remove <var>endpoint</var> from the reporting cache.</p>
-             <p class="note" role="note"><span class="marker">Note:</span> <var>reports</var> remain in the reporting cache for potential
+          </ol>
+          <p>Otherwise, if <var>result</var> is "<code>Remove Endpoint</code>":</p>
+          <ol>
+           <li data-md>
+            <p>Remove <var>endpoint</var> from the reporting cache.</p>
+            <p class="note" role="note"><span class="marker">Note:</span> <var>reports</var> remain in the reporting cache for potential
   delivery to other endpoints.</p>
-           </ol>
-           <p>Otherwise (if <var>result</var> is "<code>Failure</code>"):</p>
-           <ol>
-            <li data-md>
-             <p>Increment <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures②">failures</a></code>.</p>
-            <li data-md>
-             <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-retry_after" id="ref-for-dom-network-reporting-endpoint-retry_after③">retry_after</a></code> to
+          </ol>
+          <p>Otherwise (if <var>result</var> is "<code>Failure</code>"):</p>
+          <ol>
+           <li data-md>
+            <p>Increment <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/reporting/#dom-endpoint-failures" id="ref-for-dom-endpoint-failures②">failures</a></code>.</p>
+           <li data-md>
+            <p>Set <var>endpoint</var>’s <code class="idl"><a data-link-type="idl" href="#dom-network-reporting-endpoint-retry_after" id="ref-for-dom-network-reporting-endpoint-retry_after③">retry_after</a></code> to
   a point in the future which the user agent chooses.</p>
-             <p class="note" role="note"><span class="marker">Note:</span> We don’t specify a particular algorithm here, but user
+            <p class="note" role="note"><span class="marker">Note:</span> We don’t specify a particular algorithm here, but user
   agents are encouraged to employ some sort of exponential
   backoff algorithm which increases the retry period with the
   number of failures, with the addition of some random jitter to
   ensure that temporary failures don’t lead to a crush of
   reports all being retried on the same schedule.</p>
-             <p class="issue" id="issue-3c7e465b"><a class="self-link" href="#issue-3c7e465b"></a> Add in a reasonable reference describing a good
+            <p class="issue" id="issue-3c7e465b"><a class="self-link" href="#issue-3c7e465b"></a> Add in a reasonable reference describing a good
   algorithm.  Wikipedia, if nothing else.</p>
-           </ol>
-         </ol>
-       </ol>
-     </ol>
-     <p class="note" role="note"><span class="marker">Note:</span> User agents MAY decide to attempt delivery for only a subset of the
+          </ol>
+        </ol>
+      </ol>
+    </ol>
+    <p class="note" role="note"><span class="marker">Note:</span> User agents MAY decide to attempt delivery for only a subset of the
   collected reports or endpoints (because, for example, sending all the reports
   at once would consume an unreasonable amount of bandwidth, etc). As reports
   are only removed from the cache when they’re successfully delivered, skipped
   reports will simply be delivered later.</p>
-    </section>
-    <section>
-     <h2 class="heading settled" data-level="6" id="implementation"><span class="secno">6. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation"></a></h2>
-     <h3 class="heading settled" data-level="6.1" id="delivery"><span class="secno">6.1. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h3>
-     <p>The user agent SHOULD attempt to deliver reports as soon as possible to
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="6" id="implementation"><span class="secno">6. </span><span class="content">Implementation Considerations</span><a class="self-link" href="#implementation"></a></h2>
+    <h3 class="heading settled" data-level="6.1" id="delivery"><span class="secno">6.1. </span><span class="content">Delivery</span><a class="self-link" href="#delivery"></a></h3>
+    <p>The user agent SHOULD attempt to deliver reports as soon as possible to
   provide feedback to developers as quickly as possible. However, when this
   desire is balanced against the impact on the user, the user wins. With that
   in mind, the user agent MAY delay delivery of reports based on its knowledge
   of the user’s activities and context.</p>
-     <p>For instance, the user agent SHOULD prioritize the transmission of reporting
+    <p>For instance, the user agent SHOULD prioritize the transmission of reporting
   data lower than other network traffic. The user’s explicit activities on a
   website should preempt reporting traffic.</p>
-     <p>The user agent MAY choose to withhold report delivery entirely until the user
+    <p>The user agent MAY choose to withhold report delivery entirely until the user
   is on a fast, cheap network in order to prevent unnecessary data cost.</p>
-     <p>The user agent MAY choose to prioritize reports from particular origins over
+    <p>The user agent MAY choose to prioritize reports from particular origins over
   others (perhaps those that the user visits most often?)</p>
-     <h3 class="heading settled" data-level="6.2" id="gc"><span class="secno">6.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
-     <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports③">reports</a>
+    <h3 class="heading settled" data-level="6.2" id="gc"><span class="secno">6.2. </span><span class="content">Garbage Collection</span><a class="self-link" href="#gc"></a></h3>
+    <p>Periodically, the user agent SHOULD walk through the cached <a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports③">reports</a>
   and <a data-link-type="dfn" href="https://w3c.github.io/reporting/#endpoint" id="ref-for-endpoint⑨">endpoints</a>, and discard those that are no
   longer relevant. These include:</p>
-     <ul>
-      <li data-md>
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑥">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a>.</p>
-      <li data-md>
-       <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑦">endpoint groups</a> which have not been used in some arbitrary
+    <ul>
+     <li data-md>
+      <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑥">endpoint groups</a> which are <a data-link-type="dfn" href="#endpoint-group-expired" id="ref-for-endpoint-group-expired">expired</a>.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="#endpoint-group" id="ref-for-endpoint-group②⑦">endpoint groups</a> which have not been used in some arbitrary
   period of time (perhaps a ~week?)</p>
-      <li data-md>
-       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports④">reports</a> whose <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-attempts" id="ref-for-report-attempts">attempts</a> exceed
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports④">reports</a> whose <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-attempts" id="ref-for-report-attempts">attempts</a> exceed
   some user-agent-defined threshold (~5 seems reasonable.)</p>
-      <li data-md>
-       <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑤">reports</a> which have not been delivered in some arbitrary period of
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://w3c.github.io/reporting/#windoworworkerglobalscope-reports" id="ref-for-windoworworkerglobalscope-reports⑤">reports</a> which have not been delivered in some arbitrary period of
   time (perhaps ~2 days?)</p>
-     </ul>
-    </section>
-    <section>
-     <h2 class="heading settled" data-level="7" id="sample-reports"><span class="secno">7. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
-     <div class="example" id="example-76ba69fd">
-      <a class="self-link" href="#example-76ba69fd"></a>
+    </ul>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="7" id="sample-reports"><span class="secno">7. </span><span class="content">Sample Reports</span><a class="self-link" href="#sample-reports"></a></h2>
+    <div class="example" id="example-76ba69fd">
+     <a class="self-link" href="#example-76ba69fd"></a>
     
 <pre>POST / HTTP/1.1
 Host: example.com
@@ -1393,59 +1401,59 @@ Content-Type: application/reports+json
   }
 }]
 </pre>
-     </div>
-    </section>
-    <section>
-     <h2 class="heading settled" data-level="8" id="security"><span class="secno">8. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
-     <h3 class="heading settled" data-level="8.1" id="capability-urls"><span class="secno">8.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
-     <p>Some URLs are valuable in and of themselves. To mitigate the possibility
+    </div>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="8" id="security"><span class="secno">8. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
+    <h3 class="heading settled" data-level="8.1" id="capability-urls"><span class="secno">8.1. </span><span class="content">Capability URLs</span><a class="self-link" href="#capability-urls"></a></h3>
+    <p>Some URLs are valuable in and of themselves. To mitigate the possibility
   that such URLs will be leaked via this reporting mechanism, we strip out
   credential information and fragment data from the URL we store as a
   <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report" id="ref-for-report⑤">report</a>’s originator. It is still possible, however, for a feature
   to unintentionally leak such data via a report’s <a data-link-type="dfn" href="https://w3c.github.io/reporting/#report-body" id="ref-for-report-body">body</a>. Implementers
   SHOULD ensure that URLs contained in a report’s body are similarly stripped.</p>
-    </section>
-    <section>
-     <h2 class="heading settled" data-level="9" id="privacy"><span class="secno">9. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
-     <h3 class="heading settled" data-level="9.1" id="network-leakage"><span class="secno">9.1. </span><span class="content">Network Leakage</span><a class="self-link" href="#network-leakage"></a></h3>
-     <p>Because this reporting mechanism is out-of-band, and doesn’t rely on a page
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="9" id="privacy"><span class="secno">9. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
+    <h3 class="heading settled" data-level="9.1" id="network-leakage"><span class="secno">9.1. </span><span class="content">Network Leakage</span><a class="self-link" href="#network-leakage"></a></h3>
+    <p>Because this reporting mechanism is out-of-band, and doesn’t rely on a page
   being open, it’s entirely possible for a report generated while a user is on
   one network to be sent while the user is on another network, even if they
   don’t explicitly open the page from which the report was sent.</p>
-     <p class="issue" id="issue-acba119f"><a class="self-link" href="#issue-acba119f"></a> Consider mitigations. For example, we could
+    <p class="issue" id="issue-acba119f"><a class="self-link" href="#issue-acba119f"></a> Consider mitigations. For example, we could
   drop reports if we change from one network to another. <a href="https://github.com/w3c/BackgroundSync/issues/107">[w3c/BackgroundSync Issue #107]</a></p>
-     <h3 class="heading settled" data-level="9.2" id="fingerprinting-clock-skew"><span class="secno">9.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
-     <p>Each report is delivered along with an <code>age</code> property, rather than the
+    <h3 class="heading settled" data-level="9.2" id="fingerprinting-clock-skew"><span class="secno">9.2. </span><span class="content">Clock Skew</span><a class="self-link" href="#fingerprinting-clock-skew"></a></h3>
+    <p>Each report is delivered along with an <code>age</code> property, rather than the
   timestamp at which it was generated. We do this because each user’s local
   clock will be skewed from the clock on the server by an arbitrary amount.
   The difference between the time the report was generated and the time it
   was sent will be stable, regardless of clock skew, and we can avoid the
   fingerprinting risk of exposing the clock skew via this API.</p>
-     <h3 class="heading settled" data-level="9.3" id="correlation"><span class="secno">9.3. </span><span class="content">Cross-origin correlation</span><a class="self-link" href="#correlation"></a></h3>
-     <p>If multiple origins all use the same reporting endpoint, that endpoint may
+    <h3 class="heading settled" data-level="9.3" id="correlation"><span class="secno">9.3. </span><span class="content">Cross-origin correlation</span><a class="self-link" href="#correlation"></a></h3>
+    <p>If multiple origins all use the same reporting endpoint, that endpoint may
   learn that a particular user has interacted with a certain set of websites,
   as it will receive origin-tagged reports from each. This doesn’t seem worse
   than the status quo ability to track the same information from cooperative
   origins, and doesn’t grant any new tracking ability above and beyond what’s
   possible with <code>&lt;img></code> today.</p>
-     <h3 class="heading settled" data-level="9.4" id="subdomains"><span class="secno">9.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
-     <p>This specification allows any resource on a host to declare a set of reporting
+    <h3 class="heading settled" data-level="9.4" id="subdomains"><span class="secno">9.4. </span><span class="content">Subdomains</span><a class="self-link" href="#subdomains"></a></h3>
+    <p>This specification allows any resource on a host to declare a set of reporting
   endpoints for that host and each of its subdomains. This doesn’t have privacy
   implications in and of itself (beyond those noted in <a href="#clear-cache">§ 9.5 Clearing the reporting cache</a>), as the
   reporting endpoints themselves don’t take any real action, as features will
   need to opt-into using these reporting endpoints explicitly. Those features
   certainly will have privacy implications, and should carefully consider
   whether they should be enabled across origin boundaries.</p>
-     <h3 class="heading settled" data-level="9.5" id="clear-cache"><span class="secno">9.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
-     <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①②">reporting cache</a> contains data about a user’s activity
+    <h3 class="heading settled" data-level="9.5" id="clear-cache"><span class="secno">9.5. </span><span class="content">Clearing the reporting cache</span><a class="self-link" href="#clear-cache"></a></h3>
+    <p>A user agent’s <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①②">reporting cache</a> contains data about a user’s activity
   on the web, and user agents ought to handle this data carefully. In
   particular, if a user agent gives users the ability to clear their site data,
   browsing history, browsing cache, or similar, the user agent MUST also clear
   the <a data-link-type="dfn" href="#reporting-cache" id="ref-for-reporting-cache①③">reporting cache</a>. Note that this includes both the pending reports
   themselves, as well as the endpoints to which they would be sent. Both MUST
   be cleared.</p>
-     <h3 class="heading settled" data-level="9.6" id="disable"><span class="secno">9.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
-     <p>Reporting is, to some extent, a question of commons. In the aggregate, it
+    <h3 class="heading settled" data-level="9.6" id="disable"><span class="secno">9.6. </span><span class="content">Disabling Reporting</span><a class="self-link" href="#disable"></a></h3>
+    <p>Reporting is, to some extent, a question of commons. In the aggregate, it
   seems useful for everyone for reports to be delivered. There is direct benefit
   to developers, as they can fix bugs, which means there’s indirect benefit to
   users, as the sites they enjoy will be more stable and enjoyable. As a
@@ -1453,10 +1461,10 @@ Content-Type: application/reports+json
   to cross-site scripting attacks by alerting developers about potential holes
   in their sites' defenses. Fixing those bugs helps every user, even those whose
   user agents don’t support Content Security Policy.</p>
-     <p>The calculus, of course, depends on the nature of data that’s being delivered,
+    <p>The calculus, of course, depends on the nature of data that’s being delivered,
   and the relative maliciousness of the reporting endpoints, but that’s the
   value proposition in broad strokes.</p>
-     <p>That said, it can’t be the case that this general benefit be allowed to take
+    <p>That said, it can’t be the case that this general benefit be allowed to take
   priority over the ability of a user to individually opt-out of such a system.
   Sending reports costs bandwidth, and potentially could reveal some small
   amount of additional information above and beyond what a website can obtain
@@ -1464,7 +1472,6 @@ Content-Type: application/reports+json
   users to disable reporting with some reasonable amount of granularity in order
   to maintain the priority of constituencies espoused in
   <a data-link-type="biblio" href="#biblio-html-design-principles" title="HTML Design Principles">[HTML-DESIGN-PRINCIPLES]</a>.</p>
-    </section>
    </section>
   </main>
   <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
@@ -1601,15 +1608,15 @@ Content-Type: application/reports+json
    <dt id="biblio-reporting">[REPORTING]
    <dd>Douglas Creager; Ian Clelland; Mike West. <a href="https://w3c.github.io/reporting/"><cite>Reporting API</cite></a>. URL: <a href="https://w3c.github.io/reporting/">https://w3c.github.io/reporting/</a>
    <dt id="biblio-rfc2782">[RFC2782]
-   <dd>A. Gulbrandsen; P. Vixie; L. Esibov. <a href="https://www.rfc-editor.org/rfc/rfc2782"><cite>A DNS RR for specifying the location of services (DNS SRV)</cite></a>. February 2000. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc2782">https://www.rfc-editor.org/rfc/rfc2782</a>
+   <dd>A. Gulbrandsen; P. Vixie; L. Esibov. <a href="https://www.rfc-editor.org/info/rfc2782/"><cite>A DNS RR for specifying the location of services (DNS SRV)</cite></a>. February 2000. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc2782/">https://www.rfc-editor.org/info/rfc2782/</a>
    <dt id="biblio-rfc6797">[RFC6797]
-   <dd>J. Hodges; C. Jackson; A. Barth. <a href="https://www.rfc-editor.org/rfc/rfc6797"><cite>HTTP Strict Transport Security (HSTS)</cite></a>. November 2012. Proposed Standard. URL: <a href="https://www.rfc-editor.org/rfc/rfc6797">https://www.rfc-editor.org/rfc/rfc6797</a>
+   <dd>J. Hodges; C. Jackson; A. Barth. <a href="https://www.rfc-editor.org/info/rfc6797/"><cite>HTTP Strict Transport Security (HSTS)</cite></a>. November 2012. Proposed Standard. URL: <a href="https://www.rfc-editor.org/info/rfc6797/">https://www.rfc-editor.org/info/rfc6797/</a>
    <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
    <dd>Mike West; Yan Zhu. <a href="https://w3c.github.io/webappsec-secure-contexts/"><cite>Secure Contexts</cite></a>. URL: <a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>
    <dt id="biblio-url">[URL]
    <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
   </dl>
-  <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <h3 class="heading no-num no-ref settled" id="informative"><span class="content">Non-Normative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-csp3">[CSP3]
    <dd>Mike West; Antonio Sartori. <a href="https://w3c.github.io/webappsec-csp/"><cite>Content Security Policy Level 3</cite></a>. URL: <a href="https://w3c.github.io/webappsec-csp/">https://w3c.github.io/webappsec-csp/</a>
@@ -1850,36 +1857,36 @@ let dfnPanelData = {
 "c2d05aec": {"dfnID":"c2d05aec","dfnText":"path-absolute-URL string","external":true,"refSections":[{"refs":[{"id":"ref-for-path-absolute-url-string"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"https://url.spec.whatwg.org/#path-absolute-url-string"},
 "ca3ca4ae": {"dfnID":"ca3ca4ae","dfnText":"URL parser","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-url-parser"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"https://url.spec.whatwg.org/#concept-url-parser"},
 "cf363990": {"dfnID":"cf363990","dfnText":"body","external":true,"refSections":[{"refs":[{"id":"ref-for-report-body"}],"title":"8.1. Capability URLs"}],"url":"https://w3c.github.io/reporting/#report-body"},
-"client": {"dfnID":"client","dfnText":"client","external":false,"refSections":[{"refs":[{"id":"ref-for-client"},{"id":"ref-for-client\u2460"}],"title":"2.3. Clients"},{"refs":[{"id":"ref-for-client\u2461"},{"id":"ref-for-client\u2462"}],"title":"2.5. Storage"},{"refs":[{"id":"ref-for-client\u2463"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#client"},
+"client": {"dfnID":"client","dfnText":"client","external":false,"refSections":[{"refs":[{"id":"ref-for-client"},{"id":"ref-for-client\u2460"}],"title":"2.3. Clients"},{"refs":[{"id":"ref-for-client\u2461"},{"id":"ref-for-client\u2462"}],"title":"2.5. Storage"},{"refs":[{"id":"ref-for-client\u2463"}],"title":"3.2. Process origin policy configuration"}],"url":"#client"},
 "d472196c": {"dfnID":"d472196c","dfnText":"url (for report)","external":true,"refSections":[{"refs":[{"id":"ref-for-report-url"},{"id":"ref-for-report-url\u2460"}],"title":"5.2. \n    Send reports\n  "}],"url":"https://w3c.github.io/reporting/#report-url"},
-"dom-client-endpoint-groups": {"dfnID":"dom-client-endpoint-groups","dfnText":"endpoint-groups","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-client-endpoint-groups"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-client-endpoint-groups\u2460"},{"id":"ref-for-dom-client-endpoint-groups\u2461"}],"title":"5.2. \n    Send reports\n  "}],"url":"#dom-client-endpoint-groups"},
-"dom-client-origin": {"dfnID":"dom-client-origin","dfnText":"origin","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-client-origin"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#dom-client-origin"},
-"dom-endpoint-group-creation": {"dfnID":"dom-endpoint-group-creation","dfnText":"creation","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-creation"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-dom-endpoint-group-creation\u2460"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#dom-endpoint-group-creation"},
-"dom-endpoint-group-endpoints": {"dfnID":"dom-endpoint-group-endpoints","dfnText":"endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-endpoints"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-endpoint-group-endpoints\u2460"}],"title":"5.1. \n    Choose an endpoint from a group\n  "}],"url":"#dom-endpoint-group-endpoints"},
-"dom-endpoint-group-name": {"dfnID":"dom-endpoint-group-name","dfnText":"name","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-name"}],"title":"2.3. Clients"},{"refs":[{"id":"ref-for-dom-endpoint-group-name\u2460"},{"id":"ref-for-dom-endpoint-group-name\u2461"}],"title":"3.1.1. The group member"},{"refs":[{"id":"ref-for-dom-endpoint-group-name\u2462"},{"id":"ref-for-dom-endpoint-group-name\u2463"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-endpoint-group-name\u2464"},{"id":"ref-for-dom-endpoint-group-name\u2465"}],"title":"5.2. \n    Send reports\n  "}],"url":"#dom-endpoint-group-name"},
-"dom-endpoint-group-subdomains": {"dfnID":"dom-endpoint-group-subdomains","dfnText":"subdomains","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-subdomains"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-endpoint-group-subdomains\u2460"},{"id":"ref-for-dom-endpoint-group-subdomains\u2461"},{"id":"ref-for-dom-endpoint-group-subdomains\u2462"}],"title":"5.2. \n    Send reports\n  "}],"url":"#dom-endpoint-group-subdomains"},
-"dom-endpoint-group-ttl": {"dfnID":"dom-endpoint-group-ttl","dfnText":"ttl","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-ttl"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-dom-endpoint-group-ttl\u2460"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#dom-endpoint-group-ttl"},
-"dom-network-reporting-endpoint-priority": {"dfnID":"dom-network-reporting-endpoint-priority","dfnText":"priority","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-priority"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2460"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2461"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2462"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-priority\u2463"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-priority\u2464"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2465"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2466"}],"title":"5.1. \n    Choose an endpoint from a group\n  "}],"url":"#dom-network-reporting-endpoint-priority"},
-"dom-network-reporting-endpoint-retry_after": {"dfnID":"dom-network-reporting-endpoint-retry_after","dfnText":"retry_after","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-retry_after"}],"title":"2.2. Network reporting endpoints"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-retry_after\u2460"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-retry_after\u2461"},{"id":"ref-for-dom-network-reporting-endpoint-retry_after\u2462"}],"title":"5.2. \n    Send reports\n  "}],"url":"#dom-network-reporting-endpoint-retry_after"},
-"dom-network-reporting-endpoint-weight": {"dfnID":"dom-network-reporting-endpoint-weight","dfnText":"weight","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-weight"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2460"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-weight\u2461"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-weight\u2462"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2463"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2464"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2465"}],"title":"5.1. \n    Choose an endpoint from a group\n  "}],"url":"#dom-network-reporting-endpoint-weight"},
+"dom-client-endpoint-groups": {"dfnID":"dom-client-endpoint-groups","dfnText":"endpoint-groups","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-client-endpoint-groups"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-client-endpoint-groups\u2460"},{"id":"ref-for-dom-client-endpoint-groups\u2461"}],"title":"5.2. Send reports"}],"url":"#dom-client-endpoint-groups"},
+"dom-client-origin": {"dfnID":"dom-client-origin","dfnText":"origin","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-client-origin"}],"title":"3.2. Process origin policy configuration"}],"url":"#dom-client-origin"},
+"dom-endpoint-group-creation": {"dfnID":"dom-endpoint-group-creation","dfnText":"creation","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-creation"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-dom-endpoint-group-creation\u2460"}],"title":"3.2. Process origin policy configuration"}],"url":"#dom-endpoint-group-creation"},
+"dom-endpoint-group-endpoints": {"dfnID":"dom-endpoint-group-endpoints","dfnText":"endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-endpoints"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-endpoint-group-endpoints\u2460"}],"title":"5.1. Choose an endpoint from a group"}],"url":"#dom-endpoint-group-endpoints"},
+"dom-endpoint-group-name": {"dfnID":"dom-endpoint-group-name","dfnText":"name","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-name"}],"title":"2.3. Clients"},{"refs":[{"id":"ref-for-dom-endpoint-group-name\u2460"},{"id":"ref-for-dom-endpoint-group-name\u2461"}],"title":"3.1.1. The group member"},{"refs":[{"id":"ref-for-dom-endpoint-group-name\u2462"},{"id":"ref-for-dom-endpoint-group-name\u2463"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-endpoint-group-name\u2464"},{"id":"ref-for-dom-endpoint-group-name\u2465"}],"title":"5.2. Send reports"}],"url":"#dom-endpoint-group-name"},
+"dom-endpoint-group-subdomains": {"dfnID":"dom-endpoint-group-subdomains","dfnText":"subdomains","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-subdomains"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-endpoint-group-subdomains\u2460"},{"id":"ref-for-dom-endpoint-group-subdomains\u2461"},{"id":"ref-for-dom-endpoint-group-subdomains\u2462"}],"title":"5.2. Send reports"}],"url":"#dom-endpoint-group-subdomains"},
+"dom-endpoint-group-ttl": {"dfnID":"dom-endpoint-group-ttl","dfnText":"ttl","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-group-ttl"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-dom-endpoint-group-ttl\u2460"}],"title":"3.2. Process origin policy configuration"}],"url":"#dom-endpoint-group-ttl"},
+"dom-network-reporting-endpoint-priority": {"dfnID":"dom-network-reporting-endpoint-priority","dfnText":"priority","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-priority"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2460"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2461"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2462"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-priority\u2463"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-priority\u2464"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2465"},{"id":"ref-for-dom-network-reporting-endpoint-priority\u2466"}],"title":"5.1. Choose an endpoint from a group"}],"url":"#dom-network-reporting-endpoint-priority"},
+"dom-network-reporting-endpoint-retry_after": {"dfnID":"dom-network-reporting-endpoint-retry_after","dfnText":"retry_after","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-retry_after"}],"title":"2.2. Network reporting endpoints"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-retry_after\u2460"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-retry_after\u2461"},{"id":"ref-for-dom-network-reporting-endpoint-retry_after\u2462"}],"title":"5.2. Send reports"}],"url":"#dom-network-reporting-endpoint-retry_after"},
+"dom-network-reporting-endpoint-weight": {"dfnID":"dom-network-reporting-endpoint-weight","dfnText":"weight","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-weight"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2460"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-weight\u2461"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-dom-network-reporting-endpoint-weight\u2462"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2463"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2464"},{"id":"ref-for-dom-network-reporting-endpoint-weight\u2465"}],"title":"5.1. Choose an endpoint from a group"}],"url":"#dom-network-reporting-endpoint-weight"},
 "e2e07307": {"dfnID":"e2e07307","dfnText":"url (for endpoint)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-url"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"https://w3c.github.io/reporting/#dom-endpoint-url"},
 "e860917e": {"dfnID":"e860917e","dfnText":"origin policy manifest","external":true,"refSections":[{"refs":[{"id":"ref-for-origin-policy-manifest"}],"title":"3. Endpoint Delivery"}],"url":"https://wicg.github.io/origin-policy/#origin-policy-manifest"},
 "ed24b09a": {"dfnID":"ed24b09a","dfnText":"SRV record","external":true,"refSections":[{"refs":[{"id":"ref-for-something"}],"title":"1.1. Guarantees"},{"refs":[{"id":"ref-for-something\u2460"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-something\u2461"}],"title":"5.1. \n    Choose an endpoint from a group\n  "}],"url":"https://tools.ietf.org/html/rfc2782#"},
-"endpoint-group": {"dfnID":"endpoint-group","dfnText":"endpoint group","external":false,"refSections":[{"refs":[{"id":"ref-for-endpoint-group"},{"id":"ref-for-endpoint-group\u2460"},{"id":"ref-for-endpoint-group\u2461"},{"id":"ref-for-endpoint-group\u2462"},{"id":"ref-for-endpoint-group\u2463"},{"id":"ref-for-endpoint-group\u2464"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-endpoint-group\u2465"}],"title":"2.3. Clients"},{"refs":[{"id":"ref-for-endpoint-group\u2466"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-endpoint-group\u2467"}],"title":"2.5. Storage"},{"refs":[{"id":"ref-for-endpoint-group\u2468"},{"id":"ref-for-endpoint-group\u2460\u24ea"},{"id":"ref-for-endpoint-group\u2460\u2460"}],"title":"3. Endpoint Delivery"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2461"},{"id":"ref-for-endpoint-group\u2460\u2462"}],"title":"3.1. The\n  \"network_reporting_endpoints\" policy item"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2463"},{"id":"ref-for-endpoint-group\u2460\u2464"}],"title":"3.1.1. The group member"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2465"}],"title":"3.1.2. The include_subdomains member"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2466"},{"id":"ref-for-endpoint-group\u2460\u2467"}],"title":"3.1.3. The max_age member"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2468"}],"title":"3.1.4. The endpoints member"},{"refs":[{"id":"ref-for-endpoint-group\u2461\u24ea"},{"id":"ref-for-endpoint-group\u2461\u2460"},{"id":"ref-for-endpoint-group\u2461\u2461"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-endpoint-group\u2461\u2462"}],"title":"5.1. \n    Choose an endpoint from a group\n  "},{"refs":[{"id":"ref-for-endpoint-group\u2461\u2463"},{"id":"ref-for-endpoint-group\u2461\u2464"}],"title":"5.2. \n    Send reports\n  "},{"refs":[{"id":"ref-for-endpoint-group\u2461\u2465"},{"id":"ref-for-endpoint-group\u2461\u2466"}],"title":"6.2. Garbage Collection"}],"url":"#endpoint-group"},
+"endpoint-group": {"dfnID":"endpoint-group","dfnText":"endpoint group","external":false,"refSections":[{"refs":[{"id":"ref-for-endpoint-group"},{"id":"ref-for-endpoint-group\u2460"},{"id":"ref-for-endpoint-group\u2461"},{"id":"ref-for-endpoint-group\u2462"},{"id":"ref-for-endpoint-group\u2463"},{"id":"ref-for-endpoint-group\u2464"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-endpoint-group\u2465"}],"title":"2.3. Clients"},{"refs":[{"id":"ref-for-endpoint-group\u2466"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-endpoint-group\u2467"}],"title":"2.5. Storage"},{"refs":[{"id":"ref-for-endpoint-group\u2468"},{"id":"ref-for-endpoint-group\u2460\u24ea"},{"id":"ref-for-endpoint-group\u2460\u2460"}],"title":"3. Endpoint Delivery"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2461"},{"id":"ref-for-endpoint-group\u2460\u2462"}],"title":"3.1. The \"network_reporting_endpoints\" policy item"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2463"},{"id":"ref-for-endpoint-group\u2460\u2464"}],"title":"3.1.1. The group member"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2465"}],"title":"3.1.2. The include_subdomains member"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2466"},{"id":"ref-for-endpoint-group\u2460\u2467"}],"title":"3.1.3. The max_age member"},{"refs":[{"id":"ref-for-endpoint-group\u2460\u2468"}],"title":"3.1.4. The endpoints member"},{"refs":[{"id":"ref-for-endpoint-group\u2461\u24ea"},{"id":"ref-for-endpoint-group\u2461\u2460"},{"id":"ref-for-endpoint-group\u2461\u2461"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-endpoint-group\u2461\u2462"}],"title":"5.1. Choose an endpoint from a group"},{"refs":[{"id":"ref-for-endpoint-group\u2461\u2463"},{"id":"ref-for-endpoint-group\u2461\u2464"}],"title":"5.2. Send reports"},{"refs":[{"id":"ref-for-endpoint-group\u2461\u2465"},{"id":"ref-for-endpoint-group\u2461\u2466"}],"title":"6.2. Garbage Collection"}],"url":"#endpoint-group"},
 "endpoint-group-expired": {"dfnID":"endpoint-group-expired","dfnText":"expired","external":false,"refSections":[{"refs":[{"id":"ref-for-endpoint-group-expired"}],"title":"6.2. Garbage Collection"}],"url":"#endpoint-group-expired"},
 "failover-class": {"dfnID":"failover-class","dfnText":"failover class","external":false,"refSections":[{"refs":[{"id":"ref-for-failover-class"},{"id":"ref-for-failover-class\u2460"},{"id":"ref-for-failover-class\u2461"}],"title":"2.4. Failover and load balancing"}],"url":"#failover-class"},
 "generate-a-network-report": {"dfnID":"generate-a-network-report","dfnText":"generate a network report","external":false,"refSections":[],"url":"#generate-a-network-report"},
-"network-reporting-endpoint": {"dfnID":"network-reporting-endpoint","dfnText":"network reporting endpoint","external":false,"refSections":[{"refs":[{"id":"ref-for-network-reporting-endpoint"},{"id":"ref-for-network-reporting-endpoint\u2460"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2461"},{"id":"ref-for-network-reporting-endpoint\u2462"},{"id":"ref-for-network-reporting-endpoint\u2463"},{"id":"ref-for-network-reporting-endpoint\u2464"}],"title":"2.2. Network reporting endpoints"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2465"},{"id":"ref-for-network-reporting-endpoint\u2466"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2467"},{"id":"ref-for-network-reporting-endpoint\u2468"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2460\u24ea"},{"id":"ref-for-network-reporting-endpoint\u2460\u2460"}],"title":"5.2. \n    Send reports\n  "}],"url":"#network-reporting-endpoint"},
-"network-reporting-endpoint-pending": {"dfnID":"network-reporting-endpoint-pending","dfnText":"pending","external":false,"refSections":[{"refs":[{"id":"ref-for-network-reporting-endpoint-pending"}],"title":"5.1. \n    Choose an endpoint from a group\n  "}],"url":"#network-reporting-endpoint-pending"},
+"network-reporting-endpoint": {"dfnID":"network-reporting-endpoint","dfnText":"network reporting endpoint","external":false,"refSections":[{"refs":[{"id":"ref-for-network-reporting-endpoint"},{"id":"ref-for-network-reporting-endpoint\u2460"}],"title":"2.1. Endpoint groups"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2461"},{"id":"ref-for-network-reporting-endpoint\u2462"},{"id":"ref-for-network-reporting-endpoint\u2463"},{"id":"ref-for-network-reporting-endpoint\u2464"}],"title":"2.2. Network reporting endpoints"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2465"},{"id":"ref-for-network-reporting-endpoint\u2466"}],"title":"2.4. Failover and load balancing"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2467"},{"id":"ref-for-network-reporting-endpoint\u2468"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-network-reporting-endpoint\u2460\u24ea"},{"id":"ref-for-network-reporting-endpoint\u2460\u2460"}],"title":"5.2. Send reports"}],"url":"#network-reporting-endpoint"},
+"network-reporting-endpoint-pending": {"dfnID":"network-reporting-endpoint-pending","dfnText":"pending","external":false,"refSections":[{"refs":[{"id":"ref-for-network-reporting-endpoint-pending"}],"title":"5.1. Choose an endpoint from a group"}],"url":"#network-reporting-endpoint-pending"},
 "network_reporting_endpoints": {"dfnID":"network_reporting_endpoints","dfnText":"network_reporting_endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints"}],"title":"1.2. Examples"}],"url":"#network_reporting_endpoints"},
-"network_reporting_endpoints-endpoints": {"dfnID":"network_reporting_endpoints-endpoints","dfnText":"endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-endpoints"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-endpoints\u2460"},{"id":"ref-for-network_reporting_endpoints-endpoints\u2461"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-endpoints"},
-"network_reporting_endpoints-group": {"dfnID":"network_reporting_endpoints-group","dfnText":"group","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-group"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-group\u2460"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-group"},
-"network_reporting_endpoints-include_subdomains": {"dfnID":"network_reporting_endpoints-include_subdomains","dfnText":"include_subdomains","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-include_subdomains"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-include_subdomains"},
-"network_reporting_endpoints-max_age": {"dfnID":"network_reporting_endpoints-max_age","dfnText":"max_age","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-max_age"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-max_age\u2460"},{"id":"ref-for-network_reporting_endpoints-max_age\u2461"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-max_age"},
-"network_reporting_endpoints-priority": {"dfnID":"network_reporting_endpoints-priority","dfnText":"priority","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-priority"},{"id":"ref-for-network_reporting_endpoints-priority\u2460"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-priority\u2461"},{"id":"ref-for-network_reporting_endpoints-priority\u2462"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-priority"},
-"network_reporting_endpoints-url": {"dfnID":"network_reporting_endpoints-url","dfnText":"url","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-url"},{"id":"ref-for-network_reporting_endpoints-url\u2460"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-url\u2461"},{"id":"ref-for-network_reporting_endpoints-url\u2462"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-url"},
-"network_reporting_endpoints-weight": {"dfnID":"network_reporting_endpoints-weight","dfnText":"weight","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-weight"},{"id":"ref-for-network_reporting_endpoints-weight\u2460"}],"title":"3.2. \n    Process origin policy configuration\n  "}],"url":"#network_reporting_endpoints-weight"},
-"reporting-cache": {"dfnID":"reporting-cache","dfnText":"reporting cache","external":false,"refSections":[{"refs":[{"id":"ref-for-reporting-cache"}],"title":"3.1.3. The max_age member"},{"refs":[{"id":"ref-for-reporting-cache\u2460"},{"id":"ref-for-reporting-cache\u2461"},{"id":"ref-for-reporting-cache\u2462"},{"id":"ref-for-reporting-cache\u2463"}],"title":"3.2. \n    Process origin policy configuration\n  "},{"refs":[{"id":"ref-for-reporting-cache\u2464"}],"title":"4. Report Generation"},{"refs":[{"id":"ref-for-reporting-cache\u2465"}],"title":"5. Report Delivery"},{"refs":[{"id":"ref-for-reporting-cache\u2466"},{"id":"ref-for-reporting-cache\u2467"},{"id":"ref-for-reporting-cache\u2468"},{"id":"ref-for-reporting-cache\u2460\u24ea"},{"id":"ref-for-reporting-cache\u2460\u2460"}],"title":"5.2. \n    Send reports\n  "},{"refs":[{"id":"ref-for-reporting-cache\u2460\u2461"},{"id":"ref-for-reporting-cache\u2460\u2462"}],"title":"9.5. Clearing the reporting cache"}],"url":"#reporting-cache"},
+"network_reporting_endpoints-endpoints": {"dfnID":"network_reporting_endpoints-endpoints","dfnText":"endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-endpoints"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-endpoints\u2460"},{"id":"ref-for-network_reporting_endpoints-endpoints\u2461"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-endpoints"},
+"network_reporting_endpoints-group": {"dfnID":"network_reporting_endpoints-group","dfnText":"group","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-group"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-group\u2460"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-group"},
+"network_reporting_endpoints-include_subdomains": {"dfnID":"network_reporting_endpoints-include_subdomains","dfnText":"include_subdomains","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-include_subdomains"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-include_subdomains"},
+"network_reporting_endpoints-max_age": {"dfnID":"network_reporting_endpoints-max_age","dfnText":"max_age","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-max_age"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-max_age\u2460"},{"id":"ref-for-network_reporting_endpoints-max_age\u2461"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-max_age"},
+"network_reporting_endpoints-priority": {"dfnID":"network_reporting_endpoints-priority","dfnText":"priority","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-priority"},{"id":"ref-for-network_reporting_endpoints-priority\u2460"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-priority\u2461"},{"id":"ref-for-network_reporting_endpoints-priority\u2462"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-priority"},
+"network_reporting_endpoints-url": {"dfnID":"network_reporting_endpoints-url","dfnText":"url","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-url"},{"id":"ref-for-network_reporting_endpoints-url\u2460"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-network_reporting_endpoints-url\u2461"},{"id":"ref-for-network_reporting_endpoints-url\u2462"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-url"},
+"network_reporting_endpoints-weight": {"dfnID":"network_reporting_endpoints-weight","dfnText":"weight","external":false,"refSections":[{"refs":[{"id":"ref-for-network_reporting_endpoints-weight"},{"id":"ref-for-network_reporting_endpoints-weight\u2460"}],"title":"3.2. Process origin policy configuration"}],"url":"#network_reporting_endpoints-weight"},
+"reporting-cache": {"dfnID":"reporting-cache","dfnText":"reporting cache","external":false,"refSections":[{"refs":[{"id":"ref-for-reporting-cache"}],"title":"3.1.3. The max_age member"},{"refs":[{"id":"ref-for-reporting-cache\u2460"},{"id":"ref-for-reporting-cache\u2461"},{"id":"ref-for-reporting-cache\u2462"},{"id":"ref-for-reporting-cache\u2463"}],"title":"3.2. Process origin policy configuration"},{"refs":[{"id":"ref-for-reporting-cache\u2464"}],"title":"4. Report Generation"},{"refs":[{"id":"ref-for-reporting-cache\u2465"}],"title":"5. Report Delivery"},{"refs":[{"id":"ref-for-reporting-cache\u2466"},{"id":"ref-for-reporting-cache\u2467"},{"id":"ref-for-reporting-cache\u2468"},{"id":"ref-for-reporting-cache\u2460\u24ea"},{"id":"ref-for-reporting-cache\u2460\u2460"}],"title":"5.2. Send reports"},{"refs":[{"id":"ref-for-reporting-cache\u2460\u2461"},{"id":"ref-for-reporting-cache\u2460\u2462"}],"title":"9.5. Clearing the reporting cache"}],"url":"#reporting-cache"},
 };
 
 document.addEventListener("DOMContentLoaded", ()=>{
