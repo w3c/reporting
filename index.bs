@@ -438,8 +438,8 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   is an <a>sf-token</a> [[STRUCTURED-FIELDS]].
 
   <div class="note">
-    Because the Structured Fields ABNF for `key` is a subset of the ABNF for
-    `token` [[STRUCTURED-FIELDS]], any endpoint named by a dictionary key in
+    Because the Structured Fields ABNF for `member-key` is a subset of the ABNF
+    for `token` [[STRUCTURED-FIELDS]], any endpoint named by a dictionary key in
     <a>`Reporting-Endpoints`</a> can be referenced as an <a>sf-token</a>.
   </div>
 
