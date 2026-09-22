@@ -116,6 +116,8 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/#
 spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   type: grammar
     text: sf-dictionary; url: section-3.2
+  type: dfn
+    text: sf-token; url: section-3.3.4
 </pre>
 <pre class="biblio">
 {
@@ -430,6 +432,16 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   <pre class="abnf" link-type="grammar" dfn-type="grammar">
     Reporting-Endpoints = <a>sf-dictionary</a>
   </pre>
+
+  Specifications that define Structured Fields or parameters (such as `report-to`)
+  referencing an endpoint by its {{endpoint/name}} SHOULD specify that the value
+  is an <a>sf-token</a> [[STRUCTURED-FIELDS]].
+
+  <div class="note">
+    Because the Structured Fields ABNF for `member-key` is a subset of the ABNF
+    for `token` [[STRUCTURED-FIELDS]], any endpoint named by a dictionary key in
+    <a>`Reporting-Endpoints`</a> can be referenced as an <a>sf-token</a>.
+  </div>
 
   <h3 id="process-header" algorithm>
     Process reporting endpoints for |response|
