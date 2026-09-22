@@ -5,9 +5,9 @@
   <title>Reporting API</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version ac92c2f0d, updated Fri Aug 21 16:01:29 2026 -0700" name="generator">
+  <meta content="Bikeshed version ea4009a02, updated Thu Sep 17 15:24:44 2026 -0700" name="generator">
   <link href="https://www.w3.org/TR/reporting-1/" rel="canonical">
-  <meta content="202a1ac1a4d6622c515ed1398958bf14dcf110fe" name="revision">
+  <meta content="fddb77695bef9b360cca1395e1a21ae028a44bf9" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -997,7 +997,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </p>
    <h1>Reporting API</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2026-09-13">13 September 2026</time></p>
+    <time class="dt-updated" datetime="2026-09-22">22 September 2026</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1412,6 +1412,14 @@ feature-specific reports in a consistent manner.</p>
     <p>The header is represented by the following ABNF grammar <a data-link-type="biblio" href="#biblio-rfc5234" title="Augmented BNF for Syntax Specifications: ABNF">[RFC5234]</a>:</p>
 <pre class="abnf">Reporting-Endpoints = <a data-link-type="grammar" href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2" id="ref-for-section-3.2">sf-dictionary</a>
 </pre>
+    <p>Specifications that define Structured Fields or parameters (such as <code>report-to</code>)
+  referencing an endpoint by its <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name②">name</a></code> SHOULD specify that the value
+  is an <a data-link-type="dfn" href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3.4" id="ref-for-section-3.3.4">sf-token</a> <a data-link-type="biblio" href="#biblio-structured-fields" title="Structured Field Values for HTTP">[STRUCTURED-FIELDS]</a>.</p>
+    <div class="note" role="note">
+    Because the Structured Fields ABNF for <code>member-key</code> is a subset of the ABNF
+    for <code>token</code> <a data-link-type="biblio" href="#biblio-structured-fields" title="Structured Field Values for HTTP">[STRUCTURED-FIELDS]</a>, any endpoint named by a dictionary key in
+    <a data-link-type="dfn" href="#reporting-endpoints" id="ref-for-reporting-endpoints④"><code>Reporting-Endpoints</code></a> can be referenced as an <a data-link-type="dfn" href="https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3.4" id="ref-for-section-3.3.4①">sf-token</a>.
+  </div>
     <h3 class="algorithm heading settled" data-algorithm="Process reporting endpoints for response" data-level="3.3" id="process-header"><span class="secno">3.3. </span><span class="content">
     Process reporting endpoints for <var>response</var>
   </span><a class="self-link" href="#process-header"></a></h3>
@@ -1448,7 +1456,7 @@ feature-specific reports in a consistent manner.</p>
         <p>Let <var>endpoint</var> be a new <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①⓪">endpoint</a> whose properties are set
       as follows:</p>
         <dl>
-         <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name②">name</a></code>
+         <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name③">name</a></code>
          <dd data-md>
           <p><var>name</var></p>
          <dt data-md><code class="idl"><a data-link-type="idl" href="#dom-endpoint-url" id="ref-for-dom-endpoint-url">url</a></code>
@@ -1516,7 +1524,7 @@ feature-specific reports in a consistent manner.</p>
       <ol>
        <li data-md>
         <p>If there exists an <a data-link-type="dfn" href="#endpoint" id="ref-for-endpoint①②">endpoint</a> (<var>endpoint</var>) in <var>context</var>’s
-  <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints①">endpoints</a> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name③">name</a></code>
+  <a data-link-type="dfn" href="#windoworworkerglobalscope-endpoints" id="ref-for-windoworworkerglobalscope-endpoints①">endpoints</a> list whose <code class="idl"><a data-link-type="idl" href="#dom-endpoint-name" id="ref-for-dom-endpoint-name④">name</a></code>
   is <var>report</var>’s <a data-link-type="dfn" href="#report-destination" id="ref-for-report-destination①">destination</a>:</p>
         <ol>
          <li data-md>
@@ -2300,6 +2308,7 @@ Content-Type: application/reports+json
     <a data-link-type="biblio">[STRUCTURED-FIELDS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="c0666585">sf-dictionary</span>
+     <li><span class="dfn-paneled" id="6cd43a99">sf-token</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
@@ -2816,6 +2825,7 @@ let dfnPanelData = {
 "649608b9": {"dfnID":"649608b9","dfnText":"list","external":true,"refSections":[{"refs":[{"id":"ref-for-list"}],"title":"4. Reporting Observers"}],"url":"https://infra.spec.whatwg.org/#list"},
 "64db426e": {"dfnID":"64db426e","dfnText":"creation URL","external":true,"refSections":[{"refs":[{"id":"ref-for-creation-url"}],"title":"2.3. \n    Queue data as type for destination\n  "}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#creation-url"},
 "692595fe": {"dfnID":"692595fe","dfnText":"ordered set","external":true,"refSections":[{"refs":[{"id":"ref-for-ordered-set"}],"title":"4. Reporting Observers"}],"url":"https://infra.spec.whatwg.org/#ordered-set"},
+"6cd43a99": {"dfnID":"6cd43a99","dfnText":"sf-token","external":true,"refSections":[{"refs":[{"id":"ref-for-section-3.3.4"},{"id":"ref-for-section-3.3.4\u2460"}],"title":"3.2. The Reporting-Endpoints HTTP Response Header Field"}],"url":"https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3.4"},
 "7482107b": {"dfnID":"7482107b","dfnText":"WebDriver error code","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-error-code"},{"id":"ref-for-dfn-error-code\u2460"},{"id":"ref-for-dfn-error-code\u2461"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-error-code"},
 "7aa9c8e0": {"dfnID":"7aa9c8e0","dfnText":"trying","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-try"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-try"},
 "82c23298": {"dfnID":"82c23298","dfnText":"remote end steps","external":true,"refSections":[{"refs":[{"id":"ref-for-dfn-remote-end-steps"}],"title":"7.1. Generate Test Report"}],"url":"https://w3c.github.io/webdriver/#dfn-remote-end-steps"},
@@ -2853,7 +2863,7 @@ let dfnPanelData = {
 "dictdef-generatetestreportparameters": {"dfnID":"dictdef-generatetestreportparameters","dfnText":"GenerateTestReportParameters","external":false,"refSections":[],"url":"#dictdef-generatetestreportparameters"},
 "dictdef-reportingobserveroptions": {"dfnID":"dictdef-reportingobserveroptions","dfnText":"ReportingObserverOptions","external":false,"refSections":[{"refs":[{"id":"ref-for-dictdef-reportingobserveroptions"},{"id":"ref-for-dictdef-reportingobserveroptions\u2460"}],"title":"4.1. Interface ReportingObserver"}],"url":"#dictdef-reportingobserveroptions"},
 "dom-endpoint-failures": {"dfnID":"dom-endpoint-failures","dfnText":"failures","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-failures"}],"title":"3.3. Process reporting endpoints for response"},{"refs":[{"id":"ref-for-dom-endpoint-failures\u2460"}],"title":"3.5.1. Send reports"},{"refs":[{"id":"ref-for-dom-endpoint-failures\u2461"}],"title":"5.2. Garbage Collection"}],"url":"#dom-endpoint-failures"},
-"dom-endpoint-name": {"dfnID":"dom-endpoint-name","dfnText":"name","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-name"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2460"}],"title":"3.1. Document configuration"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2461"}],"title":"3.3. Process reporting endpoints for response"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2462"}],"title":"3.5.1. Send reports"}],"url":"#dom-endpoint-name"},
+"dom-endpoint-name": {"dfnID":"dom-endpoint-name","dfnText":"name","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-name"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2460"}],"title":"3.1. Document configuration"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2461"}],"title":"3.2. The Reporting-Endpoints HTTP Response Header Field"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2462"}],"title":"3.3. Process reporting endpoints for response"},{"refs":[{"id":"ref-for-dom-endpoint-name\u2463"}],"title":"3.5.1. Send reports"}],"url":"#dom-endpoint-name"},
 "dom-endpoint-url": {"dfnID":"dom-endpoint-url","dfnText":"url","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-endpoint-url"}],"title":"3.3. Process reporting endpoints for response"},{"refs":[{"id":"ref-for-dom-endpoint-url\u2460"}],"title":"3.5.2. Attempt to deliver reports to endpoint"}],"url":"#dom-endpoint-url"},
 "dom-generatetestreportparameters-group": {"dfnID":"dom-generatetestreportparameters-group","dfnText":"group","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-generatetestreportparameters-group"}],"title":"7.1. Generate Test Report"}],"url":"#dom-generatetestreportparameters-group"},
 "dom-generatetestreportparameters-message": {"dfnID":"dom-generatetestreportparameters-message","dfnText":"message","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-generatetestreportparameters-message"}],"title":"7.1. Generate Test Report"}],"url":"#dom-generatetestreportparameters-message"},
@@ -2897,7 +2907,7 @@ let dfnPanelData = {
 "report-url": {"dfnID":"report-url","dfnText":"url","external":false,"refSections":[{"refs":[{"id":"ref-for-report-url"}],"title":"2.3. Queue data as type for destination"},{"refs":[{"id":"ref-for-report-url\u2460"}],"title":"2.4. Serialize Reports"},{"refs":[{"id":"ref-for-report-url\u2461"}],"title":"3.5.1. Send reports"},{"refs":[{"id":"ref-for-report-url\u2462"}],"title":"4.3. Add report to observer"}],"url":"#report-url"},
 "report-user-agent": {"dfnID":"report-user-agent","dfnText":"user agent","external":false,"refSections":[{"refs":[{"id":"ref-for-report-user-agent"}],"title":"2.1.3. Reports"},{"refs":[{"id":"ref-for-report-user-agent\u2460"}],"title":"2.3. Queue data as type for destination"},{"refs":[{"id":"ref-for-report-user-agent\u2461"}],"title":"2.4. Serialize Reports"}],"url":"#report-user-agent"},
 "reportbody": {"dfnID":"reportbody","dfnText":"ReportBody","external":false,"refSections":[{"refs":[{"id":"ref-for-reportbody"},{"id":"ref-for-reportbody\u2460"}],"title":"4.1. Interface ReportingObserver"}],"url":"#reportbody"},
-"reporting-endpoints": {"dfnID":"reporting-endpoints","dfnText":"Reporting-Endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-reporting-endpoints"},{"id":"ref-for-reporting-endpoints\u2460"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-reporting-endpoints\u2461"},{"id":"ref-for-reporting-endpoints\u2462"}],"title":"3.2. The Reporting-Endpoints HTTP Response Header Field"}],"url":"#reporting-endpoints"},
+"reporting-endpoints": {"dfnID":"reporting-endpoints","dfnText":"Reporting-Endpoints","external":false,"refSections":[{"refs":[{"id":"ref-for-reporting-endpoints"},{"id":"ref-for-reporting-endpoints\u2460"}],"title":"1.2. Examples"},{"refs":[{"id":"ref-for-reporting-endpoints\u2461"},{"id":"ref-for-reporting-endpoints\u2462"},{"id":"ref-for-reporting-endpoints\u2463"}],"title":"3.2. The Reporting-Endpoints HTTP Response Header Field"}],"url":"#reporting-endpoints"},
 "reporting-observer": {"dfnID":"reporting-observer","dfnText":"reporting observer","external":false,"refSections":[{"refs":[{"id":"ref-for-reporting-observer"}],"title":"2.1.2. Report Type"},{"refs":[{"id":"ref-for-reporting-observer\u2460"},{"id":"ref-for-reporting-observer\u2461"}],"title":"2.3. Queue data as type for destination"},{"refs":[{"id":"ref-for-reporting-observer\u2462"},{"id":"ref-for-reporting-observer\u2463"},{"id":"ref-for-reporting-observer\u2464"},{"id":"ref-for-reporting-observer\u2465"}],"title":"4. Reporting Observers"},{"refs":[{"id":"ref-for-reporting-observer\u2466"}],"title":"4.2. Notify reporting observers on scope with report"},{"refs":[{"id":"ref-for-reporting-observer\u2467"}],"title":"5.2. Garbage Collection"},{"refs":[{"id":"ref-for-reporting-observer\u2468"}],"title":"7.1. Generate Test Report"}],"url":"#reporting-observer"},
 "reportingobserver": {"dfnID":"reportingobserver","dfnText":"ReportingObserver","external":false,"refSections":[{"refs":[{"id":"ref-for-reportingobserver"}],"title":"4. Reporting Observers"},{"refs":[{"id":"ref-for-reportingobserver\u2460"},{"id":"ref-for-reportingobserver\u2461"},{"id":"ref-for-reportingobserver\u2462"},{"id":"ref-for-reportingobserver\u2463"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-reportingobserver\u2464"}],"title":"4.2. Notify reporting observers on scope with report"},{"refs":[{"id":"ref-for-reportingobserver\u2465"}],"title":"4.3. Add report to observer"},{"refs":[{"id":"ref-for-reportingobserver\u2466"}],"title":"4.4. Invoke reporting observers with notify list"}],"url":"#reportingobserver"},
 "reportingobserver-callback": {"dfnID":"reportingobserver-callback","dfnText":"callback","external":false,"refSections":[{"refs":[{"id":"ref-for-reportingobserver-callback"}],"title":"4.1. Interface ReportingObserver"},{"refs":[{"id":"ref-for-reportingobserver-callback\u2460"}],"title":"4.4. Invoke reporting observers with notify list"}],"url":"#reportingobserver-callback"},
@@ -3472,6 +3482,7 @@ let refsData = {
 "https://webidl.spec.whatwg.org/#invoke-a-callback-function": {"displayText":"invoke","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"invoke","type":"dfn","url":"https://webidl.spec.whatwg.org/#invoke-a-callback-function"},
 "https://webidl.spec.whatwg.org/#this": {"displayText":"this","export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"this","type":"dfn","url":"https://webidl.spec.whatwg.org/#this"},
 "https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2": {"displayText":"sf-dictionary","export":true,"for_":[],"level":"","normative":true,"shortname":"structured-fields","spec":"structured-fields","status":"anchor-block","text":"sf-dictionary","type":"grammar","url":"https://www.rfc-editor.org/rfc/rfc8941.html#section-3.2"},
+"https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3.4": {"displayText":"sf-token","export":true,"for_":[],"level":"","normative":true,"shortname":"structured-fields","spec":"structured-fields","status":"anchor-block","text":"sf-token","type":"dfn","url":"https://www.rfc-editor.org/rfc/rfc8941.html#section-3.3.4"},
 };
 
 function mkRefHint(link, ref) {
