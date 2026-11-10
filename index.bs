@@ -262,6 +262,10 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   is typically the address of the `Document` or `Worker` from which the report
   was generated.
 
+  Each <a>report</a> also has a <dfn for=report>source origin</dfn>, which is
+  the [=origin=] of the URL from which the report was generated. It is used
+  when grouping reports for delivery.
+
   Note: We strip the username, password, and fragment from this serialized URL.
   See [[#capability-urls]].
 
@@ -321,6 +325,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
       ::  0
 
   2.  Let |url| be |settings|'s <a>creation URL</a>.
+      Set |report|'s [=report/source origin=] to |url|'s [=url/origin=].
 
   3.  Set |url|'s {{URL/username}} to the empty string, and its {{URL/password}}
       to `null`.
@@ -559,7 +564,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
 
       2.  For each |report| in |report list|:
 
-          1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
+          1.  Let |origin| be |report|'s [=report/source origin=].
 
           2.  Append |report| to |origin map|'s list of reports for |origin|.
 
