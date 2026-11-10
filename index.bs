@@ -547,10 +547,12 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
           [=WindowOrWorkerGlobalScope/endpoints=] list whose {{endpoint/name}}
           is |report|'s [=report/destination=]:
 
-          1.  Append |report| to |endpoint map|'s list of reports for
-              |endpoint|.
+          1. If |endpoint map|[|endpoint|] does not <a for=map>exist</a>, then set
+             |endpoint map|[|endpoint|] to an empty <a for=/>list</a>.
 
-          2. Otherwise, remove |report| from |reports|.
+          2. Append |report| to |endpoint map|[|endpoint|].
+
+      2. Otherwise, remove |report| from |reports|.
 
   3.  For each (|endpoint|, |report list|) pair in |endpoint map|:
 
@@ -561,7 +563,10 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
 
           1.  Let |origin| be the <a>origin</a> of |report|'s [=report/url=].
 
-          2.  Append |report| to |origin map|'s list of reports for |origin|.
+          2. If |origin map|[|origin|] does not <a for=map>exist</a>, then set
+             |origin map|[|origin|] to an empty <a for=/>list</a>.
+
+          3. Append |report| to |origin map|[|origin|].
 
       3.  For each (|origin|, |per-origin reports|) pair in |origin map|,
           execute the following steps asynchronously:
