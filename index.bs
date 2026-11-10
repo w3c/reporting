@@ -1018,17 +1018,13 @@ typedef sequence&lt;Report> ReportList;
   6. Let |group| be |parameters|'s {{GenerateTestReportParameters/group}}
      property.
 
-  7. Let |body| be a new object that can be serialized into a <a>JSON text</a>,
-     containing a single string field, |body_message|.
+  7. Let |body| be the [=ordered map=] «[ "message" → |message| ]».
 
-  8. Set |body_message| to |message|.
+  8. Let |document| be the <a>current browsing context</a>'s <a>active document</a>.
 
-  9. Let |settings| be the <a>environment settings object</a> of the
-     <a>current browsing context</a>'s <a>active document</a>.
+  9. [=Generate and queue a report=] for |document|, given "test", |group|, and |body|.
 
-  10. Execute [=generate and queue a report=] with |body|, "test", |group|, and |settings|.
-
-  11. Return <a>success</a> with data null.
+  10. Return <a>success</a> with data null.
 </section>
 
 <section>
