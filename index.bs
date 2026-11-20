@@ -340,7 +340,7 @@ spec: STRUCTURED-FIELDS; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html#
   guarantee delivery of arbitrary amounts of data, for instance.
 
   Note: Non user agent clients (with no JavaScript engine) should not interact
-  with <a>reporting observers</a>, and thus should return in step 6.
+  with <a>reporting observers</a>.
 
 
   <h3 id="serialize-reports" algorithm>Serialize Reports</h3>
